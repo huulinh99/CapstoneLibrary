@@ -9,6 +9,9 @@ namespace Capstone.Core.Interfaces
     public interface IUnitOfWork : IDisposable
     {
         IBookRepository BookRepository { get; }
+        ILocationRepository LocationRepository { get; }
+        IBookShelfRepository BookShelfRepository { get; }
+        IDrawerRepository DrawerRepository { get; }
         void SaveChanges();
         Task SaveChangesAsync();
     }

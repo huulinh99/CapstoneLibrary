@@ -10,3 +10,15 @@ C:\Users\Admin\source\repos\Capstone\Capstone.Infrastructure\bin\Debug\netstanda
 C:\Users\Admin\source\repos\Capstone\Capstone.Infrastructure\bin\Debug\netstandard2.0\Capstone.Core.pdb
 C:\Users\Admin\source\repos\Capstone\Capstone.Infrastructure\obj\Debug\netstandard2.0\Capstone.Infrastructure.csproj.CopyComplete
 C:\Users\Admin\source\repos\Capstone\Capstone.Infrastructure\obj\Debug\netstandard2.0\Capstone.Infrastructure.csproj.CoreCompileInputs.cache
+D:\2021-Capstone-PAPV\Code\API\CapstoneLibrary\Capstone.Infrastructure\obj\Debug\netstandard2.0\Capstone.Infrastructure.csprojAssemblyReference.cache
+D:\2021-Capstone-PAPV\Code\API\CapstoneLibrary\Capstone.Infrastructure\obj\Debug\netstandard2.0\Capstone.Infrastructure.AssemblyInfoInputs.cache
+D:\2021-Capstone-PAPV\Code\API\CapstoneLibrary\Capstone.Infrastructure\obj\Debug\netstandard2.0\Capstone.Infrastructure.AssemblyInfo.cs
+D:\2021-Capstone-PAPV\Code\API\CapstoneLibrary\Capstone.Infrastructure\obj\Debug\netstandard2.0\Capstone.Infrastructure.csproj.CoreCompileInputs.cache
+D:\2021-Capstone-PAPV\Code\API\CapstoneLibrary\Capstone.Infrastructure\obj\Debug\netstandard2.0\Capstone.Infrastructure.dll
+D:\2021-Capstone-PAPV\Code\API\CapstoneLibrary\Capstone.Infrastructure\obj\Debug\netstandard2.0\Capstone.Infrastructure.pdb
+D:\2021-Capstone-PAPV\Code\API\CapstoneLibrary\Capstone.Infrastructure\bin\Debug\netstandard2.0\Capstone.Infrastructure.deps.json
+D:\2021-Capstone-PAPV\Code\API\CapstoneLibrary\Capstone.Infrastructure\bin\Debug\netstandard2.0\Capstone.Infrastructure.dll
+D:\2021-Capstone-PAPV\Code\API\CapstoneLibrary\Capstone.Infrastructure\bin\Debug\netstandard2.0\Capstone.Infrastructure.pdb
+D:\2021-Capstone-PAPV\Code\API\CapstoneLibrary\Capstone.Infrastructure\bin\Debug\netstandard2.0\Capstone.Core.dll
+D:\2021-Capstone-PAPV\Code\API\CapstoneLibrary\Capstone.Infrastructure\bin\Debug\netstandard2.0\Capstone.Core.pdb
+D:\2021-Capstone-PAPV\Code\API\CapstoneLibrary\Capstone.Infrastructure\obj\Debug\netstandard2.0\Capstone.Infrastructure.csproj.CopyComplete

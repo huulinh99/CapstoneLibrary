@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace Capstone.Core.Entities
 {
-    public partial class BookShelf
+    public partial class BookShelf : BaseEntity
     {
         public BookShelf()
         {
             Drawer = new HashSet<Drawer>();
         }
 
-        public int Id { get; set; }
+        //public int Id { get; set; }
         public string Name { get; set; }
         public int? LocationId { get; set; }
 

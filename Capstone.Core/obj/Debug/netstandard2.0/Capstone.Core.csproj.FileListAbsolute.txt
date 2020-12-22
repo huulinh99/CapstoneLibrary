@@ -7,3 +7,12 @@ C:\Users\Admin\source\repos\Capstone\Capstone.Core\obj\Debug\netstandard2.0\Caps
 C:\Users\Admin\source\repos\Capstone\Capstone.Core\obj\Debug\netstandard2.0\Capstone.Core.dll
 C:\Users\Admin\source\repos\Capstone\Capstone.Core\obj\Debug\netstandard2.0\Capstone.Core.pdb
 C:\Users\Admin\source\repos\Capstone\Capstone.Core\obj\Debug\netstandard2.0\Capstone.Core.csproj.CoreCompileInputs.cache
+D:\2021-Capstone-PAPV\Code\API\CapstoneLibrary\Capstone.Core\obj\Debug\netstandard2.0\Capstone.Core.csprojAssemblyReference.cache
+D:\2021-Capstone-PAPV\Code\API\CapstoneLibrary\Capstone.Core\obj\Debug\netstandard2.0\Capstone.Core.AssemblyInfoInputs.cache
+D:\2021-Capstone-PAPV\Code\API\CapstoneLibrary\Capstone.Core\obj\Debug\netstandard2.0\Capstone.Core.AssemblyInfo.cs
+D:\2021-Capstone-PAPV\Code\API\CapstoneLibrary\Capstone.Core\obj\Debug\netstandard2.0\Capstone.Core.csproj.CoreCompileInputs.cache
+D:\2021-Capstone-PAPV\Code\API\CapstoneLibrary\Capstone.Core\obj\Debug\netstandard2.0\Capstone.Core.dll
+D:\2021-Capstone-PAPV\Code\API\CapstoneLibrary\Capstone.Core\obj\Debug\netstandard2.0\Capstone.Core.pdb
+D:\2021-Capstone-PAPV\Code\API\CapstoneLibrary\Capstone.Core\bin\Debug\netstandard2.0\Capstone.Core.deps.json
+D:\2021-Capstone-PAPV\Code\API\CapstoneLibrary\Capstone.Core\bin\Debug\netstandard2.0\Capstone.Core.dll
+D:\2021-Capstone-PAPV\Code\API\CapstoneLibrary\Capstone.Core\bin\Debug\netstandard2.0\Capstone.Core.pdb
