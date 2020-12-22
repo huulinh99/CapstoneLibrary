@@ -44,6 +44,9 @@ namespace Capstone.Api
                 options.UseSqlServer(Configuration.GetConnectionString("Capstone"))
             );
             services.AddTransient<IBookService, BookService>();
+            services.AddTransient<ILocationService, LocationService>();
+            services.AddTransient<IBookShelfService, BookShelfService>();
+            services.AddTransient<IDrawerService, DrawerService>();
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddHttpContextAccessor();

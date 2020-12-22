@@ -14,7 +14,6 @@ namespace Capstone.Core.Interfaces
         Task<Book> GetBook(int id);
         Task InsertBook(Book book);
         Task<bool> UpdateBook(Book book);
-
         Task<bool> DeleteBook(int id);
     }
 }

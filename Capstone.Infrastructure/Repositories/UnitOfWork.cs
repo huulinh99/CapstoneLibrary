@@ -12,12 +12,18 @@ namespace Capstone.Infrastructure.Repositories
     {
         private readonly CapstoneContext _context;
         private readonly IBookRepository _bookRepository;
+        private readonly ILocationRepository _locationRepository;
+        private readonly IBookShelfRepository _bookShelfRepository;
+        private readonly IDrawerRepository _drawerRepository;
         public UnitOfWork(CapstoneContext context)
         {
             _context = context;
 
         }
         public IBookRepository BookRepository => _bookRepository ?? new BookRepository(_context);
+        public ILocationRepository LocationRepository => _locationRepository ?? new LocationRepository(_context);
+        public IBookShelfRepository BookShelfRepository => _bookShelfRepository ?? new BookShelfRepository(_context);
+        public IDrawerRepository DrawerRepository => _drawerRepository ?? new DrawerRepository(_context);
 
         public void Dispose()
         {

@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace Capstone.Core.Entities
 {
-    public partial class Drawer
+    public partial class Drawer : BaseEntity
     {
         public Drawer()
         {
             ErrorMessage = new HashSet<ErrorMessage>();
         }
 
-        public int Id { get; set; }
+        //public int Id { get; set; }
         public int? BookSheflId { get; set; }
         public int? ShelfRow { get; set; }
         public int? ShelfColumn { get; set; }
