@@ -1,0 +1,9 @@
+C:\Users\Admin\source\repos\Capstone\Capstone.Core\bin\Debug\netstandard2.0\Capstone.Core.deps.json
+C:\Users\Admin\source\repos\Capstone\Capstone.Core\bin\Debug\netstandard2.0\Capstone.Core.dll
+C:\Users\Admin\source\repos\Capstone\Capstone.Core\bin\Debug\netstandard2.0\Capstone.Core.pdb
+C:\Users\Admin\source\repos\Capstone\Capstone.Core\obj\Debug\netstandard2.0\Capstone.Core.csprojAssemblyReference.cache
+C:\Users\Admin\source\repos\Capstone\Capstone.Core\obj\Debug\netstandard2.0\Capstone.Core.AssemblyInfoInputs.cache
+C:\Users\Admin\source\repos\Capstone\Capstone.Core\obj\Debug\netstandard2.0\Capstone.Core.AssemblyInfo.cs
+C:\Users\Admin\source\repos\Capstone\Capstone.Core\obj\Debug\netstandard2.0\Capstone.Core.dll
+C:\Users\Admin\source\repos\Capstone\Capstone.Core\obj\Debug\netstandard2.0\Capstone.Core.pdb
+C:\Users\Admin\source\repos\Capstone\Capstone.Core\obj\Debug\netstandard2.0\Capstone.Core.csproj.CoreCompileInputs.cache

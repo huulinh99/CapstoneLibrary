@@ -1,0 +1,12 @@
+C:\Users\Admin\source\repos\Capstone\Capstone.Infrastructure\bin\Debug\netstandard2.0\Capstone.Infrastructure.deps.json
+C:\Users\Admin\source\repos\Capstone\Capstone.Infrastructure\bin\Debug\netstandard2.0\Capstone.Infrastructure.dll
+C:\Users\Admin\source\repos\Capstone\Capstone.Infrastructure\obj\Debug\netstandard2.0\Capstone.Infrastructure.csprojAssemblyReference.cache
+C:\Users\Admin\source\repos\Capstone\Capstone.Infrastructure\obj\Debug\netstandard2.0\Capstone.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\Admin\source\repos\Capstone\Capstone.Infrastructure\obj\Debug\netstandard2.0\Capstone.Infrastructure.AssemblyInfo.cs
+C:\Users\Admin\source\repos\Capstone\Capstone.Infrastructure\bin\Debug\netstandard2.0\Capstone.Infrastructure.pdb
+C:\Users\Admin\source\repos\Capstone\Capstone.Infrastructure\obj\Debug\netstandard2.0\Capstone.Infrastructure.dll
+C:\Users\Admin\source\repos\Capstone\Capstone.Infrastructure\obj\Debug\netstandard2.0\Capstone.Infrastructure.pdb
+C:\Users\Admin\source\repos\Capstone\Capstone.Infrastructure\bin\Debug\netstandard2.0\Capstone.Core.dll
+C:\Users\Admin\source\repos\Capstone\Capstone.Infrastructure\bin\Debug\netstandard2.0\Capstone.Core.pdb
+C:\Users\Admin\source\repos\Capstone\Capstone.Infrastructure\obj\Debug\netstandard2.0\Capstone.Infrastructure.csproj.CopyComplete
+C:\Users\Admin\source\repos\Capstone\Capstone.Infrastructure\obj\Debug\netstandard2.0\Capstone.Infrastructure.csproj.CoreCompileInputs.cache
