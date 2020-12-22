@@ -9,6 +9,7 @@ namespace Capstone.Core.Interfaces
     public interface IUnitOfWork : IDisposable
     {
         IBookRepository BookRepository { get; }
+        IBookGroupRepository BookGroupRepository { get; }
         void SaveChanges();
         Task SaveChangesAsync();
     }

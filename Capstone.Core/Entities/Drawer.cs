@@ -7,6 +7,7 @@ namespace Capstone.Core.Entities
     {
         public Drawer()
         {
+            Book = new HashSet<Book>();
             ErrorMessage = new HashSet<ErrorMessage>();
         }
 
@@ -14,10 +15,9 @@ namespace Capstone.Core.Entities
         public int? BookSheflId { get; set; }
         public int? ShelfRow { get; set; }
         public int? ShelfColumn { get; set; }
-        public int? BookId { get; set; }
 
-        public virtual Book Book { get; set; }
         public virtual BookShelf BookShefl { get; set; }
+        public virtual ICollection<Book> Book { get; set; }
         public virtual ICollection<ErrorMessage> ErrorMessage { get; set; }
     }
 }

@@ -8,5 +8,6 @@ namespace Capstone.Infrastructure.Services
     public interface IUriService
     {
         Uri GetBookPaginationUri(BookQueryFilter filter, string actionUrl);
+        Uri GetBookGroupPaginationUri(BookGroupQueryFilter filter, string actionUrl);
     }
 }

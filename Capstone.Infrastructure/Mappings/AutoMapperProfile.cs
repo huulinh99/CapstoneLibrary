@@ -13,6 +13,8 @@ namespace Capstone.Infrastructure.Mappings
         {
             CreateMap<Book, BookDto>();
             CreateMap<BookDto, Book>();
+            CreateMap<BookGroup, BookGroupDto>();
+            CreateMap<BookGroupDto, BookGroup>();
         }
     }
 }
