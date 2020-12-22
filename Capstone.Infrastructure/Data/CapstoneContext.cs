@@ -44,7 +44,7 @@ namespace Capstone.Infrastructure.Data
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=(LocalDb)\\MSSQLLocalDB;Database=Capstone;Integrated Security = true;");
+                optionsBuilder.UseSqlServer("Server=(LocalDb)\\MSSQLLocalDB;Database=Capstone;Integrated Security = true");
             }
         }
 
@@ -52,10 +52,20 @@ namespace Capstone.Infrastructure.Data
         {
             modelBuilder.Entity<Book>(entity =>
             {
+                entity.Property(e => e.BarCode)
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
                 entity.HasOne(d => d.BookGroup)
                     .WithMany(p => p.Book)
                     .HasForeignKey(d => d.BookGroupId)
                     .HasConstraintName("FK_Book_BookGroup");
+
+                entity.HasOne(d => d.Drawer)
+                    .WithMany(p => p.Book)
+                    .HasForeignKey(d => d.DrawerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Book_Drawer");
             });
 
             modelBuilder.Entity<BookCategory>(entity =>
@@ -91,6 +101,8 @@ namespace Capstone.Infrastructure.Data
             modelBuilder.Entity<BookGroup>(entity =>
             {
                 entity.Property(e => e.Name).IsRequired();
+
+                entity.Property(e => e.PublishDate).HasColumnType("date");
             });
 
             modelBuilder.Entity<BookRecommend>(entity =>
@@ -190,11 +202,6 @@ namespace Capstone.Infrastructure.Data
 
             modelBuilder.Entity<Drawer>(entity =>
             {
-                entity.HasOne(d => d.Book)
-                    .WithMany(p => p.Drawer)
-                    .HasForeignKey(d => d.BookId)
-                    .HasConstraintName("FK_Drawer_Book");
-
                 entity.HasOne(d => d.BookShefl)
                     .WithMany(p => p.Drawer)
                     .HasForeignKey(d => d.BookSheflId)

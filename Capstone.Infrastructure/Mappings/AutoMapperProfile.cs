@@ -11,21 +11,10 @@ namespace Capstone.Infrastructure.Mappings
     {
         public AutoMapperProfile()
         {
-            // Book - BookDto
             CreateMap<Book, BookDto>();
             CreateMap<BookDto, Book>();
-
-            // Location - LocationDto
-            CreateMap<Location, LocationDto>();
-            CreateMap<LocationDto, Location>();
-
-            // BookShelf - BookShelfDto
-            CreateMap<BookShelf, BookShelfDto>();
-            CreateMap<BookShelfDto, BookShelf>();
-
-            // Drawer - DrawerDto
-            CreateMap<Drawer, DrawerDto>();
-            CreateMap<DrawerDto, Drawer>();
+            CreateMap<BookGroup, BookGroupDto>();
+            CreateMap<BookGroupDto, BookGroup>();
         }
     }
 }

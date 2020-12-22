@@ -14,6 +14,12 @@ namespace Capstone.Infrastructure.Services
             _baseUri = baseUri;
         }
 
+        public Uri GetBookGroupPaginationUri(BookGroupQueryFilter filter, string actionUrl)
+        {
+            string baseUrl = $"{_baseUri}{actionUrl}";
+            return new Uri(baseUrl);
+        }
+
         public Uri GetBookPaginationUri(BookQueryFilter filter, string actionUrl)
         {
             string baseUrl = $"{_baseUri}{actionUrl}";
