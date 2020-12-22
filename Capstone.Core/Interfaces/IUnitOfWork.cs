@@ -10,6 +10,9 @@ namespace Capstone.Core.Interfaces
     {
         IBookRepository BookRepository { get; }
         IBookGroupRepository BookGroupRepository { get; }
+        ILocationRepository LocationRepository { get; }
+        IBookShelfRepository BookShelfRepository { get; }
+        IDrawerRepository DrawerRepository { get; }
         void SaveChanges();
         Task SaveChangesAsync();
     }
