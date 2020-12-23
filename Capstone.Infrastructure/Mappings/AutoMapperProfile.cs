@@ -13,6 +13,7 @@ namespace Capstone.Infrastructure.Mappings
         {
             CreateMap<Book, BookDto>();
             CreateMap<BookDto, Book>();
+            //test commit
             CreateMap<BookGroup, BookGroupDto>();
             CreateMap<BookGroupDto, BookGroup>();
         }
