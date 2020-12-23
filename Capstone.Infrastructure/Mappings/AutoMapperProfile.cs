@@ -15,6 +15,15 @@ namespace Capstone.Infrastructure.Mappings
             CreateMap<BookDto, Book>();
             CreateMap<BookGroup, BookGroupDto>();
             CreateMap<BookGroupDto, BookGroup>();
+
+            CreateMap<Location, LocationDto>();
+            CreateMap<LocationDto, Location>();
+
+            CreateMap<BookShelf, BookShelfDto>();
+            CreateMap<BookShelfDto, BookShelf>();
+
+            CreateMap<Drawer, DrawerDto>();
+            CreateMap<DrawerDto, Drawer>();
         }
     }
 }
