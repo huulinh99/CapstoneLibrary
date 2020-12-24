@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Capstone.Core.Entities
 {
-    public partial class ErrorMessage
+    public partial class ErrorMessage : BaseEntity
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
         public int? BookDetectErrorId { get; set; }
         public int? DrawerId { get; set; }
         public string Description { get; set; }
