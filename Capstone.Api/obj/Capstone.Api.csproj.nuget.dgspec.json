@@ -1,21 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "D:\\2021-Capstone-PAPV\\Code\\API\\CapstoneLibrary\\Capstone.Api\\Capstone.Api.csproj": {}
+    "C:\\Users\\Admin\\source\\repos\\Capstone\\Capstone.Api\\Capstone.Api.csproj": {}
   },
   "projects": {
-    "D:\\2021-Capstone-PAPV\\Code\\API\\CapstoneLibrary\\Capstone.Api\\Capstone.Api.csproj": {
+    "C:\\Users\\Admin\\source\\repos\\Capstone\\Capstone.Api\\Capstone.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\2021-Capstone-PAPV\\Code\\API\\CapstoneLibrary\\Capstone.Api\\Capstone.Api.csproj",
+        "projectUniqueName": "C:\\Users\\Admin\\source\\repos\\Capstone\\Capstone.Api\\Capstone.Api.csproj",
         "projectName": "Capstone.Api",
-        "projectPath": "D:\\2021-Capstone-PAPV\\Code\\API\\CapstoneLibrary\\Capstone.Api\\Capstone.Api.csproj",
-        "packagesPath": "C:\\Users\\ivanc\\.nuget\\packages\\",
-        "outputPath": "D:\\2021-Capstone-PAPV\\Code\\API\\CapstoneLibrary\\Capstone.Api\\obj\\",
+        "projectPath": "C:\\Users\\Admin\\source\\repos\\Capstone\\Capstone.Api\\Capstone.Api.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Admin\\source\\repos\\Capstone\\Capstone.Api\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\ivanc\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -26,13 +31,12 @@
         },
         "frameworks": {
           "netcoreapp3.1": {
-            "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "D:\\2021-Capstone-PAPV\\Code\\API\\CapstoneLibrary\\Capstone.Core\\Capstone.Core.csproj": {
-                "projectPath": "D:\\2021-Capstone-PAPV\\Code\\API\\CapstoneLibrary\\Capstone.Core\\Capstone.Core.csproj"
+              "C:\\Users\\Admin\\source\\repos\\Capstone\\Capstone.Core\\Capstone.Core.csproj": {
+                "projectPath": "C:\\Users\\Admin\\source\\repos\\Capstone\\Capstone.Core\\Capstone.Core.csproj"
               },
-              "D:\\2021-Capstone-PAPV\\Code\\API\\CapstoneLibrary\\Capstone.Infrastructure\\Capstone.Infrastructure.csproj": {
-                "projectPath": "D:\\2021-Capstone-PAPV\\Code\\API\\CapstoneLibrary\\Capstone.Infrastructure\\Capstone.Infrastructure.csproj"
+              "C:\\Users\\Admin\\source\\repos\\Capstone\\Capstone.Infrastructure\\Capstone.Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\Admin\\source\\repos\\Capstone\\Capstone.Infrastructure\\Capstone.Infrastructure.csproj"
               }
             }
           }
@@ -45,7 +49,6 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
               "target": "Package",
@@ -84,22 +87,27 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\2021-Capstone-PAPV\\Code\\API\\CapstoneLibrary\\Capstone.Core\\Capstone.Core.csproj": {
+    "C:\\Users\\Admin\\source\\repos\\Capstone\\Capstone.Core\\Capstone.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\2021-Capstone-PAPV\\Code\\API\\CapstoneLibrary\\Capstone.Core\\Capstone.Core.csproj",
+        "projectUniqueName": "C:\\Users\\Admin\\source\\repos\\Capstone\\Capstone.Core\\Capstone.Core.csproj",
         "projectName": "Capstone.Core",
-        "projectPath": "D:\\2021-Capstone-PAPV\\Code\\API\\CapstoneLibrary\\Capstone.Core\\Capstone.Core.csproj",
-        "packagesPath": "C:\\Users\\ivanc\\.nuget\\packages\\",
-        "outputPath": "D:\\2021-Capstone-PAPV\\Code\\API\\CapstoneLibrary\\Capstone.Core\\obj\\",
+        "projectPath": "C:\\Users\\Admin\\source\\repos\\Capstone\\Capstone.Core\\Capstone.Core.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Admin\\source\\repos\\Capstone\\Capstone.Core\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\ivanc\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netstandard2.0"
@@ -110,7 +118,6 @@
         },
         "frameworks": {
           "netstandard2.0": {
-            "targetAlias": "netstandard2.0",
             "projectReferences": {}
           }
         },
@@ -122,7 +129,6 @@
       },
       "frameworks": {
         "netstandard2.0": {
-          "targetAlias": "netstandard2.0",
           "dependencies": {
             "Microsoft.Extensions.Options": {
               "target": "Package",
@@ -145,22 +151,27 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\2021-Capstone-PAPV\\Code\\API\\CapstoneLibrary\\Capstone.Infrastructure\\Capstone.Infrastructure.csproj": {
+    "C:\\Users\\Admin\\source\\repos\\Capstone\\Capstone.Infrastructure\\Capstone.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\2021-Capstone-PAPV\\Code\\API\\CapstoneLibrary\\Capstone.Infrastructure\\Capstone.Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\Admin\\source\\repos\\Capstone\\Capstone.Infrastructure\\Capstone.Infrastructure.csproj",
         "projectName": "Capstone.Infrastructure",
-        "projectPath": "D:\\2021-Capstone-PAPV\\Code\\API\\CapstoneLibrary\\Capstone.Infrastructure\\Capstone.Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\ivanc\\.nuget\\packages\\",
-        "outputPath": "D:\\2021-Capstone-PAPV\\Code\\API\\CapstoneLibrary\\Capstone.Infrastructure\\obj\\",
+        "projectPath": "C:\\Users\\Admin\\source\\repos\\Capstone\\Capstone.Infrastructure\\Capstone.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Admin\\source\\repos\\Capstone\\Capstone.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\ivanc\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netstandard2.0"
@@ -171,10 +182,9 @@
         },
         "frameworks": {
           "netstandard2.0": {
-            "targetAlias": "netstandard2.0",
             "projectReferences": {
-              "D:\\2021-Capstone-PAPV\\Code\\API\\CapstoneLibrary\\Capstone.Core\\Capstone.Core.csproj": {
-                "projectPath": "D:\\2021-Capstone-PAPV\\Code\\API\\CapstoneLibrary\\Capstone.Core\\Capstone.Core.csproj"
+              "C:\\Users\\Admin\\source\\repos\\Capstone\\Capstone.Core\\Capstone.Core.csproj": {
+                "projectPath": "C:\\Users\\Admin\\source\\repos\\Capstone\\Capstone.Core\\Capstone.Core.csproj"
               }
             }
           }
@@ -187,7 +197,6 @@
       },
       "frameworks": {
         "netstandard2.0": {
-          "targetAlias": "netstandard2.0",
           "dependencies": {
             "AutoMapper.Extensions.Microsoft.DependencyInjection": {
               "target": "Package",
@@ -228,7 +237,7 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
         }
       }
     }
