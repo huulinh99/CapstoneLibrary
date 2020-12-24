@@ -13,6 +13,8 @@ namespace Capstone.Core.Interfaces
         ILocationRepository LocationRepository { get; }
         IBookShelfRepository BookShelfRepository { get; }
         IDrawerRepository DrawerRepository { get; }
+        IErrorMessageRepository ErrorMessageRepository { get; }
+        IStaffRepository StaffRepository { get; }
         void SaveChanges();
         Task SaveChangesAsync();
     }
