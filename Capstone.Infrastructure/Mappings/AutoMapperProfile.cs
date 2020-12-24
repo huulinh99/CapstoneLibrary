@@ -25,6 +25,7 @@ namespace Capstone.Infrastructure.Mappings
 
             CreateMap<Drawer, DrawerDto>();
             CreateMap<DrawerDto, Drawer>();
+            //ggasdasdasd
         }
     }
 }
