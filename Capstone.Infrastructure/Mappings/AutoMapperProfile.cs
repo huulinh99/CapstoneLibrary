@@ -25,6 +25,7 @@ namespace Capstone.Infrastructure.Mappings
 
             CreateMap<Drawer, DrawerDto>();
             CreateMap<DrawerDto, Drawer>();
+            //gggggg
 
             CreateMap<ErrorMessage, ErrorMessageDto>();
             CreateMap<ErrorMessageDto, ErrorMessage>();
