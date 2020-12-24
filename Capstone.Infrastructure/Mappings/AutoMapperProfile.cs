@@ -13,7 +13,7 @@ namespace Capstone.Infrastructure.Mappings
         {
             CreateMap<Book, BookDto>();
             CreateMap<BookDto, Book>();
-            //test commit
+            
             CreateMap<BookGroup, BookGroupDto>();
             CreateMap<BookGroupDto, BookGroup>();
 
@@ -25,6 +25,12 @@ namespace Capstone.Infrastructure.Mappings
 
             CreateMap<Drawer, DrawerDto>();
             CreateMap<DrawerDto, Drawer>();
+
+            CreateMap<ErrorMessage, ErrorMessageDto>();
+            CreateMap<ErrorMessageDto, ErrorMessage>();
+
+            CreateMap<Staff, StaffDto>();
+            CreateMap<StaffDto, Staff>();
         }
     }
 }

@@ -47,6 +47,8 @@ namespace Capstone.Api
             services.AddTransient<ILocationService, LocationService>();
             services.AddTransient<IBookShelfService, BookShelfService>();
             services.AddTransient<IDrawerService, DrawerService>();
+            services.AddTransient<IErrorMessageService, ErrorMessageService>();
+            services.AddTransient<IStaffService, StaffService>();
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddHttpContextAccessor();

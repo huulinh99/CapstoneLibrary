@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Capstone.Core.Entities
 {
-    public partial class Staff
+    public partial class Staff : BaseEntity
     {
         public Staff()
         {
@@ -13,7 +13,7 @@ namespace Capstone.Core.Entities
             ReturnBook = new HashSet<ReturnBook>();
         }
 
-        public int Id { get; set; }
+        //public int Id { get; set; }
         public string Name { get; set; }
         public int? RoleId { get; set; }
 

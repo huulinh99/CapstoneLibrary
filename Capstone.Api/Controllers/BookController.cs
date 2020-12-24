@@ -26,7 +26,6 @@ namespace Capstone.Api.Controllers
             _bookService = bookService;
             _mapper = mapper;
             _uriService = uriService;
-            //ádasdasd
         }
         [HttpGet(Name = nameof(GetBooks))]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<BookDto>>))]
