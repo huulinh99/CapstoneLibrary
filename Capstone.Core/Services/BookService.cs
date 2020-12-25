@@ -39,7 +39,7 @@ namespace Capstone.Core.Services
             var books = _unitOfWork.BookRepository.GetAll();
             if (filters.BookGroupId != null)
             {
-                books = books.Where(x => x.BookGroupId == filters.BookGroupId);
+                books = books.Where(x => x.BookGroupId.Contains(filters.BookGroupId));
             }           
             var pagedBooks = PagedList<Book>.Create(books, filters.PageNumber, filters.PageSize);
             return pagedBooks;

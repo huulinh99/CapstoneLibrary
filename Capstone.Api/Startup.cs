@@ -46,6 +46,7 @@ namespace Capstone.Api
             services.AddTransient<IBookService, BookService>();
             services.AddTransient<ILocationService, LocationService>();
             services.AddTransient<IBookShelfService, BookShelfService>();
+            services.AddTransient<IBookGroupService, BookGroupService>();
             services.AddTransient<IDrawerService, DrawerService>();
             services.AddTransient<IErrorMessageService, ErrorMessageService>();
             services.AddTransient<IStaffService, StaffService>();

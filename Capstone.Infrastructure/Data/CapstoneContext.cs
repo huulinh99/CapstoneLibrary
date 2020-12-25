@@ -44,7 +44,7 @@ namespace Capstone.Infrastructure.Data
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=(LocalDb)\\MSSQLLocalDB;Database=Capstone;Integrated Security = true");
+                optionsBuilder.UseSqlServer("Server=103.121.89.51;Database=Capstone;User Id=linh;password=Testing)(&*;Integrated Security = false");
             }
         }
 
@@ -55,6 +55,8 @@ namespace Capstone.Infrastructure.Data
                 entity.Property(e => e.BarCode)
                     .HasMaxLength(200)
                     .IsUnicode(false);
+
+                entity.Property(e => e.BookGroupId).HasMaxLength(250);
 
                 entity.HasOne(d => d.BookGroup)
                     .WithMany(p => p.Book)
@@ -100,6 +102,8 @@ namespace Capstone.Infrastructure.Data
 
             modelBuilder.Entity<BookGroup>(entity =>
             {
+                entity.Property(e => e.Id).HasMaxLength(250);
+
                 entity.Property(e => e.Name).IsRequired();
 
                 entity.Property(e => e.PublishDate).HasColumnType("date");
@@ -236,6 +240,8 @@ namespace Capstone.Infrastructure.Data
 
             modelBuilder.Entity<Feedback>(entity =>
             {
+                entity.Property(e => e.BookGroupId).HasMaxLength(250);
+
                 entity.HasOne(d => d.BookGroup)
                     .WithMany(p => p.Feedback)
                     .HasForeignKey(d => d.BookGroupId)
@@ -244,6 +250,7 @@ namespace Capstone.Infrastructure.Data
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.Feedback)
                     .HasForeignKey(d => d.CustomerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Feedback_Customer");
             });
 
