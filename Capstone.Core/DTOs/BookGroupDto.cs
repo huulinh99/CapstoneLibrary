@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Capstone.Core.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
