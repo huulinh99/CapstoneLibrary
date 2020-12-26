@@ -51,6 +51,8 @@ namespace Capstone.Api
             services.AddTransient<IStaffService, StaffService>();
             services.AddTransient<IBorrowBookService, BorrowBookService>();
             services.AddTransient<IRoleService, RoleService>();
+            services.AddTransient<ICampaignService, CampaignService>();
+            services.AddTransient<ICategoryService, CategoryService>();
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddHttpContextAccessor();

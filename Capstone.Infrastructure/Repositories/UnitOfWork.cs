@@ -20,6 +20,8 @@ namespace Capstone.Infrastructure.Repositories
         private readonly IStaffRepository _staffRepository;
         private readonly IBorrowBookRepository _borrowBookRepository;
         private readonly IRoleRepository _roleRepository;
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly ICampaignRepository _campaignRepository;
         public UnitOfWork(CapstoneContext context)
         {
             _context = context;
@@ -34,6 +36,10 @@ namespace Capstone.Infrastructure.Repositories
         public IBorrowBookRepository BorrowBookRepository => _borrowBookRepository ?? new BorrowBookRepository(_context);
         public IStaffRepository StaffRepository => _staffRepository ?? new StaffRepository(_context);
         public IRoleRepository RoleRepository => _roleRepository ?? new RoleRepository(_context);
+
+        public ICategoryRepository CategoryRepository => _categoryRepository ?? new CategoryRepository(_context);
+
+        public ICampaignRepository CampaignRepository => _campaignRepository ?? new CampaignRepository(_context);
 
         public void Dispose()
         {

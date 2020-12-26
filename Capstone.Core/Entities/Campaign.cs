@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace Capstone.Core.Entities
 {
-    public partial class Campaign
+    public partial class Campaign :BaseEntity
     {
         public Campaign()
         {
             BookRecommend = new HashSet<BookRecommend>();
         }
 
-        public int Id { get; set; }
+        //public int Id { get; set; }
         public int? StaffId { get; set; }
         public string Title { get; set; }
         public DateTime? StartTime { get; set; }
