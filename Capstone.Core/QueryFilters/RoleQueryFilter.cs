@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Capstone.Core.QueryFilters
 {
-    public class BookQueryFilter
+    public class RoleQueryFilter
     {
-        public int? BookGroupId { get; set; }
+        public string Name { get; set; }
 
         public int PageSize { get; set; }
 
