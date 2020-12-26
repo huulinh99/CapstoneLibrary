@@ -14,6 +14,7 @@ namespace Capstone.Infrastructure.Services
         Uri GetDrawerPaginationUri(DrawerQueryFilter filter, string actionUrl);
         Uri GetErrorMessagePaginationUri(ErrorMessageQueryFilter filter, string actionUrl);
         Uri GetStaffPaginationUri(StaffQueryFilter filter, string actionUrl);
+        Uri GetBorrowBookPaginationUri(BorrowBookQueryFilter filter, string actionUrl);
         Uri GetRolePaginationUri(RoleQueryFilter filter, string actionUrl);
 
     }

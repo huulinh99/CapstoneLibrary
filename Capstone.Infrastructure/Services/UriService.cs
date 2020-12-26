@@ -56,6 +56,7 @@ namespace Capstone.Infrastructure.Services
             return new Uri(baseUrl);
         }
 
+        public Uri GetBorrowBookPaginationUri(BorrowBookQueryFilter filter, string actionUrl)
         public Uri GetRolePaginationUri(RoleQueryFilter filter, string actionUrl)
         {
             string baseUrl = $"{_baseUri}{actionUrl}";
