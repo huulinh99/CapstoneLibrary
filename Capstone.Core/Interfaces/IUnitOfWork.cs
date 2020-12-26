@@ -20,6 +20,7 @@ namespace Capstone.Core.Interfaces
         IBorrowDetailRepository BorrowDetailRepository { get; }
         ICategoryRepository CategoryRepository { get; }
         ICampaignRepository CampaignRepository { get; }
+        ICustomerRepository CustomerRepository { get; }
 
         void SaveChanges();
         Task SaveChangesAsync();
