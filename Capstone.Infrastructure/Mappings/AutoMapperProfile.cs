@@ -40,6 +40,13 @@ namespace Capstone.Infrastructure.Mappings
 
             CreateMap<BorrowDetail, BorrowDetailDto>();
             CreateMap<BorrowDetailDto, BorrowDetail>();
+
+            CreateMap<Campaign, CampaignDto>();
+            CreateMap<CampaignDto, Campaign>();
+
+            CreateMap<Category, CategoryDto>();
+            CreateMap<CategoryDto, Category>();
+
         }
     }
 }
