@@ -11,10 +11,7 @@ namespace Capstone.Core.Entities
             ErrorMessage = new HashSet<ErrorMessage>();
         }
 
-<<<<<<< HEAD
         //public int Id { get; set; }
-=======
->>>>>>> 1610b215def855706b9b9b6c46a9cad9b1253912
         public int? BookSheflId { get; set; }
         public int? ShelfRow { get; set; }
         public int? ShelfColumn { get; set; }
