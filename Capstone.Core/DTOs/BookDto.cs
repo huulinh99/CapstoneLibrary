@@ -8,6 +8,5 @@ namespace Capstone.Core.DTOs
     {
         public int BookGroupId { get; set; }
         public int DrawerId { get; set; }
-        public string BarCode { get; set; }
     }
 }

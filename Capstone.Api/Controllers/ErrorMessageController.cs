@@ -21,6 +21,7 @@ namespace Capstone.Api.Controllers
     [ApiController]
     public class ErrorMessageController : ControllerBase
     {
+        //mm
         private readonly IErrorMessageService _errorMessageService;
         private readonly IMapper _mapper;
         private readonly IUriService _uriService;
