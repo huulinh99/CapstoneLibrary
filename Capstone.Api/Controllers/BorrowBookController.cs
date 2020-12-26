@@ -24,9 +24,9 @@ namespace Capstone.Api.Controllers
         private readonly IBorrowBookService _borrowBookService;
         private readonly IMapper _mapper;
         private readonly IUriService _uriService;
-        public BorrowBookController(IBorrowBookService bookService, IMapper mapper, IUriService uriService)
+        public BorrowBookController(IBorrowBookService borrowBookService, IMapper mapper, IUriService uriService)
         {
-            _borrowBookService = bookService;
+            _borrowBookService = borrowBookService;
             _mapper = mapper;
             _uriService = uriService;
         }
