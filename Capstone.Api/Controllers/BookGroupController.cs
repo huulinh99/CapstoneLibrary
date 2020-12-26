@@ -30,6 +30,7 @@ namespace Capstone.Api.Controllers
             _bookGroupService = bookGroupService;
             _mapper = mapper;
             _uriService = uriService;
+            //gg
         }
 
         [HttpGet(Name = nameof(GetBookGroups))]
