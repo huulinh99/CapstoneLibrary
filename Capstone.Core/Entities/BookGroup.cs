@@ -10,7 +10,6 @@ namespace Capstone.Core.Entities
             Book = new HashSet<Book>();
             Feedback = new HashSet<Feedback>();
         }
-
         public string Name { get; set; }
         public double? Fee { get; set; }
         public double? PunishFee { get; set; }

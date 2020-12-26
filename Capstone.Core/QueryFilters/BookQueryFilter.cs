@@ -6,7 +6,7 @@ namespace Capstone.Core.QueryFilters
 {
     public class BookQueryFilter
     {
-        public string BookGroupId { get; set; }
+        public int BookGroupId { get; set; }
 
         public int PageSize { get; set; }
 

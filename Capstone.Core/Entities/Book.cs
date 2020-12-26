@@ -14,7 +14,7 @@ namespace Capstone.Core.Entities
             ReturnDetail = new HashSet<ReturnDetail>();
         }
 
-        public string BookGroupId { get; set; }
+        public int? BookGroupId { get; set; }
         public int DrawerId { get; set; }
         public string BarCode { get; set; }
 

@@ -39,7 +39,7 @@ namespace Capstone.Core.Services
             var books = _unitOfWork.BookRepository.GetAll();
             if (filters.BookGroupId != null)
             {
-                books = books.Where(x => x.BookGroupId.Contains(filters.BookGroupId));
+                books = books.Where(x => x.BookGroupId == filters.BookGroupId);
             }           
             var pagedBooks = PagedList<Book>.Create(books, filters.PageNumber, filters.PageSize);
             return pagedBooks;
@@ -47,7 +47,7 @@ namespace Capstone.Core.Services
 
         public async Task InsertBook(Book book)
         {     
-            await _unitOfWork.BookRepository.Add(book);
+             await _unitOfWork.BookRepository.Add(book);
             await _unitOfWork.SaveChangesAsync();
         }
 
