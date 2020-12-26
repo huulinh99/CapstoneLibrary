@@ -61,5 +61,17 @@ namespace Capstone.Infrastructure.Services
             string baseUrl = $"{_baseUri}{actionUrl}";
             return new Uri(baseUrl);
         }
+
+        public Uri GetCategoryPaginationUri(CategoryQueryFilter filter, string actionUrl)
+        {
+            string baseUrl = $"{_baseUri}{actionUrl}";
+            return new Uri(baseUrl);
+        }
+
+        public Uri GetCampaignPaginationUri(CampaignQueryFilter filter, string actionUrl)
+        {
+            string baseUrl = $"{_baseUri}{actionUrl}";
+            return new Uri(baseUrl);
+        }
     }
 }

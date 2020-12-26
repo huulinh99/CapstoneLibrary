@@ -34,6 +34,12 @@ namespace Capstone.Infrastructure.Mappings
 
             CreateMap<Role, RoleDto>();
             CreateMap<RoleDto, Role>();
+
+            CreateMap<Campaign, CampaignDto>();
+            CreateMap<CampaignDto, Campaign>();
+
+            CreateMap<Category, CategoryDto>();
+            CreateMap<CategoryDto, Category>();
         }
     }
 }
