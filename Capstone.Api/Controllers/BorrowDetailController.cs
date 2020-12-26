@@ -29,6 +29,7 @@ namespace Capstone.Api.Controllers
             _borrowBookService = borrowDetailService;
             _mapper = mapper;
             _uriService = uriService;
+            //gg
         }
         [HttpGet(Name = nameof(GetBorrowDetails))]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<BorrowDetailDto>>))]
