@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace Capstone.Core.Entities
 {
-    public partial class Role : BaseEntity
+    public partial class Role
     {
         public Role()
         {
             Staff = new HashSet<Staff>();
         }
 
-        //public int Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
 
         public virtual ICollection<Staff> Staff { get; set; }

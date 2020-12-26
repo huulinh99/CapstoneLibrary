@@ -49,7 +49,6 @@ namespace Capstone.Api
             services.AddTransient<IDrawerService, DrawerService>();
             services.AddTransient<IErrorMessageService, ErrorMessageService>();
             services.AddTransient<IStaffService, StaffService>();
-            services.AddTransient<IRoleService, RoleService>();
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddHttpContextAccessor();

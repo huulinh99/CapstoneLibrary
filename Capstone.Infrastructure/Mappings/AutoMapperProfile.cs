@@ -31,9 +31,6 @@ namespace Capstone.Infrastructure.Mappings
 
             CreateMap<Staff, StaffDto>();
             CreateMap<StaffDto, Staff>();
-
-            CreateMap<Role, RoleDto>();
-            CreateMap<RoleDto, Role>();
         }
     }
 }
