@@ -25,7 +25,6 @@ namespace Capstone.Infrastructure.Mappings
 
             CreateMap<Drawer, DrawerDto>();
             CreateMap<DrawerDto, Drawer>();
-            //gggggg
 
             CreateMap<ErrorMessage, ErrorMessageDto>();
             CreateMap<ErrorMessageDto, ErrorMessage>();
@@ -35,6 +34,8 @@ namespace Capstone.Infrastructure.Mappings
 
             CreateMap<BorrowBook, BorrowBookDto>();
             CreateMap<BorrowBookDto, BorrowBook>();
+            CreateMap<Role, RoleDto>();
+            CreateMap<RoleDto, Role>();
         }
     }
 }

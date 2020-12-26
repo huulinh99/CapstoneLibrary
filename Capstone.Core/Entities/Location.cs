@@ -10,6 +10,7 @@ namespace Capstone.Core.Entities
             BookShelf = new HashSet<BookShelf>();
         }
 
+        //public int? Id { get; set; }
         public string Name { get; set; }
 
         public virtual ICollection<BookShelf> BookShelf { get; set; }

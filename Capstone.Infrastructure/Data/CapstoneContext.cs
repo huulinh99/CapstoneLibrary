@@ -44,7 +44,7 @@ namespace Capstone.Infrastructure.Data
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=103.121.89.51;Database=Capstone;User Id=linh;password=Testing)(&*;Integrated Security = false");
+                optionsBuilder.UseSqlServer("Server=(LocalDb)\\MSSQLLocalDB;Database=Capstone;Integrated Security = true");
             }
         }
 
@@ -244,7 +244,6 @@ namespace Capstone.Infrastructure.Data
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.Feedback)
                     .HasForeignKey(d => d.CustomerId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Feedback_Customer");
             });
 

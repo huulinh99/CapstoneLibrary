@@ -9,7 +9,7 @@ namespace Capstone.Core.Entities
         public string ReviewContent { get; set; }
         public int? Rating { get; set; }
         public int? BookGroupId { get; set; }
-        public int CustomerId { get; set; }
+        public int? CustomerId { get; set; }
 
         public virtual BookGroup BookGroup { get; set; }
         public virtual Customer Customer { get; set; }

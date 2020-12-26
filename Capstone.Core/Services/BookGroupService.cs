@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using Capstone.Core.CustomEntities;
-using Capstone.Core.DTOs;
+﻿using Capstone.Core.CustomEntities;
 using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Core.QueryFilters;
@@ -16,13 +14,11 @@ namespace Capstone.Core.Services
     public class BookGroupService : IBookGroupService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
         private readonly PaginationOptions _paginationOptions;
-        public BookGroupService(IUnitOfWork unitOfWork, IOptions<PaginationOptions> options, IMapper mapper)
+        public BookGroupService(IUnitOfWork unitOfWork, IOptions<PaginationOptions> options)
         {
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
-            _mapper = mapper;
         }
         public async Task<bool> DeleteBookGroup(int id)
         {

@@ -16,6 +16,7 @@ namespace Capstone.Core.Interfaces
         IErrorMessageRepository ErrorMessageRepository { get; }
         IStaffRepository StaffRepository { get; }
         IBorrowBookRepository BorrowBookRepository { get; }
+        IRoleRepository RoleRepository { get; }
         void SaveChanges();
         Task SaveChangesAsync();
     }
