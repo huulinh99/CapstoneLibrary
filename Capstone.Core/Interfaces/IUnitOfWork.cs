@@ -15,6 +15,7 @@ namespace Capstone.Core.Interfaces
         IDrawerRepository DrawerRepository { get; }
         IErrorMessageRepository ErrorMessageRepository { get; }
         IStaffRepository StaffRepository { get; }
+        IBorrowBookRepository BorrowBookRepository { get; }
         IRoleRepository RoleRepository { get; }
         ICategoryRepository CategoryRepository { get; }
         ICampaignRepository CampaignRepository { get; }

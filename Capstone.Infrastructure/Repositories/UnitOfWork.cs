@@ -18,6 +18,7 @@ namespace Capstone.Infrastructure.Repositories
         private readonly IDrawerRepository _drawerRepository;
         private readonly IErrorMessageRepository _errorMessageRepository;
         private readonly IStaffRepository _staffRepository;
+        private readonly IBorrowBookRepository _borrowBookRepository;
         private readonly IRoleRepository _roleRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly ICampaignRepository _campaignRepository;
@@ -32,6 +33,7 @@ namespace Capstone.Infrastructure.Repositories
         public IBookShelfRepository BookShelfRepository => _bookShelfRepository ?? new BookShelfRepository(_context);
         public IDrawerRepository DrawerRepository => _drawerRepository ?? new DrawerRepository(_context);
         public IErrorMessageRepository ErrorMessageRepository => _errorMessageRepository ?? new ErrorMessageRepository(_context);
+        public IBorrowBookRepository BorrowBookRepository => _borrowBookRepository ?? new BorrowBookRepository(_context);
         public IStaffRepository StaffRepository => _staffRepository ?? new StaffRepository(_context);
         public IRoleRepository RoleRepository => _roleRepository ?? new RoleRepository(_context);
 

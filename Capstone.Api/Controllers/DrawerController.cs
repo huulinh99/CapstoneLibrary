@@ -82,7 +82,6 @@ namespace Capstone.Api.Controllers
         {
             var drawer = _mapper.Map<Drawer>(drawerDto);
             drawer.Id = id;
-
             var result = await _drawerService.UpdateDrawer(drawer);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
