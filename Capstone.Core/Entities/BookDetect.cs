@@ -3,14 +3,13 @@ using System.Collections.Generic;
 
 namespace Capstone.Core.Entities
 {
-    public partial class BookDetect
+    public partial class BookDetect : BaseEntity
     {
         public BookDetect()
         {
             ErrorMessage = new HashSet<ErrorMessage>();
         }
 
-        public int Id { get; set; }
         public int? BookId { get; set; }
         public int? StaffId { get; set; }
         public DateTime? Time { get; set; }

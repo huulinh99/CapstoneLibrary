@@ -56,8 +56,6 @@ namespace Capstone.Infrastructure.Data
                     .HasMaxLength(200)
                     .IsUnicode(false);
 
-                entity.Property(e => e.BookGroupId).HasMaxLength(250);
-
                 entity.HasOne(d => d.BookGroup)
                     .WithMany(p => p.Book)
                     .HasForeignKey(d => d.BookGroupId)
@@ -102,8 +100,6 @@ namespace Capstone.Infrastructure.Data
 
             modelBuilder.Entity<BookGroup>(entity =>
             {
-                entity.Property(e => e.Id).HasMaxLength(250);
-
                 entity.Property(e => e.Name).IsRequired();
 
                 entity.Property(e => e.PublishDate).HasColumnType("date");
@@ -240,8 +236,6 @@ namespace Capstone.Infrastructure.Data
 
             modelBuilder.Entity<Feedback>(entity =>
             {
-                entity.Property(e => e.BookGroupId).HasMaxLength(250);
-
                 entity.HasOne(d => d.BookGroup)
                     .WithMany(p => p.Feedback)
                     .HasForeignKey(d => d.BookGroupId)
