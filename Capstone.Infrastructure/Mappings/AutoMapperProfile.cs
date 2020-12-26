@@ -34,8 +34,12 @@ namespace Capstone.Infrastructure.Mappings
 
             CreateMap<BorrowBook, BorrowBookDto>();
             CreateMap<BorrowBookDto, BorrowBook>();
+
             CreateMap<Role, RoleDto>();
             CreateMap<RoleDto, Role>();
+
+            CreateMap<BorrowDetail, BorrowDetailDto>();
+            CreateMap<BorrowDetailDto, BorrowDetail>();
         }
     }
 }
