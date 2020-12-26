@@ -15,7 +15,7 @@ namespace Capstone.Infrastructure.Repositories
         public BookRepository(CapstoneContext context) : base(context) { }
         public async Task<IEnumerable<Book>> GetBooksByBookGroup(int bookGroupId)
         {
-            return await _entities.Where(x => x.BookGroupId == bookGroupId).ToListAsync();
-        }
+            return await _entities.Where(x => x.DrawerId == bookGroupId).ToListAsync();
+        }     
     }
 }

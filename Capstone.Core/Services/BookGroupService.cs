@@ -59,6 +59,17 @@ namespace Capstone.Core.Services
         {
             await _unitOfWork.BookGroupRepository.Add(bookGroup);
             await _unitOfWork.SaveChangesAsync();
+            for (int i= 0; i < bookGroup.Quantity; i++) 
+            {
+                var bookModel = new Book()
+                {
+                    BookGroupId = bookGroup.Id,
+                    DrawerId = 4,
+                    BarCode = null
+                };
+                 _unitOfWork.BookRepository.Add(bookModel);
+            }
+            await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task<bool> UpdateBookGroup(BookGroup bookGroup)

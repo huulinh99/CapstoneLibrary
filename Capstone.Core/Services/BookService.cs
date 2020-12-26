@@ -47,7 +47,7 @@ namespace Capstone.Core.Services
 
         public async Task InsertBook(Book book)
         {     
-            await _unitOfWork.BookRepository.Add(book);
+             await _unitOfWork.BookRepository.Add(book);
             await _unitOfWork.SaveChangesAsync();
         }
 
