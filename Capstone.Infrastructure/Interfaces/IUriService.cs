@@ -19,6 +19,7 @@ namespace Capstone.Infrastructure.Services
         Uri GetBorrowDetailPaginationUri(BorrowDetailQueryFilter filter, string actionUrl);
         Uri GetCategoryPaginationUri(CategoryQueryFilter filter, string actionUrl);
         Uri GetCampaignPaginationUri(CampaignQueryFilter filter, string actionUrl);
+        Uri GetCustomerPaginationUri(CustomerQueryFilter filter, string actionUrl);
 
     }
 }

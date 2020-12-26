@@ -13,7 +13,6 @@ namespace Capstone.Core.Entities
             ReturnBook = new HashSet<ReturnBook>();
         }
 
-        //public int Id { get; set; }
         public string Name { get; set; }
         public int? RoleId { get; set; }
 

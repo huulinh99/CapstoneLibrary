@@ -54,6 +54,7 @@ namespace Capstone.Api
             services.AddTransient<IBorrowDetailService, BorrowDetailService>();
             services.AddTransient<ICampaignService, CampaignService>();
             services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<ICustomerService, CustomerService>();
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddHttpContextAccessor();
@@ -89,6 +90,8 @@ namespace Capstone.Api
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "Capstone Library API");
                 options.RoutePrefix = string.Empty;
             });
+
+            app.UseRouting();
 
             app.UseAuthorization();
 

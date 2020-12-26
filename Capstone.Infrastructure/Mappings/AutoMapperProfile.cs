@@ -47,6 +47,9 @@ namespace Capstone.Infrastructure.Mappings
             CreateMap<Category, CategoryDto>();
             CreateMap<CategoryDto, Category>();
 
+            CreateMap<Customer, CustomerDto>();
+            CreateMap<CustomerDto, Customer>();
+
         }
     }
 }
