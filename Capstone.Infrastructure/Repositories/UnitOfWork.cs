@@ -24,6 +24,8 @@ namespace Capstone.Infrastructure.Repositories
         private readonly ICategoryRepository _categoryRepository;
         private readonly ICampaignRepository _campaignRepository;
         private readonly ICustomerRepository _customerRepository;
+        private readonly IReturnBookRepository _returnBookRepository;
+        private readonly IReturnDetailRepository _returnDetailRepository;
         public UnitOfWork(CapstoneContext context)
         {
             _context = context;
@@ -44,6 +46,8 @@ namespace Capstone.Infrastructure.Repositories
 
         public ICampaignRepository CampaignRepository => _campaignRepository ?? new CampaignRepository(_context);
         public ICustomerRepository CustomerRepository => _customerRepository ?? new CustomerRepository(_context);
+        public IReturnBookRepository ReturnBookRepository => _returnBookRepository ?? new ReturnBookRepository(_context);
+        public IReturnDetailRepository ReturnDetailRepository => _returnDetailRepository ?? new ReturnDetailRepository(_context);
 
         public void Dispose()
         {
