@@ -16,6 +16,8 @@ using Newtonsoft.Json;
 
 namespace Capstone.Api.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class CustomerController : Controller
     {
         private readonly ICustomerService _customerService;

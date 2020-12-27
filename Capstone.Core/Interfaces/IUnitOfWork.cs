@@ -21,6 +21,8 @@ namespace Capstone.Core.Interfaces
         ICategoryRepository CategoryRepository { get; }
         ICampaignRepository CampaignRepository { get; }
         ICustomerRepository CustomerRepository { get; }
+        IReturnBookRepository ReturnBookRepository { get; }
+        IReturnDetailRepository ReturnDetailRepository { get; }
 
         void SaveChanges();
         Task SaveChangesAsync();

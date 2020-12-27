@@ -50,6 +50,12 @@ namespace Capstone.Infrastructure.Mappings
             CreateMap<Customer, CustomerDto>();
             CreateMap<CustomerDto, Customer>();
 
+            CreateMap<ReturnBook, ReturnBookDto>();
+            CreateMap<ReturnBookDto, ReturnBook>();
+
+            CreateMap<ReturnDetail, ReturnDetailDto>();
+            CreateMap<ReturnDetailDto, ReturnDetail>();
+
         }
     }
 }
