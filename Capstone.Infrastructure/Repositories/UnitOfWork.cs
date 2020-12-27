@@ -29,6 +29,9 @@ namespace Capstone.Infrastructure.Repositories
         private readonly IBookCategoryRepository _bookCategoryRepository;
         private readonly IBookDetectRepository _bookDetectRepository;
         private readonly IBookRecommendRepository _bookRecommendRepository;
+        private readonly IDeviceRepository _deviceRepository;
+        private readonly IFeedbackRepository _feedbackRepository;
+        private readonly INotificationRepository _notificationRepository;
         public UnitOfWork(CapstoneContext context)
         {
             _context = context;
@@ -54,6 +57,9 @@ namespace Capstone.Infrastructure.Repositories
         public IBookCategoryRepository BookCategoryRepository => _bookCategoryRepository ?? new BookCategoryRepository(_context);
         public IBookDetectRepository BookDetectRepository => _bookDetectRepository ?? new BookDetectRepository(_context);
         public IBookRecommendRepository BookRecommendRepository => _bookRecommendRepository ?? new BookRecommendRepository(_context);
+        public IDeviceRepository DeviceRepository => _deviceRepository ?? new DeviceRepository(_context);
+        public IFeedbackRepository FeedbackRepository => _feedbackRepository ?? new FeedbackRepository(_context);
+        public INotificationRepository NotificationRepository => _notificationRepository ?? new NotificationRepository(_context);
 
         public void Dispose()
         {

@@ -59,6 +59,9 @@ namespace Capstone.Api
             services.AddTransient<IReturnDetailService, ReturnDetailService>();
             services.AddTransient<IBookCategoryService, BookCategoryService>();
             services.AddTransient<IBookRecommendService, BookRecommendService>();
+            services.AddTransient<IDeviceService, DeviceService>();
+            services.AddTransient<IFeedbackService, FeedbackService>();
+            services.AddTransient<INotificationService, NotificationService>();
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddHttpContextAccessor();
