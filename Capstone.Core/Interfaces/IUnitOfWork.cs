@@ -23,6 +23,9 @@ namespace Capstone.Core.Interfaces
         ICustomerRepository CustomerRepository { get; }
         IReturnBookRepository ReturnBookRepository { get; }
         IReturnDetailRepository ReturnDetailRepository { get; }
+        IBookCategoryRepository BookCategoryRepository { get; }
+        IBookDetectRepository BookDetectRepository { get; }
+        IBookRecommendRepository BookRecommendRepository { get; }
 
         void SaveChanges();
         Task SaveChangesAsync();
