@@ -26,6 +26,9 @@ namespace Capstone.Core.Interfaces
         IBookCategoryRepository BookCategoryRepository { get; }
         IBookDetectRepository BookDetectRepository { get; }
         IBookRecommendRepository BookRecommendRepository { get; }
+        IDeviceRepository DeviceRepository { get; }
+        IFeedbackRepository FeedbackRepository { get; }
+        INotificationRepository NotificationRepository { get; }
 
         void SaveChanges();
         Task SaveChangesAsync();
