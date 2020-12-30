@@ -7,6 +7,6 @@ namespace Capstone.Core.DTOs
     public class StaffDto
     {
         public int Name { get; set; }
-        public int RoleId { get; set; }
+        public int? RoleId { get; set; }
     }
 }
