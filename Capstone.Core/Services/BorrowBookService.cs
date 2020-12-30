@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Capstone.Core.CustomEntities;
 using Capstone.Core.Entities;
+using Capstone.Core.Exceptions;
 using Capstone.Core.Interfaces;
 using Capstone.Core.QueryFilters;
 using Microsoft.Extensions.Options;
@@ -54,6 +55,11 @@ namespace Capstone.Core.Services
 
         public async Task InsertBorrowBook(BorrowBook borrowBook)
         {
+            var customer = await _unitOfWork.CustomerRepository.GetCustomerById(borrowBook.CustomerId);
+            if (customer == null)
+            {
+                throw new BusinessException("User doesn't exist");
+            }
             await _unitOfWork.BorrowBookRepository.Add(borrowBook);
             await _unitOfWork.SaveChangesAsync();
         }

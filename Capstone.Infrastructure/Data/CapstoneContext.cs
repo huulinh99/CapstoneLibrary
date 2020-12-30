@@ -44,7 +44,7 @@ namespace Capstone.Infrastructure.Data
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=(LocalDb)\\MSSQLLocalDB;Database=Capstone;Integrated Security = true");
+                optionsBuilder.UseSqlServer("Server=103.121.89.51;Database=Capstone;User Id=linh;password=Testing)(&*;Integrated Security = false");
             }
         }
 
@@ -140,11 +140,6 @@ namespace Capstone.Infrastructure.Data
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.BorrowBook)
                     .HasForeignKey(d => d.CustomerId)
-                    .HasConstraintName("FK_BorrowBook_BorrowDetail");
-
-                entity.HasOne(d => d.CustomerNavigation)
-                    .WithMany(p => p.BorrowBook)
-                    .HasForeignKey(d => d.CustomerId)
                     .HasConstraintName("FK_BorrowBook_Customer");
 
                 entity.HasOne(d => d.Staff)
@@ -159,6 +154,11 @@ namespace Capstone.Infrastructure.Data
                     .WithMany(p => p.BorrowDetail)
                     .HasForeignKey(d => d.BookId)
                     .HasConstraintName("FK_BorrowDetail_Book");
+
+                entity.HasOne(d => d.Borrow)
+                    .WithMany(p => p.BorrowDetail)
+                    .HasForeignKey(d => d.BorrowId)
+                    .HasConstraintName("FK_BorrowDetail_BorrowBook");
             });
 
             modelBuilder.Entity<Campaign>(entity =>
@@ -244,6 +244,7 @@ namespace Capstone.Infrastructure.Data
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.Feedback)
                     .HasForeignKey(d => d.CustomerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Feedback_Customer");
             });
 

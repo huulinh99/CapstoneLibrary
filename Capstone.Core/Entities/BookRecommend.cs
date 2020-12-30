@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace Capstone.Core.Entities
 {
-    public partial class BookRecommend
+    public partial class BookRecommend : BaseEntity
     {
-        public int Id { get; set; }
         public int? CampaignId { get; set; }
         public int? BookId { get; set; }
 

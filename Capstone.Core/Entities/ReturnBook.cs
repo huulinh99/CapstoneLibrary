@@ -3,14 +3,13 @@ using System.Collections.Generic;
 
 namespace Capstone.Core.Entities
 {
-    public partial class ReturnBook
+    public partial class ReturnBook : BaseEntity
     {
         public ReturnBook()
         {
             ReturnDetail = new HashSet<ReturnDetail>();
         }
 
-        public int Id { get; set; }
         public int? CustomerId { get; set; }
         public DateTime? ReturnTime { get; set; }
         public int? BorrowId { get; set; }

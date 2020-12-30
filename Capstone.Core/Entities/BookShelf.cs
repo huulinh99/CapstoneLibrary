@@ -10,9 +10,10 @@ namespace Capstone.Core.Entities
             Drawer = new HashSet<Drawer>();
         }
 
-        //public int Id { get; set; }
         public string Name { get; set; }
         public int? LocationId { get; set; }
+        public int? Col { get; set; }
+        public int? Row { get; set; }
 
         public virtual Location Location { get; set; }
         public virtual ICollection<Drawer> Drawer { get; set; }

@@ -7,6 +7,7 @@ namespace Capstone.Core.Entities
     {
         public BorrowBook()
         {
+            BorrowDetail = new HashSet<BorrowDetail>();
             ReturnBook = new HashSet<ReturnBook>();
         }
 
@@ -15,9 +16,9 @@ namespace Capstone.Core.Entities
         public DateTime? EndTime { get; set; }
         public int? StaffId { get; set; }
 
-        public virtual BorrowDetail Customer { get; set; }
-        public virtual Customer CustomerNavigation { get; set; }
+        public virtual Customer Customer { get; set; }
         public virtual Staff Staff { get; set; }
+        public virtual ICollection<BorrowDetail> BorrowDetail { get; set; }
         public virtual ICollection<ReturnBook> ReturnBook { get; set; }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Capstone.Core.Entities
 {
-    public partial class Customer
+    public partial class Customer : BaseEntity
     {
         public Customer()
         {
@@ -15,7 +15,6 @@ namespace Capstone.Core.Entities
             ReturnBook = new HashSet<ReturnBook>();
         }
 
-        public int Id { get; set; }
         public string Name { get; set; }
 
         public virtual ICollection<BorrowBook> BorrowBook { get; set; }
