@@ -13,9 +13,9 @@ namespace Capstone.Infrastructure.Repositories
     public class DrawerRepository : BaseRepository<Drawer>, IDrawerRepository
     {
         public DrawerRepository(CapstoneContext context) : base(context) { }
-        public async Task<IEnumerable<Drawer>> GetDrawersByBookShelf(int bookShelfId)
-        {
-            return await _entities.Where(x => x.BookSheflId == bookShelfId).ToListAsync();
-        }
+        //public async Task<IEnumerable<Drawer>> GetDrawersByBookShelf(int bookShelfId)
+        //{
+        //    return await _entities.Where(x => x.BookSheflId == bookShelfId).ToListAsync();
+        //}
     }
 }

@@ -8,6 +8,7 @@ namespace Capstone.Core.Entities
         public BookGroup()
         {
             Book = new HashSet<Book>();
+            BookCategory = new HashSet<BookCategory>();
             Feedback = new HashSet<Feedback>();
         }
 
@@ -27,6 +28,7 @@ namespace Capstone.Core.Entities
         public int? PulishNumber { get; set; }
 
         public virtual ICollection<Book> Book { get; set; }
+        public virtual ICollection<BookCategory> BookCategory { get; set; }
         public virtual ICollection<Feedback> Feedback { get; set; }
     }
 }
