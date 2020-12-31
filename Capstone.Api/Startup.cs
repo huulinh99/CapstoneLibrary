@@ -99,7 +99,7 @@ namespace Capstone.Api
                 };
             });
             services.AddCors();
-            services.AddMvc();
+            //services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -113,7 +113,7 @@ namespace Capstone.Api
      .AllowAnyOrigin()
      .AllowAnyMethod()
      .AllowAnyHeader());
-            app.UseMvc();
+           // app.UseMvc();
             app.UseHttpsRedirection();
 
             app.UseRouting();
