@@ -81,6 +81,17 @@ namespace Capstone.Api
                 doc.SwaggerDoc("v1", new OpenApiInfo { Title = "Capstone Library API", Version = "v1" });
             });
 
+            services.AddCors(opts =>
+            {
+                opts.AddPolicy("AllowAll", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
+                    //.AllowCredentials();
+                });
+            });
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -98,8 +109,7 @@ namespace Capstone.Api
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Authentication:SecretKey"]))
                 };
             });
-            services.AddCors();
-            //services.AddMvc();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -109,12 +119,9 @@ namespace Capstone.Api
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseCors(builder => builder
-     .AllowAnyOrigin()
-     .AllowAnyMethod()
-     .AllowAnyHeader());
-           // app.UseMvc();
             app.UseHttpsRedirection();
+
+            app.UseCors("AllowAll");
 
             app.UseRouting();
 
@@ -125,6 +132,8 @@ namespace Capstone.Api
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "Capstone Library API");
                 options.RoutePrefix = string.Empty;
             });
+
+
 
             app.UseRouting();
 

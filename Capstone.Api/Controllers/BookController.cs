@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Capstone.Api.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class BookController : ControllerBase
