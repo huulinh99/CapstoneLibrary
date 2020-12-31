@@ -39,10 +39,7 @@ namespace Capstone.Core.Services
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
             var drawers = _unitOfWork.DrawerRepository.GetAll();
-            if (filters.BookSheflId != null)
-            {
-                drawers = drawers.Where(x => x.BookSheflId == filters.BookSheflId);
-            }
+            
             var pagedDrawers = PagedList<Drawer>.Create(drawers, filters.PageNumber, filters.PageSize);
             return pagedDrawers;
         }

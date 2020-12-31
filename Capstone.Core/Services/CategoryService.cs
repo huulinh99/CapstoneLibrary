@@ -36,6 +36,7 @@ namespace Capstone.Core.Services
             {
                 categories = categories.Where(x => x.Name == filters.Name);
             }
+
             var pagedCategories = PagedList<Category>.Create(categories, filters.PageNumber, filters.PageSize);
             return pagedCategories;
         }
