@@ -11,9 +11,11 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using Capstone.Infrastructure.Services;
 using Capstone.Core.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Capstone.Api.Controllers
 {
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class BookController : ControllerBase

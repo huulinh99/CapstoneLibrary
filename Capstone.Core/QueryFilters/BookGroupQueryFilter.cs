@@ -9,6 +9,8 @@ namespace Capstone.Core.QueryFilters
         public string Name { get; set; }
         public float? Fee { get; set; }
         public float? PunishFee { get; set; }
+        public int? CategoryId { get; set; }
+        public string Author { get; set; }
 
         public int PageSize { get; set; }
 

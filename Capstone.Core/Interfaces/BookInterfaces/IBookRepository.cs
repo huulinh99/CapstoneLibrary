@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Capstone.Core.Interfaces
 {
-    public interface IDrawerRepository : IRepository<Drawer>
+    public interface IBookRepository : IRepository<Book>
     {
-        Task<IEnumerable<Drawer>> GetDrawersByBookShelf(int bookShelfId);
+       // Task<IEnumerable<Book>> GetBooksByBookGroup(int bookGroupId);
     }
 }

@@ -19,6 +19,7 @@ namespace Capstone.Infrastructure.Data
         public virtual DbSet<Book> Book { get; set; }
         public virtual DbSet<BookCategory> BookCategory { get; set; }
         public virtual DbSet<BookDetect> BookDetect { get; set; }
+        public virtual DbSet<BookDrawer> BookDrawer { get; set; }
         public virtual DbSet<BookGroup> BookGroup { get; set; }
         public virtual DbSet<BookRecommend> BookRecommend { get; set; }
         public virtual DbSet<BookShelf> BookShelf { get; set; }
@@ -44,7 +45,7 @@ namespace Capstone.Infrastructure.Data
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=103.121.89.51;Database=Capstone;User Id=linh;password=Testing)(&*;Integrated Security = false");
+                optionsBuilder.UseSqlServer("Server=103.121.89.51;Database=Capstone;User Id=linh;password=Testing)(&*;Integrated Security = false;");
             }
         }
 
@@ -60,19 +61,13 @@ namespace Capstone.Infrastructure.Data
                     .WithMany(p => p.Book)
                     .HasForeignKey(d => d.BookGroupId)
                     .HasConstraintName("FK_Book_BookGroup");
-
-                entity.HasOne(d => d.Drawer)
-                    .WithMany(p => p.Book)
-                    .HasForeignKey(d => d.DrawerId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Book_Drawer");
             });
 
             modelBuilder.Entity<BookCategory>(entity =>
             {
-                entity.HasOne(d => d.Book)
+                entity.HasOne(d => d.BookGroup)
                     .WithMany(p => p.BookCategory)
-                    .HasForeignKey(d => d.BookId)
+                    .HasForeignKey(d => d.BookGroupId)
                     .HasConstraintName("FK_BookCategory_Book");
 
                 entity.HasOne(d => d.Category)
@@ -96,6 +91,23 @@ namespace Capstone.Infrastructure.Data
                     .WithMany(p => p.BookDetect)
                     .HasForeignKey(d => d.StaffId)
                     .HasConstraintName("FK_BookDetect_Staff");
+            });
+
+            modelBuilder.Entity<BookDrawer>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.Time).HasColumnType("date");
+
+                entity.HasOne(d => d.Book)
+                    .WithMany(p => p.BookDrawer)
+                    .HasForeignKey(d => d.BookId)
+                    .HasConstraintName("FK_BookDrawer_Book");
+
+                entity.HasOne(d => d.Drawer)
+                    .WithMany(p => p.BookDrawer)
+                    .HasForeignKey(d => d.DrawerId)
+                    .HasConstraintName("FK_BookDrawer_Drawer");
             });
 
             modelBuilder.Entity<BookGroup>(entity =>
@@ -202,9 +214,9 @@ namespace Capstone.Infrastructure.Data
 
             modelBuilder.Entity<Drawer>(entity =>
             {
-                entity.HasOne(d => d.BookShefl)
+                entity.HasOne(d => d.BookShelf)
                     .WithMany(p => p.Drawer)
-                    .HasForeignKey(d => d.BookSheflId)
+                    .HasForeignKey(d => d.BookShelfId)
                     .HasConstraintName("FK_Drawer_BookShelf");
             });
 

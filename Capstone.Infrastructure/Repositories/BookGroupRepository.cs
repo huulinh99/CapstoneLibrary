@@ -13,10 +13,22 @@ namespace Capstone.Infrastructure.Repositories
     public class BookGroupRepository : BaseRepository<BookGroup>, IBookGroupRepository
     {
         public BookGroupRepository(CapstoneContext context) : base(context) { }
-
+     
         public async Task<IEnumerable<BookGroup>> GetBookGroupsByName(string bookGroupName)
         {
             return await _entities.Where(x => x.Name.Contains(bookGroupName)).ToListAsync();
         }
+
+        public  IEnumerable<BookGroup> GetBookGroupsByBookCategory(IEnumerable<BookCategory> bookCategories)
+        {
+            List<BookGroup> bookGroups = new List<BookGroup>();
+            foreach (var bookCategory in bookCategories)
+            {
+                var bookGroup = _entities.Where(x => x.Id == bookCategory.BookGroupId).FirstOrDefault();
+                bookGroups.Add(bookGroup);
+            }
+            return bookGroups;
+        }
+     
     }
 }

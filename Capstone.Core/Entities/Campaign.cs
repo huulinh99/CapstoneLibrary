@@ -15,7 +15,7 @@ namespace Capstone.Core.Entities
         public DateTime? StartTime { get; set; }
         public DateTime? EndTime { get; set; }
         public string Image { get; set; }
-        public string Descrription { get; set; }
+        public string Description { get; set; }
 
         public virtual Staff Staff { get; set; }
         public virtual ICollection<BookRecommend> BookRecommend { get; set; }

@@ -31,11 +31,7 @@ namespace Capstone.Core.Services
         {
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
-            var bookCategories = _unitOfWork.BookCategoryRepository.GetAll();
-            if (filters.BookId != null)
-            {
-                bookCategories = bookCategories.Where(x => x.BookId == filters.BookId);
-            }
+            var bookCategories = _unitOfWork.BookCategoryRepository.GetAll();           
 
             if (filters.CategoryId != null)
             {

@@ -6,6 +6,7 @@ using Capstone.Infrastructure.Data;
 using Capstone.Infrastructure.Filters;
 using Capstone.Infrastructure.Repositories;
 using Capstone.Infrastructure.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -13,8 +14,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
+using System.Text;
 
 namespace Capstone.Api
 {
@@ -45,6 +48,7 @@ namespace Capstone.Api
             );
             services.AddTransient<IBookService, BookService>();
             services.AddTransient<ILocationService, LocationService>();
+            services.AddTransient<IBookGroupService, BookGroupService>();
             services.AddTransient<IBookShelfService, BookShelfService>();
             services.AddTransient<IDrawerService, DrawerService>();
             services.AddTransient<IErrorMessageService, ErrorMessageService>();
@@ -75,7 +79,37 @@ namespace Capstone.Api
             services.AddSwaggerGen(doc =>
             {
                 doc.SwaggerDoc("v1", new OpenApiInfo { Title = "Capstone Library API", Version = "v1" });
-            });           
+            });
+
+            services.AddCors(opts =>
+            {
+                opts.AddPolicy("AllowAll", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
+                    //.AllowCredentials();
+                });
+            });
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = Configuration["Authentication:Issuer"],
+                    ValidAudience = Configuration["Authentication:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Authentication:SecretKey"]))
+                };
+            });
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -85,8 +119,9 @@ namespace Capstone.Api
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseHttpsRedirection();
+
+            app.UseCors("AllowAll");
 
             app.UseRouting();
 
@@ -98,9 +133,12 @@ namespace Capstone.Api
                 options.RoutePrefix = string.Empty;
             });
 
+
+
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {

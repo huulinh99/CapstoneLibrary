@@ -36,10 +36,21 @@ namespace Capstone.Core.Services
         {
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
-            var bookGroups = _unitOfWork.BookGroupRepository.GetAll();
+            var bookGroups = _unitOfWork.BookGroupRepository.GetAll();           
             if (filters.Name != null)
             {
                 bookGroups = bookGroups.Where(x => x.Name.Contains(filters.Name));
+            }
+
+            if (filters.Author != null)
+            {
+                bookGroups = bookGroups.Where(x => x.Author.Contains(filters.Author));
+            }
+
+            if (filters.CategoryId != null)
+            {
+                var categories = _unitOfWork.BookCategoryRepository.GetBookCategoriesByCategory(filters.CategoryId).Result;
+                bookGroups = _unitOfWork.BookGroupRepository.GetBookGroupsByBookCategory(categories);
             }
 
             if (filters.Fee != null)
@@ -55,6 +66,7 @@ namespace Capstone.Core.Services
             return pagedBookGroups;
         }
 
+
         public async Task InsertBookGroup(BookGroup bookGroup)
         {
             await _unitOfWork.BookGroupRepository.Add(bookGroup);
@@ -64,7 +76,6 @@ namespace Capstone.Core.Services
                 var bookModel = new Book()
                 {
                     BookGroupId = bookGroup.Id,
-                    DrawerId = 4,
                     BarCode = null
                 };
                  _unitOfWork.BookRepository.Add(bookModel);
