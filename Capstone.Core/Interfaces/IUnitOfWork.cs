@@ -1,4 +1,5 @@
 ﻿using Capstone.Core.Entities;
+using Capstone.Core.Interfaces.ImageInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -29,6 +30,7 @@ namespace Capstone.Core.Interfaces
         IDeviceRepository DeviceRepository { get; }
         IFeedbackRepository FeedbackRepository { get; }
         INotificationRepository NotificationRepository { get; }
+        IImageRepository ImageRepository { get; }
 
         void SaveChanges();
         Task SaveChangesAsync();

@@ -1,4 +1,5 @@
-﻿using Capstone.Core.Entities;
+﻿using Capstone.Core.DTOs;
+using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -29,6 +30,12 @@ namespace Capstone.Infrastructure.Repositories
             }
             return bookGroups;
         }
-     
+
+        public async Task<BookGroup> GetBookGroupsWithImageById(int bookGroupId)
+        {
+            var bookGroup = await _entities.Where(x => x.Id == bookGroupId).Include(c => c.Image)
+                .SingleOrDefaultAsync();
+            return bookGroup;
+        }
     }
 }

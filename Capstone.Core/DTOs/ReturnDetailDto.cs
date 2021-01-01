@@ -7,6 +7,7 @@ namespace Capstone.Core.DTOs
 {
     public class ReturnDetailDto
     {
+        public int Id { get; set; }
         public int? BookId { get; set; }
         public bool? IsLate { get; set; }
         public double? PunishFee { get; set; }

@@ -10,6 +10,7 @@ namespace Capstone.Core.Entities
             Book = new HashSet<Book>();
             BookCategory = new HashSet<BookCategory>();
             Feedback = new HashSet<Feedback>();
+            Image = new HashSet<Image>();
         }
 
         public string Name { get; set; }
@@ -30,5 +31,6 @@ namespace Capstone.Core.Entities
         public virtual ICollection<Book> Book { get; set; }
         public virtual ICollection<BookCategory> BookCategory { get; set; }
         public virtual ICollection<Feedback> Feedback { get; set; }
+        public virtual ICollection<Image> Image { get; set; }
     }
 }

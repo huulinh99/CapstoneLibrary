@@ -20,7 +20,7 @@ namespace Capstone.Api.Controllers
     [ApiController]
     public class BookController : ControllerBase
     {
-        private readonly IBookService _bookService;
+        private readonly IBookService _bookService; 
         private readonly IMapper _mapper;
         private readonly IUriService _uriService;
         public BookController(IBookService bookService, IMapper mapper, IUriService uriService)

@@ -29,7 +29,7 @@ namespace Capstone.Core.Services
 
         public async Task<BookGroup> GetBookGroup(int id)
         {
-            return await _unitOfWork.BookGroupRepository.GetById(id);
+            return await _unitOfWork.BookGroupRepository.GetBookGroupsWithImageById(id);
         }
 
         public PagedList<BookGroup> GetBookGroups(BookGroupQueryFilter filters)

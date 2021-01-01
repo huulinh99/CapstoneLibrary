@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Capstone.Core.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,6 +7,7 @@ namespace Capstone.Core.DTOs
 {
     public class BookGroupDto
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public float Fee { get; set; }
         public float PunishFee { get; set; }
@@ -19,5 +21,7 @@ namespace Capstone.Core.DTOs
         public float Height { get; set; }
         public float Width { get; set; }
         public float Thick { get; set; }
+
+        public virtual ICollection<Image> Image { get; set; }
     }
 }

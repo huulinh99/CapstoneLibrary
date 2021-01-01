@@ -1,6 +1,7 @@
 using AutoMapper;
 using Capstone.Core.CustomEntities;
 using Capstone.Core.Interfaces;
+using Capstone.Core.Interfaces.ImageInterfaces;
 using Capstone.Core.Services;
 using Capstone.Infrastructure.Data;
 using Capstone.Infrastructure.Filters;
@@ -66,6 +67,7 @@ namespace Capstone.Api
             services.AddTransient<IDeviceService, DeviceService>();
             services.AddTransient<IFeedbackService, FeedbackService>();
             services.AddTransient<INotificationService, NotificationService>();
+            services.AddTransient<IImageService, ImageService>();
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddHttpContextAccessor();
@@ -88,7 +90,7 @@ namespace Capstone.Api
                     builder.AllowAnyOrigin()
                             .AllowAnyMethod()
                             .AllowAnyHeader();
-                    //.AllowCredentials();
+                            //.AllowCredentials();
                 });
             });
 
@@ -119,7 +121,7 @@ namespace Capstone.Api
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseHttpsRedirection();
+           // app.UseHttpsRedirection();
 
             app.UseCors("AllowAll");
 
