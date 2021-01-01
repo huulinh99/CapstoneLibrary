@@ -61,9 +61,9 @@ namespace Capstone.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetBookGroup(int bookGroupId)
+        public async Task<IActionResult> GetBookGroup(int id)
         {
-            var bookGroup = _bookGroupService.GetBookGroup(bookGroupId);
+            var bookGroup = await _bookGroupService.GetBookGroup(id);
             var bookGroupDto = _mapper.Map<BookGroupDto>(bookGroup);
             var response = new ApiResponse<BookGroupDto>(bookGroupDto);
             return Ok(response);

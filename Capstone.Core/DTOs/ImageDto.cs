@@ -4,9 +4,10 @@ using System.Text;
 
 namespace Capstone.Core.DTOs
 {
-    public class RoleDto
+    public class ImageDto
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Url { get; set; }
+        public int? BookGroupId { get; set; }
     }
 }

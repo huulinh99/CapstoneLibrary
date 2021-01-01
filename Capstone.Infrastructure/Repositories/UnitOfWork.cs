@@ -1,5 +1,6 @@
 ﻿using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
+using Capstone.Core.Interfaces.ImageInterfaces;
 using Capstone.Infrastructure.Data;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,7 @@ namespace Capstone.Infrastructure.Repositories
         private readonly IDeviceRepository _deviceRepository;
         private readonly IFeedbackRepository _feedbackRepository;
         private readonly INotificationRepository _notificationRepository;
+        private readonly IImageRepository _imageRepository;
         public UnitOfWork(CapstoneContext context)
         {
             _context = context;
@@ -60,6 +62,7 @@ namespace Capstone.Infrastructure.Repositories
         public IDeviceRepository DeviceRepository => _deviceRepository ?? new DeviceRepository(_context);
         public IFeedbackRepository FeedbackRepository => _feedbackRepository ?? new FeedbackRepository(_context);
         public INotificationRepository NotificationRepository => _notificationRepository ?? new NotificationRepository(_context);
+        public IImageRepository ImageRepository => _imageRepository ?? new ImageRepository(_context);
 
         public void Dispose()
         {

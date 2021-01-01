@@ -33,6 +33,7 @@ namespace Capstone.Infrastructure.Data
         public virtual DbSet<ErrorMessage> ErrorMessage { get; set; }
         public virtual DbSet<FavouriteCategory> FavouriteCategory { get; set; }
         public virtual DbSet<Feedback> Feedback { get; set; }
+        public virtual DbSet<Image> Image { get; set; }
         public virtual DbSet<Location> Location { get; set; }
         public virtual DbSet<Notification> Notification { get; set; }
         public virtual DbSet<ReturnBook> ReturnBook { get; set; }
@@ -258,6 +259,16 @@ namespace Capstone.Infrastructure.Data
                     .HasForeignKey(d => d.CustomerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Feedback_Customer");
+            });
+
+            modelBuilder.Entity<Image>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.HasOne(d => d.BookGroup)
+                    .WithMany(p => p.Image)
+                    .HasForeignKey(d => d.BookGroupId)
+                    .HasConstraintName("FK_Image_BookGroup");
             });
 
             modelBuilder.Entity<Location>(entity =>

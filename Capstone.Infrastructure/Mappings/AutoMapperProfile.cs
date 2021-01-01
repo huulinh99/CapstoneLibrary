@@ -12,10 +12,7 @@ namespace Capstone.Infrastructure.Mappings
         public AutoMapperProfile()
         {
             CreateMap<Book, BookDto>();
-            CreateMap<BookDto, Book>();
-            
-            CreateMap<BookGroup, BookGroupDto>();
-            CreateMap<BookGroupDto, BookGroup>();
+            CreateMap<BookDto, Book>();                    
 
             CreateMap<Location, LocationDto>();
             CreateMap<LocationDto, Location>();
@@ -56,6 +53,11 @@ namespace Capstone.Infrastructure.Mappings
             CreateMap<Customer, CustomerDto>();
             CreateMap<CustomerDto, Customer>();
 
+            CreateMap<BookGroup, BookGroupDto>();
+            CreateMap<BookGroupDto, BookGroup>();
+
+            CreateMap<Image, ImageDto>();
+            CreateMap<ImageDto, Image>();
         }
     }
 }
