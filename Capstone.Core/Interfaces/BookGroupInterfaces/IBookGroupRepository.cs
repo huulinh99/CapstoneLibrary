@@ -9,9 +9,11 @@ namespace Capstone.Core.Interfaces
 {
     public interface IBookGroupRepository : IRepository<BookGroup>
     {
-        Task<IEnumerable<BookGroup>> GetBookGroupsByName(string bookGroupName);
-        IEnumerable<BookGroup> GetBookGroupsByBookCategory(IEnumerable<BookCategory> bookCategory);
-        Task<BookGroup> GetBookGroupsWithImageById(int id);
+        Task<IEnumerable<BookGroupDto>> GetBookGroupsByName(string bookGroupName, ICollection<CategoryDto> categories);
+        IEnumerable<BookGroupDto> GetBookGroupsByBookCategory(IEnumerable<BookCategory> bookCategory, ICollection<CategoryDto> categories);
+        Task<BookGroupDto> GetBookGroupsWithImageById(int? bookGroupId, ICollection<CategoryDto> categories);
+        IEnumerable<BookGroupDto> GetAllBookGroups(ICollection<CategoryDto> categories);
     }
 }
+
 

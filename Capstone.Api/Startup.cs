@@ -1,4 +1,5 @@
 using AutoMapper;
+using Capstone.Api.Controllers;
 using Capstone.Core.CustomEntities;
 using Capstone.Core.Interfaces;
 using Capstone.Core.Interfaces.ImageInterfaces;

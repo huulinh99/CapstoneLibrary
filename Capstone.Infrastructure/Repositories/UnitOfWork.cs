@@ -40,7 +40,7 @@ namespace Capstone.Infrastructure.Repositories
 
         }
         public IBookRepository BookRepository => _bookRepository ?? new BookRepository(_context);
-        public IBookGroupRepository BookGroupRepository => _bookGroupRepository ?? new BookGroupRepository(_context);
+        public IBookGroupRepository BookGroupRepository => _bookGroupRepository  ?? new BookGroupRepository(_context);
         public ILocationRepository LocationRepository => _locationRepository ?? new LocationRepository(_context);
         public IBookShelfRepository BookShelfRepository => _bookShelfRepository ?? new BookShelfRepository(_context);
         public IDrawerRepository DrawerRepository => _drawerRepository ?? new DrawerRepository(_context);

@@ -1,4 +1,5 @@
-﻿using Capstone.Core.Entities;
+﻿using Capstone.Core.DTOs;
+using Capstone.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,6 +9,9 @@ namespace Capstone.Core.Interfaces
 {
     public interface ICategoryRepository : IRepository<Category>
     {
-        Task<IEnumerable<Category>> GetCategoriesByName(string name);
+        Task<IEnumerable<CategoryDto>> GetCategoriesByName(string name);
+
+        ICollection<CategoryDto> GetCategoryNameByBookCategory(IEnumerable<BookCategory> bookCategory);
+        ICollection<CategoryDto> GetAllCategories();
     }
 }
