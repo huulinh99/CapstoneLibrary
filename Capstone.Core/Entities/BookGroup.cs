@@ -13,6 +13,7 @@ namespace Capstone.Core.Entities
             Image = new HashSet<Image>();
         }
 
+        public int Id { get; set; }
         public string Name { get; set; }
         public double? Fee { get; set; }
         public double? PunishFee { get; set; }

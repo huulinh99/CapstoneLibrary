@@ -11,6 +11,7 @@ namespace Capstone.Core.Entities
             FavouriteCategory = new HashSet<FavouriteCategory>();
         }
 
+        public int Id { get; set; }
         public string Name { get; set; }
 
         public virtual ICollection<BookCategory> BookCategory { get; set; }

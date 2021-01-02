@@ -22,6 +22,7 @@ namespace Capstone.Infrastructure.Services
         Uri GetCustomerPaginationUri(CustomerQueryFilter filter, string actionUrl);
         Uri GetReturnBookPaginationUri(ReturnBookQueryFilter filter, string actionUrl);
         Uri GetReturnDetailPaginationUri(ReturnDetailQueryFilter filter, string actionUrl);
+        Uri GetFeedbackPaginationUri(FeedbackQueryFilter filter, string actionUrl);
 
     }
 }
