@@ -42,6 +42,11 @@ namespace Capstone.Core.Services
             {
                 bookShelves = bookShelves.Where(x => x.LocationId == filters.LocationId);
             }
+
+            if (filters.Name != null)
+            {
+                bookShelves = bookShelves.Where(x => x.Name.Contains(filters.Name));
+            }
             var pagedBookShelves = PagedList<BookShelf>.Create(bookShelves, filters.PageNumber, filters.PageSize);
             return pagedBookShelves;
         }

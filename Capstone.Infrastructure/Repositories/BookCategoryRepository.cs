@@ -19,5 +19,10 @@ namespace Capstone.Infrastructure.Repositories
             return await _entities.Where(x => x.CategoryId == categoryId).ToListAsync();
         }
 
+        public async Task<IEnumerable<BookCategory>> GetBookCategoriesByBookGroup(int? bookGroupId)
+        {
+            return await _entities.Where(x => x.BookGroupId == bookGroupId).ToListAsync();
+        }
+
     }
 }

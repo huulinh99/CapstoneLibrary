@@ -1,4 +1,5 @@
 ﻿using Capstone.Core.CustomEntities;
+using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Core.QueryFilters;
@@ -27,16 +28,19 @@ namespace Capstone.Core.Services
             return true;
         }
 
-        public async Task<BookGroup> GetBookGroup(int id)
+        public async Task<BookGroupDto> GetBookGroup(int id)
         {
-            return await _unitOfWork.BookGroupRepository.GetBookGroupsWithImageById(id);
+            var bookCategories = await _unitOfWork.BookCategoryRepository.GetBookCategoriesByBookGroup(id);
+            var categories =  _unitOfWork.CategoryRepository.GetCategoryNameByBookCategory(bookCategories);
+            return await _unitOfWork.BookGroupRepository.GetBookGroupsWithImageById(id, categories);
         }
 
-        public PagedList<BookGroup> GetBookGroups(BookGroupQueryFilter filters)
+        public PagedList<BookGroupDto> GetBookGroups(BookGroupQueryFilter filters)
         {
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
-            var bookGroups = _unitOfWork.BookGroupRepository.GetAll();           
+            var categories = _unitOfWork.CategoryRepository.GetAllCategories();
+            var bookGroups = _unitOfWork.BookGroupRepository.GetAllBookGroups(categories);
             if (filters.Name != null)
             {
                 bookGroups = bookGroups.Where(x => x.Name.Contains(filters.Name));
@@ -49,8 +53,8 @@ namespace Capstone.Core.Services
 
             if (filters.CategoryId != null)
             {
-                var categories = _unitOfWork.BookCategoryRepository.GetBookCategoriesByCategory(filters.CategoryId).Result;
-                bookGroups = _unitOfWork.BookGroupRepository.GetBookGroupsByBookCategory(categories);
+                var categoryByCategory = _unitOfWork.BookCategoryRepository.GetBookCategoriesByCategory(filters.CategoryId).Result;
+                bookGroups = _unitOfWork.BookGroupRepository.GetBookGroupsByBookCategory(categoryByCategory, categories);
             }
 
             if (filters.Fee != null)
@@ -62,7 +66,7 @@ namespace Capstone.Core.Services
             {
                 bookGroups = bookGroups.Where(x => x.PunishFee == filters.PunishFee);
             }
-            var pagedBookGroups = PagedList<BookGroup>.Create(bookGroups, filters.PageNumber, filters.PageSize);
+            var pagedBookGroups = PagedList<BookGroupDto>.Create(bookGroups, filters.PageNumber, filters.PageSize);
             return pagedBookGroups;
         }
 
@@ -89,5 +93,6 @@ namespace Capstone.Core.Services
             await _unitOfWork.SaveChangesAsync();
             return true;
         }
+
     }
 }
