@@ -263,8 +263,6 @@ namespace Capstone.Infrastructure.Data
 
             modelBuilder.Entity<Image>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.HasOne(d => d.BookGroup)
                     .WithMany(p => p.Image)
                     .HasForeignKey(d => d.BookGroupId)
@@ -273,6 +271,8 @@ namespace Capstone.Infrastructure.Data
 
             modelBuilder.Entity<Location>(entity =>
             {
+                entity.Property(e => e.Color).HasMaxLength(100);
+
                 entity.Property(e => e.Name).HasMaxLength(100);
             });
 

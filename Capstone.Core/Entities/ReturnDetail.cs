@@ -5,6 +5,7 @@ namespace Capstone.Core.Entities
 {
     public partial class ReturnDetail : BaseEntity
     {
+        public int Id { get; set; }
         public int? BookId { get; set; }
         public bool? IsLate { get; set; }
         public double? PunishFee { get; set; }

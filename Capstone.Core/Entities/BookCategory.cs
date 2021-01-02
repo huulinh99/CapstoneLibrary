@@ -5,6 +5,7 @@ namespace Capstone.Core.Entities
 {
     public partial class BookCategory : BaseEntity
     {
+        public int Id { get; set; }
         public int? BookGroupId { get; set; }
         public int? CategoryId { get; set; }
 

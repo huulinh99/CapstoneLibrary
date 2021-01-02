@@ -3,8 +3,9 @@ using System.Collections.Generic;
 
 namespace Capstone.Core.Entities
 {
-    public partial class BorrowDetail : BaseEntity 
+    public partial class BorrowDetail : BaseEntity
     {
+        public int Id { get; set; }
         public int? BookId { get; set; }
         public int? BorrowId { get; set; }
 

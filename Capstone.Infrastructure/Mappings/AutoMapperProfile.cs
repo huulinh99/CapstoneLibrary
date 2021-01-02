@@ -58,6 +58,9 @@ namespace Capstone.Infrastructure.Mappings
 
             CreateMap<Image, ImageDto>();
             CreateMap<ImageDto, Image>();
+
+            CreateMap<Feedback, FeedbackDto>();
+            CreateMap<FeedbackDto, Feedback>();
         }
     }
 }

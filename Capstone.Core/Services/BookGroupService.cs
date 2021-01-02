@@ -43,12 +43,12 @@ namespace Capstone.Core.Services
             var bookGroups = _unitOfWork.BookGroupRepository.GetAllBookGroups(categories);
             if (filters.Name != null)
             {
-                bookGroups = bookGroups.Where(x => x.Name.Contains(filters.Name));
+                bookGroups = _unitOfWork.BookGroupRepository.GetBookGroupsByName(filters.Name, categories);
             }
 
             if (filters.Author != null)
             {
-                bookGroups = bookGroups.Where(x => x.Author.Contains(filters.Author));
+                bookGroups = _unitOfWork.BookGroupRepository.GetBookGroupsByAuthor(filters.Author, categories);
             }
 
             if (filters.CategoryId != null)
@@ -66,6 +66,7 @@ namespace Capstone.Core.Services
             {
                 bookGroups = bookGroups.Where(x => x.PunishFee == filters.PunishFee);
             }
+
             var pagedBookGroups = PagedList<BookGroupDto>.Create(bookGroups, filters.PageNumber, filters.PageSize);
             return pagedBookGroups;
         }
@@ -84,6 +85,7 @@ namespace Capstone.Core.Services
                 };
                  _unitOfWork.BookRepository.Add(bookModel);
             }
+
             await _unitOfWork.SaveChangesAsync();
         }
 

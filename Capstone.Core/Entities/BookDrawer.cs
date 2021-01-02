@@ -5,6 +5,7 @@ namespace Capstone.Core.Entities
 {
     public partial class BookDrawer : BaseEntity
     {
+        public int Id { get; set; }
         public int? BookId { get; set; }
         public int? DrawerId { get; set; }
         public DateTime? Time { get; set; }
