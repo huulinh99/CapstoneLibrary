@@ -15,6 +15,6 @@ namespace Capstone.Core.Interfaces
         Task InsertReturnBook(ReturnBook returnBook);
         Task<bool> UpdateReturnBook(ReturnBook returnBook);
 
-        Task<bool> DeleteReturnBook(int id);
+        Task<bool> DeleteReturnBook(int[] id);
     }
 }

@@ -14,6 +14,6 @@ namespace Capstone.Core.Interfaces.ImageInterfaces
         Task<Image> GetImage(int id);
         Task InsertImage(Image image);
         Task<bool> UpdateImage(Image image);
-        Task<bool> DeleteImage(int id);
+        Task<bool> DeleteImage(int[] id);
     }
 }

@@ -14,10 +14,10 @@ namespace Capstone.Core.Entities
             ReturnDetail = new HashSet<ReturnDetail>();
         }
 
-        public int Id { get; set; }
         public int? BookGroupId { get; set; }
         public string BarCode { get; set; }
         public int? BookDrawerId { get; set; }
+        public string Status { get; set; }
 
         public virtual BookGroup BookGroup { get; set; }
         public virtual ICollection<BookDetect> BookDetect { get; set; }

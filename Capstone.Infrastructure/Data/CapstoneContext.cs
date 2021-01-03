@@ -197,6 +197,8 @@ namespace Capstone.Infrastructure.Data
 
             modelBuilder.Entity<Customer>(entity =>
             {
+                entity.Property(e => e.CreatedTime).HasColumnType("date");
+
                 entity.Property(e => e.Name).HasMaxLength(50);
             });
 
@@ -249,6 +251,8 @@ namespace Capstone.Infrastructure.Data
 
             modelBuilder.Entity<Feedback>(entity =>
             {
+                entity.Property(e => e.CreatedDate).HasColumnType("date");
+
                 entity.HasOne(d => d.BookGroup)
                     .WithMany(p => p.Feedback)
                     .HasForeignKey(d => d.BookGroupId)
@@ -278,6 +282,8 @@ namespace Capstone.Infrastructure.Data
 
             modelBuilder.Entity<Notification>(entity =>
             {
+                entity.Property(e => e.CreatedDate).HasColumnType("date");
+
                 entity.Property(e => e.Time).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Customer)

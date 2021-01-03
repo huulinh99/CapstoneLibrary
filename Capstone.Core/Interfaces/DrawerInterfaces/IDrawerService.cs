@@ -14,6 +14,6 @@ namespace Capstone.Core.Interfaces
         Task<Drawer> GetDrawer(int id);
         Task InsertDrawer(Drawer drawer);
         Task<bool> UpdateDrawer(Drawer drawer);
-        Task<bool> DeleteDrawer(int id);
+        Task<bool> DeleteDrawer(int[] id);
     }
 }

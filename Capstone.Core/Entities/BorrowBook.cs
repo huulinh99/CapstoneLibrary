@@ -11,7 +11,6 @@ namespace Capstone.Core.Entities
             ReturnBook = new HashSet<ReturnBook>();
         }
 
-        public int Id { get; set; }
         public int? CustomerId { get; set; }
         public DateTime? StartTime { get; set; }
         public DateTime? EndTime { get; set; }

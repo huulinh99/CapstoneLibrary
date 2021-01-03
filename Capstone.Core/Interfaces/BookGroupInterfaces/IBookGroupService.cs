@@ -15,7 +15,6 @@ namespace Capstone.Core.Interfaces
         Task<BookGroupDto> GetBookGroup(int id);
         Task InsertBookGroup(BookGroup bookGroup);
         Task<bool> UpdateBookGroup(BookGroup bookGroup);
-
-        Task<bool> DeleteBookGroup(int id);
+        Task<bool> DeleteBookGroup(int[] id);
     }
 }

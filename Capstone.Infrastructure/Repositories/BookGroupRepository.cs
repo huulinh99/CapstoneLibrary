@@ -27,7 +27,7 @@ namespace Capstone.Infrastructure.Repositories
                 PunishFee = c.PunishFee,
                 Quantity = c.Quantity,
                 Author = c.Author,
-                PublishingPalace = c.PublishingPlace,
+                PublishingPalace = c.PublishingPalace,
                 PublishingCompany = c.PublishingCompany,
                 PublishDate = c.PublishDate,
                 Description = c.Description,
@@ -35,7 +35,7 @@ namespace Capstone.Infrastructure.Repositories
                 Height = c.Height,
                 Width = c.Width,
                 Thick = c.Thick,
-                PublishNumber = c.PulishNumber,
+                PulishNumber = c.PulishNumber,
                 Image = c.Image,
                 Category = categories
             }).ToList();
@@ -55,7 +55,7 @@ namespace Capstone.Infrastructure.Repositories
                     PunishFee = c.PunishFee,
                     Quantity = c.Quantity,
                     Author = c.Author,
-                    PublishingPalace = c.PublishingPlace,
+                    PublishingPalace = c.PublishingPalace,
                     PublishingCompany = c.PublishingCompany,
                     PublishDate = c.PublishDate,
                     Description = c.Description,
@@ -63,7 +63,7 @@ namespace Capstone.Infrastructure.Repositories
                     Height = c.Height,
                     Width = c.Width,
                     Thick = c.Thick,
-                    PublishNumber = c.PulishNumber,
+                    PulishNumber = c.PulishNumber,
                     Image = c.Image,
                     Category = categories
                     }).FirstOrDefault(); 
@@ -86,7 +86,7 @@ namespace Capstone.Infrastructure.Repositories
                     PunishFee = c.PunishFee,
                     Quantity = c.Quantity,                 
                     Author = c.Author,
-                    PublishingPalace = c.PublishingPlace,
+                    PublishingPalace = c.PublishingPalace,
                     PublishingCompany = c.PublishingCompany,
                     PublishDate = c.PublishDate,                  
                     Description = c.Description,
@@ -94,7 +94,7 @@ namespace Capstone.Infrastructure.Repositories
                     Height = c.Height,
                     Width = c.Width,
                     Thick = c.Thick,
-                    PublishNumber = c.PulishNumber,
+                    PulishNumber = c.PulishNumber,
                     Image = c.Image,
                     Category = categories
                 }).FirstOrDefaultAsync();
@@ -115,7 +115,7 @@ namespace Capstone.Infrastructure.Repositories
                     PunishFee = c.PunishFee,
                     Quantity = c.Quantity,
                     Author = c.Author,
-                    PublishingPalace = c.PublishingPlace,
+                    PublishingPalace = c.PublishingPalace,
                     PublishingCompany = c.PublishingCompany,
                     PublishDate = c.PublishDate,
                     Description = c.Description,
@@ -123,7 +123,7 @@ namespace Capstone.Infrastructure.Repositories
                     Height = c.Height,
                     Width = c.Width,
                     Thick = c.Thick,
-                    PublishNumber = c.PulishNumber,
+                    PulishNumber = c.PulishNumber,
                     Image = c.Image,
                     Category = categories
                 }).ToList();
@@ -144,7 +144,7 @@ namespace Capstone.Infrastructure.Repositories
                     PunishFee = c.PunishFee,
                     Quantity = c.Quantity,
                     Author = c.Author,
-                    PublishingPalace = c.PublishingPlace,
+                    PublishingPalace = c.PublishingPalace,
                     PublishingCompany = c.PublishingCompany,
                     PublishDate = c.PublishDate,
                     Description = c.Description,
@@ -152,7 +152,7 @@ namespace Capstone.Infrastructure.Repositories
                     Height = c.Height,
                     Width = c.Width,
                     Thick = c.Thick,
-                    PublishNumber = c.PulishNumber,
+                    PulishNumber = c.PulishNumber,
                     Image = c.Image,
                     Category = categories
                 }).ToList();

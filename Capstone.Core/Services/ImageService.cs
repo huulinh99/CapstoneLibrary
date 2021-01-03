@@ -21,7 +21,7 @@ namespace Capstone.Core.Services
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
         }
-        public async Task<bool> DeleteImage(int id)
+        public async Task<bool> DeleteImage(int[] id)
         {
             await _unitOfWork.ImageRepository.Delete(id);
             await _unitOfWork.SaveChangesAsync();

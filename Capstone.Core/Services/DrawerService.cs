@@ -22,7 +22,7 @@ namespace Capstone.Core.Services
             _paginationOptions = options.Value;
         }
 
-        public async Task<bool> DeleteDrawer(int id)
+        public async Task<bool> DeleteDrawer(int[] id)
         {
             await _unitOfWork.DrawerRepository.Delete(id);
             await _unitOfWork.SaveChangesAsync();

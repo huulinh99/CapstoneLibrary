@@ -14,6 +14,6 @@ namespace Capstone.Core.Interfaces
         Task<ErrorMessage> GetErrorMessage(int id);
         Task InsertErrorMessage(ErrorMessage errorMessage);
         Task<bool> UpdateErrorMessage(ErrorMessage errorMessage);
-        Task<bool> DeleteErrorMessage(int id);
+        Task<bool> DeleteErrorMessage(int[] id);
     }
 }

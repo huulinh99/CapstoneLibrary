@@ -14,6 +14,6 @@ namespace Capstone.Core.Interfaces
         Task<Feedback> GetFeedback(int id);
         Task InsertFeedback(Feedback feedback);
         Task<bool> UpdateFeedback(Feedback feedback);
-        Task<bool> DeleteFeedback(int id);
+        Task<bool> DeleteFeedback(int[] id);
     }
 }
