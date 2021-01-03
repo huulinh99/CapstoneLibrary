@@ -15,8 +15,8 @@ namespace Capstone.Core.Entities
             ReturnBook = new HashSet<ReturnBook>();
         }
 
-        public int Id { get; set; }
         public string Name { get; set; }
+        public DateTime? CreatedTime { get; set; }
 
         public virtual ICollection<BorrowBook> BorrowBook { get; set; }
         public virtual ICollection<Device> Device { get; set; }

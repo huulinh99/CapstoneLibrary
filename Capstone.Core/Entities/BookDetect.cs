@@ -10,7 +10,6 @@ namespace Capstone.Core.Entities
             ErrorMessage = new HashSet<ErrorMessage>();
         }
 
-        public int Id { get; set; }
         public int? BookId { get; set; }
         public int? StaffId { get; set; }
         public DateTime? Time { get; set; }

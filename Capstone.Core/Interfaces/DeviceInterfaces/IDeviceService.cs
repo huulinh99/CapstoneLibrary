@@ -14,6 +14,6 @@ namespace Capstone.Core.Interfaces
         Task<Device> GetDevice(int id);
         Task InsertDevice(Device device);
         Task<bool> UpdateDevice(Device device);
-        Task<bool> DeleteDevice(int id);
+        Task<bool> DeleteDevice(int[] id);
     }
 }

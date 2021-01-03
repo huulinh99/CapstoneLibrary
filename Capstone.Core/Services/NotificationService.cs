@@ -20,7 +20,7 @@ namespace Capstone.Core.Services
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
         }
-        public async Task<bool> DeleteNotification(int id)
+        public async Task<bool> DeleteNotification(int[] id)
         {
             await _unitOfWork.NotificationRepository.Delete(id);
             await _unitOfWork.SaveChangesAsync();

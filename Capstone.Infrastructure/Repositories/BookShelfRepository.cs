@@ -1,4 +1,5 @@
-﻿using Capstone.Core.Entities;
+﻿using Capstone.Core.DTOs;
+using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,18 @@ namespace Capstone.Infrastructure.Repositories
         public async Task<IEnumerable<BookShelf>> GetBookShelvesByLocation(int locationId)
         {
             return await _entities.Where(x => x.LocationId == locationId).ToListAsync();
+        }
+
+        public IEnumerable<BookShelfDto> GetBookShelvesAndLocationName()
+        {
+            return  _entities.Include(x => x.Location).Select(x => new BookShelfDto
+            {
+                Id = x.Id,
+                Name = x.Name,
+                LocationName = x.Location.Name,
+                LocationColor = x.Location.Color,
+                LocationId = x.Location.Id
+            }).ToList();
         }
     }
 }

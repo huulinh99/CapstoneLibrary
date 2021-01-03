@@ -5,12 +5,8 @@ using System.Text;
 
 namespace Capstone.Core.DTOs
 {
-    public class BookGroupDto : BaseEntity
+    public class BookGroupDto 
     {
-        public BookGroupDto()
-        {
-            Image = new HashSet<Image>();
-        }
         public int Id { get; set; }
         public string Name { get; set; }
         public double? Fee { get; set; }
@@ -25,10 +21,10 @@ namespace Capstone.Core.DTOs
         public double? Height { get; set; }
         public double? Width { get; set; }
         public double? Thick { get; set; }
-        public int? PublishNumber { get; set; }
+        public int? PulishNumber { get; set; }
+        public bool? IsDeleted { get; set; }
         public virtual ICollection<CategoryDto> Category { get; set; }
         public virtual ICollection<BookCategoryDto> BookCategory { get; set; }
-
         public virtual ICollection<Image> Image { get; set; }
     }
 }

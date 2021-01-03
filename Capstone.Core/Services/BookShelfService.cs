@@ -1,4 +1,5 @@
 ﻿using Capstone.Core.CustomEntities;
+using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Core.QueryFilters;
@@ -21,7 +22,7 @@ namespace Capstone.Core.Services
             _paginationOptions = options.Value;
         }
 
-        public async Task<bool> DeleteBookShelf(int id)
+        public async Task<bool> DeleteBookShelf(int[] id)
         {
             await _unitOfWork.BookShelfRepository.Delete(id);
             await _unitOfWork.SaveChangesAsync();
@@ -33,11 +34,11 @@ namespace Capstone.Core.Services
             return await _unitOfWork.BookShelfRepository.GetById(id);
         }
 
-        public PagedList<BookShelf> GetBookShelves(BookShelfQueryFilter filters)
+        public PagedList<BookShelfDto> GetBookShelves(BookShelfQueryFilter filters)
         {
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
-            var bookShelves = _unitOfWork.BookShelfRepository.GetAll();
+            var bookShelves = _unitOfWork.BookShelfRepository.GetBookShelvesAndLocationName();
             if (filters.LocationId != null)
             {
                 bookShelves = bookShelves.Where(x => x.LocationId == filters.LocationId);
@@ -45,9 +46,9 @@ namespace Capstone.Core.Services
 
             if (filters.Name != null)
             {
-                bookShelves = bookShelves.Where(x => x.Name.Contains(filters.Name));
+                bookShelves = bookShelves.Where(x => x.Name.Contains(filters.Name.ToLower()));
             }
-            var pagedBookShelves = PagedList<BookShelf>.Create(bookShelves, filters.PageNumber, filters.PageSize);
+            var pagedBookShelves = PagedList<BookShelfDto>.Create(bookShelves, filters.PageNumber, filters.PageSize);
             return pagedBookShelves;
         }
 

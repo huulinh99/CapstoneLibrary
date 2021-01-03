@@ -14,6 +14,6 @@ namespace Capstone.Core.Interfaces
         Task<Staff> GetStaff(int id);
         Task InsertStaff(Staff staff);
         Task<bool> UpdateStaff(Staff staff);
-        Task<bool> DeleteStaff(int id);
+        Task<bool> DeleteStaff(int[] id);
     }
 }

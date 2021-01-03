@@ -20,7 +20,7 @@ namespace Capstone.Core.Services
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
         }
-        public async Task<bool> DeleteFeedback(int id)
+        public async Task<bool> DeleteFeedback(int[] id)
         {
             await _unitOfWork.FeedbackRepository.Delete(id);
             await _unitOfWork.SaveChangesAsync();

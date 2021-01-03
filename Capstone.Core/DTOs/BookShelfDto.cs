@@ -8,6 +8,8 @@ namespace Capstone.Core.DTOs
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string LocationName { get; set; }
+        public string LocationColor { get; set; }
         public int LocationId { get; set; }
     }
 }

@@ -20,7 +20,7 @@ namespace Capstone.Core.Services
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
         }
-        public async Task<bool> DeleteBookRecommend(int id)
+        public async Task<bool> DeleteBookRecommend(int[] id)
         {
             await _unitOfWork.BookDetectRepository.Delete(id);
             await _unitOfWork.SaveChangesAsync();

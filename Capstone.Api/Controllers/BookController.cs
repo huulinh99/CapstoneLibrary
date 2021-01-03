@@ -87,8 +87,8 @@ namespace Capstone.Api.Controllers
             return Ok(response);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpPut("Delete")]
+        public async Task<IActionResult> Delete(int[] id)
         {
             var result = await _bookService.DeleteBook(id);
             var response = new ApiResponse<bool>(result);
