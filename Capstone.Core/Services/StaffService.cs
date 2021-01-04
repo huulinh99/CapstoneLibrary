@@ -1,4 +1,5 @@
 ﻿using Capstone.Core.CustomEntities;
+using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Core.QueryFilters;
@@ -13,6 +14,7 @@ namespace Capstone.Core.Services
 {
     public class StaffService : IStaffService
     {
+
         private readonly IUnitOfWork _unitOfWork;
         private readonly PaginationOptions _paginationOptions;
         public StaffService(IUnitOfWork unitOfWork, IOptions<PaginationOptions> options)
@@ -21,6 +23,10 @@ namespace Capstone.Core.Services
             _paginationOptions = options.Value;
         }
 
+        public async Task<StaffDto> GetLoginByCredenticals(UserLogin login)
+        {
+            return await _unitOfWork.StaffRepository.GetLoginByCredentials(login);
+        }
         public async Task<bool> DeleteStaff(int[] id)
         {
             await _unitOfWork.StaffRepository.Delete(id);

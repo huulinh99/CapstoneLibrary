@@ -9,6 +9,7 @@ namespace Capstone.Core.Entities
         {
             Staff = new HashSet<Staff>();
         }
+
         public string Name { get; set; }
 
         public virtual ICollection<Staff> Staff { get; set; }

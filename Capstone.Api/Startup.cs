@@ -16,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
@@ -35,6 +36,7 @@ namespace Capstone.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            IdentityModelEventSource.ShowPII = true;
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddControllers(options => { options.Filters.Add<GlobalExceptionFilter>(); }).AddNewtonsoftJson(options =>
             {
@@ -42,7 +44,7 @@ namespace Capstone.Api
                 options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
             })
             .ConfigureApiBehaviorOptions(options => {
-                options.SuppressModelStateInvalidFilter = true;
+               // options.SuppressModelStateInvalidFilter = true;
             });
             services.Configure<PaginationOptions>(Configuration.GetSection("Pagination"));
             services.AddDbContext<CapstoneContext>(options =>
@@ -140,8 +142,8 @@ namespace Capstone.Api
 
             app.UseRouting();
 
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

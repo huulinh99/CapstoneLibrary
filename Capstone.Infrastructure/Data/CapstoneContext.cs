@@ -31,6 +31,7 @@ namespace Capstone.Infrastructure.Data
         public virtual DbSet<Device> Device { get; set; }
         public virtual DbSet<Drawer> Drawer { get; set; }
         public virtual DbSet<ErrorMessage> ErrorMessage { get; set; }
+        public virtual DbSet<Event> Event { get; set; }
         public virtual DbSet<FavouriteCategory> FavouriteCategory { get; set; }
         public virtual DbSet<Feedback> Feedback { get; set; }
         public virtual DbSet<Image> Image { get; set; }
@@ -236,6 +237,15 @@ namespace Capstone.Infrastructure.Data
                     .HasConstraintName("FK_ErrorMessage_Drawer");
             });
 
+            modelBuilder.Entity<Event>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.CreatedDate).HasColumnType("date");
+
+                entity.Property(e => e.Name).IsUnicode(false);
+            });
+
             modelBuilder.Entity<FavouriteCategory>(entity =>
             {
                 entity.HasOne(d => d.Category)
@@ -339,6 +349,8 @@ namespace Capstone.Infrastructure.Data
 
             modelBuilder.Entity<Staff>(entity =>
             {
+                entity.Property(e => e.DoB).HasColumnType("date");
+
                 entity.Property(e => e.Name).HasMaxLength(250);
 
                 entity.HasOne(d => d.Role)

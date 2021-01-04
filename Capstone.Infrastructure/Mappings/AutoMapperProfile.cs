@@ -61,6 +61,12 @@ namespace Capstone.Infrastructure.Mappings
 
             CreateMap<Feedback, FeedbackDto>();
             CreateMap<FeedbackDto, Feedback>();
+
+            CreateMap<Staff, StaffDto>();
+            CreateMap<StaffDto, Staff>();
+
+            CreateMap<BookCategory, BookCategoryDto>();
+            CreateMap<BookCategoryDto, BookCategory>();
         }
     }
 }
