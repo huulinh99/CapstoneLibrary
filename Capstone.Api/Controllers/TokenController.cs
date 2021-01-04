@@ -5,7 +5,9 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
+using Capstone.Core.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -18,28 +20,35 @@ namespace Capstone.Api.Controllers
     public class TokenController : ControllerBase
     {
         private readonly IConfiguration _configuration;
-        public TokenController(IConfiguration configuration)
+        private readonly IStaffService _staffService;
+        public TokenController(IConfiguration configuration, IStaffService staffService)
         {
             _configuration = configuration;
+            _staffService = staffService;
         }
 
         [HttpPost]
-        public IActionResult Authentication(UserLogin login)
+        public async Task<IActionResult> Authentication(UserLogin login)
         {
-            if (IsValidUser(login))
+            //if it is a valid user
+            var validation = await IsValidUser(login);
+            if (validation.Item1)
             {
-                var token = GenerateToken();
+                var token = GenerateToken(validation.Item2);
                 return Ok(new { token });
             }
+
             return NotFound();
         }
 
-        private bool IsValidUser(UserLogin login)
+        private async Task<(bool, StaffDto)> IsValidUser(UserLogin login)
         {
-            return true;
+            var user = await _staffService.GetLoginByCredenticals(login);
+            //var isValid = _passwordService.Check(user.Password, login.Password);
+            return (user!=null, user);
         }
 
-        private string GenerateToken()
+        private string GenerateToken(StaffDto staffDto)
         {
             //Headers
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Authentication:SecretKey"]));
@@ -49,9 +58,8 @@ namespace Capstone.Api.Controllers
             //Claims
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name, "Jonathan Estrada"),
-                new Claim(ClaimTypes.Email, "huulinhnguyen99@gmail.com"),
-                new Claim(ClaimTypes.Role, "Admin"),
+                new Claim(ClaimTypes.Name, staffDto.Username),
+                new Claim(ClaimTypes.Role, staffDto.Role.ToString())
             };
 
             //Payloads
@@ -60,8 +68,8 @@ namespace Capstone.Api.Controllers
                _configuration["Authentication:Issuer"],
                _configuration["Authentication:Audience"],
                claims,
-               DateTime.Now,
-               DateTime.UtcNow.AddMinutes(2)
+               DateTime.UtcNow,
+               DateTime.UtcNow.AddMinutes(10)
 
             );
 

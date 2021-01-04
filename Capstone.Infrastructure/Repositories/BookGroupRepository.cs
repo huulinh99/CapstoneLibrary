@@ -19,7 +19,7 @@ namespace Capstone.Infrastructure.Repositories
      
         public  IEnumerable<BookGroupDto> GetBookGroupsByName(string bookGroupName, ICollection<CategoryDto> categories)
         {
-            return  _entities.Where(x => x.Name.Contains(bookGroupName)).Select(c => new BookGroupDto
+            return  _entities.Where(x => x.Name.Contains(bookGroupName) && x.IsDeleted == false).Select(c => new BookGroupDto
             {
                 Id = c.Id,
                 Name = c.Name,
@@ -46,7 +46,7 @@ namespace Capstone.Infrastructure.Repositories
             List<BookGroupDto> bookGroups = new List<BookGroupDto>();
             foreach (var bookCategory in bookCategories)
             {
-                var bookGroup = _entities.Where(x => x.Id == bookCategory.BookGroupId)
+                var bookGroup = _entities.Where(x => x.Id == bookCategory.BookGroupId && x.IsDeleted == false)
                     .Select(c => new BookGroupDto
                 {
                     Id = c.Id,
@@ -78,6 +78,7 @@ namespace Capstone.Infrastructure.Repositories
             var bookGroup = await _entities.Where(x => x.Id == bookGroupId)
                 .Include(c => c.Image)
                 .Include(s=>s.BookCategory)
+                .Where(c => c.IsDeleted == false)
                 .Select(c => new BookGroupDto
                 {
                     Id = c.Id,
@@ -107,6 +108,7 @@ namespace Capstone.Infrastructure.Repositories
             var bookGroup =  _entities
                 .Include(c => c.Image)
                 .Include(s => s.BookCategory)
+                .Where(c=>c.IsDeleted == false)
                 .Select(c => new BookGroupDto
                 {
                     Id = c.Id,
@@ -124,6 +126,7 @@ namespace Capstone.Infrastructure.Repositories
                     Width = c.Width,
                     Thick = c.Thick,
                     PulishNumber = c.PulishNumber,
+                    IsDeleted = c.IsDeleted,
                     Image = c.Image,
                     Category = categories
                 }).ToList();

@@ -16,7 +16,7 @@ namespace Capstone.Infrastructure.Repositories
 
         public async Task<Customer> GetCustomerById(int? id)
         {
-            return await _entities.Where(x => x.Id == id).FirstOrDefaultAsync();
+            return await _entities.Where(x => x.Id == id && x.IsDeleted == false).FirstOrDefaultAsync();
         }
     }
 }

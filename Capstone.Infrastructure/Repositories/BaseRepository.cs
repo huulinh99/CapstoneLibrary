@@ -21,6 +21,7 @@ namespace Capstone.Infrastructure.Repositories
         }
         public async Task Add(T entity)
         {
+            entity.IsDeleted = false;
             await _entities.AddAsync(entity);
         }
 
@@ -33,7 +34,7 @@ namespace Capstone.Infrastructure.Repositories
 
         public IEnumerable<T> GetAll()
         {
-            return _entities.AsEnumerable();
+            return _entities.Where(x => x.IsDeleted == false).AsEnumerable();
         }
 
         public async Task<T> GetById(int id)

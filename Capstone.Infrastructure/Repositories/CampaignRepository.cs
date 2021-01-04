@@ -15,7 +15,7 @@ namespace Capstone.Infrastructure.Repositories
         public CampaignRepository(CapstoneContext context) : base(context) { }
         public async Task<IEnumerable<Campaign>> GetCampaignsByStaffId(int staffId)
         {
-            return await _entities.Where(x => x.StaffId == staffId).ToListAsync();
+            return await _entities.Where(x => x.StaffId == staffId && x.IsDeleted == false).ToListAsync();
         }
     }
 }

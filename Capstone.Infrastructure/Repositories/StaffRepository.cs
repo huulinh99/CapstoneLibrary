@@ -1,4 +1,5 @@
-﻿using Capstone.Core.Entities;
+﻿using Capstone.Core.DTOs;
+using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +17,26 @@ namespace Capstone.Infrastructure.Repositories
 
         public async Task<IEnumerable<Staff>> GetStaffsByName(string name)
         {
-            return await _entities.Where(x => x.Name == name).ToListAsync();
+            return await _entities.Where(x => x.Name == name && x.IsDeleted == false).ToListAsync();
+        }
+
+        public async Task<StaffDto> GetLoginByCredentials(UserLogin login)
+        {
+            return await _entities.Where(x => x.Username == login.Username && x.IsDeleted == false)
+                .Include(c=> c.Role)
+                .Select(c => new StaffDto
+            {
+                Id = c.Id,
+                Name = c.Name,
+                Username = c.Username,
+                Password = c.Password,
+                Address = c.Address,
+                DoB = c.DoB,
+                Email = c.Email,
+                Gender = c.Gender,
+                Phone = c.Phone,
+                Role = c.Role.Name
+            }).FirstOrDefaultAsync();
         }
     }
 }

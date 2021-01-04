@@ -16,7 +16,7 @@ namespace Capstone.Infrastructure.Repositories
 
         public async Task<IEnumerable<Location>> GetLocationByLocationName(string name)
         {
-            return await _entities.Where(x => x.Name == name).ToListAsync();
+            return await _entities.Where(x => x.Name == name && x.IsDeleted == false).ToListAsync();
         }
     }
 }

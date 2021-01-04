@@ -1,4 +1,5 @@
 ﻿using Capstone.Core.CustomEntities;
+using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.QueryFilters;
 using System;
@@ -15,5 +16,6 @@ namespace Capstone.Core.Interfaces
         Task InsertStaff(Staff staff);
         Task<bool> UpdateStaff(Staff staff);
         Task<bool> DeleteStaff(int[] id);
+        Task<StaffDto> GetLoginByCredenticals(UserLogin login);
     }
 }

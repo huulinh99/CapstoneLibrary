@@ -18,7 +18,7 @@ namespace Capstone.Infrastructure.Repositories
 
         public  ICollection<CategoryDto> GetAllCategories()
         {
-            return _entities.Include(x => x.BookCategory).Select(x => new CategoryDto
+            return _entities.Include(x => x.BookCategory).Where(x=>x.IsDeleted == false).Select(x => new CategoryDto
             {
                 Id = x.Id,
                 Name = x.Name
@@ -27,7 +27,7 @@ namespace Capstone.Infrastructure.Repositories
 
         public async Task<IEnumerable<CategoryDto>> GetCategoriesByName(string name)
         {
-            return await _entities.Where(x => x.Name == name).Select(x => new CategoryDto
+            return await _entities.Where(x => x.Name == name && x.IsDeleted == false).Select(x => new CategoryDto
             {
                 Id = x.Id,
                 Name = x.Name
@@ -40,7 +40,7 @@ namespace Capstone.Infrastructure.Repositories
             List<CategoryDto> categories = new List<CategoryDto>();
             foreach (var bookCategory in bookCategories)
             {
-                var category = _entities.Where(x => x.Id == bookCategory.CategoryId).Select(x => new CategoryDto
+                var category = _entities.Where(x => x.Id == bookCategory.CategoryId && x.IsDeleted == false).Select(x => new CategoryDto
                 {
                     Id = x.Id,
                     Name = x.Name
