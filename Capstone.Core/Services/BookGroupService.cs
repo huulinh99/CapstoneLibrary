@@ -39,27 +39,33 @@ namespace Capstone.Core.Services
         {
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
+            var bookGroupDtos = _unitOfWork.BookGroupRepository.GetAllBookGroups();
+
             var categories = _unitOfWork.CategoryRepository.GetAllCategories();
-            var bookGroups = _unitOfWork.BookGroupRepository.GetAllBookGroups(categories);
+
+            var bookCategories = _unitOfWork.BookCategoryRepository.GetAllBookCategoriesByBookGroup();
+
+            var bookGroups = _unitOfWork.BookGroupRepository.GetAllBookGroupsWithCategory(bookGroupDtos, bookCategories, categories);
+
             if (filters.Name != null)
             {
-                bookGroups = _unitOfWork.BookGroupRepository.GetBookGroupsByName(filters.Name, categories);
+                bookGroups = bookGroups.Where(x => x.Name.ToLower().Contains(filters.Name));
             }
 
             if (filters.Author != null)
             {
-                bookGroups = _unitOfWork.BookGroupRepository.GetBookGroupsByAuthor(filters.Author, categories);
-            }
-
-            if (filters.CategoryId != null)
-            {
-                var categoryByCategory = _unitOfWork.BookCategoryRepository.GetBookCategoriesByCategory(filters.CategoryId).Result;
-                bookGroups = _unitOfWork.BookGroupRepository.GetBookGroupsByBookCategory(categoryByCategory, categories);
+                bookGroups = bookGroups.Where(x => x.Author.ToLower().Contains(filters.Author));
             }
 
             if (filters.Fee != null)
             {
                 bookGroups = bookGroups.Where(x => x.Fee == filters.Fee);
+            }
+
+            if (filters.CategoryId != null)
+            {
+                var categoryByCategory = _unitOfWork.BookCategoryRepository.GetBookCategoriesByCategory(filters.CategoryId).Result;
+                bookGroups = _unitOfWork.BookGroupRepository.GetBookGroupsByBookCategory(categoryByCategory);
             }
 
             if (filters.PunishFee != null)

@@ -14,9 +14,18 @@ namespace Capstone.Infrastructure.Repositories
     public class BookShelfRepository : BaseRepository<BookShelf>, IBookShelfRepository
     {
         public BookShelfRepository(CapstoneContext context) : base(context) { }
-        public async Task<IEnumerable<BookShelf>> GetBookShelvesByLocation(int locationId)
+        public async Task<IEnumerable<BookShelfDto>> GetBookShelvesByLocation(int locationId)
         {
-            return await _entities.Where(x => x.LocationId == locationId).ToListAsync();
+            return await _entities.Where(x => x.LocationId == locationId).Select(x => new BookShelfDto
+            {
+                Id = x.Id,
+                Name = x.Name,
+                LocationColor = x.Location.Color,
+                LocationName = x.Location.Name,
+                Col = x.Col,
+                Row = x.Row,
+                LocationId = x.Location.Id
+            }).ToListAsync();
         }
 
         public IEnumerable<BookShelfDto> GetBookShelvesAndLocationName()
@@ -25,8 +34,10 @@ namespace Capstone.Infrastructure.Repositories
             {
                 Id = x.Id,
                 Name = x.Name,
-                LocationName = x.Location.Name,
                 LocationColor = x.Location.Color,
+                LocationName = x.Location.Name,
+                Col = x.Col,
+                Row = x.Row,
                 LocationId = x.Location.Id
             }).ToList();
         }

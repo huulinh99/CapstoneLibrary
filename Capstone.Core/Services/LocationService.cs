@@ -39,7 +39,7 @@ namespace Capstone.Core.Services
             var locations = _unitOfWork.LocationRepository.GetAll();
             if (filters.Name != null)
             {
-                locations = locations.Where(x => x.Name == filters.Name);
+                locations = locations.Where(x => x.Name.Contains(filters.Name));
             }
             var pagedLocations = PagedList<Location>.Create(locations, filters.PageNumber, filters.PageSize);
             return pagedLocations;
