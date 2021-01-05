@@ -56,6 +56,21 @@ namespace Capstone.Core.Services
         {
             await _unitOfWork.BookShelfRepository.Add(bookShelf);
             await _unitOfWork.SaveChangesAsync();
+            for (int i = 1; i <= bookShelf.Row; i++)
+            {
+                for (int j = 1; j <= bookShelf.Col; j++)
+                {
+                    var drawerModel = new Drawer()
+                    {
+                        BookShelfId = bookShelf.Id,
+                        ShelfRow = i,
+                        ShelfColumn = j
+                    };
+                    _unitOfWork.DrawerRepository.Add(drawerModel);
+                }                          
+            }
+
+            await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task<bool> UpdateBookShelf(BookShelf bookShelf)

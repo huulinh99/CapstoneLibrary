@@ -27,6 +27,7 @@ namespace Capstone.Core.DTOs
         public virtual ICollection<CategoryDto> Category { get; set; }
         public virtual ICollection<BookCategoryDto> BookCategory { get; set; }
         public virtual ICollection<Image> Image { get; set; }
-        public double? Feedback { get; set; }
+        public virtual ICollection<RatingDto> Rating { get; set; }
+        public double? RatingAverage { get; set; }
     }
 }

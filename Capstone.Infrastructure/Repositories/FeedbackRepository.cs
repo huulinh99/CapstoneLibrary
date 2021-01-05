@@ -15,5 +15,22 @@ namespace Capstone.Infrastructure.Repositories
     {
         public FeedbackRepository(CapstoneContext context) : base(context) { }
 
+        public ICollection<RatingDto> GetRatingForBookGroup(int? bookGroupId)
+        {
+            List<RatingDto> list = new List<RatingDto>();
+                       
+            for (int i = 1; i <= 5; i++)
+            {
+                var ratingDto = _entities.Where(x => x.BookGroupId == bookGroupId).Select(c => new RatingDto
+                {
+
+                    Rating = i,
+                    Count = _entities.Count(t => t.Rating == i && t.BookGroupId == bookGroupId)
+                }).FirstOrDefault();
+                list.Add(ratingDto);
+            }         
+            return list;
+        }
+
     }
 }

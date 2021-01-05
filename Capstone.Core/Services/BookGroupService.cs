@@ -32,7 +32,8 @@ namespace Capstone.Core.Services
         {
             var bookCategories = await _unitOfWork.BookCategoryRepository.GetBookCategoriesByBookGroup(id);
             var categories =  _unitOfWork.CategoryRepository.GetCategoryNameByBookCategory(bookCategories);
-            return await _unitOfWork.BookGroupRepository.GetBookGroupsWithImageById(id, categories);
+            var feedback = _unitOfWork.FeedbackRepository.GetRatingForBookGroup(id);
+            return await _unitOfWork.BookGroupRepository.GetBookGroupsWithImageById(id, categories, feedback);
         }
 
         public PagedList<BookGroupDto> GetBookGroups(BookGroupQueryFilter filters)
@@ -40,7 +41,7 @@ namespace Capstone.Core.Services
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
             var bookGroupDtos = _unitOfWork.BookGroupRepository.GetAllBookGroups();
-
+           
             var categories = _unitOfWork.CategoryRepository.GetAllCategories();
 
             var bookCategories = _unitOfWork.BookCategoryRepository.GetAllBookCategoriesByBookGroup();
