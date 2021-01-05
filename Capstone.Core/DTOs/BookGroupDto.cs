@@ -23,8 +23,10 @@ namespace Capstone.Core.DTOs
         public double? Thick { get; set; }
         public int? PulishNumber { get; set; }
         public bool? IsDeleted { get; set; }
+        public string[] cate { get; set; }
         public virtual ICollection<CategoryDto> Category { get; set; }
         public virtual ICollection<BookCategoryDto> BookCategory { get; set; }
         public virtual ICollection<Image> Image { get; set; }
+        public double? Feedback { get; set; }
     }
 }

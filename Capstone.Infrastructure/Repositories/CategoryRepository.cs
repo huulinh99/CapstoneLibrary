@@ -16,14 +16,17 @@ namespace Capstone.Infrastructure.Repositories
         public CategoryRepository(CapstoneContext context) : base(context) {
         }
 
-        public  ICollection<CategoryDto> GetAllCategories()
+
+
+        public ICollection<CategoryDto> GetAllCategories()
         {
-            return _entities.Include(x => x.BookCategory).Where(x=>x.IsDeleted == false).Select(x => new CategoryDto
+            return _entities.Include(x => x.BookCategory).Where(x => x.IsDeleted == false).Select(x => new CategoryDto
             {
                 Id = x.Id,
                 Name = x.Name
             }).ToList();
         }
+
 
         public async Task<IEnumerable<CategoryDto>> GetCategoriesByName(string name)
         {
@@ -49,5 +52,6 @@ namespace Capstone.Infrastructure.Repositories
             }
             return categories;
         }
+
     }
 }

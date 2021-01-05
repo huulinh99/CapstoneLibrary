@@ -93,8 +93,8 @@ namespace Capstone.Api.Controllers
             return Ok(response);
         }
 
-        [HttpPut("Delete")]
-        public async Task<IActionResult> Delete(int[] id)
+        [HttpDelete]
+        public async Task<IActionResult> Delete([FromQuery]int[]id = null)
         {
             var result = await _staffService.DeleteStaff(id);
             var response = new ApiResponse<bool>(result);
