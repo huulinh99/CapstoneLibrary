@@ -9,5 +9,6 @@ namespace Capstone.Core.Interfaces
 {
     public interface IFeedbackRepository : IRepository<Feedback>
     {
+        ICollection<RatingDto> GetRatingForBookGroup(int? bookGroupId);
     }
 }

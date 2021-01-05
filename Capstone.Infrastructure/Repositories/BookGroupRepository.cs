@@ -69,9 +69,10 @@ namespace Capstone.Infrastructure.Repositories
                 bookGroups.Add(bookGroup);
             }
             return bookGroups;
-        }
+        }       
 
-        public async Task<BookGroupDto> GetBookGroupsWithImageById(int? bookGroupId, ICollection<CategoryDto> categories)
+
+        public async Task<BookGroupDto> GetBookGroupsWithImageById(int? bookGroupId, ICollection<CategoryDto> categories, ICollection<RatingDto> ratings)
         {
             
             var bookGroup = await _entities.Where(x => x.Id == bookGroupId)
@@ -97,7 +98,9 @@ namespace Capstone.Infrastructure.Repositories
                     Thick = c.Thick,
                     PulishNumber = c.PulishNumber,
                     Image = c.Image,
-                    Category = categories
+                    Category = categories,
+                    RatingAverage = Math.Round((double)c.Feedback.Sum(x => x.Rating) / (c.Feedback.Count), 2),
+                    Rating = ratings
                 }).FirstOrDefaultAsync();
             return bookGroup;
         }      
@@ -145,7 +148,7 @@ namespace Capstone.Infrastructure.Repositories
                      PulishNumber = c.PulishNumber,
                      Image = c.Image,
                      Category = cateTmp.listRecord,
-                     Feedback = Math.Round((double)c.Feedback.Sum(x=>x.Rating)/(c.Feedback.Count),2)
+                     RatingAverage = Math.Round((double)c.Feedback.Sum(x=>x.Rating)/(c.Feedback.Count),2)
                  }).FirstOrDefault();
                 tmp.Add(bookGroupDto);
             }
