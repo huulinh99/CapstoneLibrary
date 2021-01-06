@@ -14,6 +14,6 @@ namespace Capstone.Core.Interfaces
         Task<Role> GetRole(int id);
         Task InsertRole(Role role);
         Task<bool> UpdateRole(Role role);
-        Task<bool> DeleteRole(int[] id);
+        Task<bool> DeleteRole(int?[] id);
     }
 }

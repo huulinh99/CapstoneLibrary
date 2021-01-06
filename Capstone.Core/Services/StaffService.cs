@@ -27,7 +27,7 @@ namespace Capstone.Core.Services
         {
             return await _unitOfWork.StaffRepository.GetLoginByCredentials(login);
         }
-        public async Task<bool> DeleteStaff(int[] id)
+        public async Task<bool> DeleteStaff(int?[] id)
         {
             await _unitOfWork.StaffRepository.Delete(id);
             await _unitOfWork.SaveChangesAsync();

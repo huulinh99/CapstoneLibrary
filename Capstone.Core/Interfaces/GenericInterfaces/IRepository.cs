@@ -12,6 +12,6 @@ namespace Capstone.Core.Interfaces
         Task<T> GetById(int id);
         Task Add(T entity);
         void Update(T entity);
-        Task Delete(int[] id);
+        Task Delete(int?[] id);
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Capstone.Core.Entities
 {
-    public partial class BookDetect : BaseEntity
+    public partial class BookDetect :  BaseEntity
     {
         public BookDetect()
         {

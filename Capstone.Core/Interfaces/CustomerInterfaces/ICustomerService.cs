@@ -14,6 +14,6 @@ namespace Capstone.Core.Interfaces
         Task<Customer> GetCustomer(int id);
         Task InsertCustomer(Customer customer);
         Task<bool> UpdateCustomer(Customer customer);
-        Task<bool> DeleteCustomer(int[] id);
+        Task<bool> DeleteCustomer(int?[] id);
     }
 }

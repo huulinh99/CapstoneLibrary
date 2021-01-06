@@ -12,10 +12,20 @@ namespace Capstone.Infrastructure.Repositories
 {
     public class DrawerRepository : BaseRepository<Drawer>, IDrawerRepository
     {
-        public DrawerRepository(CapstoneContext context) : base(context) { }
-        //public async Task<IEnumerable<Drawer>> GetDrawersByBookShelf(int bookShelfId)
-        //{
-        //    return await _entities.Where(x => x.BookSheflId == bookShelfId).ToListAsync();
-        //}
+        private readonly CapstoneContext _context;
+        public DrawerRepository(CapstoneContext context) : base(context) {
+            _context = context;
+        }
+        public IEnumerable<Drawer> GetAllDrawers()
+        {
+            return _entities.OrderBy(x => x.ShelfRow).ThenBy(x => x.ShelfColumn).ToList();
+        }
+
+        public async Task DeleteDrawerInBookShelf(int?[] bookShelfId)
+        {
+            var entities = _entities.Where(f => bookShelfId.Contains(f.BookShelfId)).ToList();
+            entities.ForEach(a => a.IsDeleted = true);
+            await _context.SaveChangesAsync();
+        }
     }
 }

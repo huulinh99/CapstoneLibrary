@@ -23,7 +23,7 @@ namespace Capstone.Core.Services
             _paginationOptions = options.Value;
             _mapper = mapper;
         }
-        public async Task<bool> DeleteBorrowDetail(int[] id)
+        public async Task<bool> DeleteBorrowDetail(int?[] id)
         {
             await _unitOfWork.BorrowDetailRepository.Delete(id);
             await _unitOfWork.SaveChangesAsync();

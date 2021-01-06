@@ -21,7 +21,7 @@ namespace Capstone.Core.Services
             _paginationOptions = options.Value;
         }
 
-        public async Task<bool> DeleteDevice(int[] id)
+        public async Task<bool> DeleteDevice(int?[] id)
         {
             await _unitOfWork.DeviceRepository.Delete(id);
             await _unitOfWork.SaveChangesAsync();

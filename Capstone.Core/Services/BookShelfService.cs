@@ -22,7 +22,7 @@ namespace Capstone.Core.Services
             _paginationOptions = options.Value;
         }
 
-        public async Task<bool> DeleteBookShelf(int[] id)
+        public async Task<bool> DeleteBookShelf(int?[] id)
         {
             await _unitOfWork.BookShelfRepository.Delete(id);
             await _unitOfWork.SaveChangesAsync();

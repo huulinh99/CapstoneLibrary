@@ -26,7 +26,7 @@ namespace Capstone.Core.Entities
         public double? Height { get; set; }
         public double? Width { get; set; }
         public double? Thick { get; set; }
-        public int? PulishNumber { get; set; }
+        public int? PublishNumber { get; set; }
 
         public virtual ICollection<Book> Book { get; set; }
         public virtual ICollection<BookCategory> BookCategory { get; set; }

@@ -14,6 +14,6 @@ namespace Capstone.Core.Interfaces
         Task<BookRecommend> GetBookRecommend(int id);
         Task InsertBookRecommend(BookRecommend bookRecommend);
         Task<bool> UpdateBookRecommend(BookRecommend bookRecommend);
-        Task<bool> DeleteBookRecommend(int[] id);
+        Task<bool> DeleteBookRecommend(int?[] id);
     }
 }
