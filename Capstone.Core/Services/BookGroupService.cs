@@ -21,7 +21,7 @@ namespace Capstone.Core.Services
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
         }
-        public async Task<bool> DeleteBookGroup(int[] id)
+        public async Task<bool> DeleteBookGroup(int?[] id)
         {
             await _unitOfWork.BookGroupRepository.Delete(id);
             await _unitOfWork.SaveChangesAsync();

@@ -20,7 +20,7 @@ namespace Capstone.Core.Services
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
         }
-        public async Task<bool> DeleteCategory(int[] id)
+        public async Task<bool> DeleteCategory(int?[] id)
         {
             await _unitOfWork.CategoryRepository.Delete(id);
             await _unitOfWork.SaveChangesAsync();

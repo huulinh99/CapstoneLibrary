@@ -20,9 +20,12 @@ namespace Capstone.Core.Services
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
         }
-        public async Task<bool> DeleteLocation(int[] id)
+        public async Task<bool> DeleteLocation(int?[] id)
         {
             await _unitOfWork.LocationRepository.Delete(id);
+            await _unitOfWork.BookShelfRepository.DeleteBookShelfInLocation(id);
+            var bookShelfId =  _unitOfWork.BookShelfRepository.GetBookShelfIdInLocation(id);
+            await _unitOfWork.DrawerRepository.DeleteDrawerInBookShelf(bookShelfId.ToArray());
             await _unitOfWork.SaveChangesAsync();
             return true;
         }
@@ -40,6 +43,11 @@ namespace Capstone.Core.Services
             if (filters.Name != null)
             {
                 locations = locations.Where(x => x.Name.Contains(filters.Name));
+            }
+
+            if (filters.IsRoom != null)
+            {
+                locations = locations.Where(x => x.IsRoom == filters.IsRoom);
             }
             var pagedLocations = PagedList<Location>.Create(locations, filters.PageNumber, filters.PageSize);
             return pagedLocations;

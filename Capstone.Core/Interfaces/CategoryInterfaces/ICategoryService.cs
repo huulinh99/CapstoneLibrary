@@ -14,6 +14,6 @@ namespace Capstone.Core.Interfaces
         Task<Category> GetCategory(int id);
         Task InsertCategory(Category category);
         Task<bool> UpdateCategory(Category category);
-        Task<bool> DeleteCategory(int[] id);
+        Task<bool> DeleteCategory(int?[] id);
     }
 }

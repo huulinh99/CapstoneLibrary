@@ -25,7 +25,7 @@ namespace Capstone.Infrastructure.Repositories
             await _entities.AddAsync(entity);
         }
 
-        public async Task Delete(int[] id)
+        public async Task Delete(int?[] id)
         {
             var entities = _entities.Where(f => id.Contains(f.Id)).ToList();
             entities.ForEach(a => a.IsDeleted = true);
