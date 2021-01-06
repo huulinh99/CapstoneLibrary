@@ -7,8 +7,10 @@ namespace Capstone.Core.QueryFilters
     public class BookQueryFilter
     {
         public int? BookGroupId { get; set; }
+        public int? DrawerId { get; set; }
 
         public int PageSize { get; set; }
+        public bool? IsInDrawer { get; set; }
 
         public int PageNumber { get; set; }
     }

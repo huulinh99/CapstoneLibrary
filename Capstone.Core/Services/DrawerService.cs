@@ -1,4 +1,5 @@
 ﻿using Capstone.Core.CustomEntities;
+using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Core.QueryFilters;
@@ -34,11 +35,11 @@ namespace Capstone.Core.Services
             return await _unitOfWork.DrawerRepository.GetById(id);
         }
 
-        public IEnumerable<Drawer> GetDrawers(DrawerQueryFilter filters)
+        public IEnumerable<DrawerDto> GetDrawers(DrawerQueryFilter filters)
         {
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
-            var drawers = _unitOfWork.DrawerRepository.GetAllDrawers();
+            var drawers = _unitOfWork.DrawerRepository.GetAllDrawers(filters.RowStart, filters.RowEnd, filters.ColStart, filters.ColEnd);
 
             if (filters.BookSheflId != null)
             {

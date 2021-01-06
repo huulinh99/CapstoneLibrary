@@ -2,6 +2,7 @@ using AutoMapper;
 using Capstone.Api.Controllers;
 using Capstone.Core.CustomEntities;
 using Capstone.Core.Interfaces;
+using Capstone.Core.Interfaces.BookDrawerInterfaces;
 using Capstone.Core.Interfaces.ImageInterfaces;
 using Capstone.Core.Services;
 using Capstone.Infrastructure.Data;
@@ -70,6 +71,7 @@ namespace Capstone.Api
             services.AddTransient<IDeviceService, DeviceService>();
             services.AddTransient<IFeedbackService, FeedbackService>();
             services.AddTransient<INotificationService, NotificationService>();
+            services.AddTransient<IBookDrawerService, BookDrawerService>();
             services.AddTransient<IImageService, ImageService>();
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
             services.AddTransient<IUnitOfWork, UnitOfWork>();

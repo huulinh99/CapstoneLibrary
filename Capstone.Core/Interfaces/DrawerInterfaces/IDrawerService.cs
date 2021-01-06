@@ -1,4 +1,5 @@
 ﻿using Capstone.Core.CustomEntities;
+using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.QueryFilters;
 using System;
@@ -10,7 +11,7 @@ namespace Capstone.Core.Interfaces
 {
     public interface IDrawerService
     {
-        IEnumerable<Drawer> GetDrawers(DrawerQueryFilter filters);
+        IEnumerable<DrawerDto> GetDrawers(DrawerQueryFilter filters);
         Task<Drawer> GetDrawer(int id);
         Task InsertDrawer(Drawer drawer);
         Task<bool> UpdateDrawer(Drawer drawer);

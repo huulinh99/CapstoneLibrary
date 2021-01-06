@@ -67,6 +67,9 @@ namespace Capstone.Infrastructure.Mappings
 
             CreateMap<BookCategory, BookCategoryDto>();
             CreateMap<BookCategoryDto, BookCategory>();
+
+            CreateMap<BookDrawer, BookDrawerDto>();
+            CreateMap<BookDrawerDto, BookDrawer>();
         }
     }
 }

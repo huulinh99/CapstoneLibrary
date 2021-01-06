@@ -97,8 +97,6 @@ namespace Capstone.Infrastructure.Data
 
             modelBuilder.Entity<BookDrawer>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.Time).HasColumnType("date");
 
                 entity.HasOne(d => d.Book)

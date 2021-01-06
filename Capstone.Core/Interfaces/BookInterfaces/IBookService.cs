@@ -1,4 +1,5 @@
 ﻿using Capstone.Core.CustomEntities;
+using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.QueryFilters;
 using System;
@@ -10,7 +11,7 @@ namespace Capstone.Core.Interfaces
 {
     public interface IBookService
     {
-        PagedList<Book> GetBooks(BookQueryFilter filters);
+        PagedList<BookDto> GetBooks(BookQueryFilter filters);
         Task<Book> GetBook(int id);
         Task InsertBook(Book book);
         Task<bool> UpdateBook(Book book);

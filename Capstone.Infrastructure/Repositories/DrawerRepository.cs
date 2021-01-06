@@ -1,4 +1,5 @@
-﻿using Capstone.Core.Entities;
+﻿using Capstone.Core.DTOs;
+using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -16,9 +17,24 @@ namespace Capstone.Infrastructure.Repositories
         public DrawerRepository(CapstoneContext context) : base(context) {
             _context = context;
         }
-        public IEnumerable<Drawer> GetAllDrawers()
+        public IEnumerable<DrawerDto> GetAllDrawers(int rowStart, int rowEnd, int colStart, int colEnd)
         {
-            return _entities.OrderBy(x => x.ShelfRow).ThenBy(x => x.ShelfColumn).ToList();
+            List<DrawerDto> list = new List<DrawerDto>();
+            for (int i = rowStart; i <= rowEnd; i++)
+            {
+                for (int j = colStart; j <= colEnd; j++)
+                {
+                    var entity = _entities.Where(x=>x.ShelfRow == i && x.ShelfColumn == j)
+                        .Select(x => new DrawerDto
+                        {
+                            ShelfRow = i,
+                            ShelfColumn = j
+                        })
+                        .FirstOrDefault();
+                    list.Add(entity);
+                }
+            }
+            return list.AsEnumerable<DrawerDto>();
         }
 
         public async Task DeleteDrawerInBookShelf(int?[] bookShelfId)
