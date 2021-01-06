@@ -103,5 +103,10 @@ namespace Capstone.Infrastructure.Services
             string baseUrl = $"{_baseUri}{actionUrl}";
             return new Uri(baseUrl);
         }
+        public Uri GetBookDrawerPaginationUri(BookDrawerQueryFilter filter, string actionUrl)
+        {
+            string baseUrl = $"{_baseUri}{actionUrl}";
+            return new Uri(baseUrl);
+        }
     }
 }

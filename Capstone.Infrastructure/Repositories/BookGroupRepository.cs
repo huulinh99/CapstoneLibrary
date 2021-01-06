@@ -69,7 +69,22 @@ namespace Capstone.Infrastructure.Repositories
                 bookGroups.Add(bookGroup);
             }
             return bookGroups;
-        }       
+        }
+
+        public BookGroupDto GetBookGroupsByBookId(int? bookGroupId)
+        {
+            var bookGroup =  _entities.Where(x => x.Id == bookGroupId)
+                .Include(c => c.Image)
+                .Include(s => s.BookCategory)
+                .ThenInclude(a => a.Category)
+                .Where(c => c.IsDeleted == false)
+                .Select(c => new BookGroupDto
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                }).FirstOrDefault();
+            return bookGroup;
+        }
 
 
         public async Task<BookGroupDto> GetBookGroupsWithImageById(int? bookGroupId, ICollection<CategoryDto> categories, ICollection<RatingDto> ratings)
