@@ -1,5 +1,6 @@
 ﻿using Capstone.Core.Entities;
 using Capstone.Core.Interfaces.BookDrawerInterfaces;
+using Capstone.Core.Interfaces.FavouriteCategoryInterfaces;
 using Capstone.Core.Interfaces.ImageInterfaces;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,7 @@ namespace Capstone.Core.Interfaces
         INotificationRepository NotificationRepository { get; }
         IImageRepository ImageRepository { get; }
         IBookDrawerRepository BookDrawerRepository { get; }
+        IFavouriteCategoryRepository FavouriteCategoryRepository { get; }
 
         void SaveChanges();
         Task SaveChangesAsync();

@@ -50,12 +50,12 @@ namespace Capstone.Core.Services
 
             if (filters.Name != null)
             {
-                bookGroups = bookGroups.Where(x => x.Name.ToLower().Contains(filters.Name));
+                bookGroups = bookGroups.Where(x => x.Name.ToLower().Contains(filters.Name.ToLower()));
             }
 
             if (filters.Author != null)
             {
-                bookGroups = bookGroups.Where(x => x.Author.ToLower().Contains(filters.Author));
+                bookGroups = bookGroups.Where(x => x.Author.ToLower().Contains(filters.Author.ToLower()));
             }
 
             if (filters.Fee != null)

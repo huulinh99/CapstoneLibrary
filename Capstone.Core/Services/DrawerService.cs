@@ -39,12 +39,8 @@ namespace Capstone.Core.Services
         {
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
-            var drawers = _unitOfWork.DrawerRepository.GetAllDrawers(filters.RowStart, filters.RowEnd, filters.ColStart, filters.ColEnd);
+            var drawers = _unitOfWork.DrawerRepository.GetAllDrawers(filters.BookSheflId, filters.RowStart, filters.RowEnd, filters.ColStart, filters.ColEnd);
 
-            if (filters.BookSheflId != null)
-            {
-                drawers = drawers.Where(x => x.BookShelfId == filters.BookSheflId);
-            }
             return drawers;
         }
 
