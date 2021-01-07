@@ -17,18 +17,20 @@ namespace Capstone.Infrastructure.Repositories
         public DrawerRepository(CapstoneContext context) : base(context) {
             _context = context;
         }
-        public IEnumerable<DrawerDto> GetAllDrawers(int rowStart, int rowEnd, int colStart, int colEnd)
+        public IEnumerable<DrawerDto> GetAllDrawers(int bookShelfId, int rowStart, int rowEnd, int colStart, int colEnd)
         {
             List<DrawerDto> list = new List<DrawerDto>();
             for (int i = rowStart; i <= rowEnd; i++)
             {
                 for (int j = colStart; j <= colEnd; j++)
                 {
-                    var entity = _entities.Where(x=>x.ShelfRow == i && x.ShelfColumn == j)
+                    var entity = _entities.Where(x=>x.ShelfRow == i && x.ShelfColumn == j && x.BookShelfId == bookShelfId)
                         .Select(x => new DrawerDto
                         {
+                            Id = x.Id,
                             ShelfRow = i,
-                            ShelfColumn = j
+                            ShelfColumn = j,
+                            BookShelfId = x.BookShelfId
                         })
                         .FirstOrDefault();
                     list.Add(entity);

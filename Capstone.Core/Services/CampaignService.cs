@@ -41,6 +41,11 @@ namespace Capstone.Core.Services
             {
                 campaigns = campaigns.Where(x => x.StaffId == filters.StaffId);
             }
+
+            if (filters.DateTime != null)
+            {
+                campaigns = campaigns.Where(x => x.StartTime <= filters.DateTime.AddDays(3) && x.StartTime >= filters.DateTime);
+            }
             var pagedCampaigns = PagedList<Campaign>.Create(campaigns, filters.PageNumber, filters.PageSize);
             return pagedCampaigns;
         }

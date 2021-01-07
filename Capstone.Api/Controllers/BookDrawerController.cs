@@ -68,13 +68,14 @@ namespace Capstone.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Book(BookDrawerDto bookDrawerDto)
+        public async Task<IActionResult> Book(List<BookDrawerDto> bookDrawerDtos)
         {
-            var bookDrawer = _mapper.Map<BookDrawer>(bookDrawerDto);
-            await _bookDrawerService.InsertBookDrawer(bookDrawer);
-            bookDrawerDto = _mapper.Map<BookDrawerDto>(bookDrawer);
-            var response = new ApiResponse<BookDrawerDto>(bookDrawerDto);
-            return Ok(response);
+            foreach (var bookDrawerDto in bookDrawerDtos)
+            {
+                var bookDrawer = _mapper.Map<BookDrawer>(bookDrawerDto);
+                await _bookDrawerService.InsertBookDrawer(bookDrawer);
+            }            
+            return Ok(bookDrawerDtos);
         }
 
         [HttpPut]

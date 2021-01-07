@@ -9,6 +9,7 @@ namespace Capstone.Core.QueryFilters
         public int? StaffId { get; set; }
 
         public int PageSize { get; set; }
+        public DateTime DateTime { get; set; }
 
         public int PageNumber { get; set; }
     }
