@@ -1,6 +1,7 @@
 ﻿using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Core.Interfaces.BookDrawerInterfaces;
+using Capstone.Core.Interfaces.FavouriteCategoryInterfaces;
 using Capstone.Core.Interfaces.ImageInterfaces;
 using Capstone.Infrastructure.Data;
 using System;
@@ -36,6 +37,7 @@ namespace Capstone.Infrastructure.Repositories
         private readonly INotificationRepository _notificationRepository;
         private readonly IImageRepository _imageRepository;
         private readonly IBookDrawerRepository _bookDrawerRepository;
+        private readonly IFavouriteCategoryRepository _favouriteCategoryRepository;
         public UnitOfWork(CapstoneContext context)
         {
             _context = context;
@@ -66,6 +68,7 @@ namespace Capstone.Infrastructure.Repositories
         public INotificationRepository NotificationRepository => _notificationRepository ?? new NotificationRepository(_context);
         public IImageRepository ImageRepository => _imageRepository ?? new ImageRepository(_context);
         public IBookDrawerRepository BookDrawerRepository => _bookDrawerRepository ?? new BookDrawerRepository(_context);
+        public IFavouriteCategoryRepository FavouriteCategoryRepository => _favouriteCategoryRepository ?? new FavouriteCategoryRepository(_context);
 
         public void Dispose()
         {

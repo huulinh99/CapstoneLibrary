@@ -1,4 +1,5 @@
-﻿using Capstone.Core.Entities;
+﻿using Capstone.Core.DTOs;
+using Capstone.Core.Entities;
 using Capstone.Core.Interfaces.BookDrawerInterfaces;
 using Capstone.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -19,9 +20,26 @@ namespace Capstone.Infrastructure.Repositories
             return _entities.Where(x => x.DrawerId == drawerId && x.IsDeleted == false).ToList();
         }
 
-        public Task<BookDrawer> GetBookDrawerByBookId(int? bookId)
+        public BookDrawer GetBookDrawerByBookId(int? bookId)
         {
-            return _entities.Where(x => x.BookId == bookId && x.IsDeleted == false).FirstOrDefaultAsync();
+            return _entities.Where(x => x.BookId == bookId && x.IsDeleted == false).LastOrDefault();
+        }
+
+        public async Task GetBookDrawerByListBookId(int?[] bookId)
+        {
+            var entities = _entities.Where(f => bookId.Contains(f.BookId) && f.IsDeleted == false).ToList();
+            entities.ForEach(a => a.IsDeleted = true);
+        }
+
+        public IEnumerable<BookDrawer> GetBookDrawerByListBook(IEnumerable<BookDto> books)
+        {
+            List<BookDrawer> bookDrawers = new List<BookDrawer>();
+            foreach (var book in books)
+            {
+                var bookDrawer = _entities.Where(x => x.Id == book.BookDrawerId && x.IsDeleted == false).OrderByDescending(x => x.Time).FirstOrDefault();
+                bookDrawers.Add(bookDrawer);
+            }
+            return bookDrawers;
         }
     }
 }

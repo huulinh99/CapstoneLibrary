@@ -15,12 +15,13 @@ namespace Capstone.Infrastructure.Repositories
     public class BookGroupRepository : BaseRepository<BookGroup>, IBookGroupRepository
     {
 
-        public BookGroupRepository(CapstoneContext context) : base(context) {
-        }
-     
-        public  IEnumerable<BookGroupDto> GetBookGroupsByName(string bookGroupName)
+        public BookGroupRepository(CapstoneContext context) : base(context)
         {
-            return  _entities.Where(x => x.Name.Contains(bookGroupName) && x.IsDeleted == false).Select(c => new BookGroupDto
+        }
+
+        public IEnumerable<BookGroupDto> GetBookGroupsByName(string bookGroupName)
+        {
+            return _entities.Where(x => x.Name.ToLower().Contains(bookGroupName.ToLower()) && x.IsDeleted == false).Select(c => new BookGroupDto
             {
                 Id = c.Id,
                 Name = c.Name,
@@ -41,13 +42,61 @@ namespace Capstone.Infrastructure.Repositories
             }).ToList();
         }
 
-        public  IEnumerable<BookGroupDto> GetBookGroupsByBookCategory(IEnumerable<BookCategory> bookCategories)
+        public IEnumerable<BookGroupDto> GetBookGroupsByBookCategory(IEnumerable<BookCategory> bookCategories)
         {
             List<BookGroupDto> bookGroups = new List<BookGroupDto>();
             foreach (var bookCategory in bookCategories)
             {
                 var bookGroup = _entities.Where(x => x.Id == bookCategory.BookGroupId && x.IsDeleted == false)
                     .Select(c => new BookGroupDto
+                    {
+                        Id = c.Id,
+                        Name = c.Name,
+                        Fee = c.Fee,
+                        PunishFee = c.PunishFee,
+                        Quantity = c.Quantity,
+                        Author = c.Author,
+                        PublishingPalace = c.PublishingPalace,
+                        PublishingCompany = c.PublishingCompany,
+                        PublishDate = c.PublishDate,
+                        Description = c.Description,
+                        PageNumber = c.PageNumber,
+                        Height = c.Height,
+                        Width = c.Width,
+                        Thick = c.Thick,
+                        PublishNumber = c.PublishNumber,
+                        Image = c.Image
+                    }).FirstOrDefault();
+                bookGroups.Add(bookGroup);
+            }
+            return bookGroups;
+        }
+
+        public BookGroupDto GetBookGroupsByBookId(int? bookGroupId)
+        {
+            var bookGroup = _entities.Where(x => x.Id == bookGroupId)
+                .Include(c => c.Image)
+                .Include(s => s.BookCategory)
+                .ThenInclude(a => a.Category)
+                .Where(c => c.IsDeleted == false)
+                .Select(c => new BookGroupDto
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                }).FirstOrDefault();
+            return bookGroup;
+        }
+
+
+        public async Task<BookGroupDto> GetBookGroupsWithImageById(int? bookGroupId, ICollection<CategoryDto> categories, ICollection<RatingDto> ratings)
+        {
+
+            var bookGroup = await _entities.Where(x => x.Id == bookGroupId)
+                .Include(c => c.Image)
+                .Include(s => s.BookCategory)
+                .ThenInclude(a => a.Category)
+                .Where(c => c.IsDeleted == false)
+                .Select(c => new BookGroupDto
                 {
                     Id = c.Id,
                     Name = c.Name,
@@ -64,62 +113,14 @@ namespace Capstone.Infrastructure.Repositories
                     Width = c.Width,
                     Thick = c.Thick,
                     PublishNumber = c.PublishNumber,
-                    Image = c.Image
-                    }).FirstOrDefault(); 
-                bookGroups.Add(bookGroup);
-            }
-            return bookGroups;
-        }
-
-        public BookGroupDto GetBookGroupsByBookId(int? bookGroupId)
-        {
-            var bookGroup =  _entities.Where(x => x.Id == bookGroupId)
-                .Include(c => c.Image)
-                .Include(s => s.BookCategory)
-                .ThenInclude(a => a.Category)
-                .Where(c => c.IsDeleted == false)
-                .Select(c => new BookGroupDto
-                {
-                    Id = c.Id,
-                    Name = c.Name
-                }).FirstOrDefault();
-            return bookGroup;
-        }
-
-
-        public async Task<BookGroupDto> GetBookGroupsWithImageById(int? bookGroupId, ICollection<CategoryDto> categories, ICollection<RatingDto> ratings)
-        {
-            
-            var bookGroup = await _entities.Where(x => x.Id == bookGroupId)
-                .Include(c => c.Image)
-                .Include(s=>s.BookCategory)
-                .ThenInclude(a=>a.Category)
-                .Where(c => c.IsDeleted == false)
-                .Select(c => new BookGroupDto
-                {
-                    Id = c.Id,
-                    Name = c.Name,
-                    Fee = c.Fee,
-                    PunishFee = c.PunishFee,
-                    Quantity = c.Quantity,                 
-                    Author = c.Author,
-                    PublishingPalace = c.PublishingPalace,
-                    PublishingCompany = c.PublishingCompany,
-                    PublishDate = c.PublishDate,                  
-                    Description = c.Description,
-                    PageNumber = c.PageNumber,                  
-                    Height = c.Height,
-                    Width = c.Width,
-                    Thick = c.Thick,
-                    PublishNumber = c.PublishNumber,
                     Image = c.Image,
                     Category = categories,
                     RatingAverage = Math.Round((double)c.Feedback.Sum(x => x.Rating) / (c.Feedback.Count), 2),
                     Rating = ratings
                 }).FirstOrDefaultAsync();
             return bookGroup;
-        }      
-        
+        }
+
 
         public IEnumerable<BookGroupDto> GetAllBookGroupsWithCategory(IEnumerable<BookGroupDto> bookGroups, IEnumerable<BookCategory> bookCategories, IEnumerable<CategoryDto> categories)
         {
@@ -129,13 +130,13 @@ namespace Capstone.Infrastructure.Repositories
             {
                 foreach (var cate in categories)
                 {
-                    if(rowBookCate.CategoryId == cate.Id)
+                    if (rowBookCate.CategoryId == cate.Id)
                     {
                         manage.add(rowBookCate.BookGroupId, cate);
                     }
                 }
             }
-         
+
 
             List<BookGroupDto> tmp = new List<BookGroupDto>();
             foreach (var bookGroup in bookGroups)
@@ -171,31 +172,31 @@ namespace Capstone.Infrastructure.Repositories
                 {
                     var bookGroupDto = _entities.Where(x => x.Id == cateTmp.Id && x.IsDeleted == false)
                     .Select(c => new BookGroupDto
-                 {
-                     Id = c.Id,
-                     Name = c.Name,
-                     Fee = c.Fee,
-                     PunishFee = c.PunishFee,
-                     Quantity = c.Quantity,
-                     Author = c.Author,
-                     PublishingPalace = c.PublishingPalace,
-                     PublishingCompany = c.PublishingCompany,
-                     PublishDate = c.PublishDate,
-                     Description = c.Description,
-                     PageNumber = c.PageNumber,
-                     Height = c.Height,
-                     Width = c.Width,
-                     Thick = c.Thick,
-                     PublishNumber = c.PublishNumber,
-                     Image = c.Image,
-                     Category = cateTmp.listRecord,
-                     RatingAverage = Math.Round((double)c.Feedback.Sum(x => x.Rating) / (c.Feedback.Count), 2)
+                    {
+                        Id = c.Id,
+                        Name = c.Name,
+                        Fee = c.Fee,
+                        PunishFee = c.PunishFee,
+                        Quantity = c.Quantity,
+                        Author = c.Author,
+                        PublishingPalace = c.PublishingPalace,
+                        PublishingCompany = c.PublishingCompany,
+                        PublishDate = c.PublishDate,
+                        Description = c.Description,
+                        PageNumber = c.PageNumber,
+                        Height = c.Height,
+                        Width = c.Width,
+                        Thick = c.Thick,
+                        PublishNumber = c.PublishNumber,
+                        Image = c.Image,
+                        Category = cateTmp.listRecord,
+                        RatingAverage = Math.Round((double)c.Feedback.Sum(x => x.Rating) / (c.Feedback.Count), 2)
                     }).FirstOrDefault();
 
                     tmp.Add(bookGroupDto);
                 }
-                
-                
+
+
             }
 
             return tmp;
@@ -233,7 +234,7 @@ namespace Capstone.Infrastructure.Repositories
         public IEnumerable<BookGroupDto> GetBookGroupsByAuthor(string author)
         {
             var bookGroup = _entities
-                .Where(c=>c.Author.Contains(author.ToLower()))
+                .Where(c => c.Author.Contains(author.ToLower()))
                 .Include(c => c.Image)
                 .Include(s => s.BookCategory)
                 .Select(c => new BookGroupDto

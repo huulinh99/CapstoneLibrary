@@ -38,6 +38,30 @@ namespace Capstone.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public IEnumerable<BookShelfDto> GetBookShelvesByDrawer(IEnumerable<DrawerDto> drawers)
+        {
+            Dictionary<int,BookShelfDto> list = new Dictionary<int,BookShelfDto>();
+            foreach (var drawer in drawers)
+            {
+                var bookShelf = _entities.Where(x => x.Id == drawer.BookShelfId).Select(x => new BookShelfDto
+                {
+                    Id = x.Id,
+                    Col = x.Col,
+                    LocationColor = x.Location.Color,
+                    LocationId = x.LocationId,
+                    LocationName = x.Location.Name,
+                    Name = x.Name,
+                    Row = x.Row
+                }).FirstOrDefault();
+                if (!list.ContainsKey(bookShelf.Id))
+                {
+                    list.Add(bookShelf.Id,bookShelf);
+                }
+            }
+
+            return list.Values.ToList<BookShelfDto>();
+        }
+
         public int?[] GetBookShelfIdInLocation(int?[] locationId)
         {
             List<int?> termsList = new List<int?>();

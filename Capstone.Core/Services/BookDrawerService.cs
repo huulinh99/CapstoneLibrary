@@ -20,9 +20,13 @@ namespace Capstone.Core.Services
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
         }
-        public Task<bool> DeleteBookDrawer(int?[] id)
+        public async Task<bool> DeleteBookDrawer(int?[] id)
         {
-            throw new NotImplementedException();
+            await _unitOfWork.BookDrawerRepository.GetBookDrawerByListBookId(id);
+            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.BookRepository.GetBookByBookDrawerId(id);
+            await _unitOfWork.SaveChangesAsync();
+            return true;
         }
 
         public PagedList<BookDrawer> GetBookDrawers(BookDrawerQueryFilter filters)
@@ -30,20 +34,24 @@ namespace Capstone.Core.Services
             throw new NotImplementedException();
         }
 
-        public Task<BookDetect> GetBookDrawer(int id)
+        public async Task<BookDrawer> GetBookDrawer(int id)
         {
-            throw new NotImplementedException();
+            return await _unitOfWork.BookDrawerRepository.GetById(id);
         }
 
         public async Task InsertBookDrawer(BookDrawer bookDrawer)
         {
             await _unitOfWork.BookDrawerRepository.Add(bookDrawer);
             await _unitOfWork.SaveChangesAsync();
+            var book = _unitOfWork.BookRepository.GetById(bookDrawer.BookId).Result;
+            book.BookDrawerId = bookDrawer.Id;
+             _unitOfWork.BookRepository.Update(book);
+            await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task<bool> UpdateBookDrawer(BookDrawer bookDrawer)
         {
-            var bookTemp = await _unitOfWork.BookDrawerRepository.GetBookDrawerByBookId(bookDrawer.BookId);
+            var bookTemp =  _unitOfWork.BookDrawerRepository.GetBookDrawerByBookId(bookDrawer.BookId);
             bookTemp.IsDeleted = true;
             _unitOfWork.BookDrawerRepository.Update(bookTemp);
             await _unitOfWork.SaveChangesAsync();

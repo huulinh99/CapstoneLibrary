@@ -10,7 +10,7 @@ namespace Capstone.Core.Interfaces
     public interface IBookCategoryRepository : IRepository<BookCategory>
     {
         Task<IEnumerable<BookCategory>> GetBookCategoriesByCategory(int? categoryId);
-        Task<IEnumerable<BookCategory>> GetBookCategoriesByBookGroup(int? bookGroupId);
+        IEnumerable<BookCategory> GetBookCategoriesByBookGroup(int? bookGroupId);
         IEnumerable<BookCategory> GetAllBookCategoriesByBookGroup();
     }
 }

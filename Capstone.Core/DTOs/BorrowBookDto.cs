@@ -12,6 +12,6 @@ namespace Capstone.Core.DTOs
         public DateTime? StartTime { get; set; }
         public DateTime? EndTime { get; set; }
         public int? StaffId { get; set; }
-        public virtual ICollection<BorrowDetail> BorrowDetail { get; set; }
+        public virtual ICollection<BorrowDetailDto> BorrowDetail { get; set; }
     }
 }

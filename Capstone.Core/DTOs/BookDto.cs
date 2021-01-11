@@ -12,5 +12,6 @@ namespace Capstone.Core.DTOs
         public string BarCode { get; set; }
         public string BookName { get; set; }
         public string Status { get; set; }
+        public virtual DrawerDto Drawer { get; set; }
     }
 }
