@@ -37,7 +37,7 @@ namespace Capstone.Infrastructure.Repositories
             return _entities.Where(x => x.IsDeleted == false).AsEnumerable().ToList();
         }
 
-        public async Task<T> GetById(int id)
+        public async Task<T> GetById(int? id)
         {
             return await _entities.FindAsync(id);
         }

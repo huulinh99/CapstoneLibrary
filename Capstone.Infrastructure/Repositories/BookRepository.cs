@@ -14,9 +14,9 @@ namespace Capstone.Infrastructure.Repositories
     public class BookRepository : BaseRepository<Book>, IBookRepository
     {
         public BookRepository(CapstoneContext context) : base(context) { }
-        public  IEnumerable<BookDto> GetAllBooksNotInDrawer()
+        public IEnumerable<BookDto> GetAllBooks()
         {
-            return  _entities.Where(x => x.BookDrawerId == null && x.IsDeleted == false).Select(c => new BookDto
+            return _entities.Where(x =>x.IsDeleted == false).Select(c => new BookDto
             {
                 Id = c.Id,
                 BarCode = c.BarCode,
@@ -30,6 +30,19 @@ namespace Capstone.Infrastructure.Repositories
         public IEnumerable<BookDto> GetAllBooksInDrawer()
         {
             return _entities.Where(x => x.BookDrawerId != null && x.IsDeleted == false).Select(c => new BookDto
+            {
+                Id = c.Id,
+                BarCode = c.BarCode,
+                BookDrawerId = c.BookDrawerId,
+                BookGroupId = c.BookGroupId,
+                Status = c.Status,
+                BookName = (c.BookGroup.Name)
+            }).ToList();
+        }
+
+        public IEnumerable<BookDto> GetAllBooksNotInDrawer()
+        {
+            return _entities.Where(x => x.BookDrawerId == null && x.IsDeleted == false).Select(c => new BookDto
             {
                 Id = c.Id,
                 BarCode = c.BarCode,
@@ -56,6 +69,50 @@ namespace Capstone.Infrastructure.Repositories
                         BookName = (c.BookGroup.Name)
                     }).FirstOrDefault();
                 books.Add(book);
+            }
+            return books;
+        }
+
+        public IEnumerable<BookDto> GetBookByBookGroup(int? bookGroupId)
+        {
+            return _entities.Where(x => x.BookGroupId == bookGroupId && x.IsDeleted == false && x.BookDrawerId !=null)
+                .Select(c => new BookDto
+                {
+                    Id = c.Id,
+                    BarCode = c.BarCode,
+                    BookDrawerId = c.BookDrawerId,
+                    BookGroupId = c.BookGroupId,
+                    Status = c.Status,
+                    BookName = (c.BookGroup.Name)
+                }).ToList();
+        }
+
+        public void GetBookByBookDrawerId(int?[] bookId)
+        {
+            var entities = _entities.Where(f => bookId.Contains(f.Id)).ToList();
+            entities.ForEach(a => a.BookDrawerId = null);
+        }
+
+        public List<IEnumerable<BookDto>> GetBookByBookGroupWithDrawer(IEnumerable<BookGroupDto> bookGroups, IEnumerable<DrawerDto> drawers)
+        {
+            List<IEnumerable<BookDto>> books = new List<IEnumerable<BookDto>>();
+            foreach (var bookGroup in bookGroups)
+            {
+                foreach (var drawer in drawers)
+                {
+                    var book = _entities.Where(x => x.BookGroupId == bookGroup.Id && x.IsDeleted == false)
+                    .Select(c => new BookDto
+                    {
+                        Id = c.Id,
+                        BarCode = c.BarCode,
+                        BookDrawerId = c.BookDrawerId,
+                        BookGroupId = c.BookGroupId,
+                        Status = c.Status,
+                        BookName = (c.BookGroup.Name),
+                        Drawer = drawer
+                    }).ToList();
+                    books.Add(book);
+                }
             }
             return books;
         }

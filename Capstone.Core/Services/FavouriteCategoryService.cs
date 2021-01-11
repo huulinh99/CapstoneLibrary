@@ -7,6 +7,7 @@ using Capstone.Core.QueryFilters;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,29 +22,47 @@ namespace Capstone.Core.Services
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
         }
-        public Task<bool> DeleteFavouriteCategory(int?[] id)
+        public async Task<bool> DeleteFavouriteCategory(int?[] id)
         {
-            throw new NotImplementedException();
+            await _unitOfWork.FavouriteCategoryRepository.Delete(id);
+            await _unitOfWork.SaveChangesAsync();
+            return true;
         }
 
-        public Task<FavouriteCategory> GetDrawer(int id)
+        public PagedList<FavouriteCategory> GetFavouriteCategories(FavouriteCategoryQueryFilter filters)
         {
-            throw new NotImplementedException();
+            filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
+            filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
+            var favouriteCategories = _unitOfWork.FavouriteCategoryRepository.GetAll();
+
+
+            if (filters.CustomerId != null)
+            {
+                favouriteCategories = favouriteCategories.Where(x => x.CustomerId == filters.CustomerId);
+            }
+            var pagedFavouriteCategories = PagedList<FavouriteCategory>.Create(favouriteCategories, filters.PageNumber, filters.PageSize);
+            return pagedFavouriteCategories;
         }
 
-        public IEnumerable<FavouriteCategoryDto> GetDrawers(FavouriteCategoryQueryFilter filters)
+        public async Task<FavouriteCategory> GetFavouriteCategory(int id)
         {
-            throw new NotImplementedException();
+            return await _unitOfWork.FavouriteCategoryRepository.GetById(id);
         }
 
-        public Task InsertFavouriteCategory(FavouriteCategory favouriteCategory)
+
+        public async Task InsertFavouriteCategory(FavouriteCategory favouriteCategory)
         {
-            throw new NotImplementedException();
+            favouriteCategory.Rating = 1;
+            await _unitOfWork.FavouriteCategoryRepository.Add(favouriteCategory);
+            await _unitOfWork.SaveChangesAsync();
         }
 
-        public Task<bool> UpdateFavouriteCategory(FavouriteCategory favouriteCategory)
+        public async Task<bool> UpdateFavouriteCategory(FavouriteCategory favouriteCategory)
         {
-            throw new NotImplementedException();
+            _unitOfWork.FavouriteCategoryRepository.Update(favouriteCategory);
+            await _unitOfWork.SaveChangesAsync();
+            return true;
         }
+
     }
 }

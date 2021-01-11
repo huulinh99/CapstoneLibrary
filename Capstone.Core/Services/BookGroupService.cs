@@ -30,7 +30,7 @@ namespace Capstone.Core.Services
 
         public async Task<BookGroupDto> GetBookGroup(int id)
         {
-            var bookCategories = await _unitOfWork.BookCategoryRepository.GetBookCategoriesByBookGroup(id);
+            var bookCategories =  _unitOfWork.BookCategoryRepository.GetBookCategoriesByBookGroup(id);
             var categories =  _unitOfWork.CategoryRepository.GetCategoryNameByBookCategory(bookCategories);
             var feedback = _unitOfWork.FeedbackRepository.GetRatingForBookGroup(id);
             return await _unitOfWork.BookGroupRepository.GetBookGroupsWithImageById(id, categories, feedback);
@@ -52,7 +52,12 @@ namespace Capstone.Core.Services
             {
                 bookGroups = bookGroups.Where(x => x.Name.ToLower().Contains(filters.Name.ToLower()));
             }
-
+            if (filters.CustomerId != null)
+            {
+                var favourite = _unitOfWork.FavouriteCategoryRepository.GetFavouriteCategoryForSuggest(filters.CustomerId);
+                var categoryByCategory = _unitOfWork.BookCategoryRepository.GetBookCategoriesByCategory(favourite.CategoryId).Result;
+                bookGroups = _unitOfWork.BookGroupRepository.GetBookGroupsByBookCategory(categoryByCategory);
+            }
             if (filters.Author != null)
             {
                 bookGroups = bookGroups.Where(x => x.Author.ToLower().Contains(filters.Author.ToLower()));
@@ -83,6 +88,10 @@ namespace Capstone.Core.Services
         {
             await _unitOfWork.BookGroupRepository.Add(bookGroup);
             await _unitOfWork.SaveChangesAsync();
+            foreach (var bookCategory in bookGroup.BookCategory)
+            {
+                bookCategory.IsDeleted = false;
+            }
             for (int i= 0; i < bookGroup.Quantity; i++) 
             {
                 var bookModel = new Book()
@@ -92,7 +101,6 @@ namespace Capstone.Core.Services
                 };
                  _unitOfWork.BookRepository.Add(bookModel);
             }
-
             await _unitOfWork.SaveChangesAsync();
         }
 

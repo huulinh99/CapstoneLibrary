@@ -72,7 +72,7 @@ namespace Capstone.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> BookGroup(BookGroupDto bookGroupDto)
         {
-            var bookGroup = _mapper.Map<BookGroup>(bookGroupDto);
+            var bookGroup = _mapper.Map<BookGroup>(bookGroupDto);          
             await _bookGroupService.InsertBookGroup(bookGroup);
             bookGroupDto = _mapper.Map<BookGroupDto>(bookGroup);
             var response = new ApiResponse<BookGroupDto>(bookGroupDto);

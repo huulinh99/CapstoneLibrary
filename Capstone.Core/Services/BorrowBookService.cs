@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Capstone.Core.CustomEntities;
+using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.Exceptions;
 using Capstone.Core.Interfaces;
@@ -60,7 +61,44 @@ namespace Capstone.Core.Services
             {
                 throw new BusinessException("User doesn't exist");
             }
+            List<BookGroupDto> bookGroups = new List<BookGroupDto>();
             await _unitOfWork.BorrowBookRepository.Add(borrowBook);
+            var borrowDetails = borrowBook.BorrowDetail;
+            foreach (var borrowDetail in borrowDetails)
+            {
+                var bookGroup = _unitOfWork.BookGroupRepository.GetBookGroupsByBookId(borrowDetail.BookId);
+                bookGroups.Add(bookGroup);
+            }
+            List<IEnumerable<BookCategory>> bookCategories = new List<IEnumerable<BookCategory>>();
+            foreach (var bookGroup in bookGroups)
+            {
+                var bookCategory = _unitOfWork.BookCategoryRepository.GetBookCategoriesByBookGroup(bookGroup.Id);
+                bookCategories.Add(bookCategory);
+            }
+
+            List<IEnumerable<CategoryDto>> listCategories = new List<IEnumerable<CategoryDto>>();
+            foreach (var bookCategory in bookCategories)
+            {
+                var category = _unitOfWork.CategoryRepository.GetCategoryNameByBookCategory(bookCategory);
+                listCategories.Add(category);
+            }
+
+            var favouriteCategories = _unitOfWork.FavouriteCategoryRepository.GetFavouriteCategoryByUser(borrowBook.CustomerId);
+            foreach (var listCategory in listCategories)
+            {
+                foreach (var category in listCategory)
+                {
+                    foreach (var favouriteCategory in favouriteCategories)
+                    {
+                        if (category.Id == favouriteCategory.Id)
+                        {
+                            favouriteCategory.Rating += 1;
+                            _unitOfWork.FavouriteCategoryRepository.Update(favouriteCategory);
+                        }
+                    }
+                    
+                }
+            }
             await _unitOfWork.SaveChangesAsync();
         }
 

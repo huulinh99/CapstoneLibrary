@@ -70,6 +70,9 @@ namespace Capstone.Infrastructure.Mappings
 
             CreateMap<BookDrawer, BookDrawerDto>();
             CreateMap<BookDrawerDto, BookDrawer>();
+
+            CreateMap<FavouriteCategory, FavouriteCategoryDto>();
+            CreateMap<FavouriteCategoryDto, FavouriteCategory>();
         }
     }
 }

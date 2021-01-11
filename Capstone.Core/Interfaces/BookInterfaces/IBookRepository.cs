@@ -10,8 +10,12 @@ namespace Capstone.Core.Interfaces
     public interface IBookRepository : IRepository<Book>
     {
         // Task<IEnumerable<Book>> GetBooksByBookGroup(int bookGroupId);
-        IEnumerable<BookDto> GetAllBooksNotInDrawer();
+        IEnumerable<BookDto> GetAllBooks();
         IEnumerable<BookDto> GetAllBooksInDrawer();
+        IEnumerable<BookDto> GetAllBooksNotInDrawer();
         IEnumerable<BookDto> GetBookInDrawer(IEnumerable<BookDrawer> bookDrawers);
+        IEnumerable<BookDto> GetBookByBookGroup(int? bookGroupId);
+        void GetBookByBookDrawerId(int?[] bookDrawerId);
+        List<IEnumerable<BookDto>> GetBookByBookGroupWithDrawer(IEnumerable<BookGroupDto> bookGroups, IEnumerable<DrawerDto> drawers);
     }
 }

@@ -36,6 +36,7 @@ namespace Capstone.Infrastructure.Repositories
                 Name = x.Name
             }).ToListAsync();
         }
+        
 
 
         public ICollection<CategoryDto> GetCategoryNameByBookCategory(IEnumerable<BookCategory> bookCategories)

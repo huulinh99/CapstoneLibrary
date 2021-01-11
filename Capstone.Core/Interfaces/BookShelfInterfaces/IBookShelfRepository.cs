@@ -13,5 +13,6 @@ namespace Capstone.Core.Interfaces
         IEnumerable<BookShelfDto> GetBookShelvesAndLocationName();
         Task DeleteBookShelfInLocation(int?[] locationId);
         int?[] GetBookShelfIdInLocation(int?[] locationId);
+        IEnumerable<BookShelfDto> GetBookShelvesByDrawer(IEnumerable<DrawerDto> drawers);
     }
 }

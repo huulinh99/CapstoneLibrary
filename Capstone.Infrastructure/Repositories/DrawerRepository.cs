@@ -14,7 +14,8 @@ namespace Capstone.Infrastructure.Repositories
     public class DrawerRepository : BaseRepository<Drawer>, IDrawerRepository
     {
         private readonly CapstoneContext _context;
-        public DrawerRepository(CapstoneContext context) : base(context) {
+        public DrawerRepository(CapstoneContext context) : base(context)
+        {
             _context = context;
         }
         public IEnumerable<DrawerDto> GetAllDrawers(int bookShelfId, int rowStart, int rowEnd, int colStart, int colEnd)
@@ -24,7 +25,7 @@ namespace Capstone.Infrastructure.Repositories
             {
                 for (int j = colStart; j <= colEnd; j++)
                 {
-                    var entity = _entities.Where(x=>x.ShelfRow == i && x.ShelfColumn == j && x.BookShelfId == bookShelfId)
+                    var entity = _entities.Where(x => x.ShelfRow == i && x.ShelfColumn == j && x.BookShelfId == bookShelfId)
                         .Select(x => new DrawerDto
                         {
                             Id = x.Id,
@@ -44,6 +45,24 @@ namespace Capstone.Infrastructure.Repositories
             var entities = _entities.Where(f => bookShelfId.Contains(f.BookShelfId)).ToList();
             entities.ForEach(a => a.IsDeleted = true);
             await _context.SaveChangesAsync();
+        }
+
+        public IEnumerable<DrawerDto> GetAllDrawers(IEnumerable<BookDrawer> bookDrawers)
+        {
+            List<DrawerDto> drawers = new List<DrawerDto>();
+            foreach (var bookDrawer in bookDrawers)
+            {
+                var drawer = _entities.Where(x => x.BookDrawerId == bookDrawer.Id)
+                    .Select(x => new DrawerDto
+                    {
+                        Id = x.Id,
+                        BookShelfId = x.BookShelfId,
+                        ShelfColumn = x.ShelfColumn,
+                        ShelfRow = x.ShelfRow
+                    }).FirstOrDefault();
+                drawers.Add(drawer);
+            }
+            return drawers;
         }
     }
 }

@@ -12,6 +12,6 @@ namespace Capstone.Core.DTOs
         public string LocationColor { get; set; }
         public int? Col { get; set; }
         public int? Row { get; set; }
-        public int LocationId { get; set; }
+        public int? LocationId { get; set; }
     }
 }
