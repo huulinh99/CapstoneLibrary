@@ -1,9 +1,11 @@
-﻿using Capstone.Core.QueryFilters;
+﻿using Capstone.Core.Interfaces;
+using Capstone.Core.QueryFilters;
+using Microsoft.AspNetCore.WebUtilities;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Capstone.Infrastructure.Services
+namespace Capstone.Core.Services
 {
     public class UriService : IUriService
     {
@@ -12,6 +14,14 @@ namespace Capstone.Infrastructure.Services
         public UriService(string baseUri)
         {
             _baseUri = baseUri;
+        }
+
+        public Uri GetPageUri(int pageNumber, int pageSize , string route)
+        {
+            var _enpointUri = new Uri(route);
+            var modifiedUri = QueryHelpers.AddQueryString(_enpointUri.ToString(), "pageNumber", pageNumber.ToString());
+            modifiedUri = QueryHelpers.AddQueryString(modifiedUri, "pageSize", pageSize.ToString());
+            return new Uri(modifiedUri);
         }
 
         public Uri GetBookGroupPaginationUri(BookGroupQueryFilter filter, string actionUrl)

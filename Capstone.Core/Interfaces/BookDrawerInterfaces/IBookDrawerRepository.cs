@@ -10,6 +10,7 @@ namespace Capstone.Core.Interfaces.BookDrawerInterfaces
     public interface IBookDrawerRepository : IRepository<BookDrawer>
     {
         IEnumerable<BookDrawer> GetBookDrawerByDrawerId(int? drawerId);
+        Task DeleteBookDrawerByDrawerId(int?[] drawerId);
         Task GetBookDrawerByListBookId(int?[] bookId);
         BookDrawer GetBookDrawerByBookId(int? bookId);
         IEnumerable<BookDrawer> GetBookDrawerByListBook(IEnumerable<BookDto> books);

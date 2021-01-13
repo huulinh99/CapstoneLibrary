@@ -13,7 +13,10 @@ namespace Capstone.Infrastructure.Repositories
 {
     public class BookDrawerRepository : BaseRepository<BookDrawer>, IBookDrawerRepository
     {
-        public BookDrawerRepository(CapstoneContext context) : base(context) { }
+        private readonly CapstoneContext _context;
+        public BookDrawerRepository(CapstoneContext context) : base(context) {
+            _context = context;
+        }
 
         public IEnumerable<BookDrawer> GetBookDrawerByDrawerId(int? drawerId)
         {
@@ -23,6 +26,13 @@ namespace Capstone.Infrastructure.Repositories
         public BookDrawer GetBookDrawerByBookId(int? bookId)
         {
             return _entities.Where(x => x.BookId == bookId && x.IsDeleted == false).LastOrDefault();
+        }
+
+        public async Task DeleteBookDrawerByDrawerId(int?[] drawerId)
+        {
+            var entities = _entities.Where(f => drawerId.Contains(f.DrawerId)).ToList();
+            entities.ForEach(a => a.IsDeleted = true);
+            await _context.SaveChangesAsync();
         }
 
         public async Task GetBookDrawerByListBookId(int?[] bookId)

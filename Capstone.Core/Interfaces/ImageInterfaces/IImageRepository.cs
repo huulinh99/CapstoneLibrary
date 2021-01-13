@@ -7,5 +7,6 @@ namespace Capstone.Core.Interfaces.ImageInterfaces
 {
     public interface IImageRepository : IRepository<Image>
     {
+        IEnumerable<Image> GetImageByBookGroupId(int? bookGroupId);
     }
 }

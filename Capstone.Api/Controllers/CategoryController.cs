@@ -5,7 +5,7 @@ using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Core.QueryFilters;
-using Capstone.Infrastructure.Services;
+using Capstone.Core.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -44,9 +44,7 @@ namespace Capstone.Api.Controllers
                 CurrentPage = categories.CurrentPage,
                 TotalPages = categories.TotalPages,
                 HasNextPage = categories.HasNextPage,
-                HasPreviousPage = categories.HasPreviousPage,
-                NextPageUrl = _uriService.GetCategoryPaginationUri(filters, Url.RouteUrl(nameof(GetCategories))).ToString(),
-                PreviousPageUrl = _uriService.GetCategoryPaginationUri(filters, Url.RouteUrl(nameof(GetCategories))).ToString()
+                HasPreviousPage = categories.HasPreviousPage
             };
 
             var response = new ApiResponse<IEnumerable<CategoryDto>>(categoriesDtos)
@@ -89,7 +87,7 @@ namespace Capstone.Api.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete([FromQuery]int?[]id = null)
+        public async Task<IActionResult> Delete([FromQuery] int?[] id = null)
         {
             var result = await _categoryService.DeleteCategory(id);
             var response = new ApiResponse<bool>(result);

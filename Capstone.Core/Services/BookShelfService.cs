@@ -25,6 +25,8 @@ namespace Capstone.Core.Services
         public async Task<bool> DeleteBookShelf(int?[] id)
         {
             await _unitOfWork.BookShelfRepository.Delete(id);
+            var bookShelfId = _unitOfWork.BookShelfRepository.GetBookShelfIdInLocation(id);
+            await _unitOfWork.DrawerRepository.DeleteDrawerInBookShelf(bookShelfId.ToArray());
             await _unitOfWork.SaveChangesAsync();
             return true;
         }
@@ -83,6 +85,7 @@ namespace Capstone.Core.Services
 
         public async Task<bool> UpdateBookShelf(BookShelf bookShelf)
         {
+            bookShelf.IsDeleted = false;
             _unitOfWork.BookShelfRepository.Update(bookShelf);
             await _unitOfWork.SaveChangesAsync();
             return true;

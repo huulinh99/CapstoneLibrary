@@ -2,13 +2,16 @@
 using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
+using Microsoft.AspNetCore.Http.Extensions;
 using Capstone.Core.QueryFilters;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace Capstone.Core.Services
 {
@@ -92,6 +95,11 @@ namespace Capstone.Core.Services
             {
                 bookCategory.IsDeleted = false;
             }
+
+            foreach (var image in bookGroup.Image)
+            {
+                image.IsDeleted = false;
+            }
             for (int i= 0; i < bookGroup.Quantity; i++) 
             {
                 var bookModel = new Book()
@@ -107,6 +115,34 @@ namespace Capstone.Core.Services
         public async Task<bool> UpdateBookGroup(BookGroup bookGroup)
         {
             _unitOfWork.BookGroupRepository.Update(bookGroup);
+            var images = _unitOfWork.ImageRepository.GetImageByBookGroupId(bookGroup.Id);
+            if (bookGroup.Image.Count == 0)
+            {              
+                foreach (var image in images)
+                {
+                    image.IsDeleted = true;
+                    _unitOfWork.ImageRepository.Update(image);
+                    await _unitOfWork.SaveChangesAsync();
+                }              
+            }
+            else
+            {
+                foreach (var image in bookGroup.Image)
+                {
+                    if (image.Id == 0)
+                    {
+                        image.IsDeleted = false;
+                        await _unitOfWork.ImageRepository.Add(image);
+                    }
+                    else
+                    {
+
+                        var entity = images.Where(x=> x.Id != image.Id).ToList();
+                        entity.ForEach(a => a.IsDeleted = true);
+                        await _unitOfWork.SaveChangesAsync();                      
+                    }
+                }
+            }
             await _unitOfWork.SaveChangesAsync();
             return true;
         }
