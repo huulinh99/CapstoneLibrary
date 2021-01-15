@@ -40,15 +40,28 @@ namespace Capstone.Api.Controllers
         {
             var request = _httpContextAccessor.HttpContext.Request;
             var books = _bookService.GetBooks(filters);
-            string str = request.QueryString.ToString();
-            string stringBeforeChar = str.Substring(0, str.IndexOf("&"));
+            //string str = request.QueryString.ToString();
+            //string stringBeforeChar = str.Substring(0, str.IndexOf("&"));
             var booksDtos = _mapper.Map<IEnumerable<BookDto>>(books);
-            var nextPage = books.CurrentPage >= 1 && books.CurrentPage < books.TotalCount
-                           ? _uriService.GetPageUri(books.CurrentPage + 1, books.PageSize, _uriService.GetBookPaginationUri(filters, Url.RouteUrl(nameof(GetBooks))).ToString() + stringBeforeChar)
-                           : null;
-            var previousPage = books.CurrentPage - 1 >= 1 && books.CurrentPage < books.TotalCount
-                           ? _uriService.GetPageUri(books.CurrentPage - 1, books.PageSize, _uriService.GetBookPaginationUri(filters, Url.RouteUrl(nameof(GetBooks))).ToString() + stringBeforeChar)
-                           : null;
+            //if (stringBeforeChar.Length < 0)
+            //{
+            //    var nextPage = books.CurrentPage >= 1 && books.CurrentPage < books.TotalCount
+            //               ? _uriService.GetPageUri(books.CurrentPage + 1, books.PageSize, _uriService.GetBookPaginationUri(filters, Url.RouteUrl(nameof(GetBooks))).ToString())
+            //               : null;
+            //    var previousPage = books.CurrentPage - 1 >= 1 && books.CurrentPage < books.TotalCount
+            //                   ? _uriService.GetPageUri(books.CurrentPage - 1, books.PageSize, _uriService.GetBookPaginationUri(filters, Url.RouteUrl(nameof(GetBooks))).ToString())
+            //                   : null;
+            //}
+            //else
+            //{
+            //    var nextPage = books.CurrentPage >= 1 && books.CurrentPage < books.TotalCount
+            //               ? _uriService.GetPageUri(books.CurrentPage + 1, books.PageSize, _uriService.GetBookPaginationUri(filters, Url.RouteUrl(nameof(GetBooks))).ToString() + stringBeforeChar)
+            //               : null;
+            //    var previousPage = books.CurrentPage - 1 >= 1 && books.CurrentPage < books.TotalCount
+            //                   ? _uriService.GetPageUri(books.CurrentPage - 1, books.PageSize, _uriService.GetBookPaginationUri(filters, Url.RouteUrl(nameof(GetBooks))).ToString() + stringBeforeChar)
+            //                   : null;
+            //}
+            
             var metadata = new Metadata
             {
                 TotalCount = books.TotalCount,
@@ -56,9 +69,7 @@ namespace Capstone.Api.Controllers
                 CurrentPage = books.CurrentPage,
                 TotalPages = books.TotalPages,
                 HasNextPage = books.HasNextPage,
-                HasPreviousPage = books.HasPreviousPage,
-                NextPageUrl = books.NextPage,
-                PreviousPageUrl = books.PreviousPage
+                HasPreviousPage = books.HasPreviousPage
             };
 
             var response = new ApiResponse<IEnumerable<BookDto>>(booksDtos)

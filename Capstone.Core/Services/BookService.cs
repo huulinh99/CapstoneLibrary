@@ -39,16 +39,8 @@ namespace Capstone.Core.Services
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
             var books = _unitOfWork.BookRepository.GetAllBooks();
 
-            if (filters.BookGroupId != null)
-            {
-                books = _unitOfWork.BookRepository.GetAllBooksInDrawer();
-                books = books.Where(x => x.BookGroupId == filters.BookGroupId);
-                var bookDrawers = _unitOfWork.BookDrawerRepository.GetBookDrawerByListBook(books);
-                var drawers = _unitOfWork.DrawerRepository.GetAllDrawers(bookDrawers);
-
-            }
-          
-
+            
+         
             if (filters.IsInDrawer == true)
             {
                 books = _unitOfWork.BookRepository.GetAllBooksInDrawer();
@@ -57,6 +49,11 @@ namespace Capstone.Core.Services
             if (filters.IsInDrawer == false)
             {
                 books = _unitOfWork.BookRepository.GetAllBooksNotInDrawer();
+            }
+
+            if (filters.BookGroupId != null)
+            {
+                books = books.Where(x => x.BookGroupId == filters.BookGroupId);
             }
 
             if (filters.BookName != null)

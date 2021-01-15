@@ -69,9 +69,7 @@ namespace Capstone.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> FavouriteCategory(FavouriteCategoryDto favouriteCategoryDto)
         {
-            var favouriteCategory = _mapper.Map<FavouriteCategory>(favouriteCategoryDto);
-            await _favouriteCategoryService.InsertFavouriteCategory(favouriteCategory);
-            favouriteCategoryDto = _mapper.Map<FavouriteCategoryDto>(favouriteCategory);
+            await _favouriteCategoryService.InsertFavouriteCategory(favouriteCategoryDto);
             var response = new ApiResponse<FavouriteCategoryDto>(favouriteCategoryDto);
             return Ok(response);
         }

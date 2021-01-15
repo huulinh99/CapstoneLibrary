@@ -23,6 +23,18 @@ namespace Capstone.Infrastructure.Repositories
             return _entities.Where(x => x.DrawerId == drawerId && x.IsDeleted == false).ToList();
         }
 
+        public int?[] GetBookDrawerIdInDrawer(int?[] drawerId)
+        {
+            List<int?> termsList = new List<int?>();
+            var entites = _entities.Where(f => drawerId.Contains(f.DrawerId)).ToList();
+            foreach (var entity in entites)
+            {
+                termsList.Add(entity.Id);
+            }
+            int?[] terms = termsList.ToArray();
+            return terms;
+        }
+
         public BookDrawer GetBookDrawerByBookId(int? bookId)
         {
             return _entities.Where(x => x.BookId == bookId && x.IsDeleted == false).LastOrDefault();

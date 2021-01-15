@@ -13,7 +13,10 @@ namespace Capstone.Infrastructure.Repositories
 {
     public class BookRepository : BaseRepository<Book>, IBookRepository
     {
-        public BookRepository(CapstoneContext context) : base(context) { }
+        private readonly CapstoneContext _context;
+        public BookRepository(CapstoneContext context) : base(context) {
+            _context = context;
+        }
         public IEnumerable<BookDto> GetAllBooks()
         {
             return _entities.Where(x =>x.IsDeleted == false).Select(c => new BookDto
@@ -115,6 +118,13 @@ namespace Capstone.Infrastructure.Repositories
                 }
             }
             return books;
+        }
+
+        public async Task DeleteBookByBookDrawerId(int?[] bookDrawerId)
+        {
+            var entities = _entities.Where(f => bookDrawerId.Contains(f.BookDrawerId)).ToList();
+            entities.ForEach(a => a.BookDrawerId = null);
+            await _context.SaveChangesAsync();
         }
     }
 }

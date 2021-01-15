@@ -12,6 +12,7 @@ namespace Capstone.Core.Interfaces
     {
         PagedList<Customer> GetCustomers(CustomerQueryFilter filters);
         Task<Customer> GetCustomer(int id);
+        Task<Customer> GetCustomer(string email);
         Task InsertCustomer(Customer customer);
         Task<bool> UpdateCustomer(Customer customer);
         Task<bool> DeleteCustomer(int?[] id);

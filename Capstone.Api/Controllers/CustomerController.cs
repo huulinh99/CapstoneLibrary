@@ -1,16 +1,23 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Net;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
+using AutoMapper;
 using Capstone.Api.Respones;
 using Capstone.Core.CustomEntities;
 using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Core.QueryFilters;
-using Capstone.Core.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Net;
-using System.Threading.Tasks;
 
 namespace Capstone.Api.Controllers
 {
@@ -20,12 +27,14 @@ namespace Capstone.Api.Controllers
     {
         private readonly ICustomerService _customerService;
         private readonly IMapper _mapper;
+        private readonly IConfiguration _configuration;
         private readonly IUriService _uriService;
-        public CustomerController(ICustomerService customerService, IMapper mapper, IUriService uriService)
+        public CustomerController(ICustomerService customerService, IConfiguration configuration, IMapper mapper, IUriService uriService, TokenController tokenController)
         {
             _customerService = customerService;
             _mapper = mapper;
             _uriService = uriService;
+            _configuration = configuration;
         }
         [HttpGet(Name = nameof(GetCustomers))]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<CustomerDto>>))]
@@ -65,11 +74,21 @@ namespace Capstone.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Customer(CustomerDto customerDto)
         {
-            var customer = _mapper.Map<Customer>(customerDto);
-            await _customerService.InsertCustomer(customer);
-            customerDto = _mapper.Map<CustomerDto>(customer);
-            var response = new ApiResponse<CustomerDto>(customerDto);
-            return Ok(response);
+
+            var tmp = _customerService.GetCustomer(customerDto.Email);
+            if (tmp == null)
+            {
+                var customer = _mapper.Map<Customer>(customerDto);
+                await _customerService.InsertCustomer(customer);
+                customerDto = _mapper.Map<CustomerDto>(customer);
+                var response = new ApiResponse<CustomerDto>(customerDto);
+                return Ok(response);
+            }
+            else
+            {
+                var token = GenerateToken(customerDto);
+                return Ok(new { token });
+            }
         }
 
         [HttpPut]
@@ -81,6 +100,40 @@ namespace Capstone.Api.Controllers
             var result = await _customerService.UpdateCustomer(customer);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
+        }
+
+        private string GenerateToken(CustomerDto customerDto)
+        {
+            //Headers
+            var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Authentication:SecretKey"]));
+            var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
+            var header = new JwtHeader(signingCredentials);
+
+            //Claims
+            var claims = new[]
+            {
+                new Claim("id", customerDto.Id.ToString()),
+                new Claim("name", customerDto.Name),
+                new Claim("address", customerDto.Address),
+                new Claim("DoB", customerDto.DoB.ToString()),
+                new Claim("email", customerDto.Email),
+                new Claim("gender", customerDto.Gender),
+                new Claim("phone", customerDto.Phone)
+            };
+
+            //Payloads
+            var payload = new JwtPayload
+            (
+               _configuration["Authentication:Issuer"],
+               _configuration["Authentication:Audience"],
+               claims,
+               DateTime.UtcNow,
+               DateTime.UtcNow.AddMinutes(10)
+
+            );
+
+            var token = new JwtSecurityToken(header, payload);
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
         [HttpDelete]

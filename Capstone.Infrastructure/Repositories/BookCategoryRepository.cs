@@ -15,9 +15,9 @@ namespace Capstone.Infrastructure.Repositories
     {
         public BookCategoryRepository(CapstoneContext context) : base(context) { }      
 
-        public async Task<IEnumerable<BookCategory>> GetBookCategoriesByCategory(int? categoryId)
+        public  IEnumerable<BookCategory> GetBookCategoriesByCategory(int? categoryId)
         {
-            return await _entities.Where(x => x.CategoryId == categoryId && x.IsDeleted == false).ToListAsync();
+            return  _entities.Where(x => x.CategoryId == categoryId && x.IsDeleted == false).ToList();
         }
 
         public IEnumerable<BookCategory> GetBookCategoriesByBookGroup(int? bookGroupId)

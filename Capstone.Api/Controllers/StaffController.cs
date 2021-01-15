@@ -18,7 +18,6 @@ using Newtonsoft.Json;
 
 namespace Capstone.Api.Controllers
 {
-    [Authorize(Roles = nameof(RoleType.admin))]
     [Route("api/[controller]")]
     [ApiController]
     public class StaffController : ControllerBase
@@ -84,7 +83,8 @@ namespace Capstone.Api.Controllers
         {
             var staff = _mapper.Map<Staff>(staffDto);
             staff.Id = id;
-
+            var tmp = await _staffService.GetStaff(id);
+            staff.Password = tmp.Password;
             var result = await _staffService.UpdateStaff(staff);
             var response = new ApiResponse<bool>(result);
             return Ok(response);

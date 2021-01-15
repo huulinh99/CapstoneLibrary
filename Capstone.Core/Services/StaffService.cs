@@ -60,6 +60,7 @@ namespace Capstone.Core.Services
 
         public async Task<bool> UpdateStaff(Staff staff)
         {
+            staff.IsDeleted = false;
             _unitOfWork.StaffRepository.Update(staff);
             await _unitOfWork.SaveChangesAsync();
             return true;

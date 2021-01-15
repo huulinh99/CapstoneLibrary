@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -39,17 +40,17 @@ namespace Capstone.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public IActionResult GetBookGroups([FromQuery] BookGroupQueryFilter filters)
         {
-            var request = _httpContextAccessor.HttpContext.Request;
-            string str = request.QueryString.ToString();
-            string stringBeforeChar = str.Substring(0, str.IndexOf("&"));
+            //var request = _httpContextAccessor.HttpContext.Request;
+            //string str = request.QueryString.ToString();
+            //string stringBeforeChar = str.Substring(0, str.IndexOf("&"));
             var bookGroups = _bookGroupService.GetBookGroups(filters);
             var bookGroupsDto = _mapper.Map<IEnumerable<BookGroupDto>>(bookGroups);
-            var nextPage = bookGroups.CurrentPage >= 1 && bookGroups.CurrentPage < bookGroups.TotalCount
-                           ? _uriService.GetPageUri(bookGroups.CurrentPage + 1, bookGroups.PageSize, _uriService.GetBookGroupPaginationUri(filters, Url.RouteUrl(nameof(GetBookGroups))).ToString() + stringBeforeChar)
-                           : null;
-            var previousPage = bookGroups.CurrentPage - 1 >= 1 && bookGroups.CurrentPage < bookGroups.TotalCount
-                           ? _uriService.GetPageUri(bookGroups.CurrentPage - 1, bookGroups.PageSize, _uriService.GetBookGroupPaginationUri(filters, Url.RouteUrl(nameof(GetBookGroups))).ToString() + stringBeforeChar)
-                           : null;
+            //var nextPage = bookGroups.CurrentPage >= 1 && bookGroups.CurrentPage < bookGroups.TotalCount
+            //               ? _uriService.GetPageUri(bookGroups.CurrentPage + 1, bookGroups.PageSize, _uriService.GetBookGroupPaginationUri(filters, Url.RouteUrl(nameof(GetBookGroups))).ToString() + stringBeforeChar)
+            //               : null;
+            //var previousPage = bookGroups.CurrentPage - 1 >= 1 && bookGroups.CurrentPage < bookGroups.TotalCount
+            //               ? _uriService.GetPageUri(bookGroups.CurrentPage - 1, bookGroups.PageSize, _uriService.GetBookGroupPaginationUri(filters, Url.RouteUrl(nameof(GetBookGroups))).ToString() + stringBeforeChar)
+            //               : null;
             var metadata = new Metadata
             {
                 TotalCount = bookGroups.TotalCount,
@@ -58,8 +59,6 @@ namespace Capstone.Api.Controllers
                 TotalPages = bookGroups.TotalPages,
                 HasNextPage = bookGroups.HasNextPage,
                 HasPreviousPage = bookGroups.HasPreviousPage,
-                NextPageUrl = nextPage,
-                PreviousPageUrl = previousPage
             };
 
             var response = new ApiResponse<IEnumerable<BookGroupDto>>(bookGroupsDto)
@@ -95,6 +94,7 @@ namespace Capstone.Api.Controllers
         {
             var bookGroup = _mapper.Map<BookGroup>(bookGroupDto);
             bookGroup.Id = id;
+            Debug.WriteLine("run controller");
             var result = await _bookGroupService.UpdateBookGroup(bookGroup);
             var response = new ApiResponse<bool>(result);
             return Ok(response);

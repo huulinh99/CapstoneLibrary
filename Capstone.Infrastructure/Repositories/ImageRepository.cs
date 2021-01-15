@@ -15,7 +15,9 @@ namespace Capstone.Infrastructure.Repositories
         public ImageRepository(CapstoneContext context) : base(context) { }
         public  IEnumerable<Image> GetImageByBookGroupId(int? bookGroupId)
         {
+
             return  _entities.Where(x => x.IsDeleted == false && x.BookGroupId==bookGroupId).ToList();
+            
         }
     }
 }

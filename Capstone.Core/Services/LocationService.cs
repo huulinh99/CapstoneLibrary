@@ -26,8 +26,10 @@ namespace Capstone.Core.Services
             await _unitOfWork.BookShelfRepository.DeleteBookShelfInLocation(id);
             var bookShelfId =  _unitOfWork.BookShelfRepository.GetBookShelfIdInLocation(id);
             await _unitOfWork.DrawerRepository.DeleteDrawerInBookShelf(bookShelfId.ToArray());
-            var drawerId = _unitOfWork.BookShelfRepository.GetBookShelfIdInLocation(bookShelfId.ToArray());
+            var drawerId = _unitOfWork.DrawerRepository.GetDrawerIdInBookShelf(bookShelfId.ToArray());
             await _unitOfWork.BookDrawerRepository.DeleteBookDrawerByDrawerId(drawerId.ToArray());
+            var bookDrawerId = _unitOfWork.BookDrawerRepository.GetBookDrawerIdInDrawer(drawerId.ToArray());
+            await _unitOfWork.BookRepository.DeleteBookByBookDrawerId(bookDrawerId.ToArray());
             await _unitOfWork.SaveChangesAsync();
             return true;
         }
@@ -63,6 +65,7 @@ namespace Capstone.Core.Services
 
         public async Task<bool> UpdateLocation(Location location)
         {
+            location.IsDeleted = false;
             _unitOfWork.LocationRepository.Update(location);
             await _unitOfWork.SaveChangesAsync();
             return true;
