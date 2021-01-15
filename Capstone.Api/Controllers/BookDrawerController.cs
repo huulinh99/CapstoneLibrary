@@ -8,9 +8,9 @@ using Capstone.Api.Respones;
 using Capstone.Core.CustomEntities;
 using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
+using Capstone.Core.Interfaces;
 using Capstone.Core.Interfaces.BookDrawerInterfaces;
 using Capstone.Core.QueryFilters;
-using Capstone.Infrastructure.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -45,8 +45,6 @@ namespace Capstone.Api.Controllers
                 TotalPages = bookDrawers.TotalPages,
                 HasNextPage = bookDrawers.HasNextPage,
                 HasPreviousPage = bookDrawers.HasPreviousPage,
-                NextPageUrl = _uriService.GetBookDrawerPaginationUri(filters, Url.RouteUrl(nameof(GetBookDrawers))).ToString(),
-                PreviousPageUrl = _uriService.GetBookDrawerPaginationUri(filters, Url.RouteUrl(nameof(GetBookDrawers))).ToString()
             };
 
             var response = new ApiResponse<IEnumerable<BookDrawerDto>>(bookDrawerDtos)
@@ -74,7 +72,7 @@ namespace Capstone.Api.Controllers
             {
                 var bookDrawer = _mapper.Map<BookDrawer>(bookDrawerDto);
                 await _bookDrawerService.InsertBookDrawer(bookDrawer);
-            }            
+            }
             return Ok(bookDrawerDtos);
         }
 

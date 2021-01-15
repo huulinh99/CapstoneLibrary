@@ -10,7 +10,6 @@ using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Core.QueryFilters;
-using Capstone.Infrastructure.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -24,19 +23,30 @@ namespace Capstone.Api.Controllers
         private readonly IFeedbackService _feedbackService;
         private readonly IMapper _mapper;
         private readonly IUriService _uriService;
-        public FeedbackController(IFeedbackService feedbackService, IMapper mapper, IUriService uriService)
+        private static IHttpContextAccessor _httpContextAccessor;
+        public FeedbackController(IFeedbackService feedbackService, IMapper mapper, IUriService uriService, IHttpContextAccessor httpContextAccessor)
         {
             _feedbackService = feedbackService;
             _mapper = mapper;
             _uriService = uriService;
+            _httpContextAccessor = httpContextAccessor;
         }
         [HttpGet(Name = nameof(GetFeedbacks))]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<FeedbackDto>>))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public IActionResult GetFeedbacks([FromQuery] FeedbackQueryFilter filters)
         {
+            var request = _httpContextAccessor.HttpContext.Request;
             var feedbacks = _feedbackService.GetFeedbacks(filters);
+            //string str = request.QueryString.ToString();
+            //string stringBeforeChar = str.Substring(0, str.IndexOf("&"));
             var feedbackDtos = _mapper.Map<IEnumerable<FeedbackDto>>(feedbacks);
+            //var nextPage = feedbacks.CurrentPage >= 1 && feedbacks.CurrentPage < feedbacks.TotalCount
+            //               ? _uriService.GetPageUri(feedbacks.CurrentPage + 1, feedbacks.PageSize, _uriService.GetFeedbackPaginationUri(filters, Url.RouteUrl(nameof(GetFeedbacks))).ToString() + stringBeforeChar)
+            //               : null;
+            //var previousPage = feedbacks.CurrentPage - 1 >= 1 && feedbacks.CurrentPage < feedbacks.TotalCount
+            //               ? _uriService.GetPageUri(feedbacks.CurrentPage - 1, feedbacks.PageSize, _uriService.GetFeedbackPaginationUri(filters, Url.RouteUrl(nameof(GetFeedbacks))).ToString() + stringBeforeChar)
+            //               : null;
             var metadata = new Metadata
             {
                 TotalCount = feedbacks.TotalCount,
@@ -44,9 +54,7 @@ namespace Capstone.Api.Controllers
                 CurrentPage = feedbacks.CurrentPage,
                 TotalPages = feedbacks.TotalPages,
                 HasNextPage = feedbacks.HasNextPage,
-                HasPreviousPage = feedbacks.HasPreviousPage,
-                NextPageUrl = _uriService.GetFeedbackPaginationUri(filters, Url.RouteUrl(nameof(GetFeedbacks))).ToString(),
-                PreviousPageUrl = _uriService.GetFeedbackPaginationUri(filters, Url.RouteUrl(nameof(GetFeedbacks))).ToString()
+                HasPreviousPage = feedbacks.HasPreviousPage
             };
 
             var response = new ApiResponse<IEnumerable<FeedbackDto>>(feedbackDtos)
@@ -89,7 +97,7 @@ namespace Capstone.Api.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete([FromQuery]int?[]id = null)
+        public async Task<IActionResult> Delete([FromQuery] int?[] id = null)
         {
             var result = await _feedbackService.DeleteFeedback(id);
             var response = new ApiResponse<bool>(result);

@@ -12,7 +12,6 @@ namespace Capstone.Core.Entities
             Campaign = new HashSet<Campaign>();
             ReturnBook = new HashSet<ReturnBook>();
         }
-
         public string Name { get; set; }
         public int? RoleId { get; set; }
         public string Username { get; set; }

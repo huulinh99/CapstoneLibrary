@@ -10,7 +10,6 @@ namespace Capstone.Core.Entities
             BorrowDetail = new HashSet<BorrowDetail>();
             ReturnBook = new HashSet<ReturnBook>();
         }
-
         public int? CustomerId { get; set; }
         public DateTime? StartTime { get; set; }
         public DateTime? EndTime { get; set; }

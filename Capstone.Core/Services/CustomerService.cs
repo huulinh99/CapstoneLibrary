@@ -32,6 +32,10 @@ namespace Capstone.Core.Services
             return await _unitOfWork.CustomerRepository.GetById(id);
         }
 
+        public async Task<Customer> GetCustomer(string email)
+        {
+            return await _unitOfWork.CustomerRepository.GetCustomerByEmail(email);
+        }
         public PagedList<Customer> GetCustomers(CustomerQueryFilter filters)
         {
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;

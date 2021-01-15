@@ -9,7 +9,6 @@ using Capstone.Core.Services;
 using Capstone.Infrastructure.Data;
 using Capstone.Infrastructure.Filters;
 using Capstone.Infrastructure.Repositories;
-using Capstone.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -78,18 +77,13 @@ namespace Capstone.Api
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddHttpContextAccessor();
-            services.AddSingleton<IUriService>(provider =>
+            services.AddSingleton<IUriService>(o =>
             {
-                var accesor = provider.GetRequiredService<IHttpContextAccessor>();
-                var request = accesor.HttpContext.Request;
-                var absoluteUri = string.Concat(request.Scheme, "://", request.Host.ToUriComponent());
-                return new UriService(absoluteUri);
+                var accessor = o.GetRequiredService<IHttpContextAccessor>();
+                var request = accessor.HttpContext.Request;
+                var uri = string.Concat(request.Scheme, "://", request.Host.ToUriComponent());
+                return new UriService(uri);
             });
-            services.AddSwaggerGen(doc =>
-            {
-                doc.SwaggerDoc("v1", new OpenApiInfo { Title = "Capstone Library API", Version = "v1" });
-            });
-
             services.AddCors(opts =>
             {
                 opts.AddPolicy("AllowAll", builder =>
@@ -97,8 +91,13 @@ namespace Capstone.Api
                     builder.AllowAnyOrigin()
                             .AllowAnyMethod()
                             .AllowAnyHeader();
-                            //.AllowCredentials();
+                    //.AllowCredentials();
                 });
+            });
+
+            services.AddSwaggerGen(doc =>
+            {
+                doc.SwaggerDoc("v1", new OpenApiInfo { Title = "Capstone Library API", Version = "v1" });
             });
 
             services.AddAuthentication(options =>

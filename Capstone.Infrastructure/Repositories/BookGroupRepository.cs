@@ -21,7 +21,7 @@ namespace Capstone.Infrastructure.Repositories
 
         public IEnumerable<BookGroupDto> GetBookGroupsByName(string bookGroupName)
         {
-            return _entities.Where(x => x.Name.ToLower().Contains(bookGroupName.ToLower()) && x.IsDeleted == false).Select(c => new BookGroupDto
+            return _entities.Include(c => c.Image).Where(x => x.Name.ToLower().Contains(bookGroupName.ToLower()) && x.IsDeleted == false).Select(c => new BookGroupDto
             {
                 Id = c.Id,
                 Name = c.Name,
@@ -38,7 +38,7 @@ namespace Capstone.Infrastructure.Repositories
                 Width = c.Width,
                 Thick = c.Thick,
                 PublishNumber = c.PublishNumber,
-                Image = c.Image
+                Image = c.Image.Where(x => x.IsDeleted == false).ToList()
             }).ToList();
         }
 
@@ -47,7 +47,7 @@ namespace Capstone.Infrastructure.Repositories
             List<BookGroupDto> bookGroups = new List<BookGroupDto>();
             foreach (var bookCategory in bookCategories)
             {
-                var bookGroup = _entities.Where(x => x.Id == bookCategory.BookGroupId && x.IsDeleted == false)
+                var bookGroup = _entities.Include(c => c.Image).Where(x => x.Id == bookCategory.BookGroupId && x.IsDeleted == false)
                     .Select(c => new BookGroupDto
                     {
                         Id = c.Id,
@@ -65,7 +65,7 @@ namespace Capstone.Infrastructure.Repositories
                         Width = c.Width,
                         Thick = c.Thick,
                         PublishNumber = c.PublishNumber,
-                        Image = c.Image
+                        Image = c.Image.Where(x => x.IsDeleted == false).ToList()
                     }).FirstOrDefault();
                 bookGroups.Add(bookGroup);
             }
@@ -113,7 +113,7 @@ namespace Capstone.Infrastructure.Repositories
                     Width = c.Width,
                     Thick = c.Thick,
                     PublishNumber = c.PublishNumber,
-                    Image = c.Image,
+                    Image = c.Image.Where(x => x.IsDeleted == false).ToList(),
                     Category = categories,
                     RatingAverage = Math.Round((double)c.Feedback.Sum(x => x.Rating) / (c.Feedback.Count), 2),
                     Rating = ratings
@@ -145,7 +145,7 @@ namespace Capstone.Infrastructure.Repositories
                 var cateTmp = manage.getItem(bookGroup.Id);
                 if (cateTmp == null)
                 {
-                    var bookGroupDto = _entities.Where(x => x.IsDeleted == false && x.Id == bookGroup.Id)
+                    var bookGroupDto = _entities.Include(c => c.Image).Where(x => x.IsDeleted == false && x.Id == bookGroup.Id)
                  .Select(c => new BookGroupDto
                  {
                      Id = c.Id,
@@ -163,14 +163,14 @@ namespace Capstone.Infrastructure.Repositories
                      Width = c.Width,
                      Thick = c.Thick,
                      PublishNumber = c.PublishNumber,
-                     Image = c.Image,
+                     Image = c.Image.Where(x => x.IsDeleted == false).ToList(),
                      RatingAverage = Math.Round((double)c.Feedback.Sum(x => x.Rating) / (c.Feedback.Count), 2)
                  }).FirstOrDefault();
                     tmp.Add(bookGroupDto);
                 }
                 else
                 {
-                    var bookGroupDto = _entities.Where(x => x.Id == cateTmp.Id && x.IsDeleted == false)
+                    var bookGroupDto = _entities.Include(c => c.Image).Where(x => x.Id == cateTmp.Id && x.IsDeleted == false)
                     .Select(c => new BookGroupDto
                     {
                         Id = c.Id,
@@ -188,7 +188,7 @@ namespace Capstone.Infrastructure.Repositories
                         Width = c.Width,
                         Thick = c.Thick,
                         PublishNumber = c.PublishNumber,
-                        Image = c.Image,
+                        Image = c.Image.Where(x => x.IsDeleted == false).ToList(),
                         Category = cateTmp.listRecord,
                         RatingAverage = Math.Round((double)c.Feedback.Sum(x => x.Rating) / (c.Feedback.Count), 2)
                     }).FirstOrDefault();
@@ -226,7 +226,7 @@ namespace Capstone.Infrastructure.Repositories
                     Thick = c.Thick,
                     PublishNumber = c.PublishNumber,
                     IsDeleted = c.IsDeleted,
-                    Image = c.Image
+                    Image = c.Image.Where(x=>x.IsDeleted == false).ToList()
                 }).ToList();
             return bookGroup;
         }
@@ -254,7 +254,7 @@ namespace Capstone.Infrastructure.Repositories
                     Width = c.Width,
                     Thick = c.Thick,
                     PublishNumber = c.PublishNumber,
-                    Image = c.Image
+                    Image = c.Image.Where(x => x.IsDeleted == false).ToList()
                 }).ToList();
             return bookGroup;
         }

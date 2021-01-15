@@ -47,6 +47,18 @@ namespace Capstone.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public int?[] GetDrawerIdInBookShelf(int?[] bookShelfId)
+        {
+            List<int?> termsList = new List<int?>();
+            var entites = _entities.Where(f => bookShelfId.Contains(f.BookShelfId)).ToList();
+            foreach (var entity in entites)
+            {
+                termsList.Add(entity.Id);
+            }
+            int?[] terms = termsList.ToArray();
+            return terms;
+        }
+
         public IEnumerable<DrawerDto> GetAllDrawers(IEnumerable<BookDrawer> bookDrawers)
         {
             List<DrawerDto> drawers = new List<DrawerDto>();

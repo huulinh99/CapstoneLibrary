@@ -1,5 +1,6 @@
 ﻿using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
+using Capstone.Core.Enumerations;
 using Capstone.Core.Interfaces;
 using Capstone.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +23,9 @@ namespace Capstone.Infrastructure.Repositories
 
         public async Task<StaffDto> GetLoginByCredentials(UserLogin login)
         {
-            return await _entities.Where(x => x.Username == login.Username && x.IsDeleted == false)
+            return await _entities.Where(x => x.Username == login.Username 
+            && x.Password == login.Password
+            && x.IsDeleted == false)
                 .Include(c=> c.Role)
                 .Select(c => new StaffDto
             {
@@ -38,5 +41,6 @@ namespace Capstone.Infrastructure.Repositories
                 Role = c.Role.Name
             }).FirstOrDefaultAsync();
         }
+       
     }
 }

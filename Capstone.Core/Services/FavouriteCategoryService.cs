@@ -50,10 +50,9 @@ namespace Capstone.Core.Services
         }
 
 
-        public async Task InsertFavouriteCategory(FavouriteCategory favouriteCategory)
+        public async Task InsertFavouriteCategory(FavouriteCategoryDto favouriteCategory)
         {
-            favouriteCategory.Rating = 1;
-            await _unitOfWork.FavouriteCategoryRepository.Add(favouriteCategory);
+            await _unitOfWork.FavouriteCategoryRepository.AddFavouriteCategory(favouriteCategory);
             await _unitOfWork.SaveChangesAsync();
         }
 

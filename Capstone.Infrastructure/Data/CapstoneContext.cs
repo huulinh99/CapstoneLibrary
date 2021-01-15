@@ -196,9 +196,19 @@ namespace Capstone.Infrastructure.Data
 
             modelBuilder.Entity<Customer>(entity =>
             {
+                entity.Property(e => e.Address).HasMaxLength(250);
+
                 entity.Property(e => e.CreatedTime).HasColumnType("date");
 
-                entity.Property(e => e.Name).HasMaxLength(50);
+                entity.Property(e => e.DoB).HasColumnType("date");
+
+                entity.Property(e => e.Email).HasMaxLength(250);
+
+                entity.Property(e => e.Gender).HasMaxLength(50);
+
+                entity.Property(e => e.Name).HasMaxLength(250);
+
+                entity.Property(e => e.Phone).HasMaxLength(50);
             });
 
             modelBuilder.Entity<Device>(entity =>

@@ -5,7 +5,7 @@ using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Core.QueryFilters;
-using Capstone.Infrastructure.Services;
+using Capstone.Core.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -45,9 +45,7 @@ namespace Capstone.Api.Controllers
                 CurrentPage = errorMessages.CurrentPage,
                 TotalPages = errorMessages.TotalPages,
                 HasNextPage = errorMessages.HasNextPage,
-                HasPreviousPage = errorMessages.HasPreviousPage,
-                NextPageUrl = _uriService.GetErrorMessagePaginationUri(filters, Url.RouteUrl(nameof(GetErrorMessages))).ToString(),
-                PreviousPageUrl = _uriService.GetErrorMessagePaginationUri(filters, Url.RouteUrl(nameof(GetErrorMessages))).ToString()
+                HasPreviousPage = errorMessages.HasPreviousPage
             };
 
             var response = new ApiResponse<IEnumerable<ErrorMessageDto>>(errorMessagesDtos)
@@ -90,7 +88,7 @@ namespace Capstone.Api.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete([FromQuery]int?[]id = null)
+        public async Task<IActionResult> Delete([FromQuery] int?[] id = null)
         {
             var result = await _errorMessageService.DeleteErrorMessage(id);
             var response = new ApiResponse<bool>(result);

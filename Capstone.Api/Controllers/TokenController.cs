@@ -38,7 +38,7 @@ namespace Capstone.Api.Controllers
                 return Ok(new { token });
             }
 
-            return NotFound();
+            return Ok("Wrong username or passsword!!!");
         }
 
         private async Task<(bool, StaffDto)> IsValidUser(UserLogin login)
@@ -58,8 +58,15 @@ namespace Capstone.Api.Controllers
             //Claims
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name, staffDto.Username),
-                new Claim(ClaimTypes.Role, staffDto.Role.ToString())
+                new Claim("id", staffDto.Id.ToString()),
+                new Claim("name", staffDto.Name),
+                new Claim("userName", staffDto.Username),
+                new Claim("address", staffDto.Address),
+                new Claim("DoB", staffDto.DoB.ToString()),
+                new Claim("email", staffDto.Email),
+                new Claim("gender", staffDto.Gender),
+                new Claim("phone", staffDto.Phone),
+                new Claim("role", staffDto.Role.ToString())
             };
 
             //Payloads

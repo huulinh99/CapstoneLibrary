@@ -8,9 +8,10 @@ using Capstone.Api.Respones;
 using Capstone.Core.CustomEntities;
 using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
+using Capstone.Core.Interfaces;
 using Capstone.Core.Interfaces.FavouriteCategoryInterfaces;
 using Capstone.Core.QueryFilters;
-using Capstone.Infrastructure.Services;
+using Capstone.Core.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -45,8 +46,6 @@ namespace Capstone.Api.Controllers
                 TotalPages = favouriteCategories.TotalPages,
                 HasNextPage = favouriteCategories.HasNextPage,
                 HasPreviousPage = favouriteCategories.HasPreviousPage,
-                NextPageUrl = _uriService.GetFavouriteCategoryPaginationUri(filters, Url.RouteUrl(nameof(GetFavouriteCategories))).ToString(),
-                PreviousPageUrl = _uriService.GetFavouriteCategoryPaginationUri(filters, Url.RouteUrl(nameof(GetFavouriteCategories))).ToString()
             };
 
             var response = new ApiResponse<IEnumerable<FavouriteCategoryDto>>(favouriteCategoriesDtos)
@@ -70,9 +69,7 @@ namespace Capstone.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> FavouriteCategory(FavouriteCategoryDto favouriteCategoryDto)
         {
-            var favouriteCategory = _mapper.Map<FavouriteCategory>(favouriteCategoryDto);
-            await _favouriteCategoryService.InsertFavouriteCategory(favouriteCategory);
-            favouriteCategoryDto = _mapper.Map<FavouriteCategoryDto>(favouriteCategory);
+            await _favouriteCategoryService.InsertFavouriteCategory(favouriteCategoryDto);
             var response = new ApiResponse<FavouriteCategoryDto>(favouriteCategoryDto);
             return Ok(response);
         }

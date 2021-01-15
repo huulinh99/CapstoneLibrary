@@ -1,17 +1,19 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
+using AutoMapper;
 using Capstone.Api.Respones;
+using Capstone.Core.CustomEntities;
 using Capstone.Core.DTOs;
+using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Core.QueryFilters;
+using Capstone.Core.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Capstone.Core.CustomEntities;
-using System.Collections.Generic;
-using System.Net;
 using Newtonsoft.Json;
-using System.Threading.Tasks;
-using Capstone.Infrastructure.Services;
-using Capstone.Core.Entities;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Capstone.Api.Controllers
 {
@@ -23,19 +25,43 @@ namespace Capstone.Api.Controllers
         private readonly IBookService _bookService; 
         private readonly IMapper _mapper;
         private readonly IUriService _uriService;
-        public BookController(IBookService bookService, IMapper mapper, IUriService uriService)
+        private static IHttpContextAccessor _httpContextAccessor;
+        public BookController(IBookService bookService, IMapper mapper, IUriService uriService, IHttpContextAccessor httpContextAccessor)
         {
             _bookService = bookService;
             _mapper = mapper;
             _uriService = uriService;
+            _httpContextAccessor = httpContextAccessor;
         }
         [HttpGet(Name = nameof(GetBooks))]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<BookDto>>))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public IActionResult GetBooks([FromQuery]BookQueryFilter filters)
         {
+            var request = _httpContextAccessor.HttpContext.Request;
             var books = _bookService.GetBooks(filters);
+            //string str = request.QueryString.ToString();
+            //string stringBeforeChar = str.Substring(0, str.IndexOf("&"));
             var booksDtos = _mapper.Map<IEnumerable<BookDto>>(books);
+            //if (stringBeforeChar.Length < 0)
+            //{
+            //    var nextPage = books.CurrentPage >= 1 && books.CurrentPage < books.TotalCount
+            //               ? _uriService.GetPageUri(books.CurrentPage + 1, books.PageSize, _uriService.GetBookPaginationUri(filters, Url.RouteUrl(nameof(GetBooks))).ToString())
+            //               : null;
+            //    var previousPage = books.CurrentPage - 1 >= 1 && books.CurrentPage < books.TotalCount
+            //                   ? _uriService.GetPageUri(books.CurrentPage - 1, books.PageSize, _uriService.GetBookPaginationUri(filters, Url.RouteUrl(nameof(GetBooks))).ToString())
+            //                   : null;
+            //}
+            //else
+            //{
+            //    var nextPage = books.CurrentPage >= 1 && books.CurrentPage < books.TotalCount
+            //               ? _uriService.GetPageUri(books.CurrentPage + 1, books.PageSize, _uriService.GetBookPaginationUri(filters, Url.RouteUrl(nameof(GetBooks))).ToString() + stringBeforeChar)
+            //               : null;
+            //    var previousPage = books.CurrentPage - 1 >= 1 && books.CurrentPage < books.TotalCount
+            //                   ? _uriService.GetPageUri(books.CurrentPage - 1, books.PageSize, _uriService.GetBookPaginationUri(filters, Url.RouteUrl(nameof(GetBooks))).ToString() + stringBeforeChar)
+            //                   : null;
+            //}
+            
             var metadata = new Metadata
             {
                 TotalCount = books.TotalCount,
@@ -43,9 +69,7 @@ namespace Capstone.Api.Controllers
                 CurrentPage = books.CurrentPage,
                 TotalPages = books.TotalPages,
                 HasNextPage = books.HasNextPage,
-                HasPreviousPage = books.HasPreviousPage,
-                NextPageUrl = _uriService.GetBookPaginationUri(filters, Url.RouteUrl(nameof(GetBooks))).ToString(),
-                PreviousPageUrl = _uriService.GetBookPaginationUri(filters, Url.RouteUrl(nameof(GetBooks))).ToString()
+                HasPreviousPage = books.HasPreviousPage
             };
 
             var response = new ApiResponse<IEnumerable<BookDto>>(booksDtos)

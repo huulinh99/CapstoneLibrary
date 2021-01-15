@@ -10,6 +10,7 @@ namespace Capstone.Core.Entities
             BookDrawer = new HashSet<BookDrawer>();
             ErrorMessage = new HashSet<ErrorMessage>();
         }
+
         public int? BookShelfId { get; set; }
         public int? ShelfRow { get; set; }
         public int? ShelfColumn { get; set; }

@@ -13,7 +13,7 @@ namespace Capstone.Core.Interfaces.FavouriteCategoryInterfaces
     {
         PagedList<FavouriteCategory> GetFavouriteCategories(FavouriteCategoryQueryFilter filters);
         Task<FavouriteCategory> GetFavouriteCategory(int id);
-        Task InsertFavouriteCategory(FavouriteCategory favouriteCategory);
+        Task InsertFavouriteCategory(FavouriteCategoryDto favouriteCategory);
         Task<bool> UpdateFavouriteCategory(FavouriteCategory favouriteCategory);
         Task<bool> DeleteFavouriteCategory(int?[] id);
     }

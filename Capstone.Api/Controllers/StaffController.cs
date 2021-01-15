@@ -11,7 +11,6 @@ using Capstone.Core.Entities;
 using Capstone.Core.Enumerations;
 using Capstone.Core.Interfaces;
 using Capstone.Core.QueryFilters;
-using Capstone.Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +18,6 @@ using Newtonsoft.Json;
 
 namespace Capstone.Api.Controllers
 {
-    [Authorize(Roles = nameof(RoleType.admin))]
     [Route("api/[controller]")]
     [ApiController]
     public class StaffController : ControllerBase
@@ -49,9 +47,7 @@ namespace Capstone.Api.Controllers
                 CurrentPage = staffs.CurrentPage,
                 TotalPages = staffs.TotalPages,
                 HasNextPage = staffs.HasNextPage,
-                HasPreviousPage = staffs.HasPreviousPage,
-                NextPageUrl = _uriService.GetStaffPaginationUri(filters, Url.RouteUrl(nameof(GetStaffs))).ToString(),
-                PreviousPageUrl = _uriService.GetStaffPaginationUri(filters, Url.RouteUrl(nameof(GetStaffs))).ToString()
+                HasPreviousPage = staffs.HasPreviousPage
             };
 
             var response = new ApiResponse<IEnumerable<StaffDto>>(staffsDto)
@@ -87,14 +83,15 @@ namespace Capstone.Api.Controllers
         {
             var staff = _mapper.Map<Staff>(staffDto);
             staff.Id = id;
-
+            var tmp = await _staffService.GetStaff(id);
+            staff.Password = tmp.Password;
             var result = await _staffService.UpdateStaff(staff);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete([FromQuery]int?[]id = null)
+        public async Task<IActionResult> Delete([FromQuery] int?[] id = null)
         {
             var result = await _staffService.DeleteStaff(id);
             var response = new ApiResponse<bool>(result);

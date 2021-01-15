@@ -18,5 +18,9 @@ namespace Capstone.Infrastructure.Repositories
         {
             return await _entities.Where(x => x.Id == id && x.IsDeleted == false).FirstOrDefaultAsync();
         }
+        public async Task<Customer> GetCustomerByEmail(string email)
+        {
+            return await _entities.Where(x => x.Email == email && x.IsDeleted == false).FirstOrDefaultAsync();
+        }
     }
 }
