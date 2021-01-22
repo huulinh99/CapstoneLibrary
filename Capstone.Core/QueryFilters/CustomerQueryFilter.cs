@@ -7,6 +7,7 @@ namespace Capstone.Core.QueryFilters
     public class CustomerQueryFilter
     {
         public string Name { get; set; }
+        public string Email { get; set; }
 
         public int PageSize { get; set; }
 

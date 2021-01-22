@@ -32,11 +32,11 @@ namespace Capstone.Core.Services
             return true;
         }
 
-        public PagedList<BorrowBook> GetBorrowBooks(BorrowBookQueryFilter filters)
+        public PagedList<BorrowBookDto> GetBorrowBooks(BorrowBookQueryFilter filters)
         {
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
-            var borrowBooks = _unitOfWork.BorrowBookRepository.GetAll();
+            var borrowBooks = _unitOfWork.BorrowBookRepository.GetAllBorrowBookWithCustomerName();
             if (filters.CustomerId != null)
             {
                 borrowBooks = borrowBooks.Where(x => x.CustomerId == filters.CustomerId);
@@ -45,7 +45,7 @@ namespace Capstone.Core.Services
             {
                 borrowBooks = borrowBooks.Where(x => x.StaffId == filters.StaffId);
             }
-            var pagedBorrowBooks = PagedList<BorrowBook>.Create(borrowBooks, filters.PageNumber, filters.PageSize);
+            var pagedBorrowBooks = PagedList<BorrowBookDto>.Create(borrowBooks, filters.PageNumber, filters.PageSize);
             return pagedBorrowBooks;
         }
 
@@ -56,14 +56,19 @@ namespace Capstone.Core.Services
 
         public async Task InsertBorrowBook(BorrowBook borrowBook)
         {
-            var customer = await _unitOfWork.CustomerRepository.GetCustomerById(borrowBook.CustomerId);
+            var customer = await _unitOfWork.CustomerRepository.GetById(borrowBook.CustomerId);
             if (customer == null)
             {
                 throw new BusinessException("User doesn't exist");
             }
+
             List<BookGroupDto> bookGroups = new List<BookGroupDto>();
-            await _unitOfWork.BorrowBookRepository.Add(borrowBook);
             var borrowDetails = borrowBook.BorrowDetail;
+            foreach (var borrowDetail in borrowDetails)
+            {
+                borrowDetail.Fee = borrowDetail.Book.BookGroup.Fee * (borrowBook.StartTime - borrowBook.EndTime).Ticks;
+            }
+            await _unitOfWork.BorrowBookRepository.Add(borrowBook);          
             foreach (var borrowDetail in borrowDetails)
             {
                 var bookGroup = _unitOfWork.BookGroupRepository.GetBookGroupsByBookId(borrowDetail.BookId);

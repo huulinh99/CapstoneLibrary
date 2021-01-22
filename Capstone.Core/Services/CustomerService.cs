@@ -45,12 +45,18 @@ namespace Capstone.Core.Services
             {
                 customers = customers.Where(x => x.Name == filters.Name);
             }
+            if (filters.Email != null)
+            {
+                customers = customers.Where(x => x.Email == filters.Email);
+            }
             var pagedCustomers = PagedList<Customer>.Create(customers, filters.PageNumber, filters.PageSize);
             return pagedCustomers;
         }
 
         public async Task InsertCustomer(Customer customer)
         {
+            customer.IsDeleted = false;
+            customer.RoleId = 2;
             await _unitOfWork.CustomerRepository.Add(customer);
             await _unitOfWork.SaveChangesAsync();
         }

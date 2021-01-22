@@ -62,6 +62,9 @@ namespace Capstone.Infrastructure.Mappings
             CreateMap<Feedback, FeedbackDto>();
             CreateMap<FeedbackDto, Feedback>();
 
+            CreateMap<Notification, NotificationDto>();
+            CreateMap<NotificationDto, Notification>();
+
             CreateMap<Staff, StaffDto>();
             CreateMap<StaffDto, Staff>();
 
