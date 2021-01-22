@@ -76,7 +76,7 @@ namespace Capstone.Infrastructure.Repositories
 
         public IEnumerable<BookShelfDto> GetBookShelvesAndLocationName()
         {
-            return  _entities.Include(x => x.Location).Where(x=>x.IsDeleted == false).Select(x => new BookShelfDto
+            return  _entities.Include(x => x.Location).Where(x=>x.IsDeleted == false && x.Location.IsDeleted == false).Select(x => new BookShelfDto
             {
                 Id = x.Id,
                 Name = x.Name,

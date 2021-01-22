@@ -14,6 +14,7 @@ namespace Capstone.Core.Entities
             Notification = new HashSet<Notification>();
             ReturnBook = new HashSet<ReturnBook>();
         }
+
         public string Name { get; set; }
         public DateTime? CreatedTime { get; set; }
         public int? RoleId { get; set; }
@@ -22,6 +23,7 @@ namespace Capstone.Core.Entities
         public string Phone { get; set; }
         public string Address { get; set; }
         public DateTime? DoB { get; set; }
+        public string Image { get; set; }
 
         public virtual ICollection<BorrowBook> BorrowBook { get; set; }
         public virtual ICollection<Device> Device { get; set; }

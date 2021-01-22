@@ -222,6 +222,11 @@ namespace Capstone.Infrastructure.Data
                     .HasForeignKey(d => d.CustomerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Device_Customer");
+
+                entity.HasOne(d => d.Staff)
+                    .WithMany(p => p.Device)
+                    .HasForeignKey(d => d.StaffId)
+                    .HasConstraintName("FK_Device_Staff");
             });
 
             modelBuilder.Entity<Drawer>(entity =>
@@ -304,10 +309,15 @@ namespace Capstone.Infrastructure.Data
 
                 entity.Property(e => e.Time).HasColumnType("datetime");
 
-                entity.HasOne(d => d.Customer)
+                entity.HasOne(d => d.User)
                     .WithMany(p => p.Notification)
-                    .HasForeignKey(d => d.CustomerId)
+                    .HasForeignKey(d => d.UserId)
                     .HasConstraintName("FK_Notification_Customer");
+
+                entity.HasOne(d => d.UserNavigation)
+                    .WithMany(p => p.Notification)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK_Notification_Staff");
             });
 
             modelBuilder.Entity<ReturnBook>(entity =>

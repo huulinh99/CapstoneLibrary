@@ -2,17 +2,11 @@
 using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
-using Microsoft.AspNetCore.Http.Extensions;
 using Capstone.Core.QueryFilters;
 using Microsoft.Extensions.Options;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using System.Diagnostics;
 
 namespace Capstone.Core.Services
 {
@@ -123,7 +117,7 @@ namespace Capstone.Core.Services
                 foreach (var image in images)
                 {
                     image.IsDeleted = true;
-                     _unitOfWork.ImageRepository.Update(image);
+                    _unitOfWork.ImageRepository.Update(image);
                     await _unitOfWork.SaveChangesAsync();
                 }
             }
@@ -160,6 +154,8 @@ namespace Capstone.Core.Services
             bookGroupDto.Width = bookGroup.Width;
             bookGroupDto.Thick = bookGroup.Thick;
             bookGroupDto.PublishNumber = bookGroup.PublishNumber;
+            bookGroupDto.IsDeleted = false;
+            _unitOfWork.BookGroupRepository.Update(bookGroupDto);
             await _unitOfWork.SaveChangesAsync();
             return true;
         }

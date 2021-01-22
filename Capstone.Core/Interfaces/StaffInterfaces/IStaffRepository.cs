@@ -11,5 +11,6 @@ namespace Capstone.Core.Interfaces
     {
         Task<IEnumerable<Staff>> GetStaffsByName(string name);
         Task<StaffDto> GetLoginByCredentials(UserLogin login);
+        Task<Staff> GetStaffByUsername(string username);
     }
 }

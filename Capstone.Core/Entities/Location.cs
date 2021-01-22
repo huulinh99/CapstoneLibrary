@@ -9,6 +9,7 @@ namespace Capstone.Core.Entities
         {
             BookShelf = new HashSet<BookShelf>();
         }
+
         public string Name { get; set; }
         public string Color { get; set; }
         public bool? IsAvailable { get; set; }

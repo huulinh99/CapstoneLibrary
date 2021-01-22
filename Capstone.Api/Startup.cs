@@ -1,6 +1,7 @@
 using AutoMapper;
 using Capstone.Api.Controllers;
 using Capstone.Core.CustomEntities;
+using Capstone.Core.Hubs;
 using Capstone.Core.Interfaces;
 using Capstone.Core.Interfaces.BookDrawerInterfaces;
 using Capstone.Core.Interfaces.FavouriteCategoryInterfaces;
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,6 +24,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Text;
+using System.Web.Http;
 
 namespace Capstone.Api
 {
@@ -44,8 +47,9 @@ namespace Capstone.Api
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                 options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
             })
-            .ConfigureApiBehaviorOptions(options => {
-               // options.SuppressModelStateInvalidFilter = true;
+            .ConfigureApiBehaviorOptions(options =>
+            {
+                // options.SuppressModelStateInvalidFilter = true;
             });
             services.Configure<PaginationOptions>(Configuration.GetSection("Pagination"));
             services.AddDbContext<CapstoneContext>(options =>
@@ -84,22 +88,18 @@ namespace Capstone.Api
                 var uri = string.Concat(request.Scheme, "://", request.Host.ToUriComponent());
                 return new UriService(uri);
             });
-            services.AddCors(opts =>
-            {
-                opts.AddPolicy("AllowAll", builder =>
-                {
-                    builder.AllowAnyOrigin()
-                            .AllowAnyMethod()
-                            .AllowAnyHeader();
-                    //.AllowCredentials();
-                });
-            });
+            services.AddScoped<MessageHub>();
+            services.AddCors();
 
             services.AddSwaggerGen(doc =>
             {
                 doc.SwaggerDoc("v1", new OpenApiInfo { Title = "Capstone Library API", Version = "v1" });
             });
 
+            services.AddSignalR(o =>
+            {
+                o.EnableDetailedErrors = true;
+            });
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -116,8 +116,8 @@ namespace Capstone.Api
                     ValidAudience = Configuration["Authentication:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Authentication:SecretKey"]))
                 };
-            });
-            
+            });          
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -127,11 +127,14 @@ namespace Capstone.Api
             {
                 app.UseDeveloperExceptionPage();
             }
-           // app.UseHttpsRedirection();
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true) // allow any origin
+                .AllowCredentials());
+            app.UseRouting();           
 
-            app.UseCors("AllowAll");
-
-            app.UseRouting();
+            
 
             app.UseSwagger();
 
@@ -142,15 +145,14 @@ namespace Capstone.Api
             });
 
 
-
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<MessageHub>("/message");
             });
         }
     }

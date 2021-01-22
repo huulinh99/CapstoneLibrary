@@ -83,8 +83,6 @@ namespace Capstone.Api.Controllers
         {
             var staff = _mapper.Map<Staff>(staffDto);
             staff.Id = id;
-            var tmp = await _staffService.GetStaff(id);
-            staff.Password = tmp.Password;
             var result = await _staffService.UpdateStaff(staff);
             var response = new ApiResponse<bool>(result);
             return Ok(response);

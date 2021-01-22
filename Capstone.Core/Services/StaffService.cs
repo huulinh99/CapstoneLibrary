@@ -39,6 +39,11 @@ namespace Capstone.Core.Services
             return await _unitOfWork.StaffRepository.GetById(id);
         }
 
+        public async Task<Staff> GetStaffByUserName(string username)
+        {
+            return await _unitOfWork.StaffRepository.GetStaffByUsername(username);
+        }
+
         public PagedList<Staff> GetStaffs(StaffQueryFilter filters)
         {
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
@@ -54,6 +59,7 @@ namespace Capstone.Core.Services
 
         public async Task InsertStaff(Staff staff)
         {
+            staff.RoleId = 1;
             await _unitOfWork.StaffRepository.Add(staff);
             await _unitOfWork.SaveChangesAsync();
         }
@@ -61,6 +67,7 @@ namespace Capstone.Core.Services
         public async Task<bool> UpdateStaff(Staff staff)
         {
             staff.IsDeleted = false;
+            staff.RoleId = 1;
             _unitOfWork.StaffRepository.Update(staff);
             await _unitOfWork.SaveChangesAsync();
             return true;

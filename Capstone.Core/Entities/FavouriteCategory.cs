@@ -8,6 +8,7 @@ namespace Capstone.Core.Entities
         public int? CustomerId { get; set; }
         public int? CategoryId { get; set; }
         public int? Rating { get; set; }
+
         public virtual Category Category { get; set; }
         public virtual Customer Customer { get; set; }
     }

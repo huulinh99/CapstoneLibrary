@@ -37,13 +37,9 @@ namespace Capstone.Core.Services
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
             var notifications = _unitOfWork.NotificationRepository.GetAll();
-            if (filters.CustomerId != null)
+            if (filters.UserId != null)
             {
-                notifications = notifications.Where(x => x.CustomerId == filters.CustomerId);
-            }
-            if (filters.Message != null)
-            {
-                notifications = notifications.Where(x => x.Message == filters.Message);
+                notifications = notifications.Where(x => x.UserId == filters.UserId);
             }
             if (filters.Time != null)
             {

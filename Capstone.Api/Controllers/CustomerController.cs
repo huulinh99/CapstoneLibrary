@@ -29,7 +29,7 @@ namespace Capstone.Api.Controllers
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
         private readonly IUriService _uriService;
-        public CustomerController(ICustomerService customerService, IConfiguration configuration, IMapper mapper, IUriService uriService, TokenController tokenController)
+        public CustomerController(ICustomerService customerService, IConfiguration configuration, IMapper mapper, IUriService uriService)
         {
             _customerService = customerService;
             _mapper = mapper;

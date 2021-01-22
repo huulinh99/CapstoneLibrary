@@ -21,6 +21,10 @@ namespace Capstone.Infrastructure.Repositories
             return await _entities.Where(x => x.Name == name && x.IsDeleted == false).ToListAsync();
         }
 
+        public async Task<Staff> GetStaffByUsername(string username)
+        {
+            return await _entities.Where(x => x.Username == username && x.IsDeleted == false).FirstOrDefaultAsync();
+        }
         public async Task<StaffDto> GetLoginByCredentials(UserLogin login)
         {
             return await _entities.Where(x => x.Username == login.Username 
@@ -38,7 +42,7 @@ namespace Capstone.Infrastructure.Repositories
                 Email = c.Email,
                 Gender = c.Gender,
                 Phone = c.Phone,
-                Role = c.Role.Name
+                RoleName = c.Role.Name
             }).FirstOrDefaultAsync();
         }
        
