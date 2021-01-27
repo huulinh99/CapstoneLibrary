@@ -20,7 +20,7 @@ namespace Capstone.Core.Services
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
         }
-        public async Task<bool> DeleteCustomer(int id)
+        public async Task<bool> DeleteCustomer(int?[] id)
         {
             await _unitOfWork.CustomerRepository.Delete(id);
             await _unitOfWork.SaveChangesAsync();
@@ -32,6 +32,10 @@ namespace Capstone.Core.Services
             return await _unitOfWork.CustomerRepository.GetById(id);
         }
 
+        public async Task<Customer> GetCustomer(string email)
+        {
+            return await _unitOfWork.CustomerRepository.GetCustomerByEmail(email);
+        }
         public PagedList<Customer> GetCustomers(CustomerQueryFilter filters)
         {
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
@@ -41,12 +45,18 @@ namespace Capstone.Core.Services
             {
                 customers = customers.Where(x => x.Name == filters.Name);
             }
+            if (filters.Email != null)
+            {
+                customers = customers.Where(x => x.Email == filters.Email);
+            }
             var pagedCustomers = PagedList<Customer>.Create(customers, filters.PageNumber, filters.PageSize);
             return pagedCustomers;
         }
 
         public async Task InsertCustomer(Customer customer)
         {
+            customer.IsDeleted = false;
+            customer.RoleId = 2;
             await _unitOfWork.CustomerRepository.Add(customer);
             await _unitOfWork.SaveChangesAsync();
         }

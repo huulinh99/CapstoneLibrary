@@ -15,7 +15,7 @@ namespace Capstone.Infrastructure.Repositories
         public ErrorMessageRepository(CapstoneContext context) : base(context) { }
         public async Task<IEnumerable<ErrorMessage>> GetErrorMessagesByBookDetectError(int bookDetectErrorId)
         {
-            return await _entities.Where(x => x.BookDetectErrorId == bookDetectErrorId).ToListAsync();
+            return await _entities.Where(x => x.BookDetectErrorId == bookDetectErrorId && x.IsDeleted == false).ToListAsync();
         }
     }
 }

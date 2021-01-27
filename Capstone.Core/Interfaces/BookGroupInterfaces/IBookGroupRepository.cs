@@ -1,4 +1,5 @@
-﻿using Capstone.Core.Entities;
+﻿using Capstone.Core.DTOs;
+using Capstone.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,8 +9,14 @@ namespace Capstone.Core.Interfaces
 {
     public interface IBookGroupRepository : IRepository<BookGroup>
     {
-        Task<IEnumerable<BookGroup>> GetBookGroupsByName(string bookGroupName);
-        IEnumerable<BookGroup> GetBookGroupsByBookCategory(IEnumerable<BookCategory> bookCategory);
+        IEnumerable<BookGroupDto> GetBookGroupsByName(string bookGroupName);
+        IEnumerable<BookGroupDto> GetBookGroupsByBookCategory(IEnumerable<BookCategory> bookCategory);
+        BookGroupDto GetBookGroupsByBookId(int? bookGroupId);
+        IEnumerable<BookGroupDto> GetBookGroupsByAuthor(string author);
+        Task<BookGroupDto> GetBookGroupsWithImageById(int? bookGroupId, ICollection<CategoryDto> categories, ICollection<RatingDto> ratings);
+        IEnumerable<BookGroupDto> GetAllBookGroupsWithCategory(IEnumerable<BookGroupDto> bookGroups, IEnumerable<BookCategory> bookCategories, IEnumerable<CategoryDto> categories);
+        IEnumerable<BookGroupDto> GetAllBookGroups();
     }
 }
+
 

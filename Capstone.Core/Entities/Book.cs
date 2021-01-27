@@ -17,6 +17,7 @@ namespace Capstone.Core.Entities
         public int? BookGroupId { get; set; }
         public string BarCode { get; set; }
         public int? BookDrawerId { get; set; }
+        public string Status { get; set; }
 
         public virtual BookGroup BookGroup { get; set; }
         public virtual ICollection<BookDetect> BookDetect { get; set; }

@@ -8,5 +8,6 @@ namespace Capstone.Core.CustomEntities
     {
         public int DefaultPageSize { get; set; }
         public int DefaultPageNumber { get; set; }
+        public int MaxPageSize { get; set; }
     }
 }

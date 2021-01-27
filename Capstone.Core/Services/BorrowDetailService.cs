@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Capstone.Core.CustomEntities;
+using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Core.QueryFilters;
@@ -23,7 +24,7 @@ namespace Capstone.Core.Services
             _paginationOptions = options.Value;
             _mapper = mapper;
         }
-        public async Task<bool> DeleteBorrowDetail(int id)
+        public async Task<bool> DeleteBorrowDetail(int?[] id)
         {
             await _unitOfWork.BorrowDetailRepository.Delete(id);
             await _unitOfWork.SaveChangesAsync();
@@ -35,11 +36,11 @@ namespace Capstone.Core.Services
             return await _unitOfWork.BorrowDetailRepository.GetById(id);
         }
 
-        public  PagedList<BorrowDetail> GetBorrowDetails(BorrowDetailQueryFilter filters)
+        public  PagedList<BorrowDetailDto> GetBorrowDetails(BorrowDetailQueryFilter filters)
         {
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
-            var borrowDetails = _unitOfWork.BorrowDetailRepository.GetAll();
+            var borrowDetails = _unitOfWork.BorrowDetailRepository.GetAllBorrowDetailAndBookName();
             if (filters.BorrowId != null)
             {
                 borrowDetails = borrowDetails.Where(x => x.BorrowId == filters.BorrowId);
@@ -49,7 +50,7 @@ namespace Capstone.Core.Services
             {
                 borrowDetails = borrowDetails.Where(x => x.BookId == filters.BookId);
             }
-            var pagedBorrowDetails = PagedList<BorrowDetail>.Create(borrowDetails, filters.PageNumber, filters.PageSize);
+            var pagedBorrowDetails = PagedList<BorrowDetailDto>.Create(borrowDetails, filters.PageNumber, filters.PageSize);
             return pagedBorrowDetails;
         }
 

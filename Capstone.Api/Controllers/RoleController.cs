@@ -5,7 +5,6 @@ using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Core.QueryFilters;
-using Capstone.Infrastructure.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -44,9 +43,7 @@ namespace Capstone.Api.Controllers
                 CurrentPage = roles.CurrentPage,
                 TotalPages = roles.TotalPages,
                 HasNextPage = roles.HasNextPage,
-                HasPreviousPage = roles.HasPreviousPage,
-                NextPageUrl = _uriService.GetRolePaginationUri(filters, Url.RouteUrl(nameof(GetRoles))).ToString(),
-                PreviousPageUrl = _uriService.GetRolePaginationUri(filters, Url.RouteUrl(nameof(GetRoles))).ToString()
+                HasPreviousPage = roles.HasPreviousPage
             };
 
             var response = new ApiResponse<IEnumerable<RoleDto>>(rolesDtos)
@@ -88,8 +85,8 @@ namespace Capstone.Api.Controllers
             return Ok(response);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpDelete]
+        public async Task<IActionResult> Delete([FromQuery] int?[] id = null)
         {
             var result = await _roleService.DeleteRole(id);
             var response = new ApiResponse<bool>(result);

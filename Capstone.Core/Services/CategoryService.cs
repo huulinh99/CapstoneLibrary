@@ -20,7 +20,7 @@ namespace Capstone.Core.Services
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
         }
-        public async Task<bool> DeleteCategory(int id)
+        public async Task<bool> DeleteCategory(int?[] id)
         {
             await _unitOfWork.CategoryRepository.Delete(id);
             await _unitOfWork.SaveChangesAsync();
@@ -30,7 +30,7 @@ namespace Capstone.Core.Services
         public PagedList<Category> GetCategories(CategoryQueryFilter filters)
         {
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
-            filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
+            filters.PageSize = filters.PageSize == 0 ? _paginationOptions.MaxPageSize : filters.PageSize;
             var categories = _unitOfWork.CategoryRepository.GetAll();
             if (filters.Name != null)
             {

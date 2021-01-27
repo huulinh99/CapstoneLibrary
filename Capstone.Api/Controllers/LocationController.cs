@@ -5,7 +5,6 @@ using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Core.QueryFilters;
-using Capstone.Infrastructure.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -44,9 +43,7 @@ namespace Capstone.Api.Controllers
                 CurrentPage = locations.CurrentPage,
                 TotalPages = locations.TotalPages,
                 HasNextPage = locations.HasNextPage,
-                HasPreviousPage = locations.HasPreviousPage,
-                NextPageUrl = _uriService.GetLocationPaginationUri(filters, Url.RouteUrl(nameof(GetLocations))).ToString(),
-                PreviousPageUrl = _uriService.GetLocationPaginationUri(filters, Url.RouteUrl(nameof(GetLocations))).ToString()
+                HasPreviousPage = locations.HasPreviousPage
             };
 
             var response = new ApiResponse<IEnumerable<LocationDto>>(locationsDtos)
@@ -88,8 +85,8 @@ namespace Capstone.Api.Controllers
             return Ok(response);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpDelete]
+        public async Task<IActionResult> Delete([FromQuery] int?[] id = null)
         {
             var result = await _locationService.DeleteLocation(id);
             var response = new ApiResponse<bool>(result);

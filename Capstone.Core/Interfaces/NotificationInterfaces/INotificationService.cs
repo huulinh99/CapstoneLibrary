@@ -15,6 +15,6 @@ namespace Capstone.Core.Interfaces
         Task InsertNotification(Notification notification);
         Task<bool> UpdateNotification(Notification notification);
 
-        Task<bool> DeleteNotification(int id);
+        Task<bool> DeleteNotification(int?[] id);
     }
 }

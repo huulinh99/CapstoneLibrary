@@ -1,12 +1,11 @@
 ﻿using Capstone.Core.CustomEntities;
+using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Core.QueryFilters;
 using Microsoft.Extensions.Options;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Capstone.Core.Services
@@ -20,37 +19,46 @@ namespace Capstone.Core.Services
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
         }
-        public async Task<bool> DeleteBookGroup(int id)
+        public async Task<bool> DeleteBookGroup(int?[] id)
         {
             await _unitOfWork.BookGroupRepository.Delete(id);
             await _unitOfWork.SaveChangesAsync();
             return true;
         }
 
-        public async Task<BookGroup> GetBookGroup(int id)
+        public async Task<BookGroupDto> GetBookGroup(int id)
         {
-            return await _unitOfWork.BookGroupRepository.GetById(id);
+            var bookCategories =  _unitOfWork.BookCategoryRepository.GetBookCategoriesByBookGroup(id);
+            var categories =  _unitOfWork.CategoryRepository.GetCategoryNameByBookCategory(bookCategories);
+            var feedback = _unitOfWork.FeedbackRepository.GetRatingForBookGroup(id);
+            return await _unitOfWork.BookGroupRepository.GetBookGroupsWithImageById(id, categories, feedback);
         }
 
-        public PagedList<BookGroup> GetBookGroups(BookGroupQueryFilter filters)
+        public PagedList<BookGroupDto> GetBookGroups(BookGroupQueryFilter filters)
         {
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
-            var bookGroups = _unitOfWork.BookGroupRepository.GetAll();           
+            var bookGroupDtos = _unitOfWork.BookGroupRepository.GetAllBookGroups();
+           
+            var categories = _unitOfWork.CategoryRepository.GetAllCategories();
+
+            var bookCategories = _unitOfWork.BookCategoryRepository.GetAllBookCategoriesByBookGroup();
+
+            var bookGroups = _unitOfWork.BookGroupRepository.GetAllBookGroupsWithCategory(bookGroupDtos, bookCategories, categories);
+
             if (filters.Name != null)
             {
-                bookGroups = bookGroups.Where(x => x.Name.Contains(filters.Name));
+                bookGroups = bookGroups.Where(x => x.Name.ToLower().Contains(filters.Name.ToLower()));
             }
-
+            if (filters.CustomerId != null)
+            {
+                var favourite = _unitOfWork.FavouriteCategoryRepository.GetFavouriteCategoryForSuggest(filters.CustomerId);
+                var categoryByCategory = _unitOfWork.BookCategoryRepository.GetBookCategoriesByCategory(favourite.CategoryId);
+                bookGroups = _unitOfWork.BookGroupRepository.GetBookGroupsByBookCategory(categoryByCategory);
+            }
             if (filters.Author != null)
             {
-                bookGroups = bookGroups.Where(x => x.Author.Contains(filters.Author));
-            }
-
-            if (filters.CategoryId != null)
-            {
-                var categories = _unitOfWork.BookCategoryRepository.GetBookCategoriesByCategory(filters.CategoryId).Result;
-                bookGroups = _unitOfWork.BookGroupRepository.GetBookGroupsByBookCategory(categories);
+                bookGroups = bookGroups.Where(x => x.Author.ToLower().Contains(filters.Author.ToLower()));
             }
 
             if (filters.Fee != null)
@@ -58,11 +66,18 @@ namespace Capstone.Core.Services
                 bookGroups = bookGroups.Where(x => x.Fee == filters.Fee);
             }
 
+            if (filters.CategoryId != null)
+            {
+                var categoryByCategory = _unitOfWork.BookCategoryRepository.GetBookCategoriesByCategory(filters.CategoryId);
+                bookGroups = _unitOfWork.BookGroupRepository.GetBookGroupsByBookCategory(categoryByCategory);
+            }
+
             if (filters.PunishFee != null)
             {
                 bookGroups = bookGroups.Where(x => x.PunishFee == filters.PunishFee);
             }
-            var pagedBookGroups = PagedList<BookGroup>.Create(bookGroups, filters.PageNumber, filters.PageSize);
+
+            var pagedBookGroups = PagedList<BookGroupDto>.Create(bookGroups, filters.PageNumber, filters.PageSize);
             return pagedBookGroups;
         }
 
@@ -71,6 +86,15 @@ namespace Capstone.Core.Services
         {
             await _unitOfWork.BookGroupRepository.Add(bookGroup);
             await _unitOfWork.SaveChangesAsync();
+            foreach (var bookCategory in bookGroup.BookCategory)
+            {
+                bookCategory.IsDeleted = false;
+            }
+
+            foreach (var image in bookGroup.Image)
+            {
+                image.IsDeleted = false;
+            }
             for (int i= 0; i < bookGroup.Quantity; i++) 
             {
                 var bookModel = new Book()
@@ -78,16 +102,63 @@ namespace Capstone.Core.Services
                     BookGroupId = bookGroup.Id,
                     BarCode = null
                 };
-                 _unitOfWork.BookRepository.Add(bookModel);
+                 await _unitOfWork.BookRepository.Add(bookModel);
             }
             await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task<bool> UpdateBookGroup(BookGroup bookGroup)
         {
-            _unitOfWork.BookGroupRepository.Update(bookGroup);
+            var images = _unitOfWork.ImageRepository.GetImageByBookGroupId(bookGroup.Id);
+            var bookGroupDto = _unitOfWork.BookGroupRepository.GetById(bookGroup.Id).Result;
+            var imageId = new List<int>();          
+            if (bookGroup.Image.Count == 0)
+            {
+                foreach (var image in images)
+                {
+                    image.IsDeleted = true;
+                    _unitOfWork.ImageRepository.Update(image);
+                    await _unitOfWork.SaveChangesAsync();
+                }
+            }
+            else
+            {              
+                foreach (var image in bookGroup.Image)
+                {
+                    if (image.Id == 0)
+                    {
+                        image.IsDeleted = false;
+                        image.BookGroupId = bookGroup.Id;
+                        await _unitOfWork.ImageRepository.Add(image);
+                        await _unitOfWork.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        imageId.Add(image.Id);
+                    }                   
+                }
+                var entities = images.Where(f => !imageId.Contains(f.Id)).ToList();
+                entities.ForEach(a => a.IsDeleted = true);            
+            }
+            bookGroupDto.Name = bookGroup.Name;
+            bookGroupDto.Fee = bookGroup.Fee;
+            bookGroupDto.PunishFee = bookGroup.PunishFee;
+            bookGroupDto.Quantity = bookGroup.Quantity;
+            bookGroupDto.Author = bookGroup.Author;
+            bookGroupDto.PublishingPalace = bookGroup.PublishingPalace;
+            bookGroupDto.PublishingCompany = bookGroup.PublishingCompany;
+            bookGroupDto.PublishDate = bookGroup.PublishDate;
+            bookGroupDto.Description = bookGroup.Description;
+            bookGroupDto.PageNumber = bookGroup.PageNumber;
+            bookGroupDto.Height = bookGroup.Height;
+            bookGroupDto.Width = bookGroup.Width;
+            bookGroupDto.Thick = bookGroup.Thick;
+            bookGroupDto.PublishNumber = bookGroup.PublishNumber;
+            bookGroupDto.IsDeleted = false;
+            _unitOfWork.BookGroupRepository.Update(bookGroupDto);
             await _unitOfWork.SaveChangesAsync();
             return true;
         }
+
     }
 }

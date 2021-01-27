@@ -1,4 +1,5 @@
 ﻿using Capstone.Core.CustomEntities;
+using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Core.QueryFilters;
@@ -20,7 +21,7 @@ namespace Capstone.Core.Services
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
         }
-        public async Task<bool> DeleteBook(int id)
+        public async Task<bool> DeleteBook(int?[] id)
         {
             await _unitOfWork.BookRepository.Delete(id);
             await _unitOfWork.SaveChangesAsync();
@@ -32,16 +33,40 @@ namespace Capstone.Core.Services
             return await _unitOfWork.BookRepository.GetById(id);
         }
 
-        public PagedList<Book> GetBooks(BookQueryFilter filters)
+        public PagedList<BookDto> GetBooks(BookQueryFilter filters)
         {
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
-            var books = _unitOfWork.BookRepository.GetAll();
+            var books = _unitOfWork.BookRepository.GetAllBooks();
+
+            
+         
+            if (filters.IsInDrawer == true)
+            {
+                books = _unitOfWork.BookRepository.GetAllBooksInDrawer();
+            }
+
+            if (filters.IsInDrawer == false)
+            {
+                books = _unitOfWork.BookRepository.GetAllBooksNotInDrawer();
+            }
+
             if (filters.BookGroupId != null)
             {
                 books = books.Where(x => x.BookGroupId == filters.BookGroupId);
-            }           
-            var pagedBooks = PagedList<Book>.Create(books, filters.PageNumber, filters.PageSize);
+            }
+
+            if (filters.BookName != null)
+            {
+                books = books.Where(x => x.BookName.ToLower().Contains(filters.BookName.ToLower()));
+            }
+
+            if (filters.DrawerId != null)
+            {
+                var bookDrawer = _unitOfWork.BookDrawerRepository.GetBookDrawerByDrawerId(filters.DrawerId);
+                books = _unitOfWork.BookRepository.GetBookInDrawer(bookDrawer);
+            }
+            var pagedBooks = PagedList<BookDto>.Create(books, filters.PageNumber, filters.PageSize);
             return pagedBooks;
         }
 

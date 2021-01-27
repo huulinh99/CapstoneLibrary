@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+using Capstone.Core.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +13,8 @@ namespace Capstone.Core.CustomEntities
         public int TotalPages { get; set; }
         public int PageSize { get; set; }
         public int TotalCount { get; set; }
+        public Uri NextPage { get; set; }
+        public Uri PreviousPage { get; set; }
 
         public bool HasPreviousPage => CurrentPage > 1;
         public bool HasNextPage => CurrentPage < TotalPages;
@@ -31,8 +35,26 @@ namespace Capstone.Core.CustomEntities
         {
             var count = source.Count();
             var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
-
             return new PagedList<T>(items, count, pageNumber, pageSize);
         }
+
+        //public static PagedList<T> Create(IEnumerable<T> source, int pageSize, int pageNumber, UriService uriService)
+        //{
+        //    var count = source.Count();
+        //    var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+        //    var respose = new PagedList<T>(items, count, pageSize, pageNumber);
+        //    var totalPages = ((double)count / (double)pageSize);
+        //    //int roundedTotalPages = Convert.ToInt32(Math.Ceiling(totalPages));
+        //    respose.NextPage =
+        //        pageNumber >= 1 && pageNumber < roundedTotalPages
+        //        ? uriService.GetPageUri(pageNumber + 1, pageSize)
+        //        : null;
+        //    respose.PreviousPage =
+        //        pageNumber - 1 >= 1 && pageNumber <= roundedTotalPages
+        //        ? uriService.GetPageUri(pageNumber - 1, pageSize)
+        //        : null;
+        //    return respose;
+        //}
+
     }
 }

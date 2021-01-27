@@ -15,6 +15,6 @@ namespace Capstone.Core.Interfaces
         Task InsertBookCategory(BookCategory bookCategory);
         Task<bool> UpdateBookCategory(BookCategory bookCategory);
 
-        Task<bool> DeleteBookCategory(int id);
+        Task<bool> DeleteBookCategory(int?[] id);
     }
 }

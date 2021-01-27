@@ -10,7 +10,6 @@ using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Core.QueryFilters;
-using Capstone.Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -44,9 +43,7 @@ namespace Capstone.Api.Controllers
                 CurrentPage = returnBooks.CurrentPage,
                 TotalPages = returnBooks.TotalPages,
                 HasNextPage = returnBooks.HasNextPage,
-                HasPreviousPage = returnBooks.HasPreviousPage,
-                NextPageUrl = _uriService.GetReturnBookPaginationUri(filters, Url.RouteUrl(nameof(GetReturnBooks))).ToString(),
-                PreviousPageUrl = _uriService.GetReturnBookPaginationUri(filters, Url.RouteUrl(nameof(GetReturnBooks))).ToString()
+                HasPreviousPage = returnBooks.HasPreviousPage
             };
 
             var response = new ApiResponse<IEnumerable<ReturnBookDto>>(returnBooksDtos)
@@ -88,8 +85,8 @@ namespace Capstone.Api.Controllers
             return Ok(response);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpDelete]
+        public async Task<IActionResult> Delete([FromQuery] int?[] id = null)
         {
             var result = await _returnBookService.DeleteReturnBook(id);
             var response = new ApiResponse<bool>(result);

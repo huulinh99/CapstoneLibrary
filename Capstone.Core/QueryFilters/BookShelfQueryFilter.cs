@@ -7,6 +7,8 @@ namespace Capstone.Core.QueryFilters
     public class BookShelfQueryFilter
     {
         public int? LocationId { get; set; }
+        public int? DrawerId { get; set; }
+        public int? BookGroupId { get; set; }
 
         public string Name { get; set; }
 

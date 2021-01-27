@@ -20,7 +20,7 @@ namespace Capstone.Core.Services
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
         }
-        public async Task<bool> DeleteErrorMessage(int id)
+        public async Task<bool> DeleteErrorMessage(int?[] id)
         {
             await _unitOfWork.ErrorMessageRepository.Delete(id);
             await _unitOfWork.SaveChangesAsync();

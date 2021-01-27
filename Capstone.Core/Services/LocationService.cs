@@ -20,9 +20,16 @@ namespace Capstone.Core.Services
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
         }
-        public async Task<bool> DeleteLocation(int id)
+        public async Task<bool> DeleteLocation(int?[] id)
         {
             await _unitOfWork.LocationRepository.Delete(id);
+            await _unitOfWork.BookShelfRepository.DeleteBookShelfInLocation(id);
+            var bookShelfId =  _unitOfWork.BookShelfRepository.GetBookShelfIdInLocation(id);
+            await _unitOfWork.DrawerRepository.DeleteDrawerInBookShelf(bookShelfId.ToArray());
+            var drawerId = _unitOfWork.DrawerRepository.GetDrawerIdInBookShelf(bookShelfId.ToArray());
+            await _unitOfWork.BookDrawerRepository.DeleteBookDrawerByDrawerId(drawerId.ToArray());
+            var bookDrawerId = _unitOfWork.BookDrawerRepository.GetBookDrawerIdInDrawer(drawerId.ToArray());
+            await _unitOfWork.BookRepository.DeleteBookByBookDrawerId(bookDrawerId.ToArray());
             await _unitOfWork.SaveChangesAsync();
             return true;
         }
@@ -39,7 +46,12 @@ namespace Capstone.Core.Services
             var locations = _unitOfWork.LocationRepository.GetAll();
             if (filters.Name != null)
             {
-                locations = locations.Where(x => x.Name == filters.Name);
+                locations = locations.Where(x => x.Name.Contains(filters.Name));
+            }
+
+            if (filters.IsRoom != null)
+            {
+                locations = locations.Where(x => x.IsRoom == filters.IsRoom);
             }
             var pagedLocations = PagedList<Location>.Create(locations, filters.PageNumber, filters.PageSize);
             return pagedLocations;
@@ -53,6 +65,7 @@ namespace Capstone.Core.Services
 
         public async Task<bool> UpdateLocation(Location location)
         {
+            location.IsDeleted = false;
             _unitOfWork.LocationRepository.Update(location);
             await _unitOfWork.SaveChangesAsync();
             return true;

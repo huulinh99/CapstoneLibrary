@@ -14,6 +14,6 @@ namespace Capstone.Core.Interfaces
         Task<ReturnDetail> GetReturnDetail(int id);
         Task InsertReturnDetail(ReturnDetail returnDetail);
         Task<bool> UpdateReturnDetail(ReturnDetail returnDetail);
-        Task<bool> DeleteReturnDetail(int id);
+        Task<bool> DeleteReturnDetail(int?[] id);
     }
 }

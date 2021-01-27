@@ -1,4 +1,5 @@
 ﻿using Capstone.Core.CustomEntities;
+using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.QueryFilters;
 using System;
@@ -10,10 +11,10 @@ namespace Capstone.Core.Interfaces
 {
     public interface IBorrowBookService
     {
-        PagedList<BorrowBook> GetBorrowBooks(BorrowBookQueryFilter filters);
+        PagedList<BorrowBookDto> GetBorrowBooks(BorrowBookQueryFilter filters);
         Task<BorrowBook> GetBorrowBook(int id);
         Task InsertBorrowBook(BorrowBook borrowBook);
         Task<bool> UpdateBorrowBook(BorrowBook borrowBook);
-        Task<bool> DeleteBorrowBook(int id);
+        Task<bool> DeleteBorrowBook(int?[] id);
     }
 }

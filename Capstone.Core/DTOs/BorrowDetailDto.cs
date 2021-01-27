@@ -6,7 +6,14 @@ namespace Capstone.Core.DTOs
 {
     public class BorrowDetailDto
     {
+        public int Id { get; set; }
         public int? BookId { get; set; }
+        public string BookName { get; set; }
+        public string Image { get; set; }
+        public string Author { get; set; }
+        public DateTime StartTime { get; set; }
         public int? BorrowId { get; set; }
+        public double? Fee { get; set; }
+        public double? PunishFee { get; set; }
     }
 }

@@ -3,10 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Capstone.Infrastructure.Services
+namespace Capstone.Core.Interfaces
 {
     public interface IUriService
     {
+        Uri GetPageUri(int pageNumber, int pageSize, string actionUrl);
         Uri GetBookPaginationUri(BookQueryFilter filter, string actionUrl);
         Uri GetBookGroupPaginationUri(BookGroupQueryFilter filter, string actionUrl);
         Uri GetLocationPaginationUri(LocationQueryFilter filter, string actionUrl);
@@ -22,6 +23,9 @@ namespace Capstone.Infrastructure.Services
         Uri GetCustomerPaginationUri(CustomerQueryFilter filter, string actionUrl);
         Uri GetReturnBookPaginationUri(ReturnBookQueryFilter filter, string actionUrl);
         Uri GetReturnDetailPaginationUri(ReturnDetailQueryFilter filter, string actionUrl);
+        Uri GetFeedbackPaginationUri(FeedbackQueryFilter filter, string actionUrl);
+        Uri GetBookDrawerPaginationUri(BookDrawerQueryFilter filter, string actionUrl);
+        Uri GetFavouriteCategoryPaginationUri(FavouriteCategoryQueryFilter filter, string actionUrl);
 
     }
 }

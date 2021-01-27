@@ -1,4 +1,5 @@
-﻿using Capstone.Core.Entities;
+﻿using Capstone.Core.DTOs;
+using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -14,10 +15,40 @@ namespace Capstone.Infrastructure.Repositories
     {
         public BookCategoryRepository(CapstoneContext context) : base(context) { }      
 
-        public async Task<IEnumerable<BookCategory>> GetBookCategoriesByCategory(int? categoryId)
+        public  IEnumerable<BookCategory> GetBookCategoriesByCategory(int? categoryId)
         {
-            return await _entities.Where(x => x.CategoryId == categoryId).ToListAsync();
+            return  _entities.Where(x => x.CategoryId == categoryId && x.IsDeleted == false).ToList();
         }
 
+        public IEnumerable<BookCategory> GetBookCategoriesByBookGroup(int? bookGroupId)
+        {
+            return  _entities.Where(x => x.BookGroupId == bookGroupId && x.IsDeleted == false).ToList();
+        }
+
+        public IEnumerable<BookCategory> GetAllBookCategoriesByBookGroup()
+        {
+            var bookCategory = _entities.Where(x => x.IsDeleted == false).ToList();
+            return bookCategory;
+        }
+
+        //public ICollection<TempDto> GetAllCategoryName(IEnumerable<Category> categories)
+        //{
+        //    List<TempDto> temp = new List<TempDto>();
+
+        //    foreach (var category in categories)
+        //    {
+        //        var bookCategories = _entities.Where(x => x.CategoryId == category.Id && x.IsDeleted == false)
+        //            .Select(x => new BookCategoryDto
+        //            {
+        //                Id = x.Id,
+        //                BookGroupId = x.BookGroupId,
+        //                CategoryId = x.CategoryId
+        //            }).FirstOrDefault();
+
+        //        TempDto tmp = new TempDto(bookCategories.Id, bookCategories);
+        //        temp.Add(tmp);
+        //    }
+        //    return temp;
+        //}   
     }
 }

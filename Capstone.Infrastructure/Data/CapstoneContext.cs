@@ -31,8 +31,10 @@ namespace Capstone.Infrastructure.Data
         public virtual DbSet<Device> Device { get; set; }
         public virtual DbSet<Drawer> Drawer { get; set; }
         public virtual DbSet<ErrorMessage> ErrorMessage { get; set; }
+        public virtual DbSet<Event> Event { get; set; }
         public virtual DbSet<FavouriteCategory> FavouriteCategory { get; set; }
         public virtual DbSet<Feedback> Feedback { get; set; }
+        public virtual DbSet<Image> Image { get; set; }
         public virtual DbSet<Location> Location { get; set; }
         public virtual DbSet<Notification> Notification { get; set; }
         public virtual DbSet<ReturnBook> ReturnBook { get; set; }
@@ -95,8 +97,6 @@ namespace Capstone.Infrastructure.Data
 
             modelBuilder.Entity<BookDrawer>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.Time).HasColumnType("date");
 
                 entity.HasOne(d => d.Book)
@@ -196,7 +196,19 @@ namespace Capstone.Infrastructure.Data
 
             modelBuilder.Entity<Customer>(entity =>
             {
-                entity.Property(e => e.Name).HasMaxLength(50);
+                entity.Property(e => e.Address).HasMaxLength(250);
+
+                entity.Property(e => e.CreatedTime).HasColumnType("date");
+
+                entity.Property(e => e.DoB).HasColumnType("date");
+
+                entity.Property(e => e.Email).HasMaxLength(250);
+
+                entity.Property(e => e.Gender).HasMaxLength(50);
+
+                entity.Property(e => e.Name).HasMaxLength(250);
+
+                entity.Property(e => e.Phone).HasMaxLength(50);
             });
 
             modelBuilder.Entity<Device>(entity =>
@@ -210,6 +222,11 @@ namespace Capstone.Infrastructure.Data
                     .HasForeignKey(d => d.CustomerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Device_Customer");
+
+                entity.HasOne(d => d.Staff)
+                    .WithMany(p => p.Device)
+                    .HasForeignKey(d => d.StaffId)
+                    .HasConstraintName("FK_Device_Staff");
             });
 
             modelBuilder.Entity<Drawer>(entity =>
@@ -233,6 +250,15 @@ namespace Capstone.Infrastructure.Data
                     .HasConstraintName("FK_ErrorMessage_Drawer");
             });
 
+            modelBuilder.Entity<Event>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.CreatedDate).HasColumnType("date");
+
+                entity.Property(e => e.Name).IsUnicode(false);
+            });
+
             modelBuilder.Entity<FavouriteCategory>(entity =>
             {
                 entity.HasOne(d => d.Category)
@@ -248,6 +274,8 @@ namespace Capstone.Infrastructure.Data
 
             modelBuilder.Entity<Feedback>(entity =>
             {
+                entity.Property(e => e.CreatedDate).HasColumnType("date");
+
                 entity.HasOne(d => d.BookGroup)
                     .WithMany(p => p.Feedback)
                     .HasForeignKey(d => d.BookGroupId)
@@ -260,19 +288,36 @@ namespace Capstone.Infrastructure.Data
                     .HasConstraintName("FK_Feedback_Customer");
             });
 
+            modelBuilder.Entity<Image>(entity =>
+            {
+                entity.HasOne(d => d.BookGroup)
+                    .WithMany(p => p.Image)
+                    .HasForeignKey(d => d.BookGroupId)
+                    .HasConstraintName("FK_Image_BookGroup");
+            });
+
             modelBuilder.Entity<Location>(entity =>
             {
+                entity.Property(e => e.Color).HasMaxLength(100);
+
                 entity.Property(e => e.Name).HasMaxLength(100);
             });
 
             modelBuilder.Entity<Notification>(entity =>
             {
+                entity.Property(e => e.CreatedDate).HasColumnType("date");
+
                 entity.Property(e => e.Time).HasColumnType("datetime");
 
-                entity.HasOne(d => d.Customer)
+                entity.HasOne(d => d.User)
                     .WithMany(p => p.Notification)
-                    .HasForeignKey(d => d.CustomerId)
+                    .HasForeignKey(d => d.UserId)
                     .HasConstraintName("FK_Notification_Customer");
+
+                entity.HasOne(d => d.UserNavigation)
+                    .WithMany(p => p.Notification)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK_Notification_Staff");
             });
 
             modelBuilder.Entity<ReturnBook>(entity =>
@@ -322,6 +367,8 @@ namespace Capstone.Infrastructure.Data
 
             modelBuilder.Entity<Staff>(entity =>
             {
+                entity.Property(e => e.DoB).HasColumnType("date");
+
                 entity.Property(e => e.Name).HasMaxLength(250);
 
                 entity.HasOne(d => d.Role)

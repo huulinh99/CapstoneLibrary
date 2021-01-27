@@ -15,6 +15,6 @@ namespace Capstone.Core.Interfaces
         Task InsertLocation(Location location);
         Task<bool> UpdateLocation(Location location);
 
-        Task<bool> DeleteLocation(int id);
+        Task<bool> DeleteLocation(int?[] id);
     }
 }

@@ -1,5 +1,8 @@
 ﻿using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
+using Capstone.Core.Interfaces.BookDrawerInterfaces;
+using Capstone.Core.Interfaces.FavouriteCategoryInterfaces;
+using Capstone.Core.Interfaces.ImageInterfaces;
 using Capstone.Infrastructure.Data;
 using System;
 using System.Collections.Generic;
@@ -32,13 +35,16 @@ namespace Capstone.Infrastructure.Repositories
         private readonly IDeviceRepository _deviceRepository;
         private readonly IFeedbackRepository _feedbackRepository;
         private readonly INotificationRepository _notificationRepository;
+        private readonly IImageRepository _imageRepository;
+        private readonly IBookDrawerRepository _bookDrawerRepository;
+        private readonly IFavouriteCategoryRepository _favouriteCategoryRepository;
         public UnitOfWork(CapstoneContext context)
         {
             _context = context;
 
         }
         public IBookRepository BookRepository => _bookRepository ?? new BookRepository(_context);
-        public IBookGroupRepository BookGroupRepository => _bookGroupRepository ?? new BookGroupRepository(_context);
+        public IBookGroupRepository BookGroupRepository => _bookGroupRepository  ?? new BookGroupRepository(_context);
         public ILocationRepository LocationRepository => _locationRepository ?? new LocationRepository(_context);
         public IBookShelfRepository BookShelfRepository => _bookShelfRepository ?? new BookShelfRepository(_context);
         public IDrawerRepository DrawerRepository => _drawerRepository ?? new DrawerRepository(_context);
@@ -60,6 +66,9 @@ namespace Capstone.Infrastructure.Repositories
         public IDeviceRepository DeviceRepository => _deviceRepository ?? new DeviceRepository(_context);
         public IFeedbackRepository FeedbackRepository => _feedbackRepository ?? new FeedbackRepository(_context);
         public INotificationRepository NotificationRepository => _notificationRepository ?? new NotificationRepository(_context);
+        public IImageRepository ImageRepository => _imageRepository ?? new ImageRepository(_context);
+        public IBookDrawerRepository BookDrawerRepository => _bookDrawerRepository ?? new BookDrawerRepository(_context);
+        public IFavouriteCategoryRepository FavouriteCategoryRepository => _favouriteCategoryRepository ?? new FavouriteCategoryRepository(_context);
 
         public void Dispose()
         {

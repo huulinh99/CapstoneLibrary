@@ -1,23 +1,30 @@
 using AutoMapper;
+using Capstone.Api.Controllers;
 using Capstone.Core.CustomEntities;
+using Capstone.Core.Hubs;
 using Capstone.Core.Interfaces;
+using Capstone.Core.Interfaces.BookDrawerInterfaces;
+using Capstone.Core.Interfaces.FavouriteCategoryInterfaces;
+using Capstone.Core.Interfaces.ImageInterfaces;
 using Capstone.Core.Services;
 using Capstone.Infrastructure.Data;
 using Capstone.Infrastructure.Filters;
 using Capstone.Infrastructure.Repositories;
-using Capstone.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Text;
+using System.Web.Http;
 
 namespace Capstone.Api
 {
@@ -33,14 +40,16 @@ namespace Capstone.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            IdentityModelEventSource.ShowPII = true;
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddControllers(options => { options.Filters.Add<GlobalExceptionFilter>(); }).AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                 options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
             })
-            .ConfigureApiBehaviorOptions(options => {
-                options.SuppressModelStateInvalidFilter = true;
+            .ConfigureApiBehaviorOptions(options =>
+            {
+                // options.SuppressModelStateInvalidFilter = true;
             });
             services.Configure<PaginationOptions>(Configuration.GetSection("Pagination"));
             services.AddDbContext<CapstoneContext>(options =>
@@ -66,32 +75,31 @@ namespace Capstone.Api
             services.AddTransient<IDeviceService, DeviceService>();
             services.AddTransient<IFeedbackService, FeedbackService>();
             services.AddTransient<INotificationService, NotificationService>();
+            services.AddTransient<IBookDrawerService, BookDrawerService>();
+            services.AddTransient<IImageService, ImageService>();
+            services.AddTransient<IFavouriteCategoryService, FavouriteCategoryService>();
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddHttpContextAccessor();
-            services.AddSingleton<IUriService>(provider =>
+            services.AddSingleton<IUriService>(o =>
             {
-                var accesor = provider.GetRequiredService<IHttpContextAccessor>();
-                var request = accesor.HttpContext.Request;
-                var absoluteUri = string.Concat(request.Scheme, "://", request.Host.ToUriComponent());
-                return new UriService(absoluteUri);
+                var accessor = o.GetRequiredService<IHttpContextAccessor>();
+                var request = accessor.HttpContext.Request;
+                var uri = string.Concat(request.Scheme, "://", request.Host.ToUriComponent());
+                return new UriService(uri);
             });
+            services.AddScoped<MessageHub>();
+            services.AddCors();
+
             services.AddSwaggerGen(doc =>
             {
                 doc.SwaggerDoc("v1", new OpenApiInfo { Title = "Capstone Library API", Version = "v1" });
             });
 
-            services.AddCors(opts =>
+            services.AddSignalR(o =>
             {
-                opts.AddPolicy("AllowAll", builder =>
-                {
-                    builder.AllowAnyOrigin()
-                            .AllowAnyMethod()
-                            .AllowAnyHeader();
-                    //.AllowCredentials();
-                });
+                o.EnableDetailedErrors = true;
             });
-
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -108,8 +116,8 @@ namespace Capstone.Api
                     ValidAudience = Configuration["Authentication:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Authentication:SecretKey"]))
                 };
-            });
-            
+            });          
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -119,11 +127,14 @@ namespace Capstone.Api
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseHttpsRedirection();
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true) // allow any origin
+                .AllowCredentials());
+            app.UseRouting();           
 
-            app.UseCors("AllowAll");
-
-            app.UseRouting();
+            
 
             app.UseSwagger();
 
@@ -134,15 +145,14 @@ namespace Capstone.Api
             });
 
 
-
             app.UseRouting();
 
-            app.UseAuthorization();
             app.UseAuthentication();
-
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<MessageHub>("/message");
             });
         }
     }

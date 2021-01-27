@@ -20,7 +20,7 @@ namespace Capstone.Core.Services
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
         }
-        public async Task<bool> DeleteCampaign(int id)
+        public async Task<bool> DeleteCampaign(int?[] id)
         {
             await _unitOfWork.CampaignRepository.Delete(id);
             await _unitOfWork.SaveChangesAsync();
@@ -40,6 +40,11 @@ namespace Capstone.Core.Services
             if (filters.StaffId != null)
             {
                 campaigns = campaigns.Where(x => x.StaffId == filters.StaffId);
+            }
+
+            if (filters.DateTime != null)
+            {
+                campaigns = campaigns.Where(x => x.StartTime <= filters.DateTime.AddDays(3) && x.StartTime >= filters.DateTime);
             }
             var pagedCampaigns = PagedList<Campaign>.Create(campaigns, filters.PageNumber, filters.PageSize);
             return pagedCampaigns;

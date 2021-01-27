@@ -5,7 +5,7 @@ using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Core.QueryFilters;
-using Capstone.Infrastructure.Services;
+using Capstone.Core.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -37,25 +37,7 @@ namespace Capstone.Api.Controllers
         {
             var drawers = _drawerService.GetDrawers(filters);
             var drawersDtos = _mapper.Map<IEnumerable<DrawerDto>>(drawers);
-            var metadata = new Metadata
-            {
-                TotalCount = drawers.TotalCount,
-                PageSize = drawers.PageSize,
-                CurrentPage = drawers.CurrentPage,
-                TotalPages = drawers.TotalPages,
-                HasNextPage = drawers.HasNextPage,
-                HasPreviousPage = drawers.HasPreviousPage,
-                NextPageUrl = _uriService.GetDrawerPaginationUri(filters, Url.RouteUrl(nameof(GetDrawers))).ToString(),
-                PreviousPageUrl = _uriService.GetDrawerPaginationUri(filters, Url.RouteUrl(nameof(GetDrawers))).ToString()
-            };
-
-            var response = new ApiResponse<IEnumerable<DrawerDto>>(drawersDtos)
-            {
-                Meta = metadata
-            };
-            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
-
-            return Ok(response);
+            return Ok(drawersDtos);
         }
 
         [HttpGet("{id}")]
@@ -87,8 +69,8 @@ namespace Capstone.Api.Controllers
             return Ok(response);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpDelete]
+        public async Task<IActionResult> Delete([FromQuery]int?[]id = null)
         {
             var result = await _drawerService.DeleteDrawer(id);
             var response = new ApiResponse<bool>(result);

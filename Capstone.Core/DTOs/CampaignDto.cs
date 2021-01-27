@@ -6,6 +6,7 @@ namespace Capstone.Core.DTOs
 {
     public class CampaignDto
     {
+        public int Id { get; set; }
         public int StaffId { get; set; }
         public string Title { get; set; }
         public DateTime StartTime { get; set; }

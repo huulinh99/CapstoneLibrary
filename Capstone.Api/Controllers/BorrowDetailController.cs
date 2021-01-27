@@ -10,7 +10,7 @@ using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Core.QueryFilters;
-using Capstone.Infrastructure.Services;
+using Capstone.Core.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -45,9 +45,7 @@ namespace Capstone.Api.Controllers
                 CurrentPage = borrowDetails.CurrentPage,
                 TotalPages = borrowDetails.TotalPages,
                 HasNextPage = borrowDetails.HasNextPage,
-                HasPreviousPage = borrowDetails.HasPreviousPage,
-                NextPageUrl = _uriService.GetBorrowDetailPaginationUri(filters, Url.RouteUrl(nameof(GetBorrowDetails))).ToString(),
-                PreviousPageUrl = _uriService.GetBorrowDetailPaginationUri(filters, Url.RouteUrl(nameof(GetBorrowDetails))).ToString()
+                HasPreviousPage = borrowDetails.HasPreviousPage
             };
 
             var response = new ApiResponse<IEnumerable<BorrowDetailDto>>(borrowDetailsDtos)
@@ -89,8 +87,8 @@ namespace Capstone.Api.Controllers
             return Ok(response);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpDelete]
+        public async Task<IActionResult> Delete([FromQuery] int?[] id = null)
         {
             var result = await _borrowBookService.DeleteBorrowDetail(id);
             var response = new ApiResponse<bool>(result);

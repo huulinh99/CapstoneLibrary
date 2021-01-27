@@ -1,4 +1,5 @@
 ﻿using Capstone.Core.CustomEntities;
+using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.QueryFilters;
 using System;
@@ -10,11 +11,11 @@ namespace Capstone.Core.Interfaces
 {
     public interface IBorrowDetailService
     {
-        PagedList<BorrowDetail> GetBorrowDetails(BorrowDetailQueryFilter filters);
+        PagedList<BorrowDetailDto> GetBorrowDetails(BorrowDetailQueryFilter filters);
         Task<BorrowDetail> GetBorrowDetail(int id);
         Task InsertBorrowDetail(BorrowDetail borrowDetail);
         Task<bool> UpdateBorrowDetail(BorrowDetail borrowDetail);
 
-        Task<bool> DeleteBorrowDetail(int id);
+        Task<bool> DeleteBorrowDetail(int?[] id);
     }
 }

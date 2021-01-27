@@ -14,6 +14,6 @@ namespace Capstone.Core.Interfaces
         Task<Campaign> GetCampaign(int id);
         Task InsertCampaign(Campaign campaign);
         Task<bool> UpdateCampaign(Campaign campaign);
-        Task<bool> DeleteCampaign(int id);
+        Task<bool> DeleteCampaign(int?[] id);
     }
 }

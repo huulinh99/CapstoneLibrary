@@ -1,4 +1,5 @@
 ﻿using Capstone.Core.CustomEntities;
+using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.QueryFilters;
 using System;
@@ -10,10 +11,10 @@ namespace Capstone.Core.Interfaces
 {
     public interface IBookShelfService
     {
-        PagedList<BookShelf> GetBookShelves(BookShelfQueryFilter filters);
+        PagedList<BookShelfDto> GetBookShelves(BookShelfQueryFilter filters);
         Task<BookShelf> GetBookShelf(int id);
         Task InsertBookShelf(BookShelf bookShelf);
         Task<bool> UpdateBookShelf(BookShelf bookShelf);
-        Task<bool> DeleteBookShelf(int id);
+        Task<bool> DeleteBookShelf(int?[] id);
     }
 }
