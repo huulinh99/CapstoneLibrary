@@ -3,10 +3,7 @@ using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Core.QueryFilters;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Capstone.Core.Services

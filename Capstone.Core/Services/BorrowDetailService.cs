@@ -41,6 +41,13 @@ namespace Capstone.Core.Services
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
             var borrowDetails = _unitOfWork.BorrowDetailRepository.GetAllBorrowDetailAndBookName();
+            var borrowBooks = _unitOfWork.BorrowBookRepository.GetAllBorrowBookWithCustomerName();
+
+            if(filters.CustomerId != null)
+            {
+                borrowBooks = borrowBooks.Where(x => x.CustomerId == filters.CustomerId);
+                borrowDetails = _unitOfWork.BorrowDetailRepository.GetBorrowDetailWithListBorrow(borrowBooks);
+            }
             if (filters.BorrowId != null)
             {
                 borrowDetails = borrowDetails.Where(x => x.BorrowId == filters.BorrowId);

@@ -43,7 +43,7 @@ namespace Capstone.Core.Services
             var customers = _unitOfWork.CustomerRepository.GetAll();
             if (filters.Name != null)
             {
-                customers = customers.Where(x => x.Name == filters.Name);
+                customers = customers.Where(x => x.Name.ToLower().Contains(filters.Name.ToLower()));
             }
             if (filters.Email != null)
             {

@@ -41,6 +41,12 @@ namespace Capstone.Core.Services
             {
                 borrowBooks = borrowBooks.Where(x => x.CustomerId == filters.CustomerId);
             }
+
+            if (filters.CustomerName != null)
+            {
+                borrowBooks = borrowBooks.Where(x => x.CustomerName.ToLower().Contains(filters.CustomerName.ToLower()));
+            }
+
             if (filters.StaffId != null)
             {
                 borrowBooks = borrowBooks.Where(x => x.StaffId == filters.StaffId);

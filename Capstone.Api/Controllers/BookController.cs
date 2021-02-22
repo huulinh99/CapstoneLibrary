@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Capstone.Api.Respones;
 using Capstone.Core.CustomEntities;
 using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Core.QueryFilters;
-using Capstone.Core.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace Capstone.Api.Controllers
 {

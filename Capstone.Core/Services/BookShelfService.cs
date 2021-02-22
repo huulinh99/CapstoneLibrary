@@ -56,7 +56,7 @@ namespace Capstone.Core.Services
 
             if (filters.Name != null)
             {
-                bookShelves = bookShelves.Where(x => x.Name.Contains(filters.Name.ToLower()));
+                bookShelves = bookShelves.Where(x => x.Name.ToLower().Contains(filters.Name.ToLower()));
             }
             var pagedBookShelves = PagedList<BookShelfDto>.Create(bookShelves, filters.PageNumber, filters.PageSize);
             return pagedBookShelves;

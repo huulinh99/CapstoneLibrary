@@ -6,8 +6,8 @@ namespace Capstone.Core.Hubs
 {
     public class Message
     {
-        public int Id { get; set; }
         public int StaffId { get; set; }
-        public Array BookId { get; set; }
+        public int CustomerId { get; set; }
+        public List<int> Wishlist { get; set; }
     }
 }

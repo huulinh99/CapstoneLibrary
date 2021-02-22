@@ -46,7 +46,7 @@ namespace Capstone.Core.Services
             var locations = _unitOfWork.LocationRepository.GetAll();
             if (filters.Name != null)
             {
-                locations = locations.Where(x => x.Name.Contains(filters.Name));
+                locations = locations.Where(x => x.Name.ToLower().Contains(filters.Name.ToLower()));
             }
 
             if (filters.IsRoom != null)

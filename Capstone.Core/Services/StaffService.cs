@@ -51,7 +51,7 @@ namespace Capstone.Core.Services
             var staffs = _unitOfWork.StaffRepository.GetAll();
             if (filters.Name != null)
             {
-                staffs = staffs.Where(x => x.Name == filters.Name);
+                staffs = staffs.Where(x => x.Name.ToLower().Contains(filters.Name.ToLower()));
             }
             var pagedStaffs = PagedList<Staff>.Create(staffs, filters.PageNumber, filters.PageSize);
             return pagedStaffs;
