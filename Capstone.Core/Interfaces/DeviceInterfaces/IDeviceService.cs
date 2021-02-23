@@ -11,9 +11,9 @@ namespace Capstone.Core.Interfaces
     public interface IDeviceService
     {
         PagedList<Device> GetDevices(DeviceQueryFilter filters);
-        Task<Device> GetDevice(int id);
-        Task InsertDevice(Device device);
-        Task<bool> UpdateDevice(Device device);
-        Task<bool> DeleteDevice(int?[] id);
+        Device GetDevice(int id);
+        void InsertDevice(Device device);
+        bool UpdateDevice(Device device);
+        bool DeleteDevice(int?[] id);
     }
 }

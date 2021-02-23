@@ -54,39 +54,39 @@ namespace Capstone.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetErrorMessage(int id)
+        public IActionResult GetErrorMessage(int id)
         {
-            var errorMessage = await _errorMessageService.GetErrorMessage(id);
+            var errorMessage = _errorMessageService.GetErrorMessage(id);
             var errorMessageDto = _mapper.Map<ErrorMessageDto>(errorMessage);
             var response = new ApiResponse<ErrorMessageDto>(errorMessageDto);
             return Ok(response);
         }
 
         [HttpPost]
-        public async Task<IActionResult> ErrorMessage(ErrorMessageDto errorMessageDto)
+        public IActionResult ErrorMessage(ErrorMessageDto errorMessageDto)
         {
             var post = _mapper.Map<ErrorMessage>(errorMessageDto);
-            await _errorMessageService.InsertErrorMessage(post);
+            _errorMessageService.InsertErrorMessage(post);
             errorMessageDto = _mapper.Map<ErrorMessageDto>(post);
             var response = new ApiResponse<ErrorMessageDto>(errorMessageDto);
             return Ok(response);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(int id, ErrorMessageDto errorMessageDto)
+        public IActionResult Put(int id, ErrorMessageDto errorMessageDto)
         {
             var errorMessage = _mapper.Map<ErrorMessage>(errorMessageDto);
             errorMessage.Id = id;
 
-            var result = await _errorMessageService.UpdateErrorMessage(errorMessage);
+            var result = _errorMessageService.UpdateErrorMessage(errorMessage);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete([FromQuery] int?[] id = null)
+        public IActionResult Delete([FromQuery] int?[] id = null)
         {
-            var result = await _errorMessageService.DeleteErrorMessage(id);
+            var result = _errorMessageService.DeleteErrorMessage(id);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }

@@ -71,39 +71,39 @@ namespace Capstone.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetBookGroup(int id)
+        public IActionResult GetBookGroup(int id)
         {
-            var bookGroup = await _bookGroupService.GetBookGroup(id);
+            var bookGroup = _bookGroupService.GetBookGroup(id);
             var bookGroupDto = _mapper.Map<BookGroupDto>(bookGroup);
             var response = new ApiResponse<BookGroupDto>(bookGroupDto);
             return Ok(response);
         }
 
         [HttpPost]
-        public async Task<IActionResult> BookGroup(BookGroupDto bookGroupDto)
+        public IActionResult BookGroup(BookGroupDto bookGroupDto)
         {
             var bookGroup = _mapper.Map<BookGroup>(bookGroupDto);          
-            await _bookGroupService.InsertBookGroup(bookGroup);
+            _bookGroupService.InsertBookGroup(bookGroup);
             bookGroupDto = _mapper.Map<BookGroupDto>(bookGroup);
             var response = new ApiResponse<BookGroupDto>(bookGroupDto);
             return Ok(response);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(int id, BookGroupDto bookGroupDto)
+        public IActionResult Put(int id, BookGroupDto bookGroupDto)
         {
             var bookGroup = _mapper.Map<BookGroup>(bookGroupDto);
             bookGroup.Id = id;
             Debug.WriteLine("run controller");
-            var result = await _bookGroupService.UpdateBookGroup(bookGroup);
+            var result = _bookGroupService.UpdateBookGroup(bookGroup);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete([FromQuery]int?[]id = null)
+        public IActionResult Delete([FromQuery]int?[]id = null)
         {
-            var result = await _bookGroupService.DeleteBookGroup(id);
+            var result = _bookGroupService.DeleteBookGroup(id);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }

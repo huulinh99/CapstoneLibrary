@@ -20,10 +20,10 @@ namespace Capstone.Core.Services
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
         }
-        public async Task<bool> DeleteCategory(int?[] id)
+        public bool DeleteCategory(int?[] id)
         {
-            await _unitOfWork.CategoryRepository.Delete(id);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.CategoryRepository.Delete(id);
+            _unitOfWork.SaveChangesAsync();
             return true;
         }
 
@@ -41,21 +41,21 @@ namespace Capstone.Core.Services
             return pagedCategories;
         }
 
-        public async Task<Category> GetCategory(int id)
+        public Category GetCategory(int id)
         {
-            return await _unitOfWork.CategoryRepository.GetById(id);
+            return _unitOfWork.CategoryRepository.GetById(id);
         }
 
-        public async Task InsertCategory(Category category)
+        public void InsertCategory(Category category)
         {
-            await _unitOfWork.CategoryRepository.Add(category);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.CategoryRepository.Add(category);
+            _unitOfWork.SaveChanges();
         }
 
-        public async Task<bool> UpdateCategory(Category category)
+        public bool UpdateCategory(Category category)
         {
             _unitOfWork.CategoryRepository.Update(category);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.SaveChanges();
             return true;
         }
     }

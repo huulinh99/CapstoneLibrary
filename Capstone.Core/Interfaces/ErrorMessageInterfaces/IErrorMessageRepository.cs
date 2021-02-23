@@ -8,6 +8,6 @@ namespace Capstone.Core.Interfaces
 {
     public interface IErrorMessageRepository : IRepository<ErrorMessage>
     {
-        Task<IEnumerable<ErrorMessage>> GetErrorMessagesByBookDetectError(int bookDetectErrorId);
+        IEnumerable<ErrorMessage> GetErrorMessagesByBookDetectError(int bookDetectErrorId);
     }
 }

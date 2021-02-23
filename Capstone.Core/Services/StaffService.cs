@@ -23,25 +23,25 @@ namespace Capstone.Core.Services
             _paginationOptions = options.Value;
         }
 
-        public async Task<StaffDto> GetLoginByCredenticals(UserLogin login)
+        public StaffDto GetLoginByCredenticals(UserLogin login)
         {
-            return await _unitOfWork.StaffRepository.GetLoginByCredentials(login);
+            return _unitOfWork.StaffRepository.GetLoginByCredentials(login);
         }
-        public async Task<bool> DeleteStaff(int?[] id)
+        public bool DeleteStaff(int?[] id)
         {
-            await _unitOfWork.StaffRepository.Delete(id);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.StaffRepository.Delete(id);
+            _unitOfWork.SaveChanges();
             return true;
         }
 
-        public async Task<Staff> GetStaff(int id)
+        public Staff GetStaff(int id)
         {
-            return await _unitOfWork.StaffRepository.GetById(id);
+            return _unitOfWork.StaffRepository.GetById(id);
         }
 
-        public async Task<Staff> GetStaffByUserName(string username)
+        public Staff GetStaffByUserName(string username)
         {
-            return await _unitOfWork.StaffRepository.GetStaffByUsername(username);
+            return _unitOfWork.StaffRepository.GetStaffByUsername(username);
         }
 
         public PagedList<Staff> GetStaffs(StaffQueryFilter filters)
@@ -57,19 +57,19 @@ namespace Capstone.Core.Services
             return pagedStaffs;
         }
 
-        public async Task InsertStaff(Staff staff)
+        public void InsertStaff(Staff staff)
         {
             staff.RoleId = 1;
-            await _unitOfWork.StaffRepository.Add(staff);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.StaffRepository.Add(staff);
+            _unitOfWork.SaveChanges();
         }
 
-        public async Task<bool> UpdateStaff(Staff staff)
+        public bool UpdateStaff(Staff staff)
         {
             staff.IsDeleted = false;
             staff.RoleId = 1;
             _unitOfWork.StaffRepository.Update(staff);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.SaveChanges();
             return true;
         }
     }

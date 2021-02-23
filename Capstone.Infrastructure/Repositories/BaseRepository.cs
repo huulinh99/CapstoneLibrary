@@ -19,17 +19,17 @@ namespace Capstone.Infrastructure.Repositories
             _context = context;
             _entities = context.Set<T>();
         }
-        public async Task Add(T entity)
+        public void Add(T entity)
         {
             entity.IsDeleted = false;
-            await _entities.AddAsync(entity);
+            _entities.AddAsync(entity);
         }
 
-        public async Task Delete(int?[] id)
+        public void Delete(int?[] id)
         {
             var entities = _entities.Where(f => id.Contains(f.Id)).ToList();
             entities.ForEach(a => a.IsDeleted = true);
-            await _context.SaveChangesAsync();
+            _context.SaveChangesAsync();
         }
 
         public IEnumerable<T> GetAll()
@@ -37,9 +37,9 @@ namespace Capstone.Infrastructure.Repositories
             return _entities.Where(x => x.IsDeleted == false).AsEnumerable().ToList();
         }
 
-        public async Task<T> GetById(int? id)
+        public T GetById(int? id)
         {
-            return await _entities.FindAsync(id);
+            return _entities.Find(id);
         }
 
         public void Update(T entity)

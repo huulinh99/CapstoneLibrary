@@ -11,7 +11,7 @@ namespace Capstone.Core.Interfaces
     {
         //Task<IEnumerable<Drawer>> GetDrawersByBookShelf(int bookShelfId);
         IEnumerable<DrawerDto> GetAllDrawers(int bookShelfId, int rowStart, int rowEnd, int colStart, int colEnd);
-        Task DeleteDrawerInBookShelf(int?[] bookShelfId);
+        void DeleteDrawerInBookShelf(int?[] bookShelfId);
         IEnumerable<DrawerDto> GetAllDrawers(IEnumerable<BookDrawer> bookDrawers);
         int?[] GetDrawerIdInBookShelf(int?[] bookShelfId);
     }   

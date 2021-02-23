@@ -9,8 +9,8 @@ namespace Capstone.Core.Interfaces
 {
     public interface IStaffRepository : IRepository<Staff>
     {
-        Task<IEnumerable<Staff>> GetStaffsByName(string name);
-        Task<StaffDto> GetLoginByCredentials(UserLogin login);
-        Task<Staff> GetStaffByUsername(string username);
+        IEnumerable<Staff> GetStaffsByName(string name);
+        StaffDto GetLoginByCredentials(UserLogin login);
+        Staff GetStaffByUsername(string username);
     }
 }

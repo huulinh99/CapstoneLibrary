@@ -53,39 +53,39 @@ namespace Capstone.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetRole(int id)
+        public IActionResult GetRole(int id)
         {
-            var role = await _roleService.GetRole(id);
+            var role =  _roleService.GetRole(id);
             var roleDto = _mapper.Map<RoleDto>(role);
             var response = new ApiResponse<RoleDto>(roleDto);
             return Ok(response);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Role(RoleDto roleDto)
+        public IActionResult Role(RoleDto roleDto)
         {
             var post = _mapper.Map<Role>(roleDto);
-            await _roleService.InsertRole(post);
+            _roleService.InsertRole(post);
             roleDto = _mapper.Map<RoleDto>(post);
             var response = new ApiResponse<RoleDto>(roleDto);
             return Ok(response);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(int id, RoleDto roleDto)
+        public IActionResult Put(int id, RoleDto roleDto)
         {
             var role = _mapper.Map<Role>(roleDto);
             role.Id = id;
 
-            var result = await _roleService.UpdateRole(role);
+            var result = _roleService.UpdateRole(role);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete([FromQuery] int?[] id = null)
+        public IActionResult Delete([FromQuery] int?[] id = null)
         {
-            var result = await _roleService.DeleteRole(id);
+            var result = _roleService.DeleteRole(id);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }

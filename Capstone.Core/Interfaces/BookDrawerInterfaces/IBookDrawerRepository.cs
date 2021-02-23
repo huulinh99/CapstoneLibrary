@@ -11,8 +11,8 @@ namespace Capstone.Core.Interfaces.BookDrawerInterfaces
     {
         IEnumerable<BookDrawer> GetBookDrawerByDrawerId(int? drawerId);
         int?[] GetBookDrawerIdInDrawer(int?[] drawerId);
-        Task DeleteBookDrawerByDrawerId(int?[] drawerId);
-        Task GetBookDrawerByListBookId(int?[] bookId);
+        void DeleteBookDrawerByDrawerId(int?[] drawerId);
+        void GetBookDrawerByListBookId(int?[] bookId);
         BookDrawer GetBookDrawerByBookId(int? bookId);
         IEnumerable<BookDrawer> GetBookDrawerByListBook(IEnumerable<BookDto> books);
     }

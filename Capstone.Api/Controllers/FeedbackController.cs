@@ -65,39 +65,39 @@ namespace Capstone.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetFeedback(int id)
+        public IActionResult GetFeedback(int id)
         {
-            var feedback = await _feedbackService.GetFeedback(id);
+            var feedback =  _feedbackService.GetFeedback(id);
             var feedbackDto = _mapper.Map<FeedbackDto>(feedback);
             var response = new ApiResponse<FeedbackDto>(feedbackDto);
             return Ok(response);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Book(FeedbackDto feedbackDto)
+        public IActionResult Book(FeedbackDto feedbackDto)
         {
             var feedback = _mapper.Map<Feedback>(feedbackDto);
-            await _feedbackService.InsertFeedback(feedback);
+            _feedbackService.InsertFeedback(feedback);
             feedbackDto = _mapper.Map<FeedbackDto>(feedback);
             var response = new ApiResponse<FeedbackDto>(feedbackDto);
             return Ok(response);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(int id, FeedbackDto feedbackDto)
+        public IActionResult Put(int id, FeedbackDto feedbackDto)
         {
             var feedback = _mapper.Map<Feedback>(feedbackDto);
             feedback.Id = id;
 
-            var result = await _feedbackService.UpdateFeedback(feedback);
+            var result = _feedbackService.UpdateFeedback(feedback);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete([FromQuery] int?[] id = null)
+        public IActionResult Delete([FromQuery] int?[] id = null)
         {
-            var result = await _feedbackService.DeleteFeedback(id);
+            var result = _feedbackService.DeleteFeedback(id);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }

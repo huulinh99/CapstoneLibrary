@@ -11,7 +11,7 @@ namespace Capstone.Infrastructure.Repositories
     public class RoleRepository : BaseRepository<Role>, IRoleRepository
     {
         public RoleRepository(CapstoneContext context) : base(context) { }
-        public Task<IEnumerable<Role>> GetRolesByBookName(string name)
+        public IEnumerable<Role> GetRolesByBookName(string name)
         {
             throw new NotImplementedException();
         }

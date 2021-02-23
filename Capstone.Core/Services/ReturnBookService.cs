@@ -20,16 +20,16 @@ namespace Capstone.Core.Services
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
         }
-        public async Task<bool> DeleteReturnBook(int?[] id)
+        public bool DeleteReturnBook(int?[] id)
         {
-            await _unitOfWork.ReturnBookRepository.Delete(id);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.ReturnBookRepository.Delete(id);
+            _unitOfWork.SaveChanges();
             return true;
         }
 
-        public async Task<ReturnBook> GetReturnBook(int id)
+        public ReturnBook GetReturnBook(int id)
         {
-            return await _unitOfWork.ReturnBookRepository.GetById(id);
+            return _unitOfWork.ReturnBookRepository.GetById(id);
         }
 
         public PagedList<ReturnBook> GetReturnBooks(ReturnBookQueryFilter filters)
@@ -57,16 +57,16 @@ namespace Capstone.Core.Services
             return pagedReturnBooks;
         }
 
-        public async Task InsertReturnBook(ReturnBook returnBook)
+        public void InsertReturnBook(ReturnBook returnBook)
         {
-            await _unitOfWork.ReturnBookRepository.Add(returnBook);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.ReturnBookRepository.Add(returnBook);
+            _unitOfWork.SaveChanges();
         }
 
-        public async Task<bool> UpdateReturnBook(ReturnBook returnBook)
+        public bool UpdateReturnBook(ReturnBook returnBook)
         {
             _unitOfWork.ReturnBookRepository.Update(returnBook);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.SaveChanges();
             return true;
         }
     }

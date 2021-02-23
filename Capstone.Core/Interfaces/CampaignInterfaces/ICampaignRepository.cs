@@ -8,6 +8,6 @@ namespace Capstone.Core.Interfaces
 {
     public interface ICampaignRepository : IRepository<Campaign>
     {
-        Task<IEnumerable<Campaign>> GetCampaignsByStaffId(int staffId);
+        IEnumerable<Campaign> GetCampaignsByStaffId(int staffId);
     }
 }

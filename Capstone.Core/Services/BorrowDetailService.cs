@@ -24,19 +24,19 @@ namespace Capstone.Core.Services
             _paginationOptions = options.Value;
             _mapper = mapper;
         }
-        public async Task<bool> DeleteBorrowDetail(int?[] id)
+        public bool DeleteBorrowDetail(int?[] id)
         {
-            await _unitOfWork.BorrowDetailRepository.Delete(id);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.BorrowDetailRepository.Delete(id);
+            _unitOfWork.SaveChanges();
             return true;
         }
 
-        public async Task<BorrowDetail> GetBorrowDetail(int id)
+        public BorrowDetail GetBorrowDetail(int id)
         {
-            return await _unitOfWork.BorrowDetailRepository.GetById(id);
+            return _unitOfWork.BorrowDetailRepository.GetById(id);
         }
 
-        public  PagedList<BorrowDetailDto> GetBorrowDetails(BorrowDetailQueryFilter filters)
+        public PagedList<BorrowDetailDto> GetBorrowDetails(BorrowDetailQueryFilter filters)
         {
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
@@ -61,16 +61,16 @@ namespace Capstone.Core.Services
             return pagedBorrowDetails;
         }
 
-        public async Task InsertBorrowDetail(BorrowDetail borrowDetail)
+        public void InsertBorrowDetail(BorrowDetail borrowDetail)
         {
-            await _unitOfWork.BorrowDetailRepository.Add(borrowDetail);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.BorrowDetailRepository.Add(borrowDetail);
+            _unitOfWork.SaveChanges();
         }
 
-        public async Task<bool> UpdateBorrowDetail(BorrowDetail borrowDetail)
+        public bool UpdateBorrowDetail(BorrowDetail borrowDetail)
         {
             _unitOfWork.BorrowDetailRepository.Update(borrowDetail);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.SaveChanges();
             return true;
         }
     }

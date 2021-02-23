@@ -11,9 +11,9 @@ namespace Capstone.Core.Interfaces
     public interface IErrorMessageService
     {
         PagedList<ErrorMessage> GetErrorMessages(ErrorMessageQueryFilter filters);
-        Task<ErrorMessage> GetErrorMessage(int id);
-        Task InsertErrorMessage(ErrorMessage errorMessage);
-        Task<bool> UpdateErrorMessage(ErrorMessage errorMessage);
-        Task<bool> DeleteErrorMessage(int?[] id);
+        ErrorMessage GetErrorMessage(int id);
+        void InsertErrorMessage(ErrorMessage errorMessage);
+        bool UpdateErrorMessage(ErrorMessage errorMessage);
+        bool DeleteErrorMessage(int?[] id);
     }
 }

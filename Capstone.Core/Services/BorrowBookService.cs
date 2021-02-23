@@ -25,10 +25,10 @@ namespace Capstone.Core.Services
             _paginationOptions = options.Value;
             _mapper = mapper;
         }
-        public async Task<bool> DeleteBorrowBook(int?[] id)
+        public bool DeleteBorrowBook(int?[] id)
         {
-            await _unitOfWork.BorrowBookRepository.Delete(id);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.BorrowBookRepository.Delete(id);
+            _unitOfWork.SaveChanges();
             return true;
         }
 
@@ -55,14 +55,14 @@ namespace Capstone.Core.Services
             return pagedBorrowBooks;
         }
 
-        public async Task<BorrowBook> GetBorrowBook(int id)
+        public BorrowBook GetBorrowBook(int id)
         {
-            return await _unitOfWork.BorrowBookRepository.GetById(id);
+            return _unitOfWork.BorrowBookRepository.GetById(id);
         }
 
-        public async Task InsertBorrowBook(BorrowBook borrowBook)
+        public void InsertBorrowBook(BorrowBook borrowBook)
         {
-            var customer = await _unitOfWork.CustomerRepository.GetById(borrowBook.CustomerId);
+            var customer = _unitOfWork.CustomerRepository.GetById(borrowBook.CustomerId);
             if (customer == null)
             {
                 throw new BusinessException("User doesn't exist");
@@ -74,7 +74,7 @@ namespace Capstone.Core.Services
             {
                 borrowDetail.Fee = borrowDetail.Book.BookGroup.Fee * (borrowBook.StartTime - borrowBook.EndTime).Ticks;
             }
-            await _unitOfWork.BorrowBookRepository.Add(borrowBook);          
+            _unitOfWork.BorrowBookRepository.Add(borrowBook);          
             foreach (var borrowDetail in borrowDetails)
             {
                 var bookGroup = _unitOfWork.BookGroupRepository.GetBookGroupsByBookId(borrowDetail.BookId);
@@ -110,13 +110,13 @@ namespace Capstone.Core.Services
                     
                 }
             }
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.SaveChanges();
         }
 
-        public async Task<bool> UpdateBorrowBook(BorrowBook borrowBook)
+        public bool UpdateBorrowBook(BorrowBook borrowBook)
         {
             _unitOfWork.BorrowBookRepository.Update(borrowBook);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.SaveChanges();
             return true;
         }
     }

@@ -16,18 +16,18 @@ namespace Capstone.Infrastructure.Repositories
     {
         public StaffRepository(CapstoneContext context) : base(context) { }
 
-        public async Task<IEnumerable<Staff>> GetStaffsByName(string name)
+        public IEnumerable<Staff> GetStaffsByName(string name)
         {
-            return await _entities.Where(x => x.Name == name && x.IsDeleted == false).ToListAsync();
+            return _entities.Where(x => x.Name == name && x.IsDeleted == false).ToList();
         }
 
-        public async Task<Staff> GetStaffByUsername(string username)
+        public Staff GetStaffByUsername(string username)
         {
-            return await _entities.Where(x => x.Username == username && x.IsDeleted == false).FirstOrDefaultAsync();
+            return _entities.Where(x => x.Username == username && x.IsDeleted == false).FirstOrDefault();
         }
-        public async Task<StaffDto> GetLoginByCredentials(UserLogin login)
+        public StaffDto GetLoginByCredentials(UserLogin login)
         {
-            return await _entities.Where(x => x.Username == login.Username 
+            return _entities.Where(x => x.Username == login.Username 
             && x.Password == login.Password
             && x.IsDeleted == false)
                 .Include(c=> c.Role)
@@ -43,7 +43,7 @@ namespace Capstone.Infrastructure.Repositories
                 Gender = c.Gender,
                 Phone = c.Phone,
                 RoleName = c.Role.Name
-            }).FirstOrDefaultAsync();
+            }).FirstOrDefault();
         }
        
     }

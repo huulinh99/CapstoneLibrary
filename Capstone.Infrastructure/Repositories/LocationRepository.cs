@@ -14,9 +14,9 @@ namespace Capstone.Infrastructure.Repositories
     {
         public LocationRepository(CapstoneContext context) : base(context) { }
 
-        public async Task<IEnumerable<Location>> GetLocationByLocationName(string name)
+        public IEnumerable<Location> GetLocationByLocationName(string name)
         {
-            return await _entities.Where(x => x.Name == name && x.IsDeleted == false).ToListAsync();
+            return _entities.Where(x => x.Name == name && x.IsDeleted == false).ToList();
         }
     }
 }

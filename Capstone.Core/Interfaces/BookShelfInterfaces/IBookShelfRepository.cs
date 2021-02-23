@@ -9,9 +9,9 @@ namespace Capstone.Core.Interfaces
 {
     public interface IBookShelfRepository : IRepository<BookShelf>
     {
-        Task<IEnumerable<BookShelfDto>> GetBookShelvesByLocation(int locationId);
+        IEnumerable<BookShelfDto> GetBookShelvesByLocation(int locationId);
         IEnumerable<BookShelfDto> GetBookShelvesAndLocationName();
-        Task DeleteBookShelfInLocation(int?[] locationId);
+        void DeleteBookShelfInLocation(int?[] locationId);
         int?[] GetBookShelfIdInLocation(int?[] locationId);
         IEnumerable<BookShelfDto> GetBookShelvesByDrawer(IEnumerable<DrawerDto> drawers);
     }

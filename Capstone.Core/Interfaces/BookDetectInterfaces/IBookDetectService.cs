@@ -11,9 +11,9 @@ namespace Capstone.Core.Interfaces
     public interface IBookDetectService
     {
         PagedList<BookDetect> GetBookDetect(BookDetectQueryFilter filters);
-        Task<BookDetect> GetBookDetect(int id);
-        Task InsertBookDetect(BookDetect bookDetect);
-        Task<bool> UpdateBookDetect(BookDetect bookDetect);
-        Task<bool> DeleteBookDetect(int?[] id);
+        BookDetect GetBookDetect(int id);
+        void InsertBookDetect(BookDetect bookDetect);
+        bool UpdateBookDetect(BookDetect bookDetect);
+        bool DeleteBookDetect(int?[] id);
     }
 }

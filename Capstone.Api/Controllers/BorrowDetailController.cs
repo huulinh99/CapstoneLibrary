@@ -54,39 +54,39 @@ namespace Capstone.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetBorrowDetail(int id)
+        public IActionResult GetBorrowDetail(int id)
         {
-            var borrowDetail = await _borrowDetailService.GetBorrowDetail(id);
+            var borrowDetail = _borrowDetailService.GetBorrowDetail(id);
             var borrowDetailDto = _mapper.Map<BorrowDetailDto>(borrowDetail);
             var response = new ApiResponse<BorrowDetailDto>(borrowDetailDto);
             return Ok(response);
         }
 
         [HttpPost]
-        public async Task<IActionResult> BorrowDetail(BorrowDetailDto borrowDetailDto)
+        public IActionResult BorrowDetail(BorrowDetailDto borrowDetailDto)
         {
             var borrowDetail = _mapper.Map<BorrowDetail>(borrowDetailDto);
-            await _borrowDetailService.InsertBorrowDetail(borrowDetail);
+            _borrowDetailService.InsertBorrowDetail(borrowDetail);
             borrowDetailDto = _mapper.Map<BorrowDetailDto>(borrowDetail);
             var response = new ApiResponse<BorrowDetailDto>(borrowDetailDto);
             return Ok(response);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(int id, BorrowDetailDto borrowDetailDto)
+        public IActionResult Put(int id, BorrowDetailDto borrowDetailDto)
         {
             var borrowDetail = _mapper.Map<BorrowDetail>(borrowDetailDto);
             borrowDetail.Id = id;
 
-            var result = await _borrowDetailService.UpdateBorrowDetail(borrowDetail);
+            var result = _borrowDetailService.UpdateBorrowDetail(borrowDetail);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete([FromQuery] int?[] id = null)
+        public IActionResult Delete([FromQuery] int?[] id = null)
         {
-            var result = await _borrowDetailService.DeleteBorrowDetail(id);
+            var result = _borrowDetailService.DeleteBorrowDetail(id);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }

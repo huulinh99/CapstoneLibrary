@@ -21,16 +21,16 @@ namespace Capstone.Core.Services
             _paginationOptions = options.Value;
         }
 
-        public async Task<bool> DeleteDevice(int?[] id)
+        public bool DeleteDevice(int?[] id)
         {
-            await _unitOfWork.DeviceRepository.Delete(id);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.DeviceRepository.Delete(id);
+            _unitOfWork.SaveChanges();
             return true;
         }
 
-        public async Task<Device> GetDevice(int id)
+        public Device GetDevice(int id)
         {
-            return await _unitOfWork.DeviceRepository.GetById(id);
+            return _unitOfWork.DeviceRepository.GetById(id);
         }
 
         public PagedList<Device> GetDevices(DeviceQueryFilter filters)
@@ -50,16 +50,16 @@ namespace Capstone.Core.Services
             return pagedDevices;
         }
 
-        public async Task InsertDevice(Device device)
+        public void InsertDevice(Device device)
         {
-            await _unitOfWork.DeviceRepository.Add(device);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.DeviceRepository.Add(device);
+            _unitOfWork.SaveChanges();
         }
 
-        public async Task<bool> UpdateDevice(Device device)
+        public bool UpdateDevice(Device device)
         {
             _unitOfWork.DeviceRepository.Update(device);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.SaveChanges();
             return true;
         }
     }

@@ -57,39 +57,39 @@ namespace Capstone.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetCampaign(int id)
+        public IActionResult GetCampaign(int id)
         {
-            var campaign = await _campaignService.GetCampaign(id);
+            var campaign = _campaignService.GetCampaign(id);
             var campaignDto = _mapper.Map<CampaignDto>(campaign);
             var response = new ApiResponse<CampaignDto>(campaignDto);
             return Ok(response);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Campaign(CampaignDto campaignDto)
+        public IActionResult Campaign(CampaignDto campaignDto)
         {
             var post = _mapper.Map<Campaign>(campaignDto);
-            await _campaignService.InsertCampaign(post);
+            _campaignService.InsertCampaign(post);
             campaignDto = _mapper.Map<CampaignDto>(post);
             var response = new ApiResponse<CampaignDto>(campaignDto);
             return Ok(response);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(int id, CampaignDto campaignDto)
+        public IActionResult Put(int id, CampaignDto campaignDto)
         {
             var campaign = _mapper.Map<Campaign>(campaignDto);
             campaign.Id = id;
 
-            var result = await _campaignService.UpdateCampaign(campaign);
+            var result = _campaignService.UpdateCampaign(campaign);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete([FromQuery] int?[] id = null)
+        public IActionResult Delete([FromQuery] int?[] id = null)
         {
-            var result = await _campaignService.DeleteCampaign(id);
+            var result = _campaignService.DeleteCampaign(id);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }

@@ -40,14 +40,14 @@ namespace Capstone.Infrastructure.Repositories
             return _entities.Where(x => x.BookId == bookId && x.IsDeleted == false).LastOrDefault();
         }
 
-        public async Task DeleteBookDrawerByDrawerId(int?[] drawerId)
+        public void DeleteBookDrawerByDrawerId(int?[] drawerId)
         {
             var entities = _entities.Where(f => drawerId.Contains(f.DrawerId)).ToList();
             entities.ForEach(a => a.IsDeleted = true);
-            await _context.SaveChangesAsync();
+            _context.SaveChangesAsync();
         }
 
-        public async Task GetBookDrawerByListBookId(int?[] bookId)
+        public void GetBookDrawerByListBookId(int?[] bookId)
         {
             var entities = _entities.Where(f => bookId.Contains(f.BookId) && f.IsDeleted == false).ToList();
             entities.ForEach(a => a.IsDeleted = true);

@@ -50,7 +50,7 @@ namespace Capstone.Api
             .ConfigureApiBehaviorOptions(options =>
             {
                 // options.SuppressModelStateInvalidFilter = true;
-            });
+            });          
             services.Configure<PaginationOptions>(Configuration.GetSection("Pagination"));
             services.AddDbContext<CapstoneContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Capstone"))

@@ -20,16 +20,16 @@ namespace Capstone.Core.Services
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
         }
-        public async Task<bool> DeleteNotification(int?[] id)
+        public bool DeleteNotification(int?[] id)
         {
-            await _unitOfWork.NotificationRepository.Delete(id);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.NotificationRepository.Delete(id);
+            _unitOfWork.SaveChanges();
             return true;
         }
 
-        public async Task<Notification> GetNotification(int id)
+        public Notification GetNotification(int id)
         {
-            return await _unitOfWork.NotificationRepository.GetById(id);
+            return _unitOfWork.NotificationRepository.GetById(id);
         }
 
         public PagedList<Notification> GetNotifications(NotificationQueryFilter filters)
@@ -49,16 +49,16 @@ namespace Capstone.Core.Services
             return pagedNotifications;
         }
 
-        public async Task InsertNotification(Notification notification)
+        public void InsertNotification(Notification notification)
         {
-            await _unitOfWork.NotificationRepository.Add(notification);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.NotificationRepository.Add(notification);
+            _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task<bool> UpdateNotification(Notification notification)
+        public bool UpdateNotification(Notification notification)
         {
             _unitOfWork.NotificationRepository.Update(notification);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.SaveChanges();
             return true;
         }
     }

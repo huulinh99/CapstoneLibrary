@@ -20,12 +20,12 @@ namespace Capstone.Core.Services
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
         }
-        public async Task<bool> DeleteBookDrawer(int?[] id)
+        public bool DeleteBookDrawer(int?[] id)
         {
-            await _unitOfWork.BookDrawerRepository.GetBookDrawerByListBookId(id);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.BookDrawerRepository.GetBookDrawerByListBookId(id);
+            _unitOfWork.SaveChangesAsync();
             _unitOfWork.BookRepository.GetBookByBookDrawerId(id);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.SaveChangesAsync();
             return true;
         }
 
@@ -34,29 +34,29 @@ namespace Capstone.Core.Services
             throw new NotImplementedException();
         }
 
-        public async Task<BookDrawer> GetBookDrawer(int id)
+        public BookDrawer GetBookDrawer(int id)
         {
-            return await _unitOfWork.BookDrawerRepository.GetById(id);
+            return _unitOfWork.BookDrawerRepository.GetById(id);
         }
 
-        public async Task InsertBookDrawer(BookDrawer bookDrawer)
+        public void InsertBookDrawer(BookDrawer bookDrawer)
         {
-            await _unitOfWork.BookDrawerRepository.Add(bookDrawer);
-            await _unitOfWork.SaveChangesAsync();
-            var book = _unitOfWork.BookRepository.GetById(bookDrawer.BookId).Result;
+            _unitOfWork.BookDrawerRepository.Add(bookDrawer);
+            _unitOfWork.SaveChanges();
+            var book = _unitOfWork.BookRepository.GetById(bookDrawer.BookId);
             book.BookDrawerId = bookDrawer.Id;
-             _unitOfWork.BookRepository.Update(book);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.BookRepository.Update(book);
+            _unitOfWork.SaveChanges();
         }
 
-        public async Task<bool> UpdateBookDrawer(BookDrawer bookDrawer)
+        public bool UpdateBookDrawer(BookDrawer bookDrawer)
         {
             var bookTemp =  _unitOfWork.BookDrawerRepository.GetBookDrawerByBookId(bookDrawer.BookId);
             bookTemp.IsDeleted = true;
             _unitOfWork.BookDrawerRepository.Update(bookTemp);
-            await _unitOfWork.SaveChangesAsync();
-            await _unitOfWork.BookDrawerRepository.Add(bookDrawer);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.SaveChangesAsync();
+            _unitOfWork.BookDrawerRepository.Add(bookDrawer);
+            _unitOfWork.SaveChangesAsync();
             return false;
         }
     }

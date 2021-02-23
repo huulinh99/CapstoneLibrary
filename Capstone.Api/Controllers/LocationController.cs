@@ -53,39 +53,39 @@ namespace Capstone.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetLocation(int id)
+        public IActionResult GetLocation(int id)
         {
-            var location = await _locationService.GetLocation(id);
+            var location =  _locationService.GetLocation(id);
             var locationDto = _mapper.Map<LocationDto>(location);
             var response = new ApiResponse<LocationDto>(locationDto);
             return Ok(response);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Location(LocationDto locationDto)
+        public IActionResult Location(LocationDto locationDto)
         {
             var post = _mapper.Map<Location>(locationDto);
-            await _locationService.InsertLocation(post);
+            _locationService.InsertLocation(post);
             locationDto = _mapper.Map<LocationDto>(post);
             var response = new ApiResponse<LocationDto>(locationDto);
             return Ok(response);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(int id, LocationDto locationDto)
+        public IActionResult Put(int id, LocationDto locationDto)
         {
             var location = _mapper.Map<Location>(locationDto);
             location.Id = id;
 
-            var result = await _locationService.UpdateLocation(location);
+            var result = _locationService.UpdateLocation(location);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete([FromQuery] int?[] id = null)
+        public IActionResult Delete([FromQuery] int?[] id = null)
         {
-            var result = await _locationService.DeleteLocation(id);
+            var result = _locationService.DeleteLocation(id);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }

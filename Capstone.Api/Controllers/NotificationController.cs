@@ -58,39 +58,39 @@ namespace Capstone.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetNotification(int id)
+        public IActionResult GetNotification(int id)
         {
-            var notification = await _notificationService.GetNotification(id);
+            var notification = _notificationService.GetNotification(id);
             var notificationDto = _mapper.Map<NotificationDto>(notification);
             var response = new ApiResponse<NotificationDto>(notificationDto);
             return Ok(response);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Notification(NotificationDto notificationDto)
+        public IActionResult Notification(NotificationDto notificationDto)
         {
             var notification = _mapper.Map<Notification>(notificationDto);
-            await _notificationService.InsertNotification(notification);
+            _notificationService.InsertNotification(notification);
             notificationDto = _mapper.Map<NotificationDto>(notification);
             var response = new ApiResponse<NotificationDto>(notificationDto);
             return Ok(response);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(int id, NotificationDto notificationDto)
+        public IActionResult Put(int id, NotificationDto notificationDto)
         {
             var notification = _mapper.Map<Notification>(notificationDto);
             notification.Id = id;
 
-            var result = await _notificationService.UpdateNotification(notification);
+            var result = _notificationService.UpdateNotification(notification);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete([FromQuery] int?[] id = null)
+        public IActionResult Delete([FromQuery] int?[] id = null)
         {
-            var result = await _notificationService.DeleteNotification(id);
+            var result = _notificationService.DeleteNotification(id);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }

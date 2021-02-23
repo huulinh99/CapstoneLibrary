@@ -12,11 +12,11 @@ namespace Capstone.Core.Interfaces
     public interface IStaffService
     {
         PagedList<Staff> GetStaffs(StaffQueryFilter filters);
-        Task<Staff> GetStaff(int id);
-        Task InsertStaff(Staff staff);
-        Task<Staff> GetStaffByUserName(string username);
-        Task<bool> UpdateStaff(Staff staff);
-        Task<bool> DeleteStaff(int?[] id);
-        Task<StaffDto> GetLoginByCredenticals(UserLogin login);
+        Staff GetStaff(int id);
+        void InsertStaff(Staff staff);
+        Staff GetStaffByUserName(string username);
+        bool UpdateStaff(Staff staff);
+        bool DeleteStaff(int?[] id);
+        StaffDto GetLoginByCredenticals(UserLogin login);
     }
 }

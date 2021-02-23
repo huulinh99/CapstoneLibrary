@@ -59,6 +59,15 @@ namespace Capstone.Infrastructure.Repositories
             }).ToList();
         }
 
+        public IEnumerable<BorrowDetailDto> GetBorrowDetailWithCount()
+        {
+            return _entities.Include(c => c.Book).Where(x => x.IsDeleted == false).GroupBy(x=>x.Book.BookGroupId).Select(c => new BorrowDetailDto
+            {
+                BookId = c.Key,
+                Count = c.Count()              
+            }).ToList();
+        }   
+
         public IEnumerable<BorrowDetailDto> GetBorrowDetailWithListBorrow(IEnumerable<BorrowBookDto> borrowBooks)
         {
             List<BorrowDetailDto> borrowDetails = new List<BorrowDetailDto>();

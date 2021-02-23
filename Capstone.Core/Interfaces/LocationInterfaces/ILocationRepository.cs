@@ -8,6 +8,6 @@ namespace Capstone.Core.Interfaces
 {
     public interface ILocationRepository : IRepository<Location>
     {
-        Task<IEnumerable<Location>> GetLocationByLocationName(string name);
+        IEnumerable<Location> GetLocationByLocationName(string name);
     }
 }

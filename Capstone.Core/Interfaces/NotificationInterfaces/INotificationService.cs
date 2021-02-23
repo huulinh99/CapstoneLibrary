@@ -11,10 +11,10 @@ namespace Capstone.Core.Interfaces
     public interface INotificationService
     {
         PagedList<Notification> GetNotifications(NotificationQueryFilter filters);
-        Task<Notification> GetNotification(int id);
-        Task InsertNotification(Notification notification);
-        Task<bool> UpdateNotification(Notification notification);
+        Notification GetNotification(int id);
+        void InsertNotification(Notification notification);
+        bool UpdateNotification(Notification notification);
 
-        Task<bool> DeleteNotification(int?[] id);
+        bool DeleteNotification(int?[] id);
     }
 }

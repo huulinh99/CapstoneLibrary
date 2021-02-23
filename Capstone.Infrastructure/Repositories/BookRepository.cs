@@ -120,11 +120,11 @@ namespace Capstone.Infrastructure.Repositories
             return books;
         }
 
-        public async Task DeleteBookByBookDrawerId(int?[] bookDrawerId)
+        public void DeleteBookByBookDrawerId(int?[] bookDrawerId)
         {
             var entities = _entities.Where(f => bookDrawerId.Contains(f.BookDrawerId)).ToList();
             entities.ForEach(a => a.BookDrawerId = null);
-            await _context.SaveChangesAsync();
+            _context.SaveChangesAsync();
         }
     }
 }

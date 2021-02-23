@@ -19,19 +19,30 @@ namespace Capstone.Core.Services
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
         }
-        public async Task<bool> DeleteBookGroup(int?[] id)
+        public bool DeleteBookGroup(int?[] id)
         {
-            await _unitOfWork.BookGroupRepository.Delete(id);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.BookGroupRepository.Delete(id);
+            List<int?> termsList = new List<int?>();
+            for (int i = 0; i < id.Length; i++)
+            {
+                var bookCategories = _unitOfWork.BookCategoryRepository.GetBookCategoriesByBookGroup(id[i]);
+                foreach (var bookCategory in bookCategories)
+                {
+                    termsList.Add(bookCategory.Id);
+                }              
+            }
+            int?[] bookCateId = termsList.ToArray();
+            _unitOfWork.BookCategoryRepository.Delete(bookCateId);
+            _unitOfWork.SaveChanges();
             return true;
         }
 
-        public async Task<BookGroupDto> GetBookGroup(int id)
+        public BookGroupDto GetBookGroup(int id)
         {
             var bookCategories =  _unitOfWork.BookCategoryRepository.GetBookCategoriesByBookGroup(id);
             var categories =  _unitOfWork.CategoryRepository.GetCategoryNameByBookCategory(bookCategories);
             var feedback = _unitOfWork.FeedbackRepository.GetRatingForBookGroup(id);
-            return await _unitOfWork.BookGroupRepository.GetBookGroupsWithImageById(id, categories, feedback);
+            return _unitOfWork.BookGroupRepository.GetBookGroupsWithImageById(id, categories, feedback);
         }
 
         public PagedList<BookGroupDto> GetBookGroups(BookGroupQueryFilter filters)
@@ -61,6 +72,16 @@ namespace Capstone.Core.Services
                 bookGroups = bookGroups.Where(x => x.Author.ToLower().Contains(filters.Author.ToLower()));
             }
 
+            if (filters.IsNewest == true)
+            {
+                bookGroups = bookGroups.OrderByDescending(x => x.Id).ToList();
+            }
+
+            if (filters.IsPopular == true)
+            {
+                bookGroups = bookGroups.OrderByDescending(x => x.Id).ToList();
+            }
+
             if (filters.Fee != null)
             {
                 bookGroups = bookGroups.Where(x => x.Fee == filters.Fee);
@@ -82,10 +103,10 @@ namespace Capstone.Core.Services
         }
 
 
-        public async Task InsertBookGroup(BookGroup bookGroup)
+        public void InsertBookGroup(BookGroup bookGroup)
         {
-            await _unitOfWork.BookGroupRepository.Add(bookGroup);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.BookGroupRepository.Add(bookGroup);
+            _unitOfWork.SaveChanges();
             foreach (var bookCategory in bookGroup.BookCategory)
             {
                 bookCategory.IsDeleted = false;
@@ -102,15 +123,15 @@ namespace Capstone.Core.Services
                     BookGroupId = bookGroup.Id,
                     BarCode = null
                 };
-                 await _unitOfWork.BookRepository.Add(bookModel);
+                _unitOfWork.BookRepository.Add(bookModel);
             }
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.SaveChanges();
         }
 
-        public async Task<bool> UpdateBookGroup(BookGroup bookGroup)
+        public bool UpdateBookGroup(BookGroup bookGroup)
         {
             var images = _unitOfWork.ImageRepository.GetImageByBookGroupId(bookGroup.Id);
-            var bookGroupDto = _unitOfWork.BookGroupRepository.GetById(bookGroup.Id).Result;
+            var bookGroupDto = _unitOfWork.BookGroupRepository.GetById(bookGroup.Id);
             var imageId = new List<int>();          
             if (bookGroup.Image.Count == 0)
             {
@@ -118,7 +139,7 @@ namespace Capstone.Core.Services
                 {
                     image.IsDeleted = true;
                     _unitOfWork.ImageRepository.Update(image);
-                    await _unitOfWork.SaveChangesAsync();
+                    _unitOfWork.SaveChangesAsync();
                 }
             }
             else
@@ -129,8 +150,8 @@ namespace Capstone.Core.Services
                     {
                         image.IsDeleted = false;
                         image.BookGroupId = bookGroup.Id;
-                        await _unitOfWork.ImageRepository.Add(image);
-                        await _unitOfWork.SaveChangesAsync();
+                        _unitOfWork.ImageRepository.Add(image);
+                        _unitOfWork.SaveChanges();
                     }
                     else
                     {
@@ -156,7 +177,7 @@ namespace Capstone.Core.Services
             bookGroupDto.PublishNumber = bookGroup.PublishNumber;
             bookGroupDto.IsDeleted = false;
             _unitOfWork.BookGroupRepository.Update(bookGroupDto);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.SaveChanges();
             return true;
         }
 

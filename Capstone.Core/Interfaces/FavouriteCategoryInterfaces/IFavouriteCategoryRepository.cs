@@ -10,7 +10,7 @@ namespace Capstone.Core.Interfaces.FavouriteCategoryInterfaces
     public interface IFavouriteCategoryRepository : IRepository<FavouriteCategory>
     {
         IEnumerable<FavouriteCategory> GetFavouriteCategoryByUser(int? userId);
-        Task AddFavouriteCategory(FavouriteCategoryDto favouriteCategory);
+        void AddFavouriteCategory(FavouriteCategoryDto favouriteCategory);
         FavouriteCategory GetFavouriteCategoryForSuggest(int? userId);
     }
 }

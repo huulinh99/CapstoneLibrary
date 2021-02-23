@@ -23,16 +23,16 @@ namespace Capstone.Core.Services
             _paginationOptions = options.Value;
         }
 
-        public async Task<bool> DeleteDrawer(int?[] id)
+        public bool DeleteDrawer(int?[] id)
         {
-            await _unitOfWork.DrawerRepository.Delete(id);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.DrawerRepository.Delete(id);
+            _unitOfWork.SaveChanges();
             return true;
         }
 
-        public async Task<Drawer> GetDrawer(int id)
+        public Drawer GetDrawer(int id)
         {
-            return await _unitOfWork.DrawerRepository.GetById(id);
+            return _unitOfWork.DrawerRepository.GetById(id);
         }
 
         public IEnumerable<DrawerDto> GetDrawers(DrawerQueryFilter filters)
@@ -44,16 +44,16 @@ namespace Capstone.Core.Services
             return drawers;
         }
 
-        public async Task InsertDrawer(Drawer drawer)
+        public void InsertDrawer(Drawer drawer)
         {
-            await _unitOfWork.DrawerRepository.Add(drawer);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.DrawerRepository.Add(drawer);
+            _unitOfWork.SaveChanges();
         }
 
-        public async Task<bool> UpdateDrawer(Drawer drawer)
+        public bool UpdateDrawer(Drawer drawer)
         {
             _unitOfWork.DrawerRepository.Update(drawer);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.SaveChanges();
             return true;
         }
     }

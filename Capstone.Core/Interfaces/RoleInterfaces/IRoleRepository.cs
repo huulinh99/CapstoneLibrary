@@ -8,6 +8,6 @@ namespace Capstone.Core.Interfaces
 {
     public interface IRoleRepository : IRepository<Role>
     {
-        Task<IEnumerable<Role>> GetRolesByBookName(string name);
+        IEnumerable<Role> GetRolesByBookName(string name);
     }
 }

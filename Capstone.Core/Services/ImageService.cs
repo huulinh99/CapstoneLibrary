@@ -21,16 +21,16 @@ namespace Capstone.Core.Services
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
         }
-        public async Task<bool> DeleteImage(int?[] id)
+        public bool DeleteImage(int?[] id)
         {
-            await _unitOfWork.ImageRepository.Delete(id);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.ImageRepository.Delete(id);
+            _unitOfWork.SaveChanges();
             return true;
         }
 
-        public async Task<Image> GetImage(int id)
+        public Image GetImage(int id)
         {
-            return await _unitOfWork.ImageRepository.GetById(id);
+            return _unitOfWork.ImageRepository.GetById(id);
         }
 
         public PagedList<Image> GetImages(ImageQueryFilter filters)
@@ -46,16 +46,16 @@ namespace Capstone.Core.Services
             return pagedImages;
         }
 
-        public async Task InsertImage(Image image)
+        public void InsertImage(Image image)
         {
-            await _unitOfWork.ImageRepository.Add(image);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.ImageRepository.Add(image);
+            _unitOfWork.SaveChanges();
         }
 
-        public async Task<bool> UpdateImage(Image image)
+        public bool UpdateImage(Image image)
         {
             _unitOfWork.ImageRepository.Update(image);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.SaveChanges();
             return true;
         }
     }

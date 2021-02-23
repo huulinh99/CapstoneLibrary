@@ -57,38 +57,38 @@ namespace Capstone.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetBook(int id)
+        public IActionResult GetBook(int id)
         {
-            var book = await _bookDrawerService.GetBookDrawer(id);
+            var book = _bookDrawerService.GetBookDrawer(id);
             var bookDto = _mapper.Map<BookDto>(book);
             var response = new ApiResponse<BookDto>(bookDto);
             return Ok(response);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Book(List<BookDrawerDto> bookDrawerDtos)
+        public IActionResult Book(List<BookDrawerDto> bookDrawerDtos)
         {
             foreach (var bookDrawerDto in bookDrawerDtos)
             {
                 var bookDrawer = _mapper.Map<BookDrawer>(bookDrawerDto);
-                await _bookDrawerService.InsertBookDrawer(bookDrawer);
+                _bookDrawerService.InsertBookDrawer(bookDrawer);
             }
             return Ok(bookDrawerDtos);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(BookDrawerDto bookDrawerDto)
+        public IActionResult Put(BookDrawerDto bookDrawerDto)
         {
             var bookDrawer = _mapper.Map<BookDrawer>(bookDrawerDto);
-            var result = await _bookDrawerService.UpdateBookDrawer(bookDrawer);
+            var result = _bookDrawerService.UpdateBookDrawer(bookDrawer);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete([FromQuery] int?[] id = null)
+        public IActionResult Delete([FromQuery] int?[] id = null)
         {
-            var result = await _bookDrawerService.DeleteBookDrawer(id);
+            var result = _bookDrawerService.DeleteBookDrawer(id);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }

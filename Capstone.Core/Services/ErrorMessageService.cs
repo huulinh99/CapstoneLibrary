@@ -20,16 +20,16 @@ namespace Capstone.Core.Services
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
         }
-        public async Task<bool> DeleteErrorMessage(int?[] id)
+        public bool DeleteErrorMessage(int?[] id)
         {
-            await _unitOfWork.ErrorMessageRepository.Delete(id);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.ErrorMessageRepository.Delete(id);
+            _unitOfWork.SaveChanges();
             return true;
         }
 
-        public async Task<ErrorMessage> GetErrorMessage(int id)
+        public ErrorMessage GetErrorMessage(int id)
         {
-            return await _unitOfWork.ErrorMessageRepository.GetById(id);
+            return _unitOfWork.ErrorMessageRepository.GetById(id);
         }
 
         public PagedList<ErrorMessage> GetErrorMessages(ErrorMessageQueryFilter filters)
@@ -45,16 +45,16 @@ namespace Capstone.Core.Services
             return pagedErrorMessages;
         }
 
-        public async Task InsertErrorMessage(ErrorMessage errorMessage)
+        public void InsertErrorMessage(ErrorMessage errorMessage)
         {
-            await _unitOfWork.ErrorMessageRepository.Add(errorMessage);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.ErrorMessageRepository.Add(errorMessage);
+            _unitOfWork.SaveChanges();
         }
 
-        public async Task<bool> UpdateErrorMessage(ErrorMessage errorMessage)
+        public bool UpdateErrorMessage(ErrorMessage errorMessage)
         {
             _unitOfWork.ErrorMessageRepository.Update(errorMessage);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.SaveChanges();
             return true;
         }
     }

@@ -11,9 +11,9 @@ namespace Capstone.Core.Interfaces.BookDrawerInterfaces
     public interface IBookDrawerService
     {
         PagedList<BookDrawer> GetBookDrawers(BookDrawerQueryFilter filters);
-        Task<BookDrawer> GetBookDrawer(int id);
-        Task InsertBookDrawer(BookDrawer bookDrawer);
-        Task<bool> UpdateBookDrawer(BookDrawer bookDrawer);
-        Task<bool> DeleteBookDrawer(int?[] id);
+        BookDrawer GetBookDrawer(int id);
+        void InsertBookDrawer(BookDrawer bookDrawer);
+        bool UpdateBookDrawer(BookDrawer bookDrawer);
+        bool DeleteBookDrawer(int?[] id);
     }
 }

@@ -88,10 +88,10 @@ namespace Capstone.Infrastructure.Repositories
         }
 
 
-        public async Task<BookGroupDto> GetBookGroupsWithImageById(int? bookGroupId, ICollection<CategoryDto> categories, ICollection<RatingDto> ratings)
+        public BookGroupDto GetBookGroupsWithImageById(int? bookGroupId, ICollection<CategoryDto> categories, ICollection<RatingDto> ratings)
         {
 
-            var bookGroup = await _entities.Where(x => x.Id == bookGroupId)
+            var bookGroup =  _entities.Where(x => x.Id == bookGroupId)
                 .Include(c => c.Image)
                 .Include(s => s.BookCategory)
                 .ThenInclude(a => a.Category)
@@ -117,7 +117,7 @@ namespace Capstone.Infrastructure.Repositories
                     Category = categories,
                     RatingAverage = Math.Round((double)c.Feedback.Sum(x => x.Rating) / (c.Feedback.Count), 2),
                     Rating = ratings
-                }).FirstOrDefaultAsync();
+                }).FirstOrDefault();
             return bookGroup;
         }
 

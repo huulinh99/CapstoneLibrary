@@ -20,16 +20,16 @@ namespace Capstone.Core.Services
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
         }
-        public async Task<bool> DeleteCampaign(int?[] id)
+        public bool DeleteCampaign(int?[] id)
         {
-            await _unitOfWork.CampaignRepository.Delete(id);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.CampaignRepository.Delete(id);
+            _unitOfWork.SaveChanges();
             return true;
         }
 
-        public async Task<Campaign> GetCampaign(int id)
+        public Campaign GetCampaign(int id)
         {
-            return await _unitOfWork.CampaignRepository.GetById(id);
+            return _unitOfWork.CampaignRepository.GetById(id);
         }
 
         public PagedList<Campaign> GetCampaigns(CampaignQueryFilter filters)
@@ -50,16 +50,16 @@ namespace Capstone.Core.Services
             return pagedCampaigns;
         }
 
-        public async Task InsertCampaign(Campaign campaign)
+        public void InsertCampaign(Campaign campaign)
         {
-            await _unitOfWork.CampaignRepository.Add(campaign);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.CampaignRepository.Add(campaign);
+            _unitOfWork.SaveChanges();
         }
 
-        public async Task<bool> UpdateCampaign(Campaign campaign)
+        public bool UpdateCampaign(Campaign campaign)
         {
             _unitOfWork.CampaignRepository.Update(campaign);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.SaveChanges();
             return true;
         }
     }

@@ -12,9 +12,9 @@ namespace Capstone.Core.Interfaces
     public interface IDrawerService
     {
         IEnumerable<DrawerDto> GetDrawers(DrawerQueryFilter filters);
-        Task<Drawer> GetDrawer(int id);
-        Task InsertDrawer(Drawer drawer);
-        Task<bool> UpdateDrawer(Drawer drawer);
-        Task<bool> DeleteDrawer(int?[] id);
+        Drawer GetDrawer(int id);
+        void InsertDrawer(Drawer drawer);
+        bool UpdateDrawer(Drawer drawer);
+        bool DeleteDrawer(int?[] id);
     }
 }

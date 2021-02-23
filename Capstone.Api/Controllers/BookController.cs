@@ -79,39 +79,38 @@ namespace Capstone.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetBook(int id)
+        public IActionResult GetBook(int id)
         {
-            var book = await _bookService.GetBook(id);
+            var book = _bookService.GetBook(id);
             var bookDto = _mapper.Map<BookDto>(book);
             var response = new ApiResponse<BookDto>(bookDto);
             return Ok(response);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Book(BookDto bookDto)
+        public IActionResult Book(BookDto bookDto)
         {
             var post = _mapper.Map<Book>(bookDto);
-            await _bookService.InsertBook(post);
+            _bookService.InsertBook(post);
             bookDto = _mapper.Map<BookDto>(post);
             var response = new ApiResponse<BookDto>(bookDto);
             return Ok(response);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(int id, BookDto bookDto)
+        public IActionResult Put(int id, BookDto bookDto)
         {
             var book = _mapper.Map<Book>(bookDto);
             book.Id = id;
-
-            var result = await _bookService.UpdateBook(book);
+            var result = _bookService.UpdateBook(book);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete([FromQuery]int?[]id = null)
+        public IActionResult Delete([FromQuery]int?[]id = null)
         {
-            var result = await _bookService.DeleteBook(id);
+            var result = _bookService.DeleteBook(id);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }

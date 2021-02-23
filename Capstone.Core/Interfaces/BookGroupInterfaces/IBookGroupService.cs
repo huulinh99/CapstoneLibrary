@@ -12,9 +12,9 @@ namespace Capstone.Core.Interfaces
     public interface IBookGroupService
     {
         PagedList<BookGroupDto> GetBookGroups(BookGroupQueryFilter filters);
-        Task<BookGroupDto> GetBookGroup(int id);
-        Task InsertBookGroup(BookGroup bookGroup);
-        Task<bool> UpdateBookGroup(BookGroup bookGroup);
-        Task<bool> DeleteBookGroup(int?[] id);
+        BookGroupDto GetBookGroup(int id);
+        void InsertBookGroup(BookGroup bookGroup);
+        bool UpdateBookGroup(BookGroup bookGroup);
+        bool DeleteBookGroup(int?[] id);
     }
 }

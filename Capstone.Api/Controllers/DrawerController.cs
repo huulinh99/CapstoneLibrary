@@ -41,38 +41,38 @@ namespace Capstone.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetDrawer(int id)
+        public IActionResult GetDrawer(int id)
         {
-            var drawer = await _drawerService.GetDrawer(id);
+            var drawer =  _drawerService.GetDrawer(id);
             var drawerDto = _mapper.Map<DrawerDto>(drawer);
             var response = new ApiResponse<DrawerDto>(drawerDto);
             return Ok(response);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Drawer(DrawerDto drawerDto)
+        public IActionResult Drawer(DrawerDto drawerDto)
         {
             var post = _mapper.Map<Drawer>(drawerDto);
-            await _drawerService.InsertDrawer(post);
+            _drawerService.InsertDrawer(post);
             drawerDto = _mapper.Map<DrawerDto>(post);
             var response = new ApiResponse<DrawerDto>(drawerDto);
             return Ok(response);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(int id, DrawerDto drawerDto)
+        public IActionResult Put(int id, DrawerDto drawerDto)
         {
             var drawer = _mapper.Map<Drawer>(drawerDto);
             drawer.Id = id;
-            var result = await _drawerService.UpdateDrawer(drawer);
+            var result = _drawerService.UpdateDrawer(drawer);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete([FromQuery]int?[]id = null)
+        public IActionResult Delete([FromQuery]int?[]id = null)
         {
-            var result = await _drawerService.DeleteDrawer(id);
+            var result = _drawerService.DeleteDrawer(id);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }

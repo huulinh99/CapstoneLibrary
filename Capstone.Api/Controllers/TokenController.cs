@@ -25,10 +25,10 @@ namespace Capstone.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Authentication(UserLogin login)
+        public IActionResult Authentication(UserLogin login)
         {
             //if it is a valid user
-            var validation = await IsValidUser(login);
+            var validation = IsValidUser(login);
             if (validation.Item1)
             {
                 var token = GenerateToken(validation.Item2);
@@ -38,9 +38,9 @@ namespace Capstone.Api.Controllers
             return Ok("Wrong username or passsword!!!");
         }
 
-        private async Task<(bool, StaffDto)> IsValidUser(UserLogin login)
+        private (bool, StaffDto) IsValidUser(UserLogin login)
         {
-            var user = await _staffService.GetLoginByCredenticals(login);
+            var user = _staffService.GetLoginByCredenticals(login);
             //var isValid = _passwordService.Check(user.Password, login.Password);
             return (user!=null, user);
         }

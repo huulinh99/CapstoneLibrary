@@ -20,10 +20,10 @@ namespace Capstone.Core.Services
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
         }
-        public async Task<bool> DeleteBookDetect(int?[] id)
+        public bool DeleteBookDetect(int?[] id)
         {
-            await _unitOfWork.BookDetectRepository.Delete(id);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.BookDetectRepository.Delete(id);
+            _unitOfWork.SaveChanges();
             return true;
         }
 
@@ -51,21 +51,21 @@ namespace Capstone.Core.Services
             return pagedBookDetects;
         }
 
-        public async Task<BookDetect> GetBookDetect(int id)
+        public BookDetect GetBookDetect(int id)
         {
-            return await _unitOfWork.BookDetectRepository.GetById(id);
+            return _unitOfWork.BookDetectRepository.GetById(id);
         }
 
-        public async Task InsertBookDetect(BookDetect bookDetect)
+        public void InsertBookDetect(BookDetect bookDetect)
         {
-            await _unitOfWork.BookDetectRepository.Add(bookDetect);
-            await _unitOfWork.SaveChangesAsync();
+             _unitOfWork.BookDetectRepository.Add(bookDetect);
+             _unitOfWork.SaveChanges();
         }
 
-        public async Task<bool> UpdateBookDetect(BookDetect bookDetect)
+        public bool UpdateBookDetect(BookDetect bookDetect)
         {
             _unitOfWork.BookDetectRepository.Update(bookDetect);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.SaveChanges();
             return true;
         }
     }

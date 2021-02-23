@@ -12,9 +12,9 @@ namespace Capstone.Core.Interfaces
     public interface IBorrowBookService
     {
         PagedList<BorrowBookDto> GetBorrowBooks(BorrowBookQueryFilter filters);
-        Task<BorrowBook> GetBorrowBook(int id);
-        Task InsertBorrowBook(BorrowBook borrowBook);
-        Task<bool> UpdateBorrowBook(BorrowBook borrowBook);
-        Task<bool> DeleteBorrowBook(int?[] id);
+        BorrowBook GetBorrowBook(int id);
+        void InsertBorrowBook(BorrowBook borrowBook);
+        bool UpdateBorrowBook(BorrowBook borrowBook);
+        bool DeleteBorrowBook(int?[] id);
     }
 }

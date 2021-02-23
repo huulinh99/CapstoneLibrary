@@ -9,6 +9,6 @@ namespace Capstone.Core.Interfaces
     public interface ICustomerRepository : IRepository<Customer>
     {
         //Task<Customer> GetCustomerById(int? id);
-        Task<Customer> GetCustomerByEmail(string email);
+        Customer GetCustomerByEmail(string email);
     }
 }

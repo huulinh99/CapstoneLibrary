@@ -58,37 +58,37 @@ namespace Capstone.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetFavouriteCategory(int id)
+        public IActionResult GetFavouriteCategory(int id)
         {
-            var favouriteCategory = await _favouriteCategoryService.GetFavouriteCategory(id);
+            var favouriteCategory = _favouriteCategoryService.GetFavouriteCategory(id);
             var favouriteCategoryDto = _mapper.Map<FavouriteCategoryDto>(favouriteCategory);
             var response = new ApiResponse<FavouriteCategoryDto>(favouriteCategoryDto);
             return Ok(response);
         }
 
         [HttpPost]
-        public async Task<IActionResult> FavouriteCategory(FavouriteCategoryDto favouriteCategoryDto)
+        public IActionResult FavouriteCategory(FavouriteCategoryDto favouriteCategoryDto)
         {
-            await _favouriteCategoryService.InsertFavouriteCategory(favouriteCategoryDto);
+             _favouriteCategoryService.InsertFavouriteCategory(favouriteCategoryDto);
             var response = new ApiResponse<FavouriteCategoryDto>(favouriteCategoryDto);
             return Ok(response);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(int id, FavouriteCategoryDto favouriteCategoryDto)
+        public IActionResult Put(int id, FavouriteCategoryDto favouriteCategoryDto)
         {
             var favouriteCategory = _mapper.Map<FavouriteCategory>(favouriteCategoryDto);
             favouriteCategory.Id = id;
 
-            var result = await _favouriteCategoryService.UpdateFavouriteCategory(favouriteCategory);
+            var result = _favouriteCategoryService.UpdateFavouriteCategory(favouriteCategory);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete([FromQuery] int?[] id = null)
+        public IActionResult Delete([FromQuery] int?[] id = null)
         {
-            var result = await _favouriteCategoryService.DeleteFavouriteCategory(id);
+            var result = _favouriteCategoryService.DeleteFavouriteCategory(id);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }

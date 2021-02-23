@@ -11,9 +11,9 @@ namespace Capstone.Core.Interfaces
     public interface IBookRecommendService
     {
         PagedList<BookRecommend> GetBookRecommend(BookRecommendQueryFilter filters);
-        Task<BookRecommend> GetBookRecommend(int id);
-        Task InsertBookRecommend(BookRecommend bookRecommend);
-        Task<bool> UpdateBookRecommend(BookRecommend bookRecommend);
-        Task<bool> DeleteBookRecommend(int?[] id);
+        BookRecommend GetBookRecommend(int id);
+        void InsertBookRecommend(BookRecommend bookRecommend);
+        bool UpdateBookRecommend(BookRecommend bookRecommend);
+        bool DeleteBookRecommend(int?[] id);
     }
 }

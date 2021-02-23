@@ -11,9 +11,9 @@ namespace Capstone.Core.Interfaces
     public interface IRoleService
     {
         PagedList<Role> GetRoles(RoleQueryFilter filters);
-        Task<Role> GetRole(int id);
-        Task InsertRole(Role role);
-        Task<bool> UpdateRole(Role role);
-        Task<bool> DeleteRole(int?[] id);
+        Role GetRole(int id);
+        void InsertRole(Role role);
+        bool UpdateRole(Role role);
+        bool DeleteRole(int?[] id);
     }
 }

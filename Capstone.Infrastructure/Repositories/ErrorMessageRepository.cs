@@ -13,9 +13,9 @@ namespace Capstone.Infrastructure.Repositories
     public class ErrorMessageRepository : BaseRepository<ErrorMessage>, IErrorMessageRepository
     {
         public ErrorMessageRepository(CapstoneContext context) : base(context) { }
-        public async Task<IEnumerable<ErrorMessage>> GetErrorMessagesByBookDetectError(int bookDetectErrorId)
+        public IEnumerable<ErrorMessage> GetErrorMessagesByBookDetectError(int bookDetectErrorId)
         {
-            return await _entities.Where(x => x.BookDetectErrorId == bookDetectErrorId && x.IsDeleted == false).ToListAsync();
+            return _entities.Where(x => x.BookDetectErrorId == bookDetectErrorId && x.IsDeleted == false).ToList();
         }
     }
 }

@@ -11,9 +11,9 @@ namespace Capstone.Core.Interfaces
     public interface ICampaignService
     {
         PagedList<Campaign> GetCampaigns(CampaignQueryFilter filters);
-        Task<Campaign> GetCampaign(int id);
-        Task InsertCampaign(Campaign campaign);
-        Task<bool> UpdateCampaign(Campaign campaign);
-        Task<bool> DeleteCampaign(int?[] id);
+        Campaign GetCampaign(int id);
+        void InsertCampaign(Campaign campaign);
+        bool UpdateCampaign(Campaign campaign);
+        bool DeleteCampaign(int?[] id);
     }
 }
