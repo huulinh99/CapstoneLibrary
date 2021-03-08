@@ -7,15 +7,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using FirebaseAdmin.Messaging;
 using System.Threading.Tasks;
+using Capstone.Core.DTOs;
+using System.Diagnostics;
 
 namespace Capstone.Core.Services
 {
-    public class NotificationService : INotificationService
+    public class UserNotificationService : IUserNotificationService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly PaginationOptions _paginationOptions;
-        public NotificationService(IUnitOfWork unitOfWork, IOptions<PaginationOptions> options)
+        public UserNotificationService(IUnitOfWork unitOfWork, IOptions<PaginationOptions> options)
         {
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
@@ -27,12 +30,12 @@ namespace Capstone.Core.Services
             return true;
         }
 
-        public Notification GetNotification(int id)
+        public UserNotification GetNotification(int id)
         {
             return _unitOfWork.NotificationRepository.GetById(id);
         }
 
-        public PagedList<Notification> GetNotifications(NotificationQueryFilter filters)
+        public PagedList<UserNotification> GetNotifications(NotificationQueryFilter filters)
         {
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
@@ -45,17 +48,33 @@ namespace Capstone.Core.Services
             {
                 notifications = notifications.Where(x => x.Time == filters.Time);
             }
-            var pagedNotifications = PagedList<Notification>.Create(notifications, filters.PageNumber, filters.PageSize);
+            var pagedNotifications = PagedList<UserNotification>.Create(notifications, filters.PageNumber, filters.PageSize);
             return pagedNotifications;
         }
 
-        public void InsertNotification(Notification notification)
+        public async Task InsertNotification(UserNotification notification)
         {
-            _unitOfWork.NotificationRepository.Add(notification);
-            _unitOfWork.SaveChangesAsync();
+            var message = new Message()
+            {
+                Data = new Dictionary<string, string>()
+                {
+                    ["UserId"] = notification.Id.ToString(),
+                    ["CreatedDate"] = notification.CreatedDate.ToString()
+                },
+                Notification = new Notification
+                {
+                    Title = notification.Message,
+                    Body = notification.Message               
+                },
+                Topic = "news",
+                Token = "cniYIC5OST25Ey81Fya92M:APA91bEdkCqYyNoAn3pZTeWNn1ytyDlcBxFosIw1Iy6Jk7r0YOeO8ahj05jQ_CSeB75J1pcKSzTwOG7FSEHiuPiaBU1XNdJkf2_8v1rW1owVnI3EXGsd8abPMVaJvDG5vT1QREZeGY_T"
+            };
+            var messaging = FirebaseMessaging.DefaultInstance;
+            var result = await messaging.SendAsync(message);
+            Debug.WriteLine(result);
         }
 
-        public bool UpdateNotification(Notification notification)
+        public bool UpdateNotification(UserNotification notification)
         {
             _unitOfWork.NotificationRepository.Update(notification);
             _unitOfWork.SaveChanges();

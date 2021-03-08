@@ -42,7 +42,10 @@ namespace Capstone.Infrastructure.Repositories
                 Email = c.Email,
                 Gender = c.Gender,
                 Phone = c.Phone,
-                RoleName = c.Role.Name
+                RoleId = c.Role.Id,
+                Image = c.Image,
+                CreatedTime = c.CreatedTime,
+                DeviceToken = c.DeviceToken
             }).FirstOrDefault();
         }
        

@@ -23,7 +23,7 @@ namespace Capstone.Core.Services
             _paginationOptions = options.Value;
         }
 
-        public StaffDto GetLoginByCredenticals(UserLogin login)
+        public StaffDto GetLoginByCredenticalsStaff(UserLogin login)
         {
             return _unitOfWork.StaffRepository.GetLoginByCredentials(login);
         }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Capstone.Core.DTOs
 {
-    public class NotificationDto
+    public class UserNotificationDto
     {
         public string Message { get; set; }
         public int? UserId { get; set; }

@@ -37,7 +37,23 @@ namespace Capstone.Api.Controllers
         {
             var drawers = _drawerService.GetDrawers(filters);
             var drawersDtos = _mapper.Map<IEnumerable<DrawerDto>>(drawers);
-            return Ok(drawersDtos);
+            var metadata = new Metadata
+            {
+                TotalCount = drawers.TotalCount,
+                PageSize = drawers.PageSize,
+                CurrentPage = drawers.CurrentPage,
+                TotalPages = drawers.TotalPages,
+                HasNextPage = drawers.HasNextPage,
+                HasPreviousPage = drawers.HasPreviousPage,
+            };
+
+            var response = new ApiResponse<IEnumerable<DrawerDto>>(drawersDtos)
+            {
+                Meta = metadata
+            };
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+
+            return Ok(response);
         }
 
         [HttpGet("{id}")]

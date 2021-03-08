@@ -1,4 +1,5 @@
 ﻿using Capstone.Core.CustomEntities;
+using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Core.QueryFilters;
@@ -27,6 +28,10 @@ namespace Capstone.Core.Services
             return true;
         }
 
+        public CustomerDto GetLoginByCredenticalsCustomer(UserLogin login)
+        {
+            return _unitOfWork.CustomerRepository.GetLoginByCredentials(login);
+        }
         public Customer GetCustomer(int id)
         {
             return _unitOfWork.CustomerRepository.GetById(id);

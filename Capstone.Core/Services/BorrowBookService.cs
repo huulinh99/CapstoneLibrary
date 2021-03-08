@@ -72,7 +72,7 @@ namespace Capstone.Core.Services
             var borrowDetails = borrowBook.BorrowDetail;
             foreach (var borrowDetail in borrowDetails)
             {
-                borrowDetail.Fee = borrowDetail.Book.BookGroup.Fee * (borrowBook.StartTime - borrowBook.EndTime).Ticks;
+                //borrowDetail.Fee = borrowDetail.Book.BookGroup.Fee * (borrowBook.StartTime - borrowBook.EndTime).Ticks;
             }
             _unitOfWork.BorrowBookRepository.Add(borrowBook);          
             foreach (var borrowDetail in borrowDetails)

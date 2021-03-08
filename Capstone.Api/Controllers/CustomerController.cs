@@ -94,7 +94,6 @@ namespace Capstone.Api.Controllers
         {
             var customer = _mapper.Map<Customer>(customerDto);
             customer.Id = id;
-
             var result = _customerService.UpdateCustomer(customer);
             var response = new ApiResponse<bool>(result);
             return Ok(response);

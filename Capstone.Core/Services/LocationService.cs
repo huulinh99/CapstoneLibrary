@@ -27,9 +27,9 @@ namespace Capstone.Core.Services
             var bookShelfId =  _unitOfWork.BookShelfRepository.GetBookShelfIdInLocation(id);
             _unitOfWork.DrawerRepository.DeleteDrawerInBookShelf(bookShelfId.ToArray());
             var drawerId = _unitOfWork.DrawerRepository.GetDrawerIdInBookShelf(bookShelfId.ToArray());
-            _unitOfWork.BookDrawerRepository.DeleteBookDrawerByDrawerId(drawerId.ToArray());
-            var bookDrawerId = _unitOfWork.BookDrawerRepository.GetBookDrawerIdInDrawer(drawerId.ToArray());
-            _unitOfWork.BookRepository.DeleteBookByBookDrawerId(bookDrawerId.ToArray());
+            //_unitOfWork.BookDrawerRepository.DeleteBookDrawerByDrawerId(drawerId.ToArray());
+            //var bookDrawerId = _unitOfWork.BookDrawerRepository.GetBookDrawerIdInDrawer(drawerId.ToArray());
+            //_unitOfWork.BookRepository.DeleteBookByBookDrawerId(bookDrawerId.ToArray());
             _unitOfWork.SaveChanges();
             return true;
         }

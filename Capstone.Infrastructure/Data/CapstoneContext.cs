@@ -19,28 +19,23 @@ namespace Capstone.Infrastructure.Data
         public virtual DbSet<Book> Book { get; set; }
         public virtual DbSet<BookCategory> BookCategory { get; set; }
         public virtual DbSet<BookDetect> BookDetect { get; set; }
-        public virtual DbSet<BookDrawer> BookDrawer { get; set; }
         public virtual DbSet<BookGroup> BookGroup { get; set; }
-        public virtual DbSet<BookRecommend> BookRecommend { get; set; }
         public virtual DbSet<BookShelf> BookShelf { get; set; }
         public virtual DbSet<BorrowBook> BorrowBook { get; set; }
         public virtual DbSet<BorrowDetail> BorrowDetail { get; set; }
-        public virtual DbSet<Campaign> Campaign { get; set; }
         public virtual DbSet<Category> Category { get; set; }
         public virtual DbSet<Customer> Customer { get; set; }
-        public virtual DbSet<Device> Device { get; set; }
         public virtual DbSet<Drawer> Drawer { get; set; }
         public virtual DbSet<ErrorMessage> ErrorMessage { get; set; }
-        public virtual DbSet<Event> Event { get; set; }
         public virtual DbSet<FavouriteCategory> FavouriteCategory { get; set; }
         public virtual DbSet<Feedback> Feedback { get; set; }
         public virtual DbSet<Image> Image { get; set; }
         public virtual DbSet<Location> Location { get; set; }
-        public virtual DbSet<Notification> Notification { get; set; }
         public virtual DbSet<ReturnBook> ReturnBook { get; set; }
         public virtual DbSet<ReturnDetail> ReturnDetail { get; set; }
         public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<Staff> Staff { get; set; }
+        public virtual DbSet<UserNotification> UserNotification { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -63,6 +58,11 @@ namespace Capstone.Infrastructure.Data
                     .WithMany(p => p.Book)
                     .HasForeignKey(d => d.BookGroupId)
                     .HasConstraintName("FK_Book_BookGroup");
+
+                entity.HasOne(d => d.Drawer)
+                    .WithMany(p => p.Book)
+                    .HasForeignKey(d => d.DrawerId)
+                    .HasConstraintName("FK_Book_Drawer");
             });
 
             modelBuilder.Entity<BookCategory>(entity =>
@@ -95,39 +95,11 @@ namespace Capstone.Infrastructure.Data
                     .HasConstraintName("FK_BookDetect_Staff");
             });
 
-            modelBuilder.Entity<BookDrawer>(entity =>
-            {
-                entity.Property(e => e.Time).HasColumnType("date");
-
-                entity.HasOne(d => d.Book)
-                    .WithMany(p => p.BookDrawer)
-                    .HasForeignKey(d => d.BookId)
-                    .HasConstraintName("FK_BookDrawer_Book");
-
-                entity.HasOne(d => d.Drawer)
-                    .WithMany(p => p.BookDrawer)
-                    .HasForeignKey(d => d.DrawerId)
-                    .HasConstraintName("FK_BookDrawer_Drawer");
-            });
-
             modelBuilder.Entity<BookGroup>(entity =>
             {
                 entity.Property(e => e.Name).IsRequired();
 
                 entity.Property(e => e.PublishDate).HasColumnType("date");
-            });
-
-            modelBuilder.Entity<BookRecommend>(entity =>
-            {
-                entity.HasOne(d => d.Book)
-                    .WithMany(p => p.BookRecommend)
-                    .HasForeignKey(d => d.BookId)
-                    .HasConstraintName("FK_BookRecommend_Book");
-
-                entity.HasOne(d => d.Campaign)
-                    .WithMany(p => p.BookRecommend)
-                    .HasForeignKey(d => d.CampaignId)
-                    .HasConstraintName("FK_BookRecommend_Campaign");
             });
 
             modelBuilder.Entity<BookShelf>(entity =>
@@ -173,20 +145,6 @@ namespace Capstone.Infrastructure.Data
                     .HasConstraintName("FK_BorrowDetail_BorrowBook");
             });
 
-            modelBuilder.Entity<Campaign>(entity =>
-            {
-                entity.Property(e => e.EndTime).HasColumnType("datetime");
-
-                entity.Property(e => e.StartTime).HasColumnType("datetime");
-
-                entity.Property(e => e.Title).HasMaxLength(100);
-
-                entity.HasOne(d => d.Staff)
-                    .WithMany(p => p.Campaign)
-                    .HasForeignKey(d => d.StaffId)
-                    .HasConstraintName("FK_Campaign_Staff");
-            });
-
             modelBuilder.Entity<Category>(entity =>
             {
                 entity.Property(e => e.Name)
@@ -209,24 +167,11 @@ namespace Capstone.Infrastructure.Data
                 entity.Property(e => e.Name).HasMaxLength(250);
 
                 entity.Property(e => e.Phone).HasMaxLength(50);
-            });
 
-            modelBuilder.Entity<Device>(entity =>
-            {
-                entity.Property(e => e.DeviceToken)
-                    .IsRequired()
-                    .IsUnicode(false);
-
-                entity.HasOne(d => d.Customer)
-                    .WithMany(p => p.Device)
-                    .HasForeignKey(d => d.CustomerId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Device_Customer");
-
-                entity.HasOne(d => d.Staff)
-                    .WithMany(p => p.Device)
-                    .HasForeignKey(d => d.StaffId)
-                    .HasConstraintName("FK_Device_Staff");
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.Customer)
+                    .HasForeignKey(d => d.RoleId)
+                    .HasConstraintName("FK_Customer_Role");
             });
 
             modelBuilder.Entity<Drawer>(entity =>
@@ -248,15 +193,6 @@ namespace Capstone.Infrastructure.Data
                     .WithMany(p => p.ErrorMessage)
                     .HasForeignKey(d => d.DrawerId)
                     .HasConstraintName("FK_ErrorMessage_Drawer");
-            });
-
-            modelBuilder.Entity<Event>(entity =>
-            {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
-                entity.Property(e => e.CreatedDate).HasColumnType("date");
-
-                entity.Property(e => e.Name).IsUnicode(false);
             });
 
             modelBuilder.Entity<FavouriteCategory>(entity =>
@@ -301,23 +237,6 @@ namespace Capstone.Infrastructure.Data
                 entity.Property(e => e.Color).HasMaxLength(100);
 
                 entity.Property(e => e.Name).HasMaxLength(100);
-            });
-
-            modelBuilder.Entity<Notification>(entity =>
-            {
-                entity.Property(e => e.CreatedDate).HasColumnType("date");
-
-                entity.Property(e => e.Time).HasColumnType("datetime");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Notification)
-                    .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK_Notification_Customer");
-
-                entity.HasOne(d => d.UserNavigation)
-                    .WithMany(p => p.Notification)
-                    .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK_Notification_Staff");
             });
 
             modelBuilder.Entity<ReturnBook>(entity =>
@@ -367,6 +286,8 @@ namespace Capstone.Infrastructure.Data
 
             modelBuilder.Entity<Staff>(entity =>
             {
+                entity.Property(e => e.CreatedTime).HasColumnType("date");
+
                 entity.Property(e => e.DoB).HasColumnType("date");
 
                 entity.Property(e => e.Name).HasMaxLength(250);
@@ -375,6 +296,23 @@ namespace Capstone.Infrastructure.Data
                     .WithMany(p => p.Staff)
                     .HasForeignKey(d => d.RoleId)
                     .HasConstraintName("FK_Staff_Role");
+            });
+
+            modelBuilder.Entity<UserNotification>(entity =>
+            {
+                entity.Property(e => e.CreatedDate).HasColumnType("date");
+
+                entity.Property(e => e.Time).HasColumnType("datetime");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserNotification)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK_Notification_Customer");
+
+                entity.HasOne(d => d.UserNavigation)
+                    .WithMany(p => p.UserNotification)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK_Notification_Staff");
             });
 
             OnModelCreatingPartial(modelBuilder);

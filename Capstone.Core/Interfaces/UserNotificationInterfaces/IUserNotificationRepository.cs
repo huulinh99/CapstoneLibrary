@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Capstone.Core.Interfaces
 {
-    public interface IBookRecommendRepository : IRepository<BookRecommend>
+    public interface IUserNotificationRepository : IRepository<UserNotification>
     {
     }
 }

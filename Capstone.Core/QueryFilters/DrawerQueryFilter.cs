@@ -10,6 +10,7 @@ namespace Capstone.Core.QueryFilters
         public int BookSheflId { get; set; }      
         public int RowStart { get; set; }
         public int RowEnd { get; set; }
+        public int? BookGroupId { get; set; }
         public int ColStart { get; set; }
         public int ColEnd { get; set; }
 

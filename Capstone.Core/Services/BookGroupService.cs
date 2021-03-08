@@ -79,7 +79,7 @@ namespace Capstone.Core.Services
 
             if (filters.IsPopular == true)
             {
-                bookGroups = bookGroups.OrderByDescending(x => x.Id).ToList();
+                bookGroups = bookGroups.OrderBy(x => x.Id).ToList();
             }
 
             if (filters.Fee != null)
@@ -166,7 +166,7 @@ namespace Capstone.Core.Services
             bookGroupDto.PunishFee = bookGroup.PunishFee;
             bookGroupDto.Quantity = bookGroup.Quantity;
             bookGroupDto.Author = bookGroup.Author;
-            bookGroupDto.PublishingPalace = bookGroup.PublishingPalace;
+            bookGroupDto.PublishingPlace = bookGroup.PublishingPlace;
             bookGroupDto.PublishingCompany = bookGroup.PublishingCompany;
             bookGroupDto.PublishDate = bookGroup.PublishDate;
             bookGroupDto.Description = bookGroup.Description;

@@ -59,22 +59,27 @@ namespace Capstone.Infrastructure.Repositories
             return terms;
         }
 
-        public IEnumerable<DrawerDto> GetAllDrawers(IEnumerable<BookDrawer> bookDrawers)
+        public IEnumerable<DrawerDto> GetDrawerByListBook(IEnumerable<BookDto> books)
         {
-            List<DrawerDto> drawers = new List<DrawerDto>();
-            foreach (var bookDrawer in bookDrawers)
+            Dictionary<int,DrawerDto> list = new Dictionary<int,DrawerDto>();
+            foreach (var book in books)
             {
-                var drawer = _entities.Where(x => x.BookDrawerId == bookDrawer.Id)
-                    .Select(x => new DrawerDto
-                    {
-                        Id = x.Id,
-                        BookShelfId = x.BookShelfId,
-                        ShelfColumn = x.ShelfColumn,
-                        ShelfRow = x.ShelfRow
-                    }).FirstOrDefault();
-                drawers.Add(drawer);
+                var entity = _entities.Where(x => x.Id == book.DrawerId)
+                        .Select(x => new DrawerDto
+                        {
+                            Id = x.Id,
+                            ShelfRow = x.ShelfRow,
+                            ShelfColumn = x.ShelfColumn,
+                            BookShelfName = x.BookShelf.Name,
+                            BookShelfId = x.BookShelfId
+                        })
+                        .FirstOrDefault();
+                if (!list.ContainsKey(entity.Id))
+                {
+                    list.Add(entity.Id, entity);
+                }           
             }
-            return drawers;
-        }
+            return list.Values;
+        }       
     }
 }

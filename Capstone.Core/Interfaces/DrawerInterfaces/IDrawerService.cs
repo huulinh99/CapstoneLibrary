@@ -11,7 +11,7 @@ namespace Capstone.Core.Interfaces
 {
     public interface IDrawerService
     {
-        IEnumerable<DrawerDto> GetDrawers(DrawerQueryFilter filters);
+        PagedList<DrawerDto> GetDrawers(DrawerQueryFilter filters);
         Drawer GetDrawer(int id);
         void InsertDrawer(Drawer drawer);
         bool UpdateDrawer(Drawer drawer);

@@ -1,5 +1,4 @@
 ﻿using Capstone.Core.Entities;
-using Capstone.Core.Interfaces.BookDrawerInterfaces;
 using Capstone.Core.Interfaces.FavouriteCategoryInterfaces;
 using Capstone.Core.Interfaces.ImageInterfaces;
 using System;
@@ -22,18 +21,14 @@ namespace Capstone.Core.Interfaces
         IRoleRepository RoleRepository { get; }
         IBorrowDetailRepository BorrowDetailRepository { get; }
         ICategoryRepository CategoryRepository { get; }
-        ICampaignRepository CampaignRepository { get; }
         ICustomerRepository CustomerRepository { get; }
         IReturnBookRepository ReturnBookRepository { get; }
         IReturnDetailRepository ReturnDetailRepository { get; }
         IBookCategoryRepository BookCategoryRepository { get; }
         IBookDetectRepository BookDetectRepository { get; }
-        IBookRecommendRepository BookRecommendRepository { get; }
-        IDeviceRepository DeviceRepository { get; }
         IFeedbackRepository FeedbackRepository { get; }
-        INotificationRepository NotificationRepository { get; }
+        IUserNotificationRepository NotificationRepository { get; }
         IImageRepository ImageRepository { get; }
-        IBookDrawerRepository BookDrawerRepository { get; }
         IFavouriteCategoryRepository FavouriteCategoryRepository { get; }
 
         void SaveChanges();

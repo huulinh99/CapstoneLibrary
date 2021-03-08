@@ -1,6 +1,5 @@
 ﻿using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
-using Capstone.Core.Interfaces.BookDrawerInterfaces;
 using Capstone.Core.Interfaces.FavouriteCategoryInterfaces;
 using Capstone.Core.Interfaces.ImageInterfaces;
 using Capstone.Infrastructure.Data;
@@ -25,18 +24,14 @@ namespace Capstone.Infrastructure.Repositories
         private readonly IRoleRepository _roleRepository;
         private readonly IBorrowDetailRepository _borrowDetailRepository;
         private readonly ICategoryRepository _categoryRepository;
-        private readonly ICampaignRepository _campaignRepository;
         private readonly ICustomerRepository _customerRepository;
         private readonly IReturnBookRepository _returnBookRepository;
         private readonly IReturnDetailRepository _returnDetailRepository;
         private readonly IBookCategoryRepository _bookCategoryRepository;
         private readonly IBookDetectRepository _bookDetectRepository;
-        private readonly IBookRecommendRepository _bookRecommendRepository;
-        private readonly IDeviceRepository _deviceRepository;
         private readonly IFeedbackRepository _feedbackRepository;
-        private readonly INotificationRepository _notificationRepository;
+        private readonly IUserNotificationRepository _notificationRepository;
         private readonly IImageRepository _imageRepository;
-        private readonly IBookDrawerRepository _bookDrawerRepository;
         private readonly IFavouriteCategoryRepository _favouriteCategoryRepository;
         public UnitOfWork(CapstoneContext context)
         {
@@ -56,18 +51,14 @@ namespace Capstone.Infrastructure.Repositories
 
         public ICategoryRepository CategoryRepository => _categoryRepository ?? new CategoryRepository(_context);
 
-        public ICampaignRepository CampaignRepository => _campaignRepository ?? new CampaignRepository(_context);
         public ICustomerRepository CustomerRepository => _customerRepository ?? new CustomerRepository(_context);
         public IReturnBookRepository ReturnBookRepository => _returnBookRepository ?? new ReturnBookRepository(_context);
         public IReturnDetailRepository ReturnDetailRepository => _returnDetailRepository ?? new ReturnDetailRepository(_context);
         public IBookCategoryRepository BookCategoryRepository => _bookCategoryRepository ?? new BookCategoryRepository(_context);
         public IBookDetectRepository BookDetectRepository => _bookDetectRepository ?? new BookDetectRepository(_context);
-        public IBookRecommendRepository BookRecommendRepository => _bookRecommendRepository ?? new BookRecommendRepository(_context);
-        public IDeviceRepository DeviceRepository => _deviceRepository ?? new DeviceRepository(_context);
         public IFeedbackRepository FeedbackRepository => _feedbackRepository ?? new FeedbackRepository(_context);
-        public INotificationRepository NotificationRepository => _notificationRepository ?? new NotificationRepository(_context);
+        public IUserNotificationRepository NotificationRepository => _notificationRepository ?? new UserNotificationRepository(_context);
         public IImageRepository ImageRepository => _imageRepository ?? new ImageRepository(_context);
-        public IBookDrawerRepository BookDrawerRepository => _bookDrawerRepository ?? new BookDrawerRepository(_context);
         public IFavouriteCategoryRepository FavouriteCategoryRepository => _favouriteCategoryRepository ?? new FavouriteCategoryRepository(_context);
 
         public void Dispose()

@@ -35,13 +35,18 @@ namespace Capstone.Core.Services
             return _unitOfWork.DrawerRepository.GetById(id);
         }
 
-        public IEnumerable<DrawerDto> GetDrawers(DrawerQueryFilter filters)
+        public PagedList<DrawerDto> GetDrawers(DrawerQueryFilter filters)
         {
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
             var drawers = _unitOfWork.DrawerRepository.GetAllDrawers(filters.BookSheflId, filters.RowStart, filters.RowEnd, filters.ColStart, filters.ColEnd);
-
-            return drawers;
+            if (filters.BookGroupId != null)
+            {
+                var books = _unitOfWork.BookRepository.GetBookByBookGroup(filters.BookGroupId);
+                drawers = _unitOfWork.DrawerRepository.GetDrawerByListBook(books);
+            }
+            var pagedDrawers = PagedList<DrawerDto>.Create(drawers, filters.PageNumber, filters.PageSize);
+            return pagedDrawers;
         }
 
         public void InsertDrawer(Drawer drawer)

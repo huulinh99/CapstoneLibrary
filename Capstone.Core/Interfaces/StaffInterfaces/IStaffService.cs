@@ -17,6 +17,6 @@ namespace Capstone.Core.Interfaces
         Staff GetStaffByUserName(string username);
         bool UpdateStaff(Staff staff);
         bool DeleteStaff(int?[] id);
-        StaffDto GetLoginByCredenticals(UserLogin login);
+        StaffDto GetLoginByCredenticalsStaff(UserLogin login);
     }
 }

@@ -63,8 +63,7 @@ namespace Capstone.Core.Services
 
             if (filters.DrawerId != null)
             {
-                var bookDrawer = _unitOfWork.BookDrawerRepository.GetBookDrawerByDrawerId(filters.DrawerId);
-                books = _unitOfWork.BookRepository.GetBookInDrawer(bookDrawer);
+                books = _unitOfWork.BookRepository.GetBookByDrawer(filters.DrawerId);
             }
             var pagedBooks = PagedList<BookDto>.Create(books, filters.PageNumber, filters.PageSize);
             return pagedBooks;

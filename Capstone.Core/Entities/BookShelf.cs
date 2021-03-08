@@ -9,6 +9,7 @@ namespace Capstone.Core.Entities
         {
             Drawer = new HashSet<Drawer>();
         }
+
         public string Name { get; set; }
         public int? LocationId { get; set; }
         public int? Col { get; set; }

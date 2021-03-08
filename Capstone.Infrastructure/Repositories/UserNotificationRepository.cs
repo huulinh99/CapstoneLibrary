@@ -7,9 +7,8 @@ using System.Text;
 
 namespace Capstone.Infrastructure.Repositories
 {
-    public class BookRecommendRepository : BaseRepository<BookRecommend>, IBookRecommendRepository
+    public class UserNotificationRepository : BaseRepository<UserNotification>, IUserNotificationRepository
     {
-        public BookRecommendRepository(CapstoneContext context) : base(context) { }
-
+        public UserNotificationRepository(CapstoneContext context) : base(context) { }
     }
 }

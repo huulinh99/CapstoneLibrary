@@ -1,4 +1,5 @@
 ﻿using Capstone.Core.CustomEntities;
+using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.QueryFilters;
 using System;
@@ -16,5 +17,6 @@ namespace Capstone.Core.Interfaces
         void InsertCustomer(Customer customer);
         bool UpdateCustomer(Customer customer);
         bool DeleteCustomer(int?[] id);
+        CustomerDto GetLoginByCredenticalsCustomer(UserLogin login);
     }
 }

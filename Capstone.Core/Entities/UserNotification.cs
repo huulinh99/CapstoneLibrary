@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Capstone.Core.Entities
 {
-    public partial class Notification : BaseEntity
+    public partial class UserNotification : BaseEntity
     {
         public string Message { get; set; }
         public int? UserId { get; set; }
