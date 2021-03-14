@@ -82,7 +82,8 @@ namespace Capstone.Infrastructure.Repositories
                 .Select(c => new BookGroupDto
                 {
                     Id = c.Id,
-                    Name = c.Name
+                    Name = c.Name,
+                    Fee = c.Fee
                 }).FirstOrDefault();
             return bookGroup;
         }
@@ -91,7 +92,7 @@ namespace Capstone.Infrastructure.Repositories
         public BookGroupDto GetBookGroupsWithImageById(int? bookGroupId, ICollection<CategoryDto> categories, ICollection<RatingDto> ratings)
         {
 
-            var bookGroup =  _entities.Where(x => x.Id == bookGroupId)
+            var bookGroup = _entities.Where(x => x.Id == bookGroupId)
                 .Include(c => c.Image)
                 .Include(s => s.BookCategory)
                 .ThenInclude(a => a.Category)
@@ -226,7 +227,7 @@ namespace Capstone.Infrastructure.Repositories
                     Thick = c.Thick,
                     PublishNumber = c.PublishNumber,
                     IsDeleted = c.IsDeleted,
-                    Image = c.Image.Where(x=>x.IsDeleted == false).ToList()
+                    Image = c.Image.Where(x => x.IsDeleted == false).ToList()
                 }).ToList();
             return bookGroup;
         }

@@ -6,6 +6,7 @@ using Capstone.Core.QueryFilters;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,18 +36,23 @@ namespace Capstone.Core.Services
             return _unitOfWork.DrawerRepository.GetById(id);
         }
 
-        public PagedList<DrawerDto> GetDrawers(DrawerQueryFilter filters)
+        public IEnumerable<DrawerDto> GetDrawers(DrawerQueryFilter filters)
         {
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
             var drawers = _unitOfWork.DrawerRepository.GetAllDrawers(filters.BookSheflId, filters.RowStart, filters.RowEnd, filters.ColStart, filters.ColEnd);
+            Debug.WriteLine(filters.RowStart.ToString() + "sdasdasdasd");
             if (filters.BookGroupId != null)
             {
                 var books = _unitOfWork.BookRepository.GetBookByBookGroup(filters.BookGroupId);
                 drawers = _unitOfWork.DrawerRepository.GetDrawerByListBook(books);
             }
-            var pagedDrawers = PagedList<DrawerDto>.Create(drawers, filters.PageNumber, filters.PageSize);
-            return pagedDrawers;
+
+            if (filters.BookSheflId!=null && filters.RowStart.ToString() == "0")
+            {
+                drawers = _unitOfWork.DrawerRepository.GetDrawerByBookShelfId(filters.BookSheflId);
+            }
+            return drawers;
         }
 
         public void InsertDrawer(Drawer drawer)

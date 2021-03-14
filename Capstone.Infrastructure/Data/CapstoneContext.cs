@@ -18,15 +18,16 @@ namespace Capstone.Infrastructure.Data
 
         public virtual DbSet<Book> Book { get; set; }
         public virtual DbSet<BookCategory> BookCategory { get; set; }
-        public virtual DbSet<BookDetect> BookDetect { get; set; }
         public virtual DbSet<BookGroup> BookGroup { get; set; }
         public virtual DbSet<BookShelf> BookShelf { get; set; }
         public virtual DbSet<BorrowBook> BorrowBook { get; set; }
         public virtual DbSet<BorrowDetail> BorrowDetail { get; set; }
         public virtual DbSet<Category> Category { get; set; }
         public virtual DbSet<Customer> Customer { get; set; }
+        public virtual DbSet<Detection> Detection { get; set; }
+        public virtual DbSet<DetectionError> DetectionError { get; set; }
         public virtual DbSet<Drawer> Drawer { get; set; }
-        public virtual DbSet<ErrorMessage> ErrorMessage { get; set; }
+        public virtual DbSet<DrawerDetection> DrawerDetection { get; set; }
         public virtual DbSet<FavouriteCategory> FavouriteCategory { get; set; }
         public virtual DbSet<Feedback> Feedback { get; set; }
         public virtual DbSet<Image> Image { get; set; }
@@ -78,23 +79,6 @@ namespace Capstone.Infrastructure.Data
                     .HasConstraintName("FK_BookCategory_Category");
             });
 
-            modelBuilder.Entity<BookDetect>(entity =>
-            {
-                entity.Property(e => e.IsError).HasColumnName("isError");
-
-                entity.Property(e => e.Time).HasColumnType("datetime");
-
-                entity.HasOne(d => d.Book)
-                    .WithMany(p => p.BookDetect)
-                    .HasForeignKey(d => d.BookId)
-                    .HasConstraintName("FK_BookDetect_Book");
-
-                entity.HasOne(d => d.Staff)
-                    .WithMany(p => p.BookDetect)
-                    .HasForeignKey(d => d.StaffId)
-                    .HasConstraintName("FK_BookDetect_Staff");
-            });
-
             modelBuilder.Entity<BookGroup>(entity =>
             {
                 entity.Property(e => e.Name).IsRequired();
@@ -104,10 +88,7 @@ namespace Capstone.Infrastructure.Data
 
             modelBuilder.Entity<BookShelf>(entity =>
             {
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(20)
-                    .IsFixedLength();
+                entity.Property(e => e.Name).IsRequired();
 
                 entity.HasOne(d => d.Location)
                     .WithMany(p => p.BookShelf)
@@ -174,25 +155,61 @@ namespace Capstone.Infrastructure.Data
                     .HasConstraintName("FK_Customer_Role");
             });
 
+            modelBuilder.Entity<Detection>(entity =>
+            {
+                entity.Property(e => e.Url).IsRequired();
+
+                entity.HasOne(d => d.Staff)
+                    .WithMany(p => p.Detection)
+                    .HasForeignKey(d => d.StaffId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Detection_Staff");
+            });
+
+            modelBuilder.Entity<DetectionError>(entity =>
+            {
+                entity.Property(e => e.ErrorMessage).IsRequired();
+
+                entity.HasOne(d => d.Book)
+                    .WithMany(p => p.DetectionError)
+                    .HasForeignKey(d => d.BookId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DetectionError_Book");
+
+                entity.HasOne(d => d.DrawerDetection)
+                    .WithMany(p => p.DetectionError)
+                    .HasForeignKey(d => d.DrawerDetectionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DetectionError_DrawerDetection");
+            });
+
             modelBuilder.Entity<Drawer>(entity =>
             {
+                entity.Property(e => e.DrawerBarcode)
+                    .HasMaxLength(20)
+                    .IsFixedLength();
+
                 entity.HasOne(d => d.BookShelf)
                     .WithMany(p => p.Drawer)
                     .HasForeignKey(d => d.BookShelfId)
                     .HasConstraintName("FK_Drawer_BookShelf");
             });
 
-            modelBuilder.Entity<ErrorMessage>(entity =>
+            modelBuilder.Entity<DrawerDetection>(entity =>
             {
-                entity.HasOne(d => d.BookDetectError)
-                    .WithMany(p => p.ErrorMessage)
-                    .HasForeignKey(d => d.BookDetectErrorId)
-                    .HasConstraintName("FK_ErrorMessage_BookDetect");
+                entity.Property(e => e.Time).HasColumnType("date");
+
+                entity.HasOne(d => d.Detection)
+                    .WithMany(p => p.DrawerDetection)
+                    .HasForeignKey(d => d.DetectionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DrawerDetection_Detection");
 
                 entity.HasOne(d => d.Drawer)
-                    .WithMany(p => p.ErrorMessage)
+                    .WithMany(p => p.DrawerDetection)
                     .HasForeignKey(d => d.DrawerId)
-                    .HasConstraintName("FK_ErrorMessage_Drawer");
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DrawerDetection_Drawer");
             });
 
             modelBuilder.Entity<FavouriteCategory>(entity =>

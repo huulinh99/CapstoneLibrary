@@ -65,7 +65,7 @@ namespace Capstone.Core.Services
         public void InsertBookShelf(BookShelf bookShelf)
         {
             _unitOfWork.BookShelfRepository.Add(bookShelf);
-            _unitOfWork.SaveChangesAsync();
+            _unitOfWork.SaveChanges();
             for (int i = 1; i <= bookShelf.Row; i++)
             {
                 for (int j = 1; j <= bookShelf.Col; j++)
@@ -79,8 +79,7 @@ namespace Capstone.Core.Services
                     _unitOfWork.DrawerRepository.Add(drawerModel);
                 }                          
             }
-
-            _unitOfWork.SaveChangesAsync();
+            _unitOfWork.SaveChanges();
         }
 
         public bool UpdateBookShelf(BookShelf bookShelf)

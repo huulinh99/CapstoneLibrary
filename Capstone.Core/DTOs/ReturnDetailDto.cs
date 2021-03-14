@@ -11,6 +11,7 @@ namespace Capstone.Core.DTOs
         public int? BookId { get; set; }
         public bool? IsLate { get; set; }
         public double? PunishFee { get; set; }
+        public int? CustomerId { get; set; }
         public string Fee { get; set; }
         public int ReturnId { get; set; }     
     }

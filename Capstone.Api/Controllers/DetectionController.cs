@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -10,41 +9,43 @@ using Capstone.Core.CustomEntities;
 using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
+using Capstone.Core.Interfaces.DetectionInterfaces;
 using Capstone.Core.QueryFilters;
-using Capstone.Core.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Capstone.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BookGroupController : ControllerBase
+    public class DetectionController : ControllerBase
     {
-        private readonly IBookGroupService _bookGroupService;
+        private readonly IDetectionService _detectionService;
         private readonly IMapper _mapper;
         private readonly IUriService _uriService;
         private static IHttpContextAccessor _httpContextAccessor;
 
-        public BookGroupController(IBookGroupService bookGroupService, IMapper mapper, IUriService uriService, IHttpContextAccessor httpContextAccessor)
+        public DetectionController(IDetectionService detectionService, IMapper mapper, IUriService uriService, IHttpContextAccessor httpContextAccessor)
         {
-            _bookGroupService = bookGroupService;
+            _detectionService = detectionService;
             _mapper = mapper;
             _uriService = uriService;
             _httpContextAccessor = httpContextAccessor;
         }
 
-        [HttpGet(Name = nameof(GetBookGroups))]
-        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<BookGroupDto>>))]
+        [HttpGet(Name = nameof(GetDetections))]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<DetectionDto>>))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public IActionResult GetBookGroups([FromQuery] BookGroupQueryFilter filters)
+        public IActionResult GetDetections([FromQuery] DetectionQueryFilter filters)
         {
             //var request = _httpContextAccessor.HttpContext.Request;
             //string str = request.QueryString.ToString();
             //string stringBeforeChar = str.Substring(0, str.IndexOf("&"));
-            var bookGroups = _bookGroupService.GetBookGroups(filters);
-            var bookGroupsDto = _mapper.Map<IEnumerable<BookGroupDto>>(bookGroups);
+            var detections = _detectionService.GetDetections(filters);
+            var detectionsDto = _mapper.Map<IEnumerable<DetectionDto>>(detections);
             //var nextPage = bookGroups.CurrentPage >= 1 && bookGroups.CurrentPage < bookGroups.TotalCount
             //               ? _uriService.GetPageUri(bookGroups.CurrentPage + 1, bookGroups.PageSize, _uriService.GetBookGroupPaginationUri(filters, Url.RouteUrl(nameof(GetBookGroups))).ToString() + stringBeforeChar)
             //               : null;
@@ -53,15 +54,15 @@ namespace Capstone.Api.Controllers
             //               : null;
             var metadata = new Metadata
             {
-                TotalCount = bookGroups.TotalCount,
-                PageSize = bookGroups.PageSize,
-                CurrentPage = bookGroups.CurrentPage,
-                TotalPages = bookGroups.TotalPages,
-                HasNextPage = bookGroups.HasNextPage,
-                HasPreviousPage = bookGroups.HasPreviousPage,
+                TotalCount = detections.TotalCount,
+                PageSize = detections.PageSize,
+                CurrentPage = detections.CurrentPage,
+                TotalPages = detections.TotalPages,
+                HasNextPage = detections.HasNextPage,
+                HasPreviousPage = detections.HasPreviousPage,
             };
 
-            var response = new ApiResponse<IEnumerable<BookGroupDto>>(bookGroupsDto)
+            var response = new ApiResponse<IEnumerable<DetectionDto>>(detectionsDto)
             {
                 Meta = metadata
             };
@@ -71,41 +72,41 @@ namespace Capstone.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetBookGroup(int id)
+        public IActionResult GetDetection(int id)
         {
-            var bookGroup = _bookGroupService.GetBookGroup(id);
-            var bookGroupDto = _mapper.Map<BookGroupDto>(bookGroup);
-            var response = new ApiResponse<BookGroupDto>(bookGroupDto);
+            var detection = _detectionService.GetDetection(id);
+            var detectionDto = _mapper.Map<DetectionDto>(detection);
+            var response = new ApiResponse<DetectionDto>(detectionDto);
             return Ok(response);
         }
 
         [HttpPost]
-        public IActionResult BookGroup(BookGroupDto bookGroupDto)
+        public IActionResult Detection(DetectionDto detectionDto)
         {
-            var bookGroup = _mapper.Map<BookGroup>(bookGroupDto);          
-            _bookGroupService.InsertBookGroup(bookGroup);
-            bookGroupDto = _mapper.Map<BookGroupDto>(bookGroup);
-            var response = new ApiResponse<BookGroupDto>(bookGroupDto);
+            var detection = _mapper.Map<Detection>(detectionDto);
+            _detectionService.InsertDetection(detection);
+            detectionDto = _mapper.Map<DetectionDto>(detection);
+            var response = new ApiResponse<DetectionDto>(detectionDto);
             return Ok(response);
         }
 
         [HttpPut]
-        public IActionResult Put(int id, BookGroupDto bookGroupDto)
+        public IActionResult Put(int id, DetectionDto detectionDto)
         {
-            var bookGroup = _mapper.Map<BookGroup>(bookGroupDto);
-            bookGroup.Id = id;
-            Debug.WriteLine("run controller");
-            var result = _bookGroupService.UpdateBookGroup(bookGroup);
+            var detection = _mapper.Map<Detection>(detectionDto);
+            detection.Id = id;
+            //Debug.WriteLine("run controller");
+            var result = _detectionService.UpdateDetection(detection);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }
 
         [HttpDelete]
-        public IActionResult Delete([FromQuery]int?[]id = null)
+        public IActionResult Delete([FromQuery] int?[] id = null)
         {
-            var result = _bookGroupService.DeleteBookGroup(id);
+            var result = _detectionService.DeleteDetection(id);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }
-    } 
+    }
 }

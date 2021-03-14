@@ -4,11 +4,11 @@ using System.Text;
 
 namespace Capstone.Core.DTOs
 {
-    public class ErrorMessageDto
+    public class DrawerDetectionDto
     {
         public int Id { get; set; }
-        public int BookDetectErrorId { get; set; }
+        public int DetectionId { get; set; }
         public int DrawerId { get; set; }
-        public int Description { get; set; }
+        public DateTime? Time { get; set; }
     }
 }

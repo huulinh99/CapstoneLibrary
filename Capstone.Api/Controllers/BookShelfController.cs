@@ -70,9 +70,9 @@ namespace Capstone.Api.Controllers
         [HttpPost]
         public IActionResult BookShelf(BookShelfDto bookShelfDto)
         {
-            var post = _mapper.Map<BookShelf>(bookShelfDto);
-            _bookShelfService.InsertBookShelf(post);
-            bookShelfDto = _mapper.Map<BookShelfDto>(post);
+            var bookShelf = _mapper.Map<BookShelf>(bookShelfDto);
+            _bookShelfService.InsertBookShelf(bookShelf);
+            bookShelfDto = _mapper.Map<BookShelfDto>(bookShelf);
             var response = new ApiResponse<BookShelfDto>(bookShelfDto);
             return Ok(response);
         }

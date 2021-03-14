@@ -3,6 +3,9 @@ using Capstone.Api.Controllers;
 using Capstone.Core.CustomEntities;
 using Capstone.Core.Hubs;
 using Capstone.Core.Interfaces;
+using Capstone.Core.Interfaces.DetectionErrorInterfaces;
+using Capstone.Core.Interfaces.DetectionInterfaces;
+using Capstone.Core.Interfaces.DrawerDetectionInterfaces;
 using Capstone.Core.Interfaces.FavouriteCategoryInterfaces;
 using Capstone.Core.Interfaces.ImageInterfaces;
 using Capstone.Core.Services;
@@ -62,7 +65,6 @@ namespace Capstone.Api
             services.AddTransient<IBookGroupService, BookGroupService>();
             services.AddTransient<IBookShelfService, BookShelfService>();
             services.AddTransient<IDrawerService, DrawerService>();
-            services.AddTransient<IErrorMessageService, ErrorMessageService>();
             services.AddTransient<IStaffService, StaffService>();
             services.AddTransient<IBorrowBookService, BorrowBookService>();
             services.AddTransient<IRoleService, RoleService>();
@@ -75,6 +77,9 @@ namespace Capstone.Api
             services.AddTransient<IFeedbackService, FeedbackService>();
             services.AddTransient<IUserNotificationService, UserNotificationService>();
             services.AddTransient<IImageService, ImageService>();
+            services.AddTransient<IDetectionService, DetectionService>();
+            services.AddTransient<IDetectionErrorService, DetectionErrorService>();
+            services.AddTransient<IDrawerDetectionService, DrawerDetectionService>();
             services.AddTransient<IFavouriteCategoryService, FavouriteCategoryService>();
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
             services.AddTransient<IUnitOfWork, UnitOfWork>();

@@ -21,10 +21,7 @@ namespace Capstone.Infrastructure.Mappings
             CreateMap<BookShelfDto, BookShelf>();
 
             CreateMap<Drawer, DrawerDto>();
-            CreateMap<DrawerDto, Drawer>();
-
-            CreateMap<ErrorMessage, ErrorMessageDto>();
-            CreateMap<ErrorMessageDto, ErrorMessage>();           
+            CreateMap<DrawerDto, Drawer>();        
 
             CreateMap<BorrowBook, BorrowBookDto>();
             CreateMap<BorrowBookDto, BorrowBook>();
@@ -43,6 +40,15 @@ namespace Capstone.Infrastructure.Mappings
 
             CreateMap<ReturnDetail, ReturnDetailDto>();
             CreateMap<ReturnDetailDto, ReturnDetail>();
+
+            CreateMap<Detection, DetectionDto>();
+            CreateMap<DetectionDto, Detection>();
+
+            CreateMap<DetectionError, DetectionErrorDto>();
+            CreateMap<DetectionErrorDto, DetectionError>();
+
+            CreateMap<DrawerDetection, DrawerDetectionDto>();
+            CreateMap<DrawerDetectionDto, DrawerDetection>();
 
             CreateMap<Staff, StaffDto>();
             CreateMap<StaffDto, Staff>();

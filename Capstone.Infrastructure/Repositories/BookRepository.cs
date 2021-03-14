@@ -24,7 +24,7 @@ namespace Capstone.Infrastructure.Repositories
                 Id = c.Id,
                 BarCode = c.BarCode,
                 BookGroupId = c.BookGroupId,
-                Status = c.Status,
+                IsAvailable = c.IsAvailable,
                 BookName = (c.BookGroup.Name)
             }).ToList();
         }
@@ -36,7 +36,7 @@ namespace Capstone.Infrastructure.Repositories
                 Id = c.Id,
                 BarCode = c.BarCode,
                 BookGroupId = c.BookGroupId,
-                Status = c.Status,
+                IsAvailable = c.IsAvailable,
                 BookName = (c.BookGroup.Name)
             }).ToList();
         }
@@ -48,7 +48,7 @@ namespace Capstone.Infrastructure.Repositories
                 Id = c.Id,
                 BarCode = c.BarCode,
                 BookGroupId = c.BookGroupId,
-                Status = c.Status,
+                IsAvailable = c.IsAvailable ,
                 BookName = (c.BookGroup.Name)
             }).ToList();
         }
@@ -60,7 +60,7 @@ namespace Capstone.Infrastructure.Repositories
                 Id = c.Id,
                 BarCode = c.BarCode,
                 BookGroupId = c.BookGroupId,
-                Status = c.Status,
+                IsAvailable = c.IsAvailable,
                 BookName = (c.BookGroup.Name)
             }).ToList();
         }
@@ -73,7 +73,7 @@ namespace Capstone.Infrastructure.Repositories
                     Id = c.Id,
                     BarCode = c.BarCode,
                     BookGroupId = c.BookGroupId,
-                    Status = c.Status,
+                    IsAvailable = c.IsAvailable,
                     DrawerId = c.Drawer.Id,
                     BookName = (c.BookGroup.Name)
                 }).ToList();
@@ -87,9 +87,23 @@ namespace Capstone.Infrastructure.Repositories
                     Id = c.Id,
                     BarCode = c.BarCode,
                     BookGroupId = c.BookGroupId,
-                    Status = c.Status,
+                    IsAvailable = c.IsAvailable,
                     BookName = (c.BookGroup.Name)
                 }).ToList();
+        }
+
+        public IEnumerable<BookDto> GetBookByListId(string[] barcode)
+        {
+            var entities = _entities.Where(f => barcode.Contains(f.BarCode)).Select(c => new BookDto
+            {
+                Id = c.Id,
+                BarCode = c.BarCode,
+                BookGroupId = c.BookGroupId,
+                IsAvailable = c.IsAvailable,
+                DrawerId = c.DrawerId,
+                BookName = (c.BookGroup.Name)
+            }).ToList();
+            return entities;
         }
     }
 }

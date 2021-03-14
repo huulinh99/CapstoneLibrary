@@ -1,4 +1,7 @@
 ﻿using Capstone.Core.Entities;
+using Capstone.Core.Interfaces.DetectionErrorInterfaces;
+using Capstone.Core.Interfaces.DetectionInterfaces;
+using Capstone.Core.Interfaces.DrawerDetectionInterfaces;
 using Capstone.Core.Interfaces.FavouriteCategoryInterfaces;
 using Capstone.Core.Interfaces.ImageInterfaces;
 using System;
@@ -15,9 +18,11 @@ namespace Capstone.Core.Interfaces
         ILocationRepository LocationRepository { get; }
         IBookShelfRepository BookShelfRepository { get; }
         IDrawerRepository DrawerRepository { get; }
-        IErrorMessageRepository ErrorMessageRepository { get; }
         IStaffRepository StaffRepository { get; }
         IBorrowBookRepository BorrowBookRepository { get; }
+        IDetectionRepository DetectionRepository { get; }
+        IDetectionErrorRepository DetectionErrorRepository { get; }
+        IDrawerDetectionRepository DrawerDetectionRepository { get; }
         IRoleRepository RoleRepository { get; }
         IBorrowDetailRepository BorrowDetailRepository { get; }
         ICategoryRepository CategoryRepository { get; }
@@ -25,7 +30,6 @@ namespace Capstone.Core.Interfaces
         IReturnBookRepository ReturnBookRepository { get; }
         IReturnDetailRepository ReturnDetailRepository { get; }
         IBookCategoryRepository BookCategoryRepository { get; }
-        IBookDetectRepository BookDetectRepository { get; }
         IFeedbackRepository FeedbackRepository { get; }
         IUserNotificationRepository NotificationRepository { get; }
         IImageRepository ImageRepository { get; }

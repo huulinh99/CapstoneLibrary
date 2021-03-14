@@ -46,6 +46,26 @@ namespace Capstone.Core.Services
                 books = _unitOfWork.BookRepository.GetAllBooksInDrawer();
             }
 
+            if(filters.Barcode != null)
+            {
+                books = _unitOfWork.BookRepository.GetBookByListId(filters.Barcode);
+                foreach (var book in books)
+                {
+                    var returnDetail = _unitOfWork.ReturnDetailRepository.GetCustomerByBookId(book.Id);
+                    if (returnDetail == null)
+                    {
+                        book.IsAvailable = true;
+                    }
+                    else
+                    {
+                        var customer = _unitOfWork.CustomerRepository.GetById(returnDetail.CustomerId);
+                        book.CustomerId = customer.Id;
+                        book.CustomerName = customer.Name;
+                        book.CustomerImage = customer.Image;
+                    }                   
+                }
+            }
+
             if (filters.IsInDrawer == false)
             {
                 books = _unitOfWork.BookRepository.GetAllBooksNotInDrawer();
@@ -77,7 +97,9 @@ namespace Capstone.Core.Services
 
         public bool UpdateBook(Book book)
         {
-            _unitOfWork.BookRepository.Update(book);
+            var entity = _unitOfWork.BookRepository.GetById(book.Id);
+            entity.DrawerId = book.DrawerId;
+            _unitOfWork.BookRepository.Update(entity);
             _unitOfWork.SaveChanges();
             return true;
         }

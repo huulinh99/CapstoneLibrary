@@ -16,6 +16,7 @@ namespace Capstone.Core.Interfaces
         IEnumerable<BookDto> GetAllBooksNotInDrawer();
         //IEnumerable<BookDto> GetBookInDrawer(IEnumerable<BookDrawer> bookDrawers);
         IEnumerable<BookDto> GetBookByBookGroup(int? bookGroupId);
+        IEnumerable<BookDto> GetBookByListId(string[] barcode);
         IEnumerable<BookDto> GetBookByDrawer(int? drawerId);
         //void GetBookByBookDrawerId(int?[] bookDrawerId);
         //List<IEnumerable<BookDto>> GetBookByBookGroupWithDrawer(IEnumerable<BookGroupDto> bookGroups, IEnumerable<DrawerDto> drawers);

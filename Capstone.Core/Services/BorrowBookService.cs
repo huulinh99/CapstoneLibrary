@@ -68,18 +68,19 @@ namespace Capstone.Core.Services
                 throw new BusinessException("User doesn't exist");
             }
 
-            List<BookGroupDto> bookGroups = new List<BookGroupDto>();
+            List<BookGroup> bookGroups = new List<BookGroup>();
             var borrowDetails = borrowBook.BorrowDetail;
             foreach (var borrowDetail in borrowDetails)
             {
-                //borrowDetail.Fee = borrowDetail.Book.BookGroup.Fee * (borrowBook.StartTime - borrowBook.EndTime).Ticks;
+                var bookGroupId = _unitOfWork.BookRepository.GetById(borrowDetail.BookId).BookGroupId;
+                var bg = _unitOfWork.BookGroupRepository.GetById(bookGroupId);
+                var fee = bg.Fee;
+                borrowDetail.Fee = fee * (borrowBook.EndTime - borrowBook.StartTime).Ticks;
+                var book = _unitOfWork.BookRepository.GetById(borrowDetail.BookId);
+                book.IsAvailable = false;
+                bookGroups.Add(bg);
             }
             _unitOfWork.BorrowBookRepository.Add(borrowBook);          
-            foreach (var borrowDetail in borrowDetails)
-            {
-                var bookGroup = _unitOfWork.BookGroupRepository.GetBookGroupsByBookId(borrowDetail.BookId);
-                bookGroups.Add(bookGroup);
-            }
             List<IEnumerable<BookCategory>> bookCategories = new List<IEnumerable<BookCategory>>();
             foreach (var bookGroup in bookGroups)
             {

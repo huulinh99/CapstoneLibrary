@@ -1,5 +1,6 @@
 ﻿using Capstone.Core.CustomEntities;
 using Capstone.Core.Entities;
+using Capstone.Core.Exceptions;
 using Capstone.Core.Interfaces;
 using Capstone.Core.QueryFilters;
 using Microsoft.Extensions.Options;
@@ -59,6 +60,11 @@ namespace Capstone.Core.Services
 
         public void InsertReturnBook(ReturnBook returnBook)
         {
+            var customer = _unitOfWork.CustomerRepository.GetById(returnBook.CustomerId);
+            if (customer == null)
+            {
+                throw new BusinessException("User doesn't exist");
+            }
             _unitOfWork.ReturnBookRepository.Add(returnBook);
             _unitOfWork.SaveChanges();
         }
