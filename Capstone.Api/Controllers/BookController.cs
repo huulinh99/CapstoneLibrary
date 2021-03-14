@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -17,15 +18,15 @@ using Newtonsoft.Json;
 
 namespace Capstone.Api.Controllers
 {
-    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class BookController : ControllerBase
     {
-        private readonly IBookService _bookService; 
+        private readonly IBookService _bookService;
         private readonly IMapper _mapper;
         private readonly IUriService _uriService;
         private static IHttpContextAccessor _httpContextAccessor;
+
         public BookController(IBookService bookService, IMapper mapper, IUriService uriService, IHttpContextAccessor httpContextAccessor)
         {
             _bookService = bookService;
@@ -33,10 +34,11 @@ namespace Capstone.Api.Controllers
             _uriService = uriService;
             _httpContextAccessor = httpContextAccessor;
         }
+
         [HttpGet(Name = nameof(GetBooks))]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<BookDto>>))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public IActionResult GetBooks([FromQuery]BookQueryFilter filters)
+        public IActionResult GetBooks([FromQuery] BookQueryFilter filters)
         {
             var request = _httpContextAccessor.HttpContext.Request;
             var books = _bookService.GetBooks(filters);
@@ -61,7 +63,7 @@ namespace Capstone.Api.Controllers
             //                   ? _uriService.GetPageUri(books.CurrentPage - 1, books.PageSize, _uriService.GetBookPaginationUri(filters, Url.RouteUrl(nameof(GetBooks))).ToString() + stringBeforeChar)
             //                   : null;
             //}
-            
+
             var metadata = new Metadata
             {
                 TotalCount = books.TotalCount,
@@ -82,39 +84,36 @@ namespace Capstone.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetBook(int id)
+        public IActionResult GetBook(int id)
         {
-            var book = await _bookService.GetBook(id);
+            var book = _bookService.GetBook(id);
             var bookDto = _mapper.Map<BookDto>(book);
             var response = new ApiResponse<BookDto>(bookDto);
             return Ok(response);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Book(BookDto bookDto)
+        public IActionResult Book(List<BookDto> bookDtos)
         {
-            var post = _mapper.Map<Book>(bookDto);
-            await _bookService.InsertBook(post);
-            bookDto = _mapper.Map<BookDto>(post);
-            var response = new ApiResponse<BookDto>(bookDto);
-            return Ok(response);
+            foreach (var bookDto in bookDtos)
+            {
+                var book = _mapper.Map<Book>(bookDto);
+                var result = _bookService.UpdateBook(book);
+            }
+            return Ok(bookDtos);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(int id, BookDto bookDto)
+        public IActionResult Put(int id, BookDto bookDto)
         {
             var book = _mapper.Map<Book>(bookDto);
-            book.Id = id;
-
-            var result = await _bookService.UpdateBook(book);
-            var response = new ApiResponse<bool>(result);
-            return Ok(response);
+            return Ok(book);
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete([FromQuery]int?[]id = null)
+        public IActionResult Delete([FromQuery] int?[] id = null)
         {
-            var result = await _bookService.DeleteBook(id);
+            var result = _bookService.DeleteBook(id);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }

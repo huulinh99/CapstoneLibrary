@@ -11,10 +11,10 @@ namespace Capstone.Core.Interfaces
     public interface IReturnBookService
     {
         PagedList<ReturnBook> GetReturnBooks(ReturnBookQueryFilter filters);
-        Task<ReturnBook> GetReturnBook(int id);
-        Task InsertReturnBook(ReturnBook returnBook);
-        Task<bool> UpdateReturnBook(ReturnBook returnBook);
+        ReturnBook GetReturnBook(int id);
+        void InsertReturnBook(ReturnBook returnBook);
+        bool UpdateReturnBook(ReturnBook returnBook);
 
-        Task<bool> DeleteReturnBook(int?[] id);
+        bool DeleteReturnBook(int?[] id);
     }
 }

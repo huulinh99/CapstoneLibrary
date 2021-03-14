@@ -10,6 +10,7 @@ namespace Capstone.Core.QueryFilters
         public DateTime? StartTime { get; set; }
         public DateTime? EndTime { get; set; }
         public int? StaffId { get; set; }
+        public string CustomerName { get; set; }
 
         public int PageSize { get; set; }
 

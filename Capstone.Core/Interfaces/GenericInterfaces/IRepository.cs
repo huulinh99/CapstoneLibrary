@@ -9,9 +9,9 @@ namespace Capstone.Core.Interfaces
     public interface IRepository<T> where T : BaseEntity
     {
         IEnumerable<T> GetAll();
-        Task<T> GetById(int? id);
-        Task Add(T entity);
+        T GetById(int? id);
+        void Add(T entity);
         void Update(T entity);
-        Task Delete(int?[] id);
+        void Delete(int?[] id);
     }
 }

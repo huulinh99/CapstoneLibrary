@@ -16,6 +16,9 @@ namespace Capstone.Core.DTOs
         public string Gender { get; set; }
         public string Phone { get; set; }
         public string Address { get; set; }
+        public string Image { get; set; }
+        public string DeviceToken { get; set; }
         public DateTime? DoB { get; set; }
+        public DateTime? CreatedTime { get; set; }
     }
 }

@@ -13,6 +13,8 @@ namespace Capstone.Core.DTOs
         public string Author { get; set; }
         public DateTime StartTime { get; set; }
         public int? BorrowId { get; set; }
+        public int? BookGroupId { get; set; }
+        public int Count { get; set; }
         public double? Fee { get; set; }
         public double? PunishFee { get; set; }
     }

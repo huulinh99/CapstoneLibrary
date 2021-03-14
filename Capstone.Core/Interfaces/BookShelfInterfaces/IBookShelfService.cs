@@ -12,9 +12,9 @@ namespace Capstone.Core.Interfaces
     public interface IBookShelfService
     {
         PagedList<BookShelfDto> GetBookShelves(BookShelfQueryFilter filters);
-        Task<BookShelf> GetBookShelf(int id);
-        Task InsertBookShelf(BookShelf bookShelf);
-        Task<bool> UpdateBookShelf(BookShelf bookShelf);
-        Task<bool> DeleteBookShelf(int?[] id);
+        BookShelf GetBookShelf(int id);
+        void InsertBookShelf(BookShelf bookShelf);
+        bool UpdateBookShelf(BookShelf bookShelf);
+        bool DeleteBookShelf(int?[] id);
     }
 }

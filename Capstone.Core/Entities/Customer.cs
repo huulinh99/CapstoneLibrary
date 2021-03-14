@@ -8,11 +8,10 @@ namespace Capstone.Core.Entities
         public Customer()
         {
             BorrowBook = new HashSet<BorrowBook>();
-            Device = new HashSet<Device>();
             FavouriteCategory = new HashSet<FavouriteCategory>();
             Feedback = new HashSet<Feedback>();
-            Notification = new HashSet<Notification>();
             ReturnBook = new HashSet<ReturnBook>();
+            UserNotification = new HashSet<UserNotification>();
         }
 
         public string Name { get; set; }
@@ -24,12 +23,15 @@ namespace Capstone.Core.Entities
         public string Address { get; set; }
         public DateTime? DoB { get; set; }
         public string Image { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public string DeviceToken { get; set; }
 
+        public virtual Role Role { get; set; }
         public virtual ICollection<BorrowBook> BorrowBook { get; set; }
-        public virtual ICollection<Device> Device { get; set; }
         public virtual ICollection<FavouriteCategory> FavouriteCategory { get; set; }
         public virtual ICollection<Feedback> Feedback { get; set; }
-        public virtual ICollection<Notification> Notification { get; set; }
         public virtual ICollection<ReturnBook> ReturnBook { get; set; }
+        public virtual ICollection<UserNotification> UserNotification { get; set; }
     }
 }

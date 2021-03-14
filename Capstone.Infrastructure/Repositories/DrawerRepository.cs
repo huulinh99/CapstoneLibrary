@@ -18,7 +18,7 @@ namespace Capstone.Infrastructure.Repositories
         {
             _context = context;
         }
-        public IEnumerable<DrawerDto> GetAllDrawers(int bookShelfId, int rowStart, int rowEnd, int colStart, int colEnd)
+        public IEnumerable<DrawerDto> GetAllDrawers(int? bookShelfId, int rowStart, int rowEnd, int colStart, int colEnd)
         {
             List<DrawerDto> list = new List<DrawerDto>();
             for (int i = rowStart; i <= rowEnd; i++)
@@ -31,7 +31,8 @@ namespace Capstone.Infrastructure.Repositories
                             Id = x.Id,
                             ShelfRow = i,
                             ShelfColumn = j,
-                            BookShelfId = x.BookShelfId
+                            BookShelfId = x.BookShelfId,
+                            DrawerBarcode = x.DrawerBarcode
                         })
                         .FirstOrDefault();
                     list.Add(entity);
@@ -40,11 +41,11 @@ namespace Capstone.Infrastructure.Repositories
             return list.AsEnumerable<DrawerDto>();
         }
 
-        public async Task DeleteDrawerInBookShelf(int?[] bookShelfId)
+        public void DeleteDrawerInBookShelf(int?[] bookShelfId)
         {
             var entities = _entities.Where(f => bookShelfId.Contains(f.BookShelfId)).ToList();
             entities.ForEach(a => a.IsDeleted = true);
-            await _context.SaveChangesAsync();
+            _context.SaveChangesAsync();
         }
 
         public int?[] GetDrawerIdInBookShelf(int?[] bookShelfId)
@@ -59,22 +60,41 @@ namespace Capstone.Infrastructure.Repositories
             return terms;
         }
 
-        public IEnumerable<DrawerDto> GetAllDrawers(IEnumerable<BookDrawer> bookDrawers)
+        public IEnumerable<DrawerDto> GetDrawerByListBook(IEnumerable<BookDto> books)
         {
-            List<DrawerDto> drawers = new List<DrawerDto>();
-            foreach (var bookDrawer in bookDrawers)
+            List<DrawerDto> list = new List<DrawerDto>();
+            foreach (var book in books)
             {
-                var drawer = _entities.Where(x => x.BookDrawerId == bookDrawer.Id)
-                    .Select(x => new DrawerDto
-                    {
-                        Id = x.Id,
-                        BookShelfId = x.BookShelfId,
-                        ShelfColumn = x.ShelfColumn,
-                        ShelfRow = x.ShelfRow
-                    }).FirstOrDefault();
-                drawers.Add(drawer);
+                var entity = _entities.Where(x => x.Id == book.DrawerId)
+                        .Select(x => new DrawerDto
+                        {
+                            Id = x.Id,
+                            ShelfRow = x.ShelfRow,
+                            ShelfColumn = x.ShelfColumn,
+                            BookShelfName = x.BookShelf.Name,
+                            BookGroupId = book.BookGroupId,
+                            BookId = book.Id,
+                            BookShelfId = x.BookShelfId,
+                            DrawerBarcode = x.DrawerBarcode
+                        })
+                        .FirstOrDefault();
+                list.Add(entity);
             }
-            return drawers;
+            return list;
+        }
+
+        public IEnumerable<DrawerDto> GetDrawerByBookShelfId(int? bookShelfId)
+        {
+            return _entities.Where(x => x.BookShelfId == bookShelfId && x.IsDeleted == false)
+                .Select(c => new DrawerDto
+                {
+                    Id = c.Id,
+                    BookShelfId = c.BookShelfId,
+                    BookShelfName = c.BookShelf.Name,
+                    ShelfColumn = c.ShelfColumn,
+                    ShelfRow = c.ShelfRow,
+                    DrawerBarcode = c.DrawerBarcode
+                }).ToList();
         }
     }
 }

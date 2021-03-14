@@ -25,7 +25,7 @@ namespace Capstone.Infrastructure.Repositories
             return _entities.Where(x => x.CustomerId == userId && x.IsDeleted == false).OrderByDescending(x => x.Rating).FirstOrDefault();
         }
 
-        public async Task AddFavouriteCategory(FavouriteCategoryDto favouriteCategory)
+        public void AddFavouriteCategory(FavouriteCategoryDto favouriteCategory)
         {
             int?[] categoryId = favouriteCategory.CategoryId;
             for (int i = 0; i < categoryId.Length; i++)
@@ -37,7 +37,7 @@ namespace Capstone.Infrastructure.Repositories
                     Rating = 1,
                     IsDeleted = false
                 };
-                await _entities.AddAsync(favourite);
+                _entities.Add(favourite);
             }          
         }
     }

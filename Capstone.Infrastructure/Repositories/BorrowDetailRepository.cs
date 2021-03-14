@@ -58,5 +58,39 @@ namespace Capstone.Infrastructure.Repositories
                 PunishFee = c.Book.BookGroup.PunishFee
             }).ToList();
         }
+
+        public IEnumerable<BorrowDetailDto> GetBorrowDetailWithCount()
+        {
+            return _entities.Include(c => c.Book).Where(x => x.IsDeleted == false).GroupBy(x=>x.Book.BookGroupId).Select(c => new BorrowDetailDto
+            {
+                BookId = c.Key,
+                Count = c.Count()              
+            }).ToList();
+        }   
+
+        public IEnumerable<BorrowDetailDto> GetBorrowDetailWithListBorrow(IEnumerable<BorrowBookDto> borrowBooks)
+        {
+            List<BorrowDetailDto> borrowDetails = new List<BorrowDetailDto>();
+            foreach (var borrowBook in borrowBooks)
+            {
+                var borrowBookDtos = _entities.Include(c => c.Book).Where(x => x.IsDeleted == false && x.BorrowId == borrowBook.Id).Select(c => new BorrowDetailDto
+                {
+                    Id = c.Id,
+                    BookId = c.BookId,
+                    BookName = c.Book.BookGroup.Name,
+                    BorrowId = c.BorrowId,
+                    Author = c.Book.BookGroup.Author,
+                    Fee = c.Book.BookGroup.Fee,
+                    Image = c.Book.BookGroup.Image.Where(x => x.IsDeleted == false).FirstOrDefault().Url,
+                    StartTime = c.Borrow.StartTime,
+                    PunishFee = c.Book.BookGroup.PunishFee
+                }).ToList();
+                foreach (var borrowBookDto in borrowBookDtos)
+                {
+                    borrowDetails.Add(borrowBookDto);
+                }               
+            }
+            return borrowDetails;
+        }
     }
 }

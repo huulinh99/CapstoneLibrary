@@ -11,9 +11,9 @@ namespace Capstone.Core.Interfaces
     public interface ICategoryService
     {
         PagedList<Category> GetCategories(CategoryQueryFilter filters);
-        Task<Category> GetCategory(int id);
-        Task InsertCategory(Category category);
-        Task<bool> UpdateCategory(Category category);
-        Task<bool> DeleteCategory(int?[] id);
+        Category GetCategory(int id);
+        void InsertCategory(Category category);
+        bool UpdateCategory(Category category);
+        bool DeleteCategory(int?[] id);
     }
 }

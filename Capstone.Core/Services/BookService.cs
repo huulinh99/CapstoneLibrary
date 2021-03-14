@@ -21,16 +21,16 @@ namespace Capstone.Core.Services
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
         }
-        public async Task<bool> DeleteBook(int?[] id)
+        public bool DeleteBook(int?[] id)
         {
-            await _unitOfWork.BookRepository.Delete(id);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.BookRepository.Delete(id);
+            _unitOfWork.SaveChangesAsync();
             return true;
         }
 
-        public async Task<Book> GetBook(int id)
+        public Book GetBook(int id)
         {
-            return await _unitOfWork.BookRepository.GetById(id);
+            return _unitOfWork.BookRepository.GetById(id);
         }
 
         public PagedList<BookDto> GetBooks(BookQueryFilter filters)
@@ -44,6 +44,26 @@ namespace Capstone.Core.Services
             if (filters.IsInDrawer == true)
             {
                 books = _unitOfWork.BookRepository.GetAllBooksInDrawer();
+            }
+
+            if(filters.Barcode != null)
+            {
+                books = _unitOfWork.BookRepository.GetBookByListId(filters.Barcode);
+                foreach (var book in books)
+                {
+                    var returnDetail = _unitOfWork.ReturnDetailRepository.GetCustomerByBookId(book.Id);
+                    if (returnDetail == null)
+                    {
+                        book.IsAvailable = true;
+                    }
+                    else
+                    {
+                        var customer = _unitOfWork.CustomerRepository.GetById(returnDetail.CustomerId);
+                        book.CustomerId = customer.Id;
+                        book.CustomerName = customer.Name;
+                        book.CustomerImage = customer.Image;
+                    }                   
+                }
             }
 
             if (filters.IsInDrawer == false)
@@ -63,23 +83,24 @@ namespace Capstone.Core.Services
 
             if (filters.DrawerId != null)
             {
-                var bookDrawer = _unitOfWork.BookDrawerRepository.GetBookDrawerByDrawerId(filters.DrawerId);
-                books = _unitOfWork.BookRepository.GetBookInDrawer(bookDrawer);
+                books = _unitOfWork.BookRepository.GetBookByDrawer(filters.DrawerId);
             }
             var pagedBooks = PagedList<BookDto>.Create(books, filters.PageNumber, filters.PageSize);
             return pagedBooks;
         }
 
-        public async Task InsertBook(Book book)
+        public void InsertBook(Book book)
         {     
-             await _unitOfWork.BookRepository.Add(book);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.BookRepository.Add(book);
+            _unitOfWork.SaveChanges();
         }
 
-        public async Task<bool> UpdateBook(Book book)
+        public bool UpdateBook(Book book)
         {
-            _unitOfWork.BookRepository.Update(book);
-            await _unitOfWork.SaveChangesAsync();
+            var entity = _unitOfWork.BookRepository.GetById(book.Id);
+            entity.DrawerId = book.DrawerId;
+            _unitOfWork.BookRepository.Update(entity);
+            _unitOfWork.SaveChanges();
             return true;
         }
     }

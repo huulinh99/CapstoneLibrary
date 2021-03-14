@@ -8,5 +8,6 @@ namespace Capstone.Core.Hubs.Clients
     public interface IChatClient
     {
         Task ReceiveMessage(Message message);
+        Task ReceiveMessageToReturn(MessageReturn messageReturn);
     }
 }

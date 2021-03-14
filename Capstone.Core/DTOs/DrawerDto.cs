@@ -10,6 +10,10 @@ namespace Capstone.Core.DTOs
         // BookSheflId -> BookShelfId
         public int? BookShelfId { get; set; }
         public int? ShelfRow { get; set; }
+        public int? BookId { get; set; }
+        public string BookShelfName { get; set; }
+        public int? BookGroupId { get; set; }
         public int? ShelfColumn { get; set; }
+        public string DrawerBarcode { get; set; }
     }
 }

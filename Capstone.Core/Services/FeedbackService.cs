@@ -20,16 +20,16 @@ namespace Capstone.Core.Services
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
         }
-        public async Task<bool> DeleteFeedback(int?[] id)
+        public bool DeleteFeedback(int?[] id)
         {
-            await _unitOfWork.FeedbackRepository.Delete(id);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.FeedbackRepository.Delete(id);
+            _unitOfWork.SaveChanges();
             return true;
         }
 
-        public async Task<Feedback> GetFeedback(int id)
+        public Feedback GetFeedback(int id)
         {
-            return await _unitOfWork.FeedbackRepository.GetById(id);
+            return _unitOfWork.FeedbackRepository.GetById(id);
         }
 
         public PagedList<Feedback> GetFeedbacks(FeedbackQueryFilter filters)
@@ -57,16 +57,16 @@ namespace Capstone.Core.Services
             return pagedFeedbacks;
         }
 
-         public async Task InsertFeedback(Feedback feedback)
+         public void InsertFeedback(Feedback feedback)
          {
-            await _unitOfWork.FeedbackRepository.Add(feedback);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.FeedbackRepository.Add(feedback);
+            _unitOfWork.SaveChanges();
         }
 
-        public async Task<bool> UpdateFeedback(Feedback feedback)
+        public bool UpdateFeedback(Feedback feedback)
         {
             _unitOfWork.FeedbackRepository.Update(feedback);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.SaveChanges();
             return true;
         }
     }

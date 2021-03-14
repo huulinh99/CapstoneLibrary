@@ -11,10 +11,10 @@ namespace Capstone.Core.Interfaces
     public interface ILocationService 
     {
         PagedList<Location> GetLocations(LocationQueryFilter filters);
-        Task<Location> GetLocation(int id);
-        Task InsertLocation(Location location);
-        Task<bool> UpdateLocation(Location location);
+        Location GetLocation(int id);
+        void InsertLocation(Location location);
+        bool UpdateLocation(Location location);
 
-        Task<bool> DeleteLocation(int?[] id);
+        bool DeleteLocation(int?[] id);
     }
 }

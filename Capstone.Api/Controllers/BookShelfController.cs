@@ -59,39 +59,39 @@ namespace Capstone.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetBookShelf(int id)
+        public IActionResult GetBookShelf(int id)
         {
-            var bookShelf = await _bookShelfService.GetBookShelf(id);
+            var bookShelf = _bookShelfService.GetBookShelf(id);
             var bookShelfDto = _mapper.Map<BookShelfDto>(bookShelf);
             var response = new ApiResponse<BookShelfDto>(bookShelfDto);
             return Ok(response);
         }
 
         [HttpPost]
-        public async Task<IActionResult> BookShelf(BookShelfDto bookShelfDto)
+        public IActionResult BookShelf(BookShelfDto bookShelfDto)
         {
-            var post = _mapper.Map<BookShelf>(bookShelfDto);
-            await _bookShelfService.InsertBookShelf(post);
-            bookShelfDto = _mapper.Map<BookShelfDto>(post);
+            var bookShelf = _mapper.Map<BookShelf>(bookShelfDto);
+            _bookShelfService.InsertBookShelf(bookShelf);
+            bookShelfDto = _mapper.Map<BookShelfDto>(bookShelf);
             var response = new ApiResponse<BookShelfDto>(bookShelfDto);
             return Ok(response);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(int id, BookShelfDto bookShelfDto)
+        public IActionResult Put(int id, BookShelfDto bookShelfDto)
         {
             var bookShelf = _mapper.Map<BookShelf>(bookShelfDto);
             bookShelf.Id = id;
 
-            var result = await _bookShelfService.UpdateBookShelf(bookShelf);
+            var result = _bookShelfService.UpdateBookShelf(bookShelf);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete([FromQuery]int?[]id = null)
+        public IActionResult Delete([FromQuery]int?[]id = null)
         {
-            var result = await _bookShelfService.DeleteBookShelf(id);
+            var result = _bookShelfService.DeleteBookShelf(id);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }

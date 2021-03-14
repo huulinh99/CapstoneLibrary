@@ -13,7 +13,7 @@ namespace Capstone.Core.Interfaces
         IEnumerable<BookGroupDto> GetBookGroupsByBookCategory(IEnumerable<BookCategory> bookCategory);
         BookGroupDto GetBookGroupsByBookId(int? bookGroupId);
         IEnumerable<BookGroupDto> GetBookGroupsByAuthor(string author);
-        Task<BookGroupDto> GetBookGroupsWithImageById(int? bookGroupId, ICollection<CategoryDto> categories, ICollection<RatingDto> ratings);
+        BookGroupDto GetBookGroupsWithImageById(int? bookGroupId, ICollection<CategoryDto> categories, ICollection<RatingDto> ratings);
         IEnumerable<BookGroupDto> GetAllBookGroupsWithCategory(IEnumerable<BookGroupDto> bookGroups, IEnumerable<BookCategory> bookCategories, IEnumerable<CategoryDto> categories);
         IEnumerable<BookGroupDto> GetAllBookGroups();
     }

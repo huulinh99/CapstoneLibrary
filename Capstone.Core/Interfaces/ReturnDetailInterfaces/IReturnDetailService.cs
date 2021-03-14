@@ -11,9 +11,9 @@ namespace Capstone.Core.Interfaces
     public interface IReturnDetailService
     {
         PagedList<ReturnDetail> GetReturnDetails(ReturnDetailQueryFilter filters);
-        Task<ReturnDetail> GetReturnDetail(int id);
-        Task InsertReturnDetail(ReturnDetail returnDetail);
-        Task<bool> UpdateReturnDetail(ReturnDetail returnDetail);
-        Task<bool> DeleteReturnDetail(int?[] id);
+        ReturnDetail GetReturnDetail(int id);
+        void InsertReturnDetail(ReturnDetail returnDetail);
+        bool UpdateReturnDetail(ReturnDetail returnDetail);
+        bool DeleteReturnDetail(int?[] id);
     }
 }

@@ -12,6 +12,6 @@ namespace Capstone.Core.DTOs
         public DateTime? ReturnTime { get; set; }
         public int? BorrowId { get; set; }
         public int? StaffId { get; set; }
-        public virtual ICollection<ReturnDetail> ReturnDetail { get; set; }
+        public virtual ICollection<ReturnDetailDto> ReturnDetail { get; set; }
     }
 }

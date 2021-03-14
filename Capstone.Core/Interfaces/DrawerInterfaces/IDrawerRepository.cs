@@ -10,9 +10,10 @@ namespace Capstone.Core.Interfaces
     public interface IDrawerRepository : IRepository<Drawer>
     {
         //Task<IEnumerable<Drawer>> GetDrawersByBookShelf(int bookShelfId);
-        IEnumerable<DrawerDto> GetAllDrawers(int bookShelfId, int rowStart, int rowEnd, int colStart, int colEnd);
-        Task DeleteDrawerInBookShelf(int?[] bookShelfId);
-        IEnumerable<DrawerDto> GetAllDrawers(IEnumerable<BookDrawer> bookDrawers);
+        IEnumerable<DrawerDto> GetAllDrawers(int? bookShelfId, int rowStart, int rowEnd, int colStart, int colEnd);
+        void DeleteDrawerInBookShelf(int?[] bookShelfId);
         int?[] GetDrawerIdInBookShelf(int?[] bookShelfId);
+        IEnumerable<DrawerDto> GetDrawerByListBook(IEnumerable<BookDto> books);
+        IEnumerable<DrawerDto> GetDrawerByBookShelfId(int? bookShelfId);
     }   
 }

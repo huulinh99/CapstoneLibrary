@@ -23,108 +23,87 @@ namespace Capstone.Infrastructure.Repositories
             {
                 Id = c.Id,
                 BarCode = c.BarCode,
-                BookDrawerId = c.BookDrawerId,
                 BookGroupId = c.BookGroupId,
-                Status = c.Status,
+                IsAvailable = c.IsAvailable,
                 BookName = (c.BookGroup.Name)
             }).ToList();
         }
 
         public IEnumerable<BookDto> GetAllBooksInDrawer()
         {
-            return _entities.Where(x => x.BookDrawerId != null && x.IsDeleted == false).Select(c => new BookDto
+            return _entities.Where(x => x.DrawerId != null && x.IsDeleted == false).Select(c => new BookDto
             {
                 Id = c.Id,
                 BarCode = c.BarCode,
-                BookDrawerId = c.BookDrawerId,
                 BookGroupId = c.BookGroupId,
-                Status = c.Status,
+                IsAvailable = c.IsAvailable,
                 BookName = (c.BookGroup.Name)
             }).ToList();
         }
 
         public IEnumerable<BookDto> GetAllBooksNotInDrawer()
         {
-            return _entities.Where(x => x.BookDrawerId == null && x.IsDeleted == false).Select(c => new BookDto
+            return _entities.Where(x => x.IsDeleted == false && x.DrawerId==null).Select(c => new BookDto
             {
                 Id = c.Id,
                 BarCode = c.BarCode,
-                BookDrawerId = c.BookDrawerId,
                 BookGroupId = c.BookGroupId,
-                Status = c.Status,
+                IsAvailable = c.IsAvailable ,
                 BookName = (c.BookGroup.Name)
             }).ToList();
         }
 
-        public IEnumerable<BookDto> GetBookInDrawer(IEnumerable<BookDrawer> bookDrawers)
+        public IEnumerable<BookDto> GetBookInDrawer()
         {
-            List<BookDto> books = new List<BookDto>();
-            foreach (var bookDrawer in bookDrawers)
+            return _entities.Where(x => x.IsDeleted == false && x.DrawerId != null).Select(c => new BookDto
             {
-                var book = _entities.Where(x => x.Id == bookDrawer.BookId && x.IsDeleted == false)
-                    .Select(c => new BookDto
-                    {
-                        Id = c.Id,
-                        BarCode = c.BarCode,
-                        BookDrawerId = c.BookDrawerId,
-                        BookGroupId = c.BookGroupId,
-                        Status = c.Status,
-                        BookName = (c.BookGroup.Name)
-                    }).FirstOrDefault();
-                books.Add(book);
-            }
-            return books;
+                Id = c.Id,
+                BarCode = c.BarCode,
+                BookGroupId = c.BookGroupId,
+                IsAvailable = c.IsAvailable,
+                BookName = (c.BookGroup.Name)
+            }).ToList();
         }
 
         public IEnumerable<BookDto> GetBookByBookGroup(int? bookGroupId)
         {
-            return _entities.Where(x => x.BookGroupId == bookGroupId && x.IsDeleted == false && x.BookDrawerId !=null)
+            return _entities.Where(x => x.BookGroupId == bookGroupId && x.IsDeleted == false && x.DrawerId !=null)
                 .Select(c => new BookDto
                 {
                     Id = c.Id,
                     BarCode = c.BarCode,
-                    BookDrawerId = c.BookDrawerId,
                     BookGroupId = c.BookGroupId,
-                    Status = c.Status,
+                    IsAvailable = c.IsAvailable,
+                    DrawerId = c.Drawer.Id,
                     BookName = (c.BookGroup.Name)
                 }).ToList();
         }
 
-        public void GetBookByBookDrawerId(int?[] bookId)
+        public IEnumerable<BookDto> GetBookByDrawer(int? drawerId)
         {
-            var entities = _entities.Where(f => bookId.Contains(f.Id)).ToList();
-            entities.ForEach(a => a.BookDrawerId = null);
-        }
-
-        public List<IEnumerable<BookDto>> GetBookByBookGroupWithDrawer(IEnumerable<BookGroupDto> bookGroups, IEnumerable<DrawerDto> drawers)
-        {
-            List<IEnumerable<BookDto>> books = new List<IEnumerable<BookDto>>();
-            foreach (var bookGroup in bookGroups)
-            {
-                foreach (var drawer in drawers)
+            return _entities.Where(x => x.DrawerId == drawerId && x.IsDeleted == false)
+                .Select(c => new BookDto
                 {
-                    var book = _entities.Where(x => x.BookGroupId == bookGroup.Id && x.IsDeleted == false)
-                    .Select(c => new BookDto
-                    {
-                        Id = c.Id,
-                        BarCode = c.BarCode,
-                        BookDrawerId = c.BookDrawerId,
-                        BookGroupId = c.BookGroupId,
-                        Status = c.Status,
-                        BookName = (c.BookGroup.Name),
-                        Drawer = drawer
-                    }).ToList();
-                    books.Add(book);
-                }
-            }
-            return books;
+                    Id = c.Id,
+                    BarCode = c.BarCode,
+                    BookGroupId = c.BookGroupId,
+                    IsAvailable = c.IsAvailable,
+                    BookName = (c.BookGroup.Name)
+                }).ToList();
         }
 
-        public async Task DeleteBookByBookDrawerId(int?[] bookDrawerId)
+        public IEnumerable<BookDto> GetBookByListId(string[] barcode)
         {
-            var entities = _entities.Where(f => bookDrawerId.Contains(f.BookDrawerId)).ToList();
-            entities.ForEach(a => a.BookDrawerId = null);
-            await _context.SaveChangesAsync();
+            var entities = _entities.Where(f => barcode.Contains(f.BarCode)).Select(c => new BookDto
+            {
+                Id = c.Id,
+                BarCode = c.BarCode,
+                BookGroupId = c.BookGroupId,
+                IsAvailable = c.IsAvailable,
+                DrawerId = c.DrawerId,
+                BookName = (c.BookGroup.Name)
+            }).ToList();
+            return entities;
         }
     }
 }

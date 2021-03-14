@@ -55,39 +55,39 @@ namespace Capstone.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetReturnDetail(int id)
+        public IActionResult GetReturnDetail(int id)
         {
-            var returnDetail = await _returnDetailService.GetReturnDetail(id);
+            var returnDetail = _returnDetailService.GetReturnDetail(id);
             var returnDetailDto = _mapper.Map<ReturnDetailDto>(returnDetail);
             var response = new ApiResponse<ReturnDetailDto>(returnDetailDto);
             return Ok(response);
         }
 
         [HttpPost]
-        public async Task<IActionResult> ReturnDetail(ReturnDetailDto returnDetailDto)
+        public IActionResult ReturnDetail(ReturnDetailDto returnDetailDto)
         {
             var returnDetail = _mapper.Map<ReturnDetail>(returnDetailDto);
-            await _returnDetailService.InsertReturnDetail(returnDetail);
+            _returnDetailService.InsertReturnDetail(returnDetail);
             returnDetailDto = _mapper.Map<ReturnDetailDto>(returnDetail);
             var response = new ApiResponse<ReturnDetailDto>(returnDetailDto);
             return Ok(response);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(int id, ReturnDetailDto returnDetailDto)
+        public IActionResult Put(int id, ReturnDetailDto returnDetailDto)
         {
             var returnDetail = _mapper.Map<ReturnDetail>(returnDetailDto);
             returnDetail.Id = id;
 
-            var result = await _returnDetailService.UpdateReturnDetail(returnDetail);
+            var result = _returnDetailService.UpdateReturnDetail(returnDetail);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete([FromQuery] int?[] id = null)
+        public IActionResult Delete([FromQuery] int?[] id = null)
         {
-            var result = await _returnDetailService.DeleteReturnDetail(id);
+            var result = _returnDetailService.DeleteReturnDetail(id);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }

@@ -18,7 +18,7 @@ namespace Capstone.Core.Entities
         public double? PunishFee { get; set; }
         public int? Quantity { get; set; }
         public string Author { get; set; }
-        public string PublishingPalace { get; set; }
+        public string PublishingPlace { get; set; }
         public string PublishingCompany { get; set; }
         public DateTime? PublishDate { get; set; }
         public string Description { get; set; }

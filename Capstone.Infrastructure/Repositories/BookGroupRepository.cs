@@ -29,7 +29,7 @@ namespace Capstone.Infrastructure.Repositories
                 PunishFee = c.PunishFee,
                 Quantity = c.Quantity,
                 Author = c.Author,
-                PublishingPalace = c.PublishingPalace,
+                PublishingPlace = c.PublishingPlace,
                 PublishingCompany = c.PublishingCompany,
                 PublishDate = c.PublishDate,
                 Description = c.Description,
@@ -56,7 +56,7 @@ namespace Capstone.Infrastructure.Repositories
                         PunishFee = c.PunishFee,
                         Quantity = c.Quantity,
                         Author = c.Author,
-                        PublishingPalace = c.PublishingPalace,
+                        PublishingPlace = c.PublishingPlace,
                         PublishingCompany = c.PublishingCompany,
                         PublishDate = c.PublishDate,
                         Description = c.Description,
@@ -82,16 +82,17 @@ namespace Capstone.Infrastructure.Repositories
                 .Select(c => new BookGroupDto
                 {
                     Id = c.Id,
-                    Name = c.Name
+                    Name = c.Name,
+                    Fee = c.Fee
                 }).FirstOrDefault();
             return bookGroup;
         }
 
 
-        public async Task<BookGroupDto> GetBookGroupsWithImageById(int? bookGroupId, ICollection<CategoryDto> categories, ICollection<RatingDto> ratings)
+        public BookGroupDto GetBookGroupsWithImageById(int? bookGroupId, ICollection<CategoryDto> categories, ICollection<RatingDto> ratings)
         {
 
-            var bookGroup = await _entities.Where(x => x.Id == bookGroupId)
+            var bookGroup = _entities.Where(x => x.Id == bookGroupId)
                 .Include(c => c.Image)
                 .Include(s => s.BookCategory)
                 .ThenInclude(a => a.Category)
@@ -104,7 +105,7 @@ namespace Capstone.Infrastructure.Repositories
                     PunishFee = c.PunishFee,
                     Quantity = c.Quantity,
                     Author = c.Author,
-                    PublishingPalace = c.PublishingPalace,
+                    PublishingPlace = c.PublishingPlace,
                     PublishingCompany = c.PublishingCompany,
                     PublishDate = c.PublishDate,
                     Description = c.Description,
@@ -117,7 +118,7 @@ namespace Capstone.Infrastructure.Repositories
                     Category = categories,
                     RatingAverage = Math.Round((double)c.Feedback.Sum(x => x.Rating) / (c.Feedback.Count), 2),
                     Rating = ratings
-                }).FirstOrDefaultAsync();
+                }).FirstOrDefault();
             return bookGroup;
         }
 
@@ -154,7 +155,7 @@ namespace Capstone.Infrastructure.Repositories
                      PunishFee = c.PunishFee,
                      Quantity = c.Quantity,
                      Author = c.Author,
-                     PublishingPalace = c.PublishingPalace,
+                     PublishingPlace = c.PublishingPlace,
                      PublishingCompany = c.PublishingCompany,
                      PublishDate = c.PublishDate,
                      Description = c.Description,
@@ -179,7 +180,7 @@ namespace Capstone.Infrastructure.Repositories
                         PunishFee = c.PunishFee,
                         Quantity = c.Quantity,
                         Author = c.Author,
-                        PublishingPalace = c.PublishingPalace,
+                        PublishingPlace = c.PublishingPlace,
                         PublishingCompany = c.PublishingCompany,
                         PublishDate = c.PublishDate,
                         Description = c.Description,
@@ -216,7 +217,7 @@ namespace Capstone.Infrastructure.Repositories
                     PunishFee = c.PunishFee,
                     Quantity = c.Quantity,
                     Author = c.Author,
-                    PublishingPalace = c.PublishingPalace,
+                    PublishingPlace = c.PublishingPlace,
                     PublishingCompany = c.PublishingCompany,
                     PublishDate = c.PublishDate,
                     Description = c.Description,
@@ -226,7 +227,7 @@ namespace Capstone.Infrastructure.Repositories
                     Thick = c.Thick,
                     PublishNumber = c.PublishNumber,
                     IsDeleted = c.IsDeleted,
-                    Image = c.Image.Where(x=>x.IsDeleted == false).ToList()
+                    Image = c.Image.Where(x => x.IsDeleted == false).ToList()
                 }).ToList();
             return bookGroup;
         }
@@ -245,7 +246,7 @@ namespace Capstone.Infrastructure.Repositories
                     PunishFee = c.PunishFee,
                     Quantity = c.Quantity,
                     Author = c.Author,
-                    PublishingPalace = c.PublishingPalace,
+                    PublishingPlace = c.PublishingPlace,
                     PublishingCompany = c.PublishingCompany,
                     PublishDate = c.PublishDate,
                     Description = c.Description,

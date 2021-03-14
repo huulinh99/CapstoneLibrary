@@ -1,4 +1,5 @@
 ﻿using Capstone.Core.CustomEntities;
+using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Core.QueryFilters;
@@ -20,21 +21,25 @@ namespace Capstone.Core.Services
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
         }
-        public async Task<bool> DeleteCustomer(int?[] id)
+        public bool DeleteCustomer(int?[] id)
         {
-            await _unitOfWork.CustomerRepository.Delete(id);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.CustomerRepository.Delete(id);
+            _unitOfWork.SaveChanges();
             return true;
         }
 
-        public async Task<Customer> GetCustomer(int id)
+        public CustomerDto GetLoginByCredenticalsCustomer(UserLogin login)
         {
-            return await _unitOfWork.CustomerRepository.GetById(id);
+            return _unitOfWork.CustomerRepository.GetLoginByCredentials(login);
+        }
+        public Customer GetCustomer(int id)
+        {
+            return _unitOfWork.CustomerRepository.GetById(id);
         }
 
-        public async Task<Customer> GetCustomer(string email)
+        public Customer GetCustomer(string email)
         {
-            return await _unitOfWork.CustomerRepository.GetCustomerByEmail(email);
+            return _unitOfWork.CustomerRepository.GetCustomerByEmail(email);
         }
         public PagedList<Customer> GetCustomers(CustomerQueryFilter filters)
         {
@@ -43,7 +48,7 @@ namespace Capstone.Core.Services
             var customers = _unitOfWork.CustomerRepository.GetAll();
             if (filters.Name != null)
             {
-                customers = customers.Where(x => x.Name == filters.Name);
+                customers = customers.Where(x => x.Name.ToLower().Contains(filters.Name.ToLower()));
             }
             if (filters.Email != null)
             {
@@ -53,18 +58,18 @@ namespace Capstone.Core.Services
             return pagedCustomers;
         }
 
-        public async Task InsertCustomer(Customer customer)
+        public void InsertCustomer(Customer customer)
         {
             customer.IsDeleted = false;
             customer.RoleId = 2;
-            await _unitOfWork.CustomerRepository.Add(customer);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.CustomerRepository.Add(customer);
+            _unitOfWork.SaveChanges();
         }
 
-        public async Task<bool> UpdateCustomer(Customer customer)
+        public bool UpdateCustomer(Customer customer)
         {
             _unitOfWork.CustomerRepository.Update(customer);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.SaveChanges();
             return true;
         }
     }

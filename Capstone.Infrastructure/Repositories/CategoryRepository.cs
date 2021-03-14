@@ -28,13 +28,13 @@ namespace Capstone.Infrastructure.Repositories
         }
 
 
-        public async Task<IEnumerable<CategoryDto>> GetCategoriesByName(string name)
+        public IEnumerable<CategoryDto> GetCategoriesByName(string name)
         {
-            return await _entities.Where(x => x.Name == name && x.IsDeleted == false).Select(x => new CategoryDto
+            return  _entities.Where(x => x.Name == name && x.IsDeleted == false).Select(x => new CategoryDto
             {
                 Id = x.Id,
                 Name = x.Name
-            }).ToListAsync();
+            }).ToList();
         }
         
 

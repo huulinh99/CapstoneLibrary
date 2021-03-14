@@ -7,12 +7,10 @@ namespace Capstone.Core.Entities
     {
         public Staff()
         {
-            BookDetect = new HashSet<BookDetect>();
             BorrowBook = new HashSet<BorrowBook>();
-            Campaign = new HashSet<Campaign>();
-            Device = new HashSet<Device>();
-            Notification = new HashSet<Notification>();
+            Detection = new HashSet<Detection>();
             ReturnBook = new HashSet<ReturnBook>();
+            UserNotification = new HashSet<UserNotification>();
         }
 
         public string Name { get; set; }
@@ -24,13 +22,14 @@ namespace Capstone.Core.Entities
         public string Phone { get; set; }
         public string Address { get; set; }
         public DateTime? DoB { get; set; }
+        public string Image { get; set; }
+        public string DeviceToken { get; set; }
+        public DateTime? CreatedTime { get; set; }
 
         public virtual Role Role { get; set; }
-        public virtual ICollection<BookDetect> BookDetect { get; set; }
         public virtual ICollection<BorrowBook> BorrowBook { get; set; }
-        public virtual ICollection<Campaign> Campaign { get; set; }
-        public virtual ICollection<Device> Device { get; set; }
-        public virtual ICollection<Notification> Notification { get; set; }
+        public virtual ICollection<Detection> Detection { get; set; }
         public virtual ICollection<ReturnBook> ReturnBook { get; set; }
+        public virtual ICollection<UserNotification> UserNotification { get; set; }
     }
 }

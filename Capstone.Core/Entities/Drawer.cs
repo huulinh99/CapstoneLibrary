@@ -7,17 +7,17 @@ namespace Capstone.Core.Entities
     {
         public Drawer()
         {
-            BookDrawer = new HashSet<BookDrawer>();
-            ErrorMessage = new HashSet<ErrorMessage>();
+            Book = new HashSet<Book>();
+            DrawerDetection = new HashSet<DrawerDetection>();
         }
 
         public int? BookShelfId { get; set; }
         public int? ShelfRow { get; set; }
         public int? ShelfColumn { get; set; }
-        public int? BookDrawerId { get; set; }
+        public string DrawerBarcode { get; set; }
 
         public virtual BookShelf BookShelf { get; set; }
-        public virtual ICollection<BookDrawer> BookDrawer { get; set; }
-        public virtual ICollection<ErrorMessage> ErrorMessage { get; set; }
+        public virtual ICollection<Book> Book { get; set; }
+        public virtual ICollection<DrawerDetection> DrawerDetection { get; set; }
     }
 }

@@ -25,10 +25,10 @@ namespace Capstone.Core.Services
             _paginationOptions = options.Value;
             _mapper = mapper;
         }
-        public async Task<bool> DeleteBorrowBook(int?[] id)
+        public bool DeleteBorrowBook(int?[] id)
         {
-            await _unitOfWork.BorrowBookRepository.Delete(id);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.BorrowBookRepository.Delete(id);
+            _unitOfWork.SaveChanges();
             return true;
         }
 
@@ -41,6 +41,12 @@ namespace Capstone.Core.Services
             {
                 borrowBooks = borrowBooks.Where(x => x.CustomerId == filters.CustomerId);
             }
+
+            if (filters.CustomerName != null)
+            {
+                borrowBooks = borrowBooks.Where(x => x.CustomerName.ToLower().Contains(filters.CustomerName.ToLower()));
+            }
+
             if (filters.StaffId != null)
             {
                 borrowBooks = borrowBooks.Where(x => x.StaffId == filters.StaffId);
@@ -49,31 +55,32 @@ namespace Capstone.Core.Services
             return pagedBorrowBooks;
         }
 
-        public async Task<BorrowBook> GetBorrowBook(int id)
+        public BorrowBook GetBorrowBook(int id)
         {
-            return await _unitOfWork.BorrowBookRepository.GetById(id);
+            return _unitOfWork.BorrowBookRepository.GetById(id);
         }
 
-        public async Task InsertBorrowBook(BorrowBook borrowBook)
+        public void InsertBorrowBook(BorrowBook borrowBook)
         {
-            var customer = await _unitOfWork.CustomerRepository.GetById(borrowBook.CustomerId);
+            var customer = _unitOfWork.CustomerRepository.GetById(borrowBook.CustomerId);
             if (customer == null)
             {
                 throw new BusinessException("User doesn't exist");
             }
 
-            List<BookGroupDto> bookGroups = new List<BookGroupDto>();
+            List<BookGroup> bookGroups = new List<BookGroup>();
             var borrowDetails = borrowBook.BorrowDetail;
             foreach (var borrowDetail in borrowDetails)
             {
-                borrowDetail.Fee = borrowDetail.Book.BookGroup.Fee * (borrowBook.StartTime - borrowBook.EndTime).Ticks;
+                var bookGroupId = _unitOfWork.BookRepository.GetById(borrowDetail.BookId).BookGroupId;
+                var bg = _unitOfWork.BookGroupRepository.GetById(bookGroupId);
+                var fee = bg.Fee;
+                borrowDetail.Fee = fee * (borrowBook.EndTime - borrowBook.StartTime).Ticks;
+                var book = _unitOfWork.BookRepository.GetById(borrowDetail.BookId);
+                book.IsAvailable = false;
+                bookGroups.Add(bg);
             }
-            await _unitOfWork.BorrowBookRepository.Add(borrowBook);          
-            foreach (var borrowDetail in borrowDetails)
-            {
-                var bookGroup = _unitOfWork.BookGroupRepository.GetBookGroupsByBookId(borrowDetail.BookId);
-                bookGroups.Add(bookGroup);
-            }
+            _unitOfWork.BorrowBookRepository.Add(borrowBook);          
             List<IEnumerable<BookCategory>> bookCategories = new List<IEnumerable<BookCategory>>();
             foreach (var bookGroup in bookGroups)
             {
@@ -104,13 +111,13 @@ namespace Capstone.Core.Services
                     
                 }
             }
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.SaveChanges();
         }
 
-        public async Task<bool> UpdateBorrowBook(BorrowBook borrowBook)
+        public bool UpdateBorrowBook(BorrowBook borrowBook)
         {
             _unitOfWork.BorrowBookRepository.Update(borrowBook);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.SaveChanges();
             return true;
         }
     }

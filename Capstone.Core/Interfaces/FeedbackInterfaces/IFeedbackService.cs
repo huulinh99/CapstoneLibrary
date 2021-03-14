@@ -11,9 +11,9 @@ namespace Capstone.Core.Interfaces
     public interface IFeedbackService
     {
         PagedList<Feedback> GetFeedbacks(FeedbackQueryFilter filters);
-        Task<Feedback> GetFeedback(int id);
-        Task InsertFeedback(Feedback feedback);
-        Task<bool> UpdateFeedback(Feedback feedback);
-        Task<bool> DeleteFeedback(int?[] id);
+        Feedback GetFeedback(int id);
+        void InsertFeedback(Feedback feedback);
+        bool UpdateFeedback(Feedback feedback);
+        bool DeleteFeedback(int?[] id);
     }
 }

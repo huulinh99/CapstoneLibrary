@@ -57,39 +57,39 @@ namespace Capstone.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetBorrowBook(int id)
+        public IActionResult GetBorrowBook(int id)
         {
-            var borrowBook = await _borrowBookService.GetBorrowBook(id);
+            var borrowBook = _borrowBookService.GetBorrowBook(id);
             var borrowBookDto = _mapper.Map<BorrowBookDto>(borrowBook);
             var response = new ApiResponse<BorrowBookDto>(borrowBookDto);
             return Ok(response);
         }
 
         [HttpPost]
-        public async Task<IActionResult> BorrowBook(BorrowBookDto borrowBookDto)
+        public IActionResult BorrowBook(BorrowBookDto borrowBookDto)
         {
             var borrowBook = _mapper.Map<BorrowBook>(borrowBookDto);
-            await _borrowBookService.InsertBorrowBook(borrowBook);
+            _borrowBookService.InsertBorrowBook(borrowBook);
             borrowBookDto = _mapper.Map<BorrowBookDto>(borrowBook);
             var response = new ApiResponse<BorrowBookDto>(borrowBookDto);
             return Ok(response);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(int id, BorrowBookDto borrowBookDto)
+        public IActionResult Put(int id, BorrowBookDto borrowBookDto)
         {
             var borrowBook = _mapper.Map<BorrowBook>(borrowBookDto);
             borrowBook.Id = id;
 
-            var result = await _borrowBookService.UpdateBorrowBook(borrowBook);
+            var result = _borrowBookService.UpdateBorrowBook(borrowBook);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete([FromQuery] int?[] id = null)
+        public IActionResult Delete([FromQuery] int?[] id = null)
         {
-            var result = await _borrowBookService.DeleteBorrowBook(id);
+            var result = _borrowBookService.DeleteBorrowBook(id);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }

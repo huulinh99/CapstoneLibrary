@@ -11,9 +11,9 @@ namespace Capstone.Core.Interfaces.ImageInterfaces
     public interface IImageService
     {
         PagedList<Image> GetImages(ImageQueryFilter filters);
-        Task<Image> GetImage(int id);
-        Task InsertImage(Image image);
-        Task<bool> UpdateImage(Image image);
-        Task<bool> DeleteImage(int?[] id);
+        Image GetImage(int id);
+        void InsertImage(Image image);
+        bool UpdateImage(Image image);
+        bool DeleteImage(int?[] id);
     }
 }

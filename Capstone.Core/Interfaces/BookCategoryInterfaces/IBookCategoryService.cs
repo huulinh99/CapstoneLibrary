@@ -11,10 +11,9 @@ namespace Capstone.Core.Interfaces
     public interface IBookCategoryService
     {
         PagedList<BookCategory> GetBookCategories(BookCategoryQueryFilter filters);
-        Task<BookCategory> GetBookCategory(int id);
-        Task InsertBookCategory(BookCategory bookCategory);
-        Task<bool> UpdateBookCategory(BookCategory bookCategory);
-
-        Task<bool> DeleteBookCategory(int?[] id);
+        BookCategory GetBookCategory(int id);
+        void InsertBookCategory(BookCategory bookCategory);
+        bool UpdateBookCategory(BookCategory bookCategory);
+        bool DeleteBookCategory(int?[] id);
     }
 }

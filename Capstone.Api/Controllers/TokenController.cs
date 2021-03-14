@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AutoMapper;
 using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Capstone.Api.Controllers
 {
@@ -21,17 +19,21 @@ namespace Capstone.Api.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly IStaffService _staffService;
-        public TokenController(IConfiguration configuration, IStaffService staffService)
+        private readonly ICustomerService _customerService;
+        private readonly IMapper _mapper;
+        public TokenController(IConfiguration configuration, IStaffService staffService, ICustomerService customerService, IMapper mapper)
         {
             _configuration = configuration;
             _staffService = staffService;
+            _customerService = customerService;
+            _mapper = mapper;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Authentication(UserLogin login)
+        public IActionResult Authentication(UserLogin login)
         {
             //if it is a valid user
-            var validation = await IsValidUser(login);
+            var validation = IsValidUser(login);
             if (validation.Item1)
             {
                 var token = GenerateToken(validation.Item2);
@@ -41,14 +43,23 @@ namespace Capstone.Api.Controllers
             return Ok("Wrong username or passsword!!!");
         }
 
-        private async Task<(bool, StaffDto)> IsValidUser(UserLogin login)
+        private (bool, User) IsValidUser(UserLogin login)
         {
-            var user = await _staffService.GetLoginByCredenticals(login);
-            //var isValid = _passwordService.Check(user.Password, login.Password);
-            return (user!=null, user);
+            var staff = _staffService.GetLoginByCredenticalsStaff(login);
+            var userStaff = _mapper.Map<User>(staff);
+            var customer = _customerService.GetLoginByCredenticalsCustomer(login);
+            var userCustomer = _mapper.Map<User>(customer);
+            if (userStaff != null )
+            {
+                return (userStaff != null, userStaff);
+            }else if(userCustomer != null)
+            {
+                return (userCustomer != null, userCustomer);
+            }
+            return (userStaff != null, userStaff);
         }
 
-        private string GenerateToken(StaffDto staffDto)
+        private string GenerateToken(User user)
         {
             //Headers
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Authentication:SecretKey"]));
@@ -58,15 +69,19 @@ namespace Capstone.Api.Controllers
             //Claims
             var claims = new[]
             {
-                new Claim("id", staffDto.Id.ToString()),
-                new Claim(ClaimTypes.Name, staffDto.Name),
-                new Claim("userName", staffDto.Username),
-                new Claim("address", staffDto.Address),
-                new Claim("DoB", staffDto.DoB.ToString()),
-                new Claim("email", staffDto.Email),
-                new Claim("gender", staffDto.Gender),
-                new Claim("phone", staffDto.Phone),
-                new Claim("role", staffDto.RoleName.ToString())
+                new Claim("id", user.Id.ToString()),
+                new Claim("name", user.Name),
+                new Claim("image", user.Image),
+                new Claim("userName", user.Username),
+                new Claim("address", user.Address),
+                new Claim("DoB", user.DoB.ToString()),
+                new Claim("createdTime", user.CreatedTime.ToString()),
+                new Claim("email", user.Email),
+                new Claim("password", user.Password),
+                new Claim("deviceToken", user.DeviceToken),
+                new Claim("gender", user.Gender),
+                new Claim("phone", user.Phone),
+                new Claim("role", user.RoleId.ToString())
             };
 
             //Payloads

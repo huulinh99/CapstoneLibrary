@@ -31,9 +31,33 @@ namespace Capstone.Infrastructure.Repositories
         //        BorrowBook = c.ReturnBook.ToList().Count()
         //    }).ToList();
         //}
-        public async Task<Customer> GetCustomerByEmail(string email)
+        public Customer GetCustomerByEmail(string email)
         {
-            return await _entities.Where(x => x.Email == email && x.IsDeleted == false).FirstOrDefaultAsync();
-        }     
+            return _entities.Where(x => x.Email == email && x.IsDeleted == false).FirstOrDefault();
+        }
+
+        public CustomerDto GetLoginByCredentials(UserLogin login)
+        {
+            return _entities.Where(x => x.Username == login.Username
+            && x.Password == login.Password
+            && x.IsDeleted == false)
+                .Include(c => c.Role)
+                .Select(c => new CustomerDto
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Username = c.Username,
+                    Password = c.Password,
+                    Address = c.Address,
+                    DoB = c.DoB,
+                    Email = c.Email,
+                    Gender = c.Gender,
+                    Phone = c.Phone,
+                    RoleId = c.Role.Id,
+                    Image = c.Image,
+                    CreatedTime = c.CreatedTime,
+                    DeviceToken = c.DeviceToken
+                }).FirstOrDefault();
+        }
     }
 }

@@ -20,23 +20,23 @@ namespace Capstone.Core.Services
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
         }
-        public async Task<bool> DeleteLocation(int?[] id)
+        public bool DeleteLocation(int?[] id)
         {
-            await _unitOfWork.LocationRepository.Delete(id);
-            await _unitOfWork.BookShelfRepository.DeleteBookShelfInLocation(id);
+            _unitOfWork.LocationRepository.Delete(id);
+            _unitOfWork.BookShelfRepository.DeleteBookShelfInLocation(id);
             var bookShelfId =  _unitOfWork.BookShelfRepository.GetBookShelfIdInLocation(id);
-            await _unitOfWork.DrawerRepository.DeleteDrawerInBookShelf(bookShelfId.ToArray());
+            _unitOfWork.DrawerRepository.DeleteDrawerInBookShelf(bookShelfId.ToArray());
             var drawerId = _unitOfWork.DrawerRepository.GetDrawerIdInBookShelf(bookShelfId.ToArray());
-            await _unitOfWork.BookDrawerRepository.DeleteBookDrawerByDrawerId(drawerId.ToArray());
-            var bookDrawerId = _unitOfWork.BookDrawerRepository.GetBookDrawerIdInDrawer(drawerId.ToArray());
-            await _unitOfWork.BookRepository.DeleteBookByBookDrawerId(bookDrawerId.ToArray());
-            await _unitOfWork.SaveChangesAsync();
+            //_unitOfWork.BookDrawerRepository.DeleteBookDrawerByDrawerId(drawerId.ToArray());
+            //var bookDrawerId = _unitOfWork.BookDrawerRepository.GetBookDrawerIdInDrawer(drawerId.ToArray());
+            //_unitOfWork.BookRepository.DeleteBookByBookDrawerId(bookDrawerId.ToArray());
+            _unitOfWork.SaveChanges();
             return true;
         }
 
-        public async Task<Location> GetLocation(int id)
+        public Location GetLocation(int id)
         {
-            return await _unitOfWork.LocationRepository.GetById(id);
+            return _unitOfWork.LocationRepository.GetById(id);
         }
 
         public PagedList<Location> GetLocations(LocationQueryFilter filters)
@@ -46,7 +46,7 @@ namespace Capstone.Core.Services
             var locations = _unitOfWork.LocationRepository.GetAll();
             if (filters.Name != null)
             {
-                locations = locations.Where(x => x.Name.Contains(filters.Name));
+                locations = locations.Where(x => x.Name.ToLower().Contains(filters.Name.ToLower()));
             }
 
             if (filters.IsRoom != null)
@@ -57,17 +57,17 @@ namespace Capstone.Core.Services
             return pagedLocations;
         }
 
-        public async Task InsertLocation(Location location)
+        public void InsertLocation(Location location)
         {
-            await _unitOfWork.LocationRepository.Add(location);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.LocationRepository.Add(location);
+           _unitOfWork.SaveChanges();
         }
 
-        public async Task<bool> UpdateLocation(Location location)
+        public bool UpdateLocation(Location location)
         {
             location.IsDeleted = false;
             _unitOfWork.LocationRepository.Update(location);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.SaveChanges();
             return true;
         }
     }

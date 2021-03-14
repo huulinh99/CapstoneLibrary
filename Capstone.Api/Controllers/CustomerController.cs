@@ -1,23 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Net;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Capstone.Api.Respones;
 using Capstone.Core.CustomEntities;
 using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Core.QueryFilters;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Net;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Capstone.Api.Controllers
 {
@@ -63,23 +61,23 @@ namespace Capstone.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetCustomer(int id)
+        public IActionResult GetCustomer(int id)
         {
-            var customer = await _customerService.GetCustomer(id);
+            var customer = _customerService.GetCustomer(id);
             var customerDto = _mapper.Map<CustomerDto>(customer);
             var response = new ApiResponse<CustomerDto>(customerDto);
             return Ok(response);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Customer(CustomerDto customerDto)
+        public IActionResult Customer(CustomerDto customerDto)
         {
 
             var tmp = _customerService.GetCustomer(customerDto.Email);
             if (tmp == null)
             {
                 var customer = _mapper.Map<Customer>(customerDto);
-                await _customerService.InsertCustomer(customer);
+                _customerService.InsertCustomer(customer);
                 customerDto = _mapper.Map<CustomerDto>(customer);
                 var response = new ApiResponse<CustomerDto>(customerDto);
                 return Ok(response);
@@ -92,12 +90,11 @@ namespace Capstone.Api.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(int id, CustomerDto customerDto)
+        public IActionResult Put(int id, CustomerDto customerDto)
         {
             var customer = _mapper.Map<Customer>(customerDto);
             customer.Id = id;
-
-            var result = await _customerService.UpdateCustomer(customer);
+            var result = _customerService.UpdateCustomer(customer);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }
@@ -137,9 +134,9 @@ namespace Capstone.Api.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete([FromQuery] int?[] id = null)
+        public IActionResult Delete([FromQuery] int?[] id = null)
         {
-            var result = await _customerService.DeleteCustomer(id);
+            var result =  _customerService.DeleteCustomer(id);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }

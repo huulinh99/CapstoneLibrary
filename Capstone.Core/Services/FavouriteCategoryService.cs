@@ -22,10 +22,10 @@ namespace Capstone.Core.Services
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
         }
-        public async Task<bool> DeleteFavouriteCategory(int?[] id)
+        public bool DeleteFavouriteCategory(int?[] id)
         {
-            await _unitOfWork.FavouriteCategoryRepository.Delete(id);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.FavouriteCategoryRepository.Delete(id);
+            _unitOfWork.SaveChanges();
             return true;
         }
 
@@ -44,22 +44,22 @@ namespace Capstone.Core.Services
             return pagedFavouriteCategories;
         }
 
-        public async Task<FavouriteCategory> GetFavouriteCategory(int id)
+        public FavouriteCategory GetFavouriteCategory(int id)
         {
-            return await _unitOfWork.FavouriteCategoryRepository.GetById(id);
+            return _unitOfWork.FavouriteCategoryRepository.GetById(id);
         }
 
 
-        public async Task InsertFavouriteCategory(FavouriteCategoryDto favouriteCategory)
+        public void InsertFavouriteCategory(FavouriteCategoryDto favouriteCategory)
         {
-            await _unitOfWork.FavouriteCategoryRepository.AddFavouriteCategory(favouriteCategory);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.FavouriteCategoryRepository.AddFavouriteCategory(favouriteCategory);
+            _unitOfWork.SaveChanges();
         }
 
-        public async Task<bool> UpdateFavouriteCategory(FavouriteCategory favouriteCategory)
+        public bool UpdateFavouriteCategory(FavouriteCategory favouriteCategory)
         {
             _unitOfWork.FavouriteCategoryRepository.Update(favouriteCategory);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.SaveChanges();
             return true;
         }
 

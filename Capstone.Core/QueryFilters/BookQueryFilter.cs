@@ -9,6 +9,7 @@ namespace Capstone.Core.QueryFilters
         public int? BookGroupId { get; set; }
         public string BookName { get; set; }
         public int? DrawerId { get; set; }
+        public string[] Barcode { get; set; }
 
         public int PageSize { get; set; }
         public bool? IsInDrawer { get; set; }

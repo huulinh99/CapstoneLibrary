@@ -21,10 +21,7 @@ namespace Capstone.Infrastructure.Mappings
             CreateMap<BookShelfDto, BookShelf>();
 
             CreateMap<Drawer, DrawerDto>();
-            CreateMap<DrawerDto, Drawer>();
-
-            CreateMap<ErrorMessage, ErrorMessageDto>();
-            CreateMap<ErrorMessageDto, ErrorMessage>();           
+            CreateMap<DrawerDto, Drawer>();        
 
             CreateMap<BorrowBook, BorrowBookDto>();
             CreateMap<BorrowBookDto, BorrowBook>();
@@ -35,9 +32,6 @@ namespace Capstone.Infrastructure.Mappings
             CreateMap<BorrowDetail, BorrowDetailDto>();
             CreateMap<BorrowDetailDto, BorrowDetail>();
 
-            CreateMap<Campaign, CampaignDto>();
-            CreateMap<CampaignDto, Campaign>();
-
             CreateMap<Category, CategoryDto>();
             CreateMap<CategoryDto, Category>();
         
@@ -46,6 +40,15 @@ namespace Capstone.Infrastructure.Mappings
 
             CreateMap<ReturnDetail, ReturnDetailDto>();
             CreateMap<ReturnDetailDto, ReturnDetail>();
+
+            CreateMap<Detection, DetectionDto>();
+            CreateMap<DetectionDto, Detection>();
+
+            CreateMap<DetectionError, DetectionErrorDto>();
+            CreateMap<DetectionErrorDto, DetectionError>();
+
+            CreateMap<DrawerDetection, DrawerDetectionDto>();
+            CreateMap<DrawerDetectionDto, DrawerDetection>();
 
             CreateMap<Staff, StaffDto>();
             CreateMap<StaffDto, Staff>();
@@ -62,8 +65,8 @@ namespace Capstone.Infrastructure.Mappings
             CreateMap<Feedback, FeedbackDto>();
             CreateMap<FeedbackDto, Feedback>();
 
-            CreateMap<Notification, NotificationDto>();
-            CreateMap<NotificationDto, Notification>();
+            CreateMap<UserNotification, UserNotificationDto>();
+            CreateMap<UserNotificationDto, UserNotification>();
 
             CreateMap<Staff, StaffDto>();
             CreateMap<StaffDto, Staff>();
@@ -71,11 +74,15 @@ namespace Capstone.Infrastructure.Mappings
             CreateMap<BookCategory, BookCategoryDto>();
             CreateMap<BookCategoryDto, BookCategory>();
 
-            CreateMap<BookDrawer, BookDrawerDto>();
-            CreateMap<BookDrawerDto, BookDrawer>();
 
             CreateMap<FavouriteCategory, FavouriteCategoryDto>();
             CreateMap<FavouriteCategoryDto, FavouriteCategory>();
+
+            CreateMap<StaffDto, User>();
+            CreateMap<User, StaffDto>();
+
+            CreateMap<CustomerDto, User>();
+            CreateMap<User, CustomerDto>();
         }
     }
 }

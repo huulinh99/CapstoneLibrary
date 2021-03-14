@@ -14,6 +14,11 @@ namespace Capstone.Core.Hubs
         {
             await Clients.All.ReceiveMessage(message);
         }
+
+        public async Task SendMessageToReturn(MessageReturn messageReturn)
+        {
+            await Clients.All.ReceiveMessageToReturn(messageReturn);
+        }
         public override Task OnConnectedAsync()
         {
             return base.OnConnectedAsync();

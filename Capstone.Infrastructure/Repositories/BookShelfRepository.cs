@@ -17,9 +17,9 @@ namespace Capstone.Infrastructure.Repositories
         public BookShelfRepository(CapstoneContext context) : base(context) {
             _context = context;
         }
-        public async Task<IEnumerable<BookShelfDto>> GetBookShelvesByLocation(int locationId)
+        public IEnumerable<BookShelfDto> GetBookShelvesByLocation(int locationId)
         {
-            return await _entities.Where(x => x.LocationId == locationId).Select(x => new BookShelfDto
+            return _entities.Where(x => x.LocationId == locationId).Select(x => new BookShelfDto
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -28,14 +28,14 @@ namespace Capstone.Infrastructure.Repositories
                 Col = x.Col,
                 Row = x.Row,
                 LocationId = x.Location.Id
-            }).ToListAsync();
+            }).ToList();
         }
 
-        public async Task DeleteBookShelfInLocation(int?[] locationId)
+        public void DeleteBookShelfInLocation(int?[] locationId)
         {
             var entities = _entities.Where(f => locationId.Contains(f.LocationId)).ToList();
             entities.ForEach(a => a.IsDeleted = true);
-            await _context.SaveChangesAsync();
+            _context.SaveChangesAsync();
         }
 
         public IEnumerable<BookShelfDto> GetBookShelvesByDrawer(IEnumerable<DrawerDto> drawers)

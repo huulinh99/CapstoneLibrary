@@ -3,13 +3,17 @@ using Capstone.Api.Controllers;
 using Capstone.Core.CustomEntities;
 using Capstone.Core.Hubs;
 using Capstone.Core.Interfaces;
-using Capstone.Core.Interfaces.BookDrawerInterfaces;
+using Capstone.Core.Interfaces.DetectionErrorInterfaces;
+using Capstone.Core.Interfaces.DetectionInterfaces;
+using Capstone.Core.Interfaces.DrawerDetectionInterfaces;
 using Capstone.Core.Interfaces.FavouriteCategoryInterfaces;
 using Capstone.Core.Interfaces.ImageInterfaces;
 using Capstone.Core.Services;
 using Capstone.Infrastructure.Data;
 using Capstone.Infrastructure.Filters;
 using Capstone.Infrastructure.Repositories;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,6 +27,7 @@ using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
+using System.IO;
 using System.Text;
 using System.Web.Http;
 
@@ -50,7 +55,7 @@ namespace Capstone.Api
             .ConfigureApiBehaviorOptions(options =>
             {
                 // options.SuppressModelStateInvalidFilter = true;
-            });
+            });          
             services.Configure<PaginationOptions>(Configuration.GetSection("Pagination"));
             services.AddDbContext<CapstoneContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Capstone"))
@@ -60,23 +65,21 @@ namespace Capstone.Api
             services.AddTransient<IBookGroupService, BookGroupService>();
             services.AddTransient<IBookShelfService, BookShelfService>();
             services.AddTransient<IDrawerService, DrawerService>();
-            services.AddTransient<IErrorMessageService, ErrorMessageService>();
             services.AddTransient<IStaffService, StaffService>();
             services.AddTransient<IBorrowBookService, BorrowBookService>();
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<IBorrowDetailService, BorrowDetailService>();
-            services.AddTransient<ICampaignService, CampaignService>();
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<ICustomerService, CustomerService>();
             services.AddTransient<IReturnBookService, ReturnBookService>();
             services.AddTransient<IReturnDetailService, ReturnDetailService>();
             services.AddTransient<IBookCategoryService, BookCategoryService>();
-            services.AddTransient<IBookRecommendService, BookRecommendService>();
-            services.AddTransient<IDeviceService, DeviceService>();
             services.AddTransient<IFeedbackService, FeedbackService>();
-            services.AddTransient<INotificationService, NotificationService>();
-            services.AddTransient<IBookDrawerService, BookDrawerService>();
+            services.AddTransient<IUserNotificationService, UserNotificationService>();
             services.AddTransient<IImageService, ImageService>();
+            services.AddTransient<IDetectionService, DetectionService>();
+            services.AddTransient<IDetectionErrorService, DetectionErrorService>();
+            services.AddTransient<IDrawerDetectionService, DrawerDetectionService>();
             services.AddTransient<IFavouriteCategoryService, FavouriteCategoryService>();
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
             services.AddTransient<IUnitOfWork, UnitOfWork>();
@@ -116,7 +119,11 @@ namespace Capstone.Api
                     ValidAudience = Configuration["Authentication:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Authentication:SecretKey"]))
                 };
-            });          
+            });
+            var defaultApp = FirebaseApp.Create(new AppOptions()
+            {
+                Credential = GoogleCredential.FromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "key.json")),
+            });
 
         }
 

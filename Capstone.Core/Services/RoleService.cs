@@ -20,16 +20,16 @@ namespace Capstone.Core.Services
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
         }
-        public async Task<bool> DeleteRole(int?[] id)
+        public bool DeleteRole(int?[] id)
         {
-            await _unitOfWork.RoleRepository.Delete(id);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.RoleRepository.Delete(id);
+            _unitOfWork.SaveChanges();
             return true;
         }
 
-        public async Task<Role> GetRole(int id)
+        public Role GetRole(int id)
         {
-            return await _unitOfWork.RoleRepository.GetById(id);
+            return _unitOfWork.RoleRepository.GetById(id);
         }
 
         public PagedList<Role> GetRoles(RoleQueryFilter filters)
@@ -45,16 +45,16 @@ namespace Capstone.Core.Services
             return pagedRoles;
         }
 
-        public async Task InsertRole(Role role)
+        public void InsertRole(Role role)
         {
-            await _unitOfWork.RoleRepository.Add(role);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.RoleRepository.Add(role);
+            _unitOfWork.SaveChanges();
         }
 
-        public async Task<bool> UpdateRole(Role role)
+        public bool UpdateRole(Role role)
         {
             _unitOfWork.RoleRepository.Update(role);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.SaveChanges();
             return true;
         }
     }

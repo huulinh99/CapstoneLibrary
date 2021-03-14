@@ -20,16 +20,16 @@ namespace Capstone.Core.Services
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
         }
-        public async Task<bool> DeleteReturnDetail(int?[] id)
+        public bool DeleteReturnDetail(int?[] id)
         {
-            await _unitOfWork.ReturnDetailRepository.Delete(id);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.ReturnDetailRepository.Delete(id);
+            _unitOfWork.SaveChanges();
             return true;
         }
 
-        public async Task<ReturnDetail> GetReturnDetail(int id)
+        public ReturnDetail GetReturnDetail(int id)
         {
-            return await _unitOfWork.ReturnDetailRepository.GetById(id);
+            return _unitOfWork.ReturnDetailRepository.GetById(id);
         }
 
         public PagedList<ReturnDetail> GetReturnDetails(ReturnDetailQueryFilter filters)
@@ -57,16 +57,16 @@ namespace Capstone.Core.Services
             return pagedReturnDetails;
         }
 
-        public async Task InsertReturnDetail(ReturnDetail returnDetail)
+        public void InsertReturnDetail(ReturnDetail returnDetail)
         {
-            await _unitOfWork.ReturnDetailRepository.Add(returnDetail);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.ReturnDetailRepository.Add(returnDetail);
+            _unitOfWork.SaveChanges();
         }
 
-        public async Task<bool> UpdateReturnDetail(ReturnDetail returnDetail)
+        public bool UpdateReturnDetail(ReturnDetail returnDetail)
         {
             _unitOfWork.ReturnDetailRepository.Update(returnDetail);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.SaveChanges();
             return true;
         }
     }

@@ -5,13 +5,9 @@ using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Core.QueryFilters;
-using Capstone.Core.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -57,39 +53,39 @@ namespace Capstone.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetCategory(int id)
+        public IActionResult GetCategory(int id)
         {
-            var category = await _categoryService.GetCategory(id);
+            var category = _categoryService.GetCategory(id);
             var categoryDto = _mapper.Map<CategoryDto>(category);
             var response = new ApiResponse<CategoryDto>(categoryDto);
             return Ok(response);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Category(CategoryDto categoryDto)
+        public IActionResult Category(CategoryDto categoryDto)
         {
             var post = _mapper.Map<Category>(categoryDto);
-            await _categoryService.InsertCategory(post);
+            _categoryService.InsertCategory(post);
             categoryDto = _mapper.Map<CategoryDto>(post);
             var response = new ApiResponse<CategoryDto>(categoryDto);
             return Ok(response);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(int id, CategoryDto categoryDto)
+        public IActionResult Put(int id, CategoryDto categoryDto)
         {
             var category = _mapper.Map<Category>(categoryDto);
             category.Id = id;
 
-            var result = await _categoryService.UpdateCategory(category);
+            var result = _categoryService.UpdateCategory(category);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete([FromQuery] int?[] id = null)
+        public IActionResult Delete([FromQuery] int?[] id = null)
         {
-            var result = await _categoryService.DeleteCategory(id);
+            var result = _categoryService.DeleteCategory(id);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }

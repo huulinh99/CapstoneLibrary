@@ -23,6 +23,9 @@ namespace Capstone.Core.Interfaces
         Uri GetCustomerPaginationUri(CustomerQueryFilter filter, string actionUrl);
         Uri GetReturnBookPaginationUri(ReturnBookQueryFilter filter, string actionUrl);
         Uri GetReturnDetailPaginationUri(ReturnDetailQueryFilter filter, string actionUrl);
+        Uri GetDetectionPaginationUri(DetectionQueryFilter filter, string actionUrl);
+        Uri GetDetectionErrorPaginationUri(DetectionErrorQueryFilter filter, string actionUrl);
+        Uri GetDrawerDetectionPaginationUri(DrawerDetectionQueryFilter filter, string actionUrl);
         Uri GetFeedbackPaginationUri(FeedbackQueryFilter filter, string actionUrl);
         Uri GetBookDrawerPaginationUri(BookDrawerQueryFilter filter, string actionUrl);
         Uri GetFavouriteCategoryPaginationUri(FavouriteCategoryQueryFilter filter, string actionUrl);

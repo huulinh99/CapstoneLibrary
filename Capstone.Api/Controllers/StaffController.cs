@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Capstone.Api.Respones;
 using Capstone.Core.CustomEntities;
 using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
-using Capstone.Core.Enumerations;
 using Capstone.Core.Interfaces;
 using Capstone.Core.QueryFilters;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace Capstone.Api.Controllers
 {
@@ -60,38 +55,38 @@ namespace Capstone.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetStaff(int id)
+        public IActionResult GetStaff(int id)
         {
-            var staff = await _staffService.GetStaff(id);
+            var staff = _staffService.GetStaff(id);
             var staffDto = _mapper.Map<StaffDto>(staff);
             var response = new ApiResponse<StaffDto>(staffDto);
             return Ok(response);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Staff(StaffDto staffDto)
+        public IActionResult Staff(StaffDto staffDto)
         {
             var staff = _mapper.Map<Staff>(staffDto);
-            await _staffService.InsertStaff(staff);
+            _staffService.InsertStaff(staff);
             staffDto = _mapper.Map<StaffDto>(staff);
             var response = new ApiResponse<StaffDto>(staffDto);
             return Ok(response);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(int id, StaffDto staffDto)
+        public IActionResult Put(int id, StaffDto staffDto)
         {
             var staff = _mapper.Map<Staff>(staffDto);
             staff.Id = id;
-            var result = await _staffService.UpdateStaff(staff);
+            var result = _staffService.UpdateStaff(staff);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete([FromQuery] int?[] id = null)
+        public IActionResult Delete([FromQuery] int?[] id = null)
         {
-            var result = await _staffService.DeleteStaff(id);
+            var result = _staffService.DeleteStaff(id);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }

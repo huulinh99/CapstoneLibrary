@@ -22,18 +22,18 @@ namespace Capstone.Core.Services
             _paginationOptions = options.Value;
         }
 
-        public async Task<bool> DeleteBookShelf(int?[] id)
+        public bool DeleteBookShelf(int?[] id)
         {
-            await _unitOfWork.BookShelfRepository.Delete(id);
+            _unitOfWork.BookShelfRepository.Delete(id);
             var bookShelfId = _unitOfWork.BookShelfRepository.GetBookShelfIdInLocation(id);
-            await _unitOfWork.DrawerRepository.DeleteDrawerInBookShelf(bookShelfId.ToArray());
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.DrawerRepository.DeleteDrawerInBookShelf(bookShelfId.ToArray());
+            _unitOfWork.SaveChangesAsync();
             return true;
         }
 
-        public async Task<BookShelf> GetBookShelf(int id)
+        public BookShelf GetBookShelf(int id)
         {
-            return await _unitOfWork.BookShelfRepository.GetById(id);
+            return _unitOfWork.BookShelfRepository.GetById(id);
         }
 
         public PagedList<BookShelfDto> GetBookShelves(BookShelfQueryFilter filters)
@@ -49,23 +49,23 @@ namespace Capstone.Core.Services
             if (filters.BookGroupId != null)
             {
                 var books = _unitOfWork.BookRepository.GetBookByBookGroup(filters.BookGroupId);
-                var bookDrawers = _unitOfWork.BookDrawerRepository.GetBookDrawerByListBook(books);
-                var drawers = _unitOfWork.DrawerRepository.GetAllDrawers(bookDrawers);
-                bookShelves = _unitOfWork.BookShelfRepository.GetBookShelvesByDrawer(drawers);
+                //var bookDrawers = _unitOfWork.BookDrawerRepository.GetBookDrawerByListBook(books);
+                //var drawers = _unitOfWork.DrawerRepository.GetAllDrawers(bookDrawers);
+                //bookShelves = _unitOfWork.BookShelfRepository.GetBookShelvesByDrawer(drawers);
             }
 
             if (filters.Name != null)
             {
-                bookShelves = bookShelves.Where(x => x.Name.Contains(filters.Name.ToLower()));
+                bookShelves = bookShelves.Where(x => x.Name.ToLower().Contains(filters.Name.ToLower()));
             }
             var pagedBookShelves = PagedList<BookShelfDto>.Create(bookShelves, filters.PageNumber, filters.PageSize);
             return pagedBookShelves;
         }
 
-        public async Task InsertBookShelf(BookShelf bookShelf)
+        public void InsertBookShelf(BookShelf bookShelf)
         {
-            await _unitOfWork.BookShelfRepository.Add(bookShelf);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.BookShelfRepository.Add(bookShelf);
+            _unitOfWork.SaveChanges();
             for (int i = 1; i <= bookShelf.Row; i++)
             {
                 for (int j = 1; j <= bookShelf.Col; j++)
@@ -79,15 +79,14 @@ namespace Capstone.Core.Services
                     _unitOfWork.DrawerRepository.Add(drawerModel);
                 }                          
             }
-
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.SaveChanges();
         }
 
-        public async Task<bool> UpdateBookShelf(BookShelf bookShelf)
+        public bool UpdateBookShelf(BookShelf bookShelf)
         {
             bookShelf.IsDeleted = false;
             _unitOfWork.BookShelfRepository.Update(bookShelf);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.SaveChanges();
             return true;
         }
     }

@@ -12,11 +12,13 @@ namespace Capstone.Core.Interfaces
         // Task<IEnumerable<Book>> GetBooksByBookGroup(int bookGroupId);
         IEnumerable<BookDto> GetAllBooks();
         IEnumerable<BookDto> GetAllBooksInDrawer();
-        Task DeleteBookByBookDrawerId(int?[] bookDrawerId);
+        //void DeleteBookByBookDrawerId(int?[] bookDrawerId);
         IEnumerable<BookDto> GetAllBooksNotInDrawer();
-        IEnumerable<BookDto> GetBookInDrawer(IEnumerable<BookDrawer> bookDrawers);
+        //IEnumerable<BookDto> GetBookInDrawer(IEnumerable<BookDrawer> bookDrawers);
         IEnumerable<BookDto> GetBookByBookGroup(int? bookGroupId);
-        void GetBookByBookDrawerId(int?[] bookDrawerId);
-        List<IEnumerable<BookDto>> GetBookByBookGroupWithDrawer(IEnumerable<BookGroupDto> bookGroups, IEnumerable<DrawerDto> drawers);
+        IEnumerable<BookDto> GetBookByListId(string[] barcode);
+        IEnumerable<BookDto> GetBookByDrawer(int? drawerId);
+        //void GetBookByBookDrawerId(int?[] bookDrawerId);
+        //List<IEnumerable<BookDto>> GetBookByBookGroupWithDrawer(IEnumerable<BookGroupDto> bookGroups, IEnumerable<DrawerDto> drawers);
     }
 }

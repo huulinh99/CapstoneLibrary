@@ -3,10 +3,7 @@ using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Core.QueryFilters;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Capstone.Core.Services
@@ -20,10 +17,10 @@ namespace Capstone.Core.Services
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
         }
-        public async Task<bool> DeleteBookCategory(int?[] id)
+        public bool DeleteBookCategory(int?[] id)
         {
-            await _unitOfWork.BookCategoryRepository.Delete(id);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.BookCategoryRepository.Delete(id);
+            _unitOfWork.SaveChanges();
             return true;
         }
 
@@ -42,21 +39,21 @@ namespace Capstone.Core.Services
             return pagedBookCategories;
         }
 
-        public async Task<BookCategory> GetBookCategory(int id)
+        public BookCategory GetBookCategory(int id)
         {
-            return await _unitOfWork.BookCategoryRepository.GetById(id);
+            return _unitOfWork.BookCategoryRepository.GetById(id);
         }
 
-        public async Task InsertBookCategory(BookCategory bookCategory)
+        public void InsertBookCategory(BookCategory bookCategory)
         {
-            await _unitOfWork.BookCategoryRepository.Add(bookCategory);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.BookCategoryRepository.Add(bookCategory);
+            _unitOfWork.SaveChanges();
         }
 
-        public async Task<bool> UpdateBookCategory(BookCategory bookCategory)
+        public bool UpdateBookCategory(BookCategory bookCategory)
         {
             _unitOfWork.BookCategoryRepository.Update(bookCategory);
-            await _unitOfWork.SaveChangesAsync();
+            _unitOfWork.SaveChangesAsync();
             return true;
         }
     }

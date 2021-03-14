@@ -1,4 +1,5 @@
 ﻿using Capstone.Core.CustomEntities;
+using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.QueryFilters;
 using System;
@@ -11,10 +12,11 @@ namespace Capstone.Core.Interfaces
     public interface ICustomerService
     {
         PagedList<Customer> GetCustomers(CustomerQueryFilter filters);
-        Task<Customer> GetCustomer(int id);
-        Task<Customer> GetCustomer(string email);
-        Task InsertCustomer(Customer customer);
-        Task<bool> UpdateCustomer(Customer customer);
-        Task<bool> DeleteCustomer(int?[] id);
+        Customer GetCustomer(int id);
+        Customer GetCustomer(string email);
+        void InsertCustomer(Customer customer);
+        bool UpdateCustomer(Customer customer);
+        bool DeleteCustomer(int?[] id);
+        CustomerDto GetLoginByCredenticalsCustomer(UserLogin login);
     }
 }

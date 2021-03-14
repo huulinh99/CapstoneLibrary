@@ -12,9 +12,9 @@ namespace Capstone.Core.Interfaces.FavouriteCategoryInterfaces
     public interface IFavouriteCategoryService
     {
         PagedList<FavouriteCategory> GetFavouriteCategories(FavouriteCategoryQueryFilter filters);
-        Task<FavouriteCategory> GetFavouriteCategory(int id);
-        Task InsertFavouriteCategory(FavouriteCategoryDto favouriteCategory);
-        Task<bool> UpdateFavouriteCategory(FavouriteCategory favouriteCategory);
-        Task<bool> DeleteFavouriteCategory(int?[] id);
+        FavouriteCategory GetFavouriteCategory(int id);
+        void InsertFavouriteCategory(FavouriteCategoryDto favouriteCategory);
+        bool UpdateFavouriteCategory(FavouriteCategory favouriteCategory);
+        bool DeleteFavouriteCategory(int?[] id);
     }
 }
