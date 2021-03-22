@@ -31,11 +31,11 @@ namespace Capstone.Infrastructure.Repositories
             }).ToList();
         }
 
-        public void DeleteBookShelfInLocation(int?[] locationId)
+        public async Task DeleteBookShelfInLocation(int?[] locationId)
         {
             var entities = _entities.Where(f => locationId.Contains(f.LocationId)).ToList();
             entities.ForEach(a => a.IsDeleted = true);
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
         public IEnumerable<BookShelfDto> GetBookShelvesByDrawer(IEnumerable<DrawerDto> drawers)

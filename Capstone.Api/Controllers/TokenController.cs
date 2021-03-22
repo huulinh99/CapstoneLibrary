@@ -74,14 +74,14 @@ namespace Capstone.Api.Controllers
                 new Claim("image", user.Image),
                 new Claim("userName", user.Username),
                 new Claim("address", user.Address),
-                new Claim("DoB", user.DoB.ToString()),
+                new Claim("doB", user.DoB.ToString()),
                 new Claim("createdTime", user.CreatedTime.ToString()),
                 new Claim("email", user.Email),
                 new Claim("password", user.Password),
                 new Claim("deviceToken", user.DeviceToken),
                 new Claim("gender", user.Gender),
                 new Claim("phone", user.Phone),
-                new Claim("role", user.RoleId.ToString())
+                new Claim("roleId", user.RoleId.ToString())
             };
 
             //Payloads

@@ -29,7 +29,7 @@ namespace Capstone.Infrastructure.Repositories
         {
             var entities = _entities.Where(f => id.Contains(f.Id)).ToList();
             entities.ForEach(a => a.IsDeleted = true);
-            _context.SaveChangesAsync();
+             _context.SaveChanges();
         }
 
         public IEnumerable<T> GetAll()

@@ -57,7 +57,18 @@ namespace Capstone.Core.Services
 
         public void InsertDrawer(Drawer drawer)
         {
+            
             _unitOfWork.DrawerRepository.Add(drawer);
+            _unitOfWork.SaveChanges();
+            string barcodeId = drawer.Id.ToString();
+            string barcode = "KS";
+            for (int i = 0; i < 4 - barcodeId.Length; i++)
+            {
+                barcode += "0";
+            }
+            barcode += barcodeId.ToString();
+            drawer.DrawerBarcode = barcode;
+            _unitOfWork.DrawerRepository.Update(drawer);
             _unitOfWork.SaveChanges();
         }
 

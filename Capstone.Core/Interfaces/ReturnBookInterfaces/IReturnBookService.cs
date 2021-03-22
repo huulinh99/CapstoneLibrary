@@ -1,4 +1,5 @@
 ﻿using Capstone.Core.CustomEntities;
+using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.QueryFilters;
 using System;
@@ -10,7 +11,7 @@ namespace Capstone.Core.Interfaces
 {
     public interface IReturnBookService
     {
-        PagedList<ReturnBook> GetReturnBooks(ReturnBookQueryFilter filters);
+        PagedList<ReturnBookDto> GetReturnBooks(ReturnBookQueryFilter filters);
         ReturnBook GetReturnBook(int id);
         void InsertReturnBook(ReturnBook returnBook);
         bool UpdateReturnBook(ReturnBook returnBook);

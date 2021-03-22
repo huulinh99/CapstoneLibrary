@@ -41,11 +41,11 @@ namespace Capstone.Infrastructure.Repositories
             return list.AsEnumerable<DrawerDto>();
         }
 
-        public void DeleteDrawerInBookShelf(int?[] bookShelfId)
+        public async Task DeleteDrawerInBookShelf(int?[] bookShelfId)
         {
             var entities = _entities.Where(f => bookShelfId.Contains(f.BookShelfId)).ToList();
             entities.ForEach(a => a.IsDeleted = true);
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
         public int?[] GetDrawerIdInBookShelf(int?[] bookShelfId)

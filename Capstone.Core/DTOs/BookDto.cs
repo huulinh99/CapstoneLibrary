@@ -12,9 +12,12 @@ namespace Capstone.Core.DTOs
         public string CustomerName { get; set; }
         public string CustomerImage { get; set; }
         public string BarCode { get; set; }
+        public string DrawerBarCode { get; set; }
+        public string BookShelfName { get; set; }
         public string BookName { get; set; }
         public bool? IsAvailable { get; set; }
         public int? DrawerId { get; set; }
+        public bool? IsDeleted { get; set; }
         public virtual DrawerDto Drawer { get; set; }
     }
 }

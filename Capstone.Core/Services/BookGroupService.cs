@@ -1,4 +1,5 @@
-﻿using Capstone.Core.CustomEntities;
+﻿using AutoMapper;
+using Capstone.Core.CustomEntities;
 using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
@@ -13,11 +14,13 @@ namespace Capstone.Core.Services
     public class BookGroupService : IBookGroupService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
         private readonly PaginationOptions _paginationOptions;
-        public BookGroupService(IUnitOfWork unitOfWork, IOptions<PaginationOptions> options)
+        public BookGroupService(IUnitOfWork unitOfWork, IMapper mapper, IOptions<PaginationOptions> options)
         {
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
+            _mapper = mapper;
         }
         public bool DeleteBookGroup(int?[] id)
         {
@@ -29,7 +32,7 @@ namespace Capstone.Core.Services
                 foreach (var bookCategory in bookCategories)
                 {
                     termsList.Add(bookCategory.Id);
-                }              
+                }
             }
             int?[] bookCateId = termsList.ToArray();
             _unitOfWork.BookCategoryRepository.Delete(bookCateId);
@@ -39,8 +42,8 @@ namespace Capstone.Core.Services
 
         public BookGroupDto GetBookGroup(int id)
         {
-            var bookCategories =  _unitOfWork.BookCategoryRepository.GetBookCategoriesByBookGroup(id);
-            var categories =  _unitOfWork.CategoryRepository.GetCategoryNameByBookCategory(bookCategories);
+            var bookCategories = _unitOfWork.BookCategoryRepository.GetBookCategoriesByBookGroup(id);
+            var categories = _unitOfWork.CategoryRepository.GetCategoryNameByBookCategory(bookCategories);
             var feedback = _unitOfWork.FeedbackRepository.GetRatingForBookGroup(id);
             return _unitOfWork.BookGroupRepository.GetBookGroupsWithImageById(id, categories, feedback);
         }
@@ -50,7 +53,7 @@ namespace Capstone.Core.Services
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
             var bookGroupDtos = _unitOfWork.BookGroupRepository.GetAllBookGroups();
-           
+
             var categories = _unitOfWork.CategoryRepository.GetAllCategories();
 
             var bookCategories = _unitOfWork.BookCategoryRepository.GetAllBookCategoriesByBookGroup();
@@ -116,14 +119,51 @@ namespace Capstone.Core.Services
             {
                 image.IsDeleted = false;
             }
-            for (int i= 0; i < bookGroup.Quantity; i++) 
+            List<Book> listBook = new List<Book>();
+            for (int i = 0; i < bookGroup.Quantity; i++)
             {
                 var bookModel = new Book()
                 {
                     BookGroupId = bookGroup.Id,
-                    BarCode = null
+                    BarCode = null,
+                    IsDeleted = false,
+                    IsAvailable = true
                 };
                 _unitOfWork.BookRepository.Add(bookModel);
+                listBook.Add(bookModel);
+            }
+            _unitOfWork.SaveChanges();
+            char[] prefixs = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 
+                'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W','X', 'Y', 'Z' };
+            foreach (var bookDto in listBook)
+            {
+                int div = bookDto.Id / 9999;
+                char prefix = prefixs.ElementAt(div);
+                string barcodeId = bookDto.Id.ToString();
+                string barcode = "";
+                barcode += prefix;
+                int sum = 0;
+                for (int i = 0; i < barcodeId.Length; i++)
+                {
+                    sum += int.Parse(barcodeId.ElementAt(i).ToString());
+                }
+                for (int i = 0; i < 4-barcodeId.Length; i++)
+                {
+                    barcode += "0";
+                }
+                barcode += barcodeId.ToString();
+                if (sum < 10)
+                {
+                    barcode += "0";
+                }
+                barcode += sum.ToString();
+                bookDto.BookGroupId = bookGroup.Id;
+                bookDto.BarCode = barcode;
+                bookDto.IsDeleted = false;
+                bookDto.IsAvailable = true;
+                var book = _mapper.Map<Book>(bookDto);
+                _unitOfWork.BookRepository.Update(book);
+                //_unitOfWork.SaveChangesAsync();
             }
             _unitOfWork.SaveChanges();
         }
@@ -132,7 +172,7 @@ namespace Capstone.Core.Services
         {
             var images = _unitOfWork.ImageRepository.GetImageByBookGroupId(bookGroup.Id);
             var bookGroupDto = _unitOfWork.BookGroupRepository.GetById(bookGroup.Id);
-            var imageId = new List<int>();          
+            var imageId = new List<int>();
             if (bookGroup.Image.Count == 0)
             {
                 foreach (var image in images)
@@ -143,7 +183,7 @@ namespace Capstone.Core.Services
                 }
             }
             else
-            {              
+            {
                 foreach (var image in bookGroup.Image)
                 {
                     if (image.Id == 0)
@@ -156,10 +196,10 @@ namespace Capstone.Core.Services
                     else
                     {
                         imageId.Add(image.Id);
-                    }                   
+                    }
                 }
                 var entities = images.Where(f => !imageId.Contains(f.Id)).ToList();
-                entities.ForEach(a => a.IsDeleted = true);            
+                entities.ForEach(a => a.IsDeleted = true);
             }
             bookGroupDto.Name = bookGroup.Name;
             bookGroupDto.Fee = bookGroup.Fee;

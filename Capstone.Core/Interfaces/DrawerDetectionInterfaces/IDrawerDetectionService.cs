@@ -1,4 +1,5 @@
 ﻿using Capstone.Core.CustomEntities;
+using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.QueryFilters;
 using System;
@@ -9,7 +10,7 @@ namespace Capstone.Core.Interfaces.DrawerDetectionInterfaces
 {
     public interface IDrawerDetectionService
     {
-        PagedList<DrawerDetection> GetDrawerDetections(DrawerDetectionQueryFilter filters);
+        IEnumerable<DrawerDetectionDto> GetDrawerDetections(DrawerDetectionQueryFilter filters);
         DrawerDetection GetDrawerDetection(int id);
         void InsertDrawerDetection(DrawerDetection drawerDetection);
         bool UpdateDrawerDetection(DrawerDetection drawerDetection);

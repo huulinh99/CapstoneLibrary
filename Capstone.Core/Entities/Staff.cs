@@ -7,6 +7,7 @@ namespace Capstone.Core.Entities
     {
         public Staff()
         {
+            BookGroup = new HashSet<BookGroup>();
             BorrowBook = new HashSet<BorrowBook>();
             Detection = new HashSet<Detection>();
             ReturnBook = new HashSet<ReturnBook>();
@@ -27,6 +28,7 @@ namespace Capstone.Core.Entities
         public DateTime? CreatedTime { get; set; }
 
         public virtual Role Role { get; set; }
+        public virtual ICollection<BookGroup> BookGroup { get; set; }
         public virtual ICollection<BorrowBook> BorrowBook { get; set; }
         public virtual ICollection<Detection> Detection { get; set; }
         public virtual ICollection<ReturnBook> ReturnBook { get; set; }

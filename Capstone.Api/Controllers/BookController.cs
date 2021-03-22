@@ -107,7 +107,10 @@ namespace Capstone.Api.Controllers
         public IActionResult Put(int id, BookDto bookDto)
         {
             var book = _mapper.Map<Book>(bookDto);
-            return Ok(book);
+            book.Id = id;
+            var result = _bookService.UpdateBook(book);
+            var response = new ApiResponse<bool>(result);
+            return Ok(response);
         }
 
         [HttpDelete]

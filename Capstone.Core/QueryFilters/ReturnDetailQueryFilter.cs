@@ -9,7 +9,9 @@ namespace Capstone.Core.QueryFilters
         public int? BookId { get; set; }
         public bool? IsLate { get; set; }
         public double? PunishFee { get; set; }
-        public string Fee { get; set; }
+        public int? CustomerId { get; set; }
+        public double? Fee { get; set; }
+        public bool? ByMonth { get; set; }
         public int? ReturnId { get; set; }
         public int PageSize { get; set; }
 

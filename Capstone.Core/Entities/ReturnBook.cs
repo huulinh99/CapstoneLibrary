@@ -14,6 +14,7 @@ namespace Capstone.Core.Entities
         public DateTime? ReturnTime { get; set; }
         public int? BorrowId { get; set; }
         public int? StaffId { get; set; }
+        public double? Fee { get; set; }
 
         public virtual BorrowBook Borrow { get; set; }
         public virtual Customer Customer { get; set; }

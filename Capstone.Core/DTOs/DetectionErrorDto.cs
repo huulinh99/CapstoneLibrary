@@ -9,7 +9,9 @@ namespace Capstone.Core.DTOs
         public int Id { get; set; }
         public int DrawerDetectionId { get; set; }
         public string ErrorMessage { get; set; }
+        public string BookName { get; set; }
+        public string BookBarcode { get; set; }
         public int BookId { get; set; }
-        public bool? IsError { get; set; }
+        public int? TypeError { get; set; }
     }
 }

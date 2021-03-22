@@ -8,6 +8,6 @@ namespace Capstone.Core.Hubs
     {
         public int StaffId { get; set; }
         public int CustomerId { get; set; }
-        public List<int> ReturnBook { get; set; }
+        public int BorrowId { get; set; }
     }
 }

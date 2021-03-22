@@ -11,8 +11,13 @@ namespace Capstone.Core.DTOs
         public int? BookId { get; set; }
         public bool? IsLate { get; set; }
         public double? PunishFee { get; set; }
+        public string BookName { get; set; }
+        public string Image { get; set; }
+        public string Author { get; set; }
+        public DateTime? ReturnTime { get; set; }
+        public int? BookGroupId { get; set; }
         public int? CustomerId { get; set; }
-        public string Fee { get; set; }
+        public double? Fee { get; set; }
         public int ReturnId { get; set; }     
     }
 }

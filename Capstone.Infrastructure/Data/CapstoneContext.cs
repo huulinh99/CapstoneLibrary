@@ -36,6 +36,7 @@ namespace Capstone.Infrastructure.Data
         public virtual DbSet<ReturnDetail> ReturnDetail { get; set; }
         public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<Staff> Staff { get; set; }
+        public virtual DbSet<UndefinedError> UndefinedError { get; set; }
         public virtual DbSet<UserNotification> UserNotification { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -84,6 +85,11 @@ namespace Capstone.Infrastructure.Data
                 entity.Property(e => e.Name).IsRequired();
 
                 entity.Property(e => e.PublishDate).HasColumnType("date");
+
+                entity.HasOne(d => d.Staff)
+                    .WithMany(p => p.BookGroup)
+                    .HasForeignKey(d => d.StaffId)
+                    .HasConstraintName("FK_BookGroup_Staff");
             });
 
             modelBuilder.Entity<BookShelf>(entity =>
@@ -157,7 +163,14 @@ namespace Capstone.Infrastructure.Data
 
             modelBuilder.Entity<Detection>(entity =>
             {
+                entity.Property(e => e.Time).HasColumnType("date");
+
                 entity.Property(e => e.Url).IsRequired();
+
+                entity.HasOne(d => d.BookShelf)
+                    .WithMany(p => p.Detection)
+                    .HasForeignKey(d => d.BookShelfId)
+                    .HasConstraintName("FK_Detection_BookShelf");
 
                 entity.HasOne(d => d.Staff)
                     .WithMany(p => p.Detection)
@@ -197,8 +210,6 @@ namespace Capstone.Infrastructure.Data
 
             modelBuilder.Entity<DrawerDetection>(entity =>
             {
-                entity.Property(e => e.Time).HasColumnType("date");
-
                 entity.HasOne(d => d.Detection)
                     .WithMany(p => p.DrawerDetection)
                     .HasForeignKey(d => d.DetectionId)
@@ -278,10 +289,6 @@ namespace Capstone.Infrastructure.Data
 
             modelBuilder.Entity<ReturnDetail>(entity =>
             {
-                entity.Property(e => e.Fee)
-                    .HasMaxLength(10)
-                    .IsFixedLength();
-
                 entity.Property(e => e.IsLate).HasColumnName("isLate");
 
                 entity.HasOne(d => d.Book)
@@ -315,11 +322,24 @@ namespace Capstone.Infrastructure.Data
                     .HasConstraintName("FK_Staff_Role");
             });
 
+            modelBuilder.Entity<UndefinedError>(entity =>
+            {
+                entity.HasOne(d => d.DrawerDetection)
+                    .WithMany(p => p.UndefinedError)
+                    .HasForeignKey(d => d.DrawerDetectionId)
+                    .HasConstraintName("FK_UndefinedError_DrawerDetection");
+            });
+
             modelBuilder.Entity<UserNotification>(entity =>
             {
                 entity.Property(e => e.CreatedDate).HasColumnType("date");
 
                 entity.Property(e => e.Time).HasColumnType("datetime");
+
+                entity.HasOne(d => d.BookGroup)
+                    .WithMany(p => p.UserNotification)
+                    .HasForeignKey(d => d.BookGroupId)
+                    .HasConstraintName("FK_UserNotification_BookGroup");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.UserNotification)

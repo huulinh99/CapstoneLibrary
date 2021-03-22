@@ -83,9 +83,9 @@ namespace Capstone.Api.Controllers
         }
 
         [HttpDelete]
-        public IActionResult Delete([FromQuery] int?[] id = null)
+        public async Task<IActionResult> Delete([FromQuery] int?[] id = null)
         {
-            var result = _locationService.DeleteLocation(id);
+            var result =  await _locationService.DeleteLocation(id);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }

@@ -12,7 +12,7 @@ namespace Capstone.Core.Interfaces
     public interface IBookService
     {
         PagedList<BookDto> GetBooks(BookQueryFilter filters);
-        Book GetBook(int id);
+        BookDto GetBook(int id);
         void InsertBook(Book book);
         bool UpdateBook(Book book);
         bool DeleteBook(int?[] id);

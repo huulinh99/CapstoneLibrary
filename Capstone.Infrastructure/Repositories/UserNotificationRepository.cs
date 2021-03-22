@@ -1,8 +1,10 @@
-﻿using Capstone.Core.Entities;
+﻿using Capstone.Core.DTOs;
+using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Infrastructure.Data;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Capstone.Infrastructure.Repositories
@@ -10,5 +12,20 @@ namespace Capstone.Infrastructure.Repositories
     public class UserNotificationRepository : BaseRepository<UserNotification>, IUserNotificationRepository
     {
         public UserNotificationRepository(CapstoneContext context) : base(context) { }
+        public IEnumerable<UserNotificationDto> GetAllNotification()
+        {
+            var notification = _entities
+                .Select(c => new UserNotificationDto
+                {
+                    Id = c.Id,
+                    BookGroupName = c.BookGroup.Name,
+                    CreatedDate = c.CreatedDate,
+                    Image = c.BookGroup.Image.FirstOrDefault().Url,
+                    Message = c.Message,
+                    Time = c.Time,
+                    UserId = c.UserId
+                }).ToList();
+            return notification;
+        }
     }
 }

@@ -22,6 +22,8 @@ namespace Capstone.Core.DTOs
         public double? Width { get; set; }
         public double? Thick { get; set; }
         public int? PublishNumber { get; set; }
+        public string StaffName { get; set; }
+        public int? StaffId { get; set; }
         public bool? IsDeleted { get; set; }
         public string[] cate { get; set; }
         public virtual ICollection<CategoryDto> Category { get; set; }

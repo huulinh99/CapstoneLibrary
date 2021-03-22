@@ -8,7 +8,7 @@ namespace Capstone.Core.Entities
         public int? BookId { get; set; }
         public bool? IsLate { get; set; }
         public double? PunishFee { get; set; }
-        public string Fee { get; set; }
+        public double? Fee { get; set; }
         public int ReturnId { get; set; }
 
         public virtual Book Book { get; set; }

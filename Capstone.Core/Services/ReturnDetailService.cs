@@ -1,4 +1,5 @@
 ﻿using Capstone.Core.CustomEntities;
+using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Core.QueryFilters;
@@ -32,11 +33,21 @@ namespace Capstone.Core.Services
             return _unitOfWork.ReturnDetailRepository.GetById(id);
         }
 
-        public PagedList<ReturnDetail> GetReturnDetails(ReturnDetailQueryFilter filters)
+        public PagedList<ReturnDetailDto> GetReturnDetails(ReturnDetailQueryFilter filters)
         {
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
-            var returnDetails = _unitOfWork.ReturnDetailRepository.GetAll();
+            var returnDetails = _unitOfWork.ReturnDetailRepository.GetAllReturnDetailWithBookName();
+            if(filters.CustomerId != null)
+            {
+                returnDetails = returnDetails.Where(x => x.CustomerId == filters.CustomerId);
+            }
+
+            if (filters.ByMonth != null)
+            {
+                
+            }
+
             if (filters.BookId != null)
             {
                 returnDetails = returnDetails.Where(x => x.BookId == filters.BookId);
@@ -53,7 +64,7 @@ namespace Capstone.Core.Services
             {
                 returnDetails = returnDetails.Where(x => x.PunishFee == filters.PunishFee);
             }
-            var pagedReturnDetails = PagedList<ReturnDetail>.Create(returnDetails, filters.PageNumber, filters.PageSize);
+            var pagedReturnDetails = PagedList<ReturnDetailDto>.Create(returnDetails, filters.PageNumber, filters.PageSize);
             return pagedReturnDetails;
         }
 

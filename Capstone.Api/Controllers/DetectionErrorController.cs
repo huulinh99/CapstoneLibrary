@@ -52,23 +52,8 @@ namespace Capstone.Api.Controllers
             //var previousPage = bookGroups.CurrentPage - 1 >= 1 && bookGroups.CurrentPage < bookGroups.TotalCount
             //               ? _uriService.GetPageUri(bookGroups.CurrentPage - 1, bookGroups.PageSize, _uriService.GetBookGroupPaginationUri(filters, Url.RouteUrl(nameof(GetBookGroups))).ToString() + stringBeforeChar)
             //               : null;
-            var metadata = new Metadata
-            {
-                TotalCount = detectionErrors.TotalCount,
-                PageSize = detectionErrors.PageSize,
-                CurrentPage = detectionErrors.CurrentPage,
-                TotalPages = detectionErrors.TotalPages,
-                HasNextPage = detectionErrors.HasNextPage,
-                HasPreviousPage = detectionErrors.HasPreviousPage,
-            };
 
-            var response = new ApiResponse<IEnumerable<DetectionErrorDto>>(detectionErrorsDto)
-            {
-                Meta = metadata
-            };
-            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
-
-            return Ok(response);
+            return Ok(detectionErrors);
         }
 
         [HttpGet("{id}")]

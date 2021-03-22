@@ -1,4 +1,5 @@
 ﻿using Capstone.Core.CustomEntities;
+using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.QueryFilters;
 using System;
@@ -9,7 +10,7 @@ namespace Capstone.Core.Interfaces.DetectionInterfaces
 {
     public interface IDetectionService
     {
-        PagedList<Detection> GetDetections(DetectionQueryFilter filters);
+        IEnumerable<DetectionDto> GetDetections(DetectionQueryFilter filters);
         Detection GetDetection(int id);
         void InsertDetection(Detection detection);
         bool UpdateDetection(Detection detection);

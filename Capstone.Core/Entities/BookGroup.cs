@@ -11,6 +11,7 @@ namespace Capstone.Core.Entities
             BookCategory = new HashSet<BookCategory>();
             Feedback = new HashSet<Feedback>();
             Image = new HashSet<Image>();
+            UserNotification = new HashSet<UserNotification>();
         }
 
         public string Name { get; set; }
@@ -27,10 +28,13 @@ namespace Capstone.Core.Entities
         public double? Width { get; set; }
         public double? Thick { get; set; }
         public int? PublishNumber { get; set; }
+        public int? StaffId { get; set; }
 
+        public virtual Staff Staff { get; set; }
         public virtual ICollection<Book> Book { get; set; }
         public virtual ICollection<BookCategory> BookCategory { get; set; }
         public virtual ICollection<Feedback> Feedback { get; set; }
         public virtual ICollection<Image> Image { get; set; }
+        public virtual ICollection<UserNotification> UserNotification { get; set; }
     }
 }

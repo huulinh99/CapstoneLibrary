@@ -25,6 +25,7 @@ namespace Capstone.Infrastructure.Repositories
                 Fee = c.Book.BookGroup.Fee,
                 Image = c.Book.BookGroup.Image.Where(x => x.IsDeleted == false).FirstOrDefault().Url,
                 StartTime = c.Borrow.StartTime,
+                ReturnTime = c.Borrow.EndTime,
                 PunishFee = c.Book.BookGroup.PunishFee
             }).ToList();
         }
@@ -83,6 +84,7 @@ namespace Capstone.Infrastructure.Repositories
                     Fee = c.Book.BookGroup.Fee,
                     Image = c.Book.BookGroup.Image.Where(x => x.IsDeleted == false).FirstOrDefault().Url,
                     StartTime = c.Borrow.StartTime,
+                    ReturnTime = c.Borrow.EndTime,
                     PunishFee = c.Book.BookGroup.PunishFee
                 }).ToList();
                 foreach (var borrowBookDto in borrowBookDtos)
@@ -91,6 +93,18 @@ namespace Capstone.Infrastructure.Repositories
                 }               
             }
             return borrowDetails;
+        }
+
+        public BorrowDetailDto GetCustomerByBookId(int? bookId)
+        {
+            var entities = _entities.Where(c => c.BookId == bookId).OrderBy(c => c.Id).Select(c => new BorrowDetailDto
+            {
+                Id = c.Id,
+                BorrowId = c.BorrowId,
+                BookId = c.BookId,
+                CustomerId = c.Borrow.CustomerId
+            }).LastOrDefault();
+            return entities;
         }
     }
 }

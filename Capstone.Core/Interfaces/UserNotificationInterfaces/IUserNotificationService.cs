@@ -1,4 +1,5 @@
 ﻿using Capstone.Core.CustomEntities;
+using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.QueryFilters;
 using FirebaseAdmin.Messaging;
@@ -11,7 +12,7 @@ namespace Capstone.Core.Interfaces
 {
     public interface IUserNotificationService
     {
-        PagedList<UserNotification> GetNotifications(NotificationQueryFilter filters);
+        PagedList<UserNotificationDto> GetNotifications(NotificationQueryFilter filters);
         UserNotification GetNotification(int id);
         Task InsertNotification(UserNotification notification);
         bool UpdateNotification(UserNotification notification);

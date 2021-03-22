@@ -1,4 +1,5 @@
 ﻿using Capstone.Core.CustomEntities;
+using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.Exceptions;
 using Capstone.Core.Interfaces;
@@ -33,11 +34,11 @@ namespace Capstone.Core.Services
             return _unitOfWork.ReturnBookRepository.GetById(id);
         }
 
-        public PagedList<ReturnBook> GetReturnBooks(ReturnBookQueryFilter filters)
+        public PagedList<ReturnBookDto> GetReturnBooks(ReturnBookQueryFilter filters)
         {
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
-            var returnBooks = _unitOfWork.ReturnBookRepository.GetAll();
+            var returnBooks = _unitOfWork.ReturnBookRepository.GetAllReturnBookWithCustomerName();
             if (filters.BorrowId != null)
             {
                 returnBooks = returnBooks.Where(x => x.BorrowId == filters.BorrowId);
@@ -45,6 +46,10 @@ namespace Capstone.Core.Services
             if (filters.CustomerId != null)
             {
                 returnBooks = returnBooks.Where(x => x.CustomerId == filters.CustomerId);
+            }
+            if (filters.ByMonth != null)
+            {
+                returnBooks = _unitOfWork.ReturnBookRepository.GetAllReturnGroupByMonth();
             }
             if (filters.ReturnTime != null)
             {
@@ -54,7 +59,7 @@ namespace Capstone.Core.Services
             {
                 returnBooks = returnBooks.Where(x => x.StaffId == filters.StaffId);
             }
-            var pagedReturnBooks = PagedList<ReturnBook>.Create(returnBooks, filters.PageNumber, filters.PageSize);
+            var pagedReturnBooks = PagedList<ReturnBookDto>.Create(returnBooks, filters.PageNumber, filters.PageSize);
             return pagedReturnBooks;
         }
 
@@ -64,6 +69,12 @@ namespace Capstone.Core.Services
             if (customer == null)
             {
                 throw new BusinessException("User doesn't exist");
+            }
+            foreach (var returnDetail in returnBook.ReturnDetail)
+            {
+                var book = _unitOfWork.BookRepository.GetById(returnDetail.BookId);
+                returnDetail.IsDeleted = false;
+                book.IsAvailable = true;
             }
             _unitOfWork.ReturnBookRepository.Add(returnBook);
             _unitOfWork.SaveChanges();

@@ -20,17 +20,17 @@ namespace Capstone.Core.Services
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
         }
-        public bool DeleteLocation(int?[] id)
+        public async Task<bool> DeleteLocation(int?[] id)
         {
-            _unitOfWork.LocationRepository.Delete(id);
-            _unitOfWork.BookShelfRepository.DeleteBookShelfInLocation(id);
-            var bookShelfId =  _unitOfWork.BookShelfRepository.GetBookShelfIdInLocation(id);
-            _unitOfWork.DrawerRepository.DeleteDrawerInBookShelf(bookShelfId.ToArray());
-            var drawerId = _unitOfWork.DrawerRepository.GetDrawerIdInBookShelf(bookShelfId.ToArray());
+            _unitOfWork.LocationRepository.Delete(id);         
+            await _unitOfWork.BookShelfRepository.DeleteBookShelfInLocation(id);
+            var bookShelfId = _unitOfWork.BookShelfRepository.GetBookShelfIdInLocation(id);
+            await _unitOfWork.DrawerRepository.DeleteDrawerInBookShelf(bookShelfId.ToArray());
+            //var drawerId = _unitOfWork.DrawerRepository.GetDrawerIdInBookShelf(bookShelfId.ToArray());
             //_unitOfWork.BookDrawerRepository.DeleteBookDrawerByDrawerId(drawerId.ToArray());
             //var bookDrawerId = _unitOfWork.BookDrawerRepository.GetBookDrawerIdInDrawer(drawerId.ToArray());
             //_unitOfWork.BookRepository.DeleteBookByBookDrawerId(bookDrawerId.ToArray());
-            _unitOfWork.SaveChanges();
+            await _unitOfWork.SaveChangesAsync();
             return true;
         }
 

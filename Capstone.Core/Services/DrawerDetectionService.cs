@@ -1,4 +1,5 @@
 ﻿using Capstone.Core.CustomEntities;
+using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Core.Interfaces.DrawerDetectionInterfaces;
@@ -6,6 +7,7 @@ using Capstone.Core.QueryFilters;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Capstone.Core.Services
@@ -26,14 +28,16 @@ namespace Capstone.Core.Services
             return true;
         }
 
-        public PagedList<DrawerDetection> GetDrawerDetections(DrawerDetectionQueryFilter filters)
+        public IEnumerable<DrawerDetectionDto> GetDrawerDetections(DrawerDetectionQueryFilter filters)
         {
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
-            var drawerDetections = _unitOfWork.DrawerDetectionRepository.GetAll();
-
-            var pagedDrawerDetections = PagedList<DrawerDetection>.Create(drawerDetections, filters.PageNumber, filters.PageSize);
-            return pagedDrawerDetections;
+            var drawerDetections = _unitOfWork.DrawerDetectionRepository.GetAllDrawerDetection();
+            if (filters.DetectionId != null)
+            {
+                drawerDetections = drawerDetections.Where(x => x.DetectionId == filters.DetectionId);
+            }
+            return drawerDetections;
         }
 
         public DrawerDetection GetDrawerDetection(int id)

@@ -45,30 +45,15 @@ namespace Capstone.Api.Controllers
             //string str = request.QueryString.ToString();
             //string stringBeforeChar = str.Substring(0, str.IndexOf("&"));
             var drawerDetections = _drawerDetectionService.GetDrawerDetections(filters);
-            var drawerDetectionsDto = _mapper.Map<IEnumerable<DrawerDetectionDto>>(drawerDetections);
+            //var drawerDetectionsDto = _mapper.Map<IEnumerable<DrawerDetectionDto>>(drawerDetections);
             //var nextPage = bookGroups.CurrentPage >= 1 && bookGroups.CurrentPage < bookGroups.TotalCount
             //               ? _uriService.GetPageUri(bookGroups.CurrentPage + 1, bookGroups.PageSize, _uriService.GetBookGroupPaginationUri(filters, Url.RouteUrl(nameof(GetBookGroups))).ToString() + stringBeforeChar)
             //               : null;
             //var previousPage = bookGroups.CurrentPage - 1 >= 1 && bookGroups.CurrentPage < bookGroups.TotalCount
             //               ? _uriService.GetPageUri(bookGroups.CurrentPage - 1, bookGroups.PageSize, _uriService.GetBookGroupPaginationUri(filters, Url.RouteUrl(nameof(GetBookGroups))).ToString() + stringBeforeChar)
             //               : null;
-            var metadata = new Metadata
-            {
-                TotalCount = drawerDetections.TotalCount,
-                PageSize = drawerDetections.PageSize,
-                CurrentPage = drawerDetections.CurrentPage,
-                TotalPages = drawerDetections.TotalPages,
-                HasNextPage = drawerDetections.HasNextPage,
-                HasPreviousPage = drawerDetections.HasPreviousPage,
-            };
 
-            var response = new ApiResponse<IEnumerable<DrawerDetectionDto>>(drawerDetectionsDto)
-            {
-                Meta = metadata
-            };
-            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
-
-            return Ok(response);
+            return Ok(drawerDetections);
         }
 
         [HttpGet("{id}")]

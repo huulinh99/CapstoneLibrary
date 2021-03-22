@@ -79,6 +79,22 @@ namespace Capstone.Infrastructure.Repositories
                 }).ToList();
         }
 
+        public BookDto GetBookByBookId(int? bookId)
+        {
+            return _entities.Where(x => x.Id == bookId && x.IsDeleted == false)
+                .Select(c => new BookDto
+                {
+                    Id = c.Id,
+                    BarCode = c.BarCode,
+                    BookGroupId = c.BookGroupId,
+                    IsAvailable = c.IsAvailable,
+                    BookShelfName = c.Drawer.BookShelf.Name,
+                    DrawerBarCode = c.Drawer.DrawerBarcode,
+                    DrawerId = c.Drawer.Id,
+                    BookName = (c.BookGroup.Name)
+                }).FirstOrDefault();
+        }
+
         public IEnumerable<BookDto> GetBookByDrawer(int? drawerId)
         {
             return _entities.Where(x => x.DrawerId == drawerId && x.IsDeleted == false)
@@ -92,9 +108,24 @@ namespace Capstone.Infrastructure.Repositories
                 }).ToList();
         }
 
-        public IEnumerable<BookDto> GetBookByListId(string[] barcode)
+        public IEnumerable<BookDto> GetBookByBarcode(string[] barCode)
         {
-            var entities = _entities.Where(f => barcode.Contains(f.BarCode)).Select(c => new BookDto
+            var entities = _entities.Where(f => barCode.Contains(f.BarCode)).Select(c => new BookDto
+            {
+                Id = c.Id,
+                BarCode = c.BarCode,
+                BookGroupId = c.BookGroupId,
+                IsAvailable = c.IsAvailable,
+                DrawerId = c.DrawerId,
+                BookShelfName = c.Drawer.BookShelf.Name,
+                BookName = (c.BookGroup.Name)
+            }).ToList();
+            return entities;
+        }
+
+        public BookDto GetBookByBookId(int bookId)
+        {
+            var entities = _entities.Where(c=>c.Id == bookId).Select(c => new BookDto
             {
                 Id = c.Id,
                 BarCode = c.BarCode,
@@ -102,7 +133,7 @@ namespace Capstone.Infrastructure.Repositories
                 IsAvailable = c.IsAvailable,
                 DrawerId = c.DrawerId,
                 BookName = (c.BookGroup.Name)
-            }).ToList();
+            }).FirstOrDefault();
             return entities;
         }
     }

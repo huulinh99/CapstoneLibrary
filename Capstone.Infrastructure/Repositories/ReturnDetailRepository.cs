@@ -24,5 +24,24 @@ namespace Capstone.Infrastructure.Repositories
             }).LastOrDefault();
             return entities;
         }
+
+        public IEnumerable<ReturnDetailDto> GetAllReturnDetailWithBookName()
+        {
+            return _entities.Where(x => x.IsDeleted == false).Select(c => new ReturnDetailDto
+            {
+                Id = c.Id,
+                BookId = c.BookId,
+                BookName = c.Book.BookGroup.Name,
+                Author = c.Book.BookGroup.Author,
+                BookGroupId = c.Book.BookGroupId,
+                CustomerId = c.Return.CustomerId,
+                Fee = c.Fee,
+                PunishFee = c.PunishFee,
+                Image = c.Book.BookGroup.Image.Where(x => x.IsDeleted == false).FirstOrDefault().Url,
+                IsLate = c.IsLate,
+                ReturnId = c.ReturnId,
+                ReturnTime = c.Return.ReturnTime
+            }).ToList();
+        }
     }
 }

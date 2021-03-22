@@ -35,11 +35,11 @@ namespace Capstone.Core.Services
             return _unitOfWork.NotificationRepository.GetById(id);
         }
 
-        public PagedList<UserNotification> GetNotifications(NotificationQueryFilter filters)
+        public PagedList<UserNotificationDto> GetNotifications(NotificationQueryFilter filters)
         {
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
-            var notifications = _unitOfWork.NotificationRepository.GetAll();
+            var notifications = _unitOfWork.NotificationRepository.GetAllNotification();
             if (filters.UserId != null)
             {
                 notifications = notifications.Where(x => x.UserId == filters.UserId);
@@ -48,7 +48,7 @@ namespace Capstone.Core.Services
             {
                 notifications = notifications.Where(x => x.Time == filters.Time);
             }
-            var pagedNotifications = PagedList<UserNotification>.Create(notifications, filters.PageNumber, filters.PageSize);
+            var pagedNotifications = PagedList<UserNotificationDto>.Create(notifications, filters.PageNumber, filters.PageSize);
             return pagedNotifications;
         }
 

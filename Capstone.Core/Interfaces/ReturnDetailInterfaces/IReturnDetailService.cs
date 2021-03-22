@@ -1,4 +1,5 @@
 ﻿using Capstone.Core.CustomEntities;
+using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.QueryFilters;
 using System;
@@ -10,7 +11,7 @@ namespace Capstone.Core.Interfaces
 {
     public interface IReturnDetailService
     {
-        PagedList<ReturnDetail> GetReturnDetails(ReturnDetailQueryFilter filters);
+        PagedList<ReturnDetailDto> GetReturnDetails(ReturnDetailQueryFilter filters);
         ReturnDetail GetReturnDetail(int id);
         void InsertReturnDetail(ReturnDetail returnDetail);
         bool UpdateReturnDetail(ReturnDetail returnDetail);

@@ -42,6 +42,11 @@ namespace Capstone.Core.Services
                 borrowBooks = borrowBooks.Where(x => x.CustomerId == filters.CustomerId);
             }
 
+            if(filters.IsNewest == true)
+            {
+                borrowBooks = borrowBooks.OrderByDescending(x => x.Id).Take(5);
+            }
+
             if (filters.CustomerName != null)
             {
                 borrowBooks = borrowBooks.Where(x => x.CustomerName.ToLower().Contains(filters.CustomerName.ToLower()));
@@ -78,6 +83,7 @@ namespace Capstone.Core.Services
                 borrowDetail.Fee = fee * (borrowBook.EndTime - borrowBook.StartTime).Ticks;
                 var book = _unitOfWork.BookRepository.GetById(borrowDetail.BookId);
                 book.IsAvailable = false;
+                borrowDetail.IsDeleted = false;
                 bookGroups.Add(bg);
             }
             _unitOfWork.BorrowBookRepository.Add(borrowBook);          

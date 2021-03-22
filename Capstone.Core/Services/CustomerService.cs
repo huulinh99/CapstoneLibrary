@@ -50,6 +50,12 @@ namespace Capstone.Core.Services
             {
                 customers = customers.Where(x => x.Name.ToLower().Contains(filters.Name.ToLower()));
             }
+
+            if(filters.IsNewest == true)
+            {
+                customers = customers.OrderByDescending(x => x.Id).Take(5);
+            }
+
             if (filters.Email != null)
             {
                 customers = customers.Where(x => x.Email == filters.Email);

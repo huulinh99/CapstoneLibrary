@@ -1,4 +1,5 @@
 ﻿using Capstone.Core.CustomEntities;
+using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Core.Interfaces.DetectionErrorInterfaces;
@@ -6,6 +7,7 @@ using Capstone.Core.QueryFilters;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Capstone.Core.Services
@@ -26,14 +28,16 @@ namespace Capstone.Core.Services
             return true;
         }
 
-        public PagedList<DetectionError> GetDetectionErrors(DetectionErrorQueryFilter filters)
+        public IEnumerable<DetectionErrorDto> GetDetectionErrors(DetectionErrorQueryFilter filters)
         {
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
-            var detectionErrors = _unitOfWork.DetectionErrorRepository.GetAll();
-
-            var pagedDetectionErrors = PagedList<DetectionError>.Create(detectionErrors, filters.PageNumber, filters.PageSize);
-            return pagedDetectionErrors;
+            var detectionErrors = _unitOfWork.DetectionErrorRepository.GetAllDetectionError();
+            if (filters.DrawerDetectionId != null)
+            {
+                detectionErrors = detectionErrors.Where(x => x.DrawerDetectionId == filters.DrawerDetectionId);
+            }
+            return detectionErrors;
         }
 
         public DetectionError GetDetectionError(int id)

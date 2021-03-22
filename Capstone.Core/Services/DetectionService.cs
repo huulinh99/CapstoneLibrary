@@ -1,4 +1,5 @@
 ﻿using Capstone.Core.CustomEntities;
+using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Core.Interfaces.DetectionInterfaces;
@@ -6,6 +7,7 @@ using Capstone.Core.QueryFilters;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Capstone.Core.Services
@@ -26,14 +28,21 @@ namespace Capstone.Core.Services
             return true;
         }
 
-        public PagedList<Detection> GetDetections(DetectionQueryFilter filters)
+        public IEnumerable<DetectionDto> GetDetections(DetectionQueryFilter filters)
         {
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
-            var detections = _unitOfWork.DetectionRepository.GetAll();
+            var detections = _unitOfWork.DetectionRepository.GetAllDetection();
+            if (filters.BookShelfName != null)
+            {
+                detections = detections.Where(x => x.BookShelfName.ToLower().Contains(filters.BookShelfName));
+            }
 
-            var pagedDetections = PagedList<Detection>.Create(detections, filters.PageNumber, filters.PageSize);
-            return pagedDetections;
+            if(filters.StartTime!=null && filters.EndTime != null)
+            {
+                detections = detections.Where(x => x.Time<filters.EndTime && x.Time > filters.StartTime);
+            }
+            return detections;
         }
 
         public Detection GetDetection(int id)
@@ -44,6 +53,21 @@ namespace Capstone.Core.Services
         public void InsertDetection(Detection detection)
         {
             _unitOfWork.DetectionRepository.Add(detection);
+            foreach (var drawerDetection in detection.DrawerDetection)
+            {
+                drawerDetection.IsDeleted = false;
+                foreach (var detectionError in drawerDetection.DetectionError)
+                {
+                    detectionError.IsDeleted = false;
+                    detectionError.IsConfirm = false;
+                }
+
+                foreach (var undefinedError in drawerDetection.UndefinedError)
+                {
+                    undefinedError.IsDeleted = false;
+                    undefinedError.IsConfirm = false;
+                }
+            }
             _unitOfWork.SaveChanges();
         }
 
