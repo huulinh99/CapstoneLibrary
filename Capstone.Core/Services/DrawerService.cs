@@ -67,7 +67,7 @@ namespace Capstone.Core.Services
                 barcode += "0";
             }
             barcode += barcodeId.ToString();
-            drawer.DrawerBarcode = barcode;
+            drawer.Barcode = barcode;
             _unitOfWork.DrawerRepository.Update(drawer);
             _unitOfWork.SaveChanges();
         }

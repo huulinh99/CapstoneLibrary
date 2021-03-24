@@ -8,6 +8,7 @@ using Capstone.Core.Interfaces.DetectionInterfaces;
 using Capstone.Core.Interfaces.DrawerDetectionInterfaces;
 using Capstone.Core.Interfaces.FavouriteCategoryInterfaces;
 using Capstone.Core.Interfaces.ImageInterfaces;
+using Capstone.Core.Interfaces.UndefinedErrorInterfaces;
 using Capstone.Core.Services;
 using Capstone.Infrastructure.Data;
 using Capstone.Infrastructure.Filters;
@@ -79,6 +80,7 @@ namespace Capstone.Api
             services.AddTransient<IImageService, ImageService>();
             services.AddTransient<IDetectionService, DetectionService>();
             services.AddTransient<IDetectionErrorService, DetectionErrorService>();
+            services.AddTransient<IUndefinedErrorService, UndefinedErrorService>();
             services.AddTransient<IDrawerDetectionService, DrawerDetectionService>();
             services.AddTransient<IFavouriteCategoryService, FavouriteCategoryService>();
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));

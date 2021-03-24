@@ -5,6 +5,7 @@ using Capstone.Core.Interfaces.DetectionInterfaces;
 using Capstone.Core.Interfaces.DrawerDetectionInterfaces;
 using Capstone.Core.Interfaces.FavouriteCategoryInterfaces;
 using Capstone.Core.Interfaces.ImageInterfaces;
+using Capstone.Core.Interfaces.UndefinedErrorInterfaces;
 using Capstone.Infrastructure.Data;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,7 @@ namespace Capstone.Infrastructure.Repositories
         private readonly IBorrowDetailRepository _borrowDetailRepository;
         private readonly IDetectionRepository _detectionRepository;
         private readonly IDetectionErrorRepository _detectionErrorRepository;
+        private readonly IUndefinedErrorRepository _undefinedErrorRepository;
         private readonly IDrawerDetectionRepository _drawerDetectionRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly ICustomerRepository _customerRepository;
@@ -43,16 +45,17 @@ namespace Capstone.Infrastructure.Repositories
 
         }
         public IBookRepository BookRepository => _bookRepository ?? new BookRepository(_context);
-        public IBookGroupRepository BookGroupRepository => _bookGroupRepository  ?? new BookGroupRepository(_context);
+        public IBookGroupRepository BookGroupRepository => _bookGroupRepository ?? new BookGroupRepository(_context);
         public ILocationRepository LocationRepository => _locationRepository ?? new LocationRepository(_context);
         public IBookShelfRepository BookShelfRepository => _bookShelfRepository ?? new BookShelfRepository(_context);
-        public IDrawerRepository DrawerRepository => _drawerRepository ?? new DrawerRepository(_context);       
+        public IDrawerRepository DrawerRepository => _drawerRepository ?? new DrawerRepository(_context);
         public IBorrowBookRepository BorrowBookRepository => _borrowBookRepository ?? new BorrowBookRepository(_context);
         public IStaffRepository StaffRepository => _staffRepository ?? new StaffRepository(_context);
         public IRoleRepository RoleRepository => _roleRepository ?? new RoleRepository(_context);
         public IDetectionRepository DetectionRepository => _detectionRepository ?? new DetectionRepository(_context);
         public IDrawerDetectionRepository DrawerDetectionRepository => _drawerDetectionRepository ?? new DrawerDetectionRepository(_context);
         public IDetectionErrorRepository DetectionErrorRepository => _detectionErrorRepository ?? new DetectionErrorRepository(_context);
+        public IUndefinedErrorRepository UndefinedErrorRepository => _undefinedErrorRepository ?? new UndefinedErrorRepository(_context);
         public IBorrowDetailRepository BorrowDetailRepository => _borrowDetailRepository ?? new BorrowDetailRepository(_context);
 
         public ICategoryRepository CategoryRepository => _categoryRepository ?? new CategoryRepository(_context);

@@ -66,6 +66,7 @@ namespace Capstone.Core.Services
         {
             _unitOfWork.BookShelfRepository.Add(bookShelf);
             _unitOfWork.SaveChanges();
+            List<Drawer> listDrawer = new List<Drawer>();
             for (int i = 1; i <= bookShelf.Row; i++)
             {
                 for (int j = 1; j <= bookShelf.Col; j++)
@@ -73,11 +74,27 @@ namespace Capstone.Core.Services
                     var drawerModel = new Drawer()
                     {
                         BookShelfId = bookShelf.Id,
-                        ShelfRow = i,
-                        ShelfColumn = j
+                        Row = i,
+                        Barcode = "",
+                        Col = j
                     };
                     _unitOfWork.DrawerRepository.Add(drawerModel);
+                    listDrawer.Add(drawerModel);                  
                 }                          
+            }
+            _unitOfWork.SaveChanges();
+            foreach (var drawer in listDrawer)
+            {
+                string barcodeId = drawer.Id.ToString();
+                string barcode = "KS";
+                for (int i = 0; i < 4 - barcodeId.Length; i++)
+                {
+                    barcode += "0";
+                }
+                barcode += barcodeId.ToString();
+                drawer.Barcode = barcode;
+                _unitOfWork.DrawerRepository.Update(drawer);
+                //_unitOfWork.SaveChanges();
             }
             _unitOfWork.SaveChanges();
         }

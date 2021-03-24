@@ -15,11 +15,11 @@ namespace Capstone.Infrastructure.Repositories
         public IEnumerable<DetectionDto> GetAllDetection()
         {
             var bookGroup = _entities
-                .Where(c=>c.IsDeleted==false)
+                .Where(c => c.IsDeleted == false)
                 .Select(c => new DetectionDto
                 {
                     Id = c.Id,
-                    ImageThumbnail = c.ImageThumbnail,
+                    Thumbnail = c.Thumbnail,
                     Url = c.Url,
                     StaffId = c.StaffId,
                     Time = c.Time,

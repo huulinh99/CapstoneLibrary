@@ -14,15 +14,16 @@ namespace Capstone.Infrastructure.Repositories
     public class BookRepository : BaseRepository<Book>, IBookRepository
     {
         private readonly CapstoneContext _context;
-        public BookRepository(CapstoneContext context) : base(context) {
+        public BookRepository(CapstoneContext context) : base(context)
+        {
             _context = context;
         }
         public IEnumerable<BookDto> GetAllBooks()
         {
-            return _entities.Where(x =>x.IsDeleted == false).Select(c => new BookDto
+            return _entities.Where(x => x.IsDeleted == false).Select(c => new BookDto
             {
                 Id = c.Id,
-                BarCode = c.BarCode,
+                BarCode = c.Barcode,
                 BookGroupId = c.BookGroupId,
                 IsAvailable = c.IsAvailable,
                 BookName = (c.BookGroup.Name)
@@ -34,7 +35,7 @@ namespace Capstone.Infrastructure.Repositories
             return _entities.Where(x => x.DrawerId != null && x.IsDeleted == false).Select(c => new BookDto
             {
                 Id = c.Id,
-                BarCode = c.BarCode,
+                BarCode = c.Barcode,
                 BookGroupId = c.BookGroupId,
                 IsAvailable = c.IsAvailable,
                 BookName = (c.BookGroup.Name)
@@ -43,12 +44,12 @@ namespace Capstone.Infrastructure.Repositories
 
         public IEnumerable<BookDto> GetAllBooksNotInDrawer()
         {
-            return _entities.Where(x => x.IsDeleted == false && x.DrawerId==null).Select(c => new BookDto
+            return _entities.Where(x => x.IsDeleted == false && x.DrawerId == null).Select(c => new BookDto
             {
                 Id = c.Id,
-                BarCode = c.BarCode,
+                BarCode = c.Barcode,
                 BookGroupId = c.BookGroupId,
-                IsAvailable = c.IsAvailable ,
+                IsAvailable = c.IsAvailable,
                 BookName = (c.BookGroup.Name)
             }).ToList();
         }
@@ -58,7 +59,7 @@ namespace Capstone.Infrastructure.Repositories
             return _entities.Where(x => x.IsDeleted == false && x.DrawerId != null).Select(c => new BookDto
             {
                 Id = c.Id,
-                BarCode = c.BarCode,
+                BarCode = c.Barcode,
                 BookGroupId = c.BookGroupId,
                 IsAvailable = c.IsAvailable,
                 BookName = (c.BookGroup.Name)
@@ -67,11 +68,11 @@ namespace Capstone.Infrastructure.Repositories
 
         public IEnumerable<BookDto> GetBookByBookGroup(int? bookGroupId)
         {
-            return _entities.Where(x => x.BookGroupId == bookGroupId && x.IsDeleted == false && x.DrawerId !=null)
+            return _entities.Where(x => x.BookGroupId == bookGroupId && x.IsDeleted == false && x.DrawerId != null)
                 .Select(c => new BookDto
                 {
                     Id = c.Id,
-                    BarCode = c.BarCode,
+                    BarCode = c.Barcode,
                     BookGroupId = c.BookGroupId,
                     IsAvailable = c.IsAvailable,
                     DrawerId = c.Drawer.Id,
@@ -85,11 +86,11 @@ namespace Capstone.Infrastructure.Repositories
                 .Select(c => new BookDto
                 {
                     Id = c.Id,
-                    BarCode = c.BarCode,
+                    BarCode = c.Barcode,
                     BookGroupId = c.BookGroupId,
                     IsAvailable = c.IsAvailable,
                     BookShelfName = c.Drawer.BookShelf.Name,
-                    DrawerBarCode = c.Drawer.DrawerBarcode,
+                    DrawerBarCode = c.Drawer.Barcode,
                     DrawerId = c.Drawer.Id,
                     BookName = (c.BookGroup.Name)
                 }).FirstOrDefault();
@@ -101,7 +102,7 @@ namespace Capstone.Infrastructure.Repositories
                 .Select(c => new BookDto
                 {
                     Id = c.Id,
-                    BarCode = c.BarCode,
+                    BarCode = c.Barcode,
                     BookGroupId = c.BookGroupId,
                     IsAvailable = c.IsAvailable,
                     BookName = (c.BookGroup.Name)
@@ -110,10 +111,10 @@ namespace Capstone.Infrastructure.Repositories
 
         public IEnumerable<BookDto> GetBookByBarcode(string[] barCode)
         {
-            var entities = _entities.Where(f => barCode.Contains(f.BarCode)).Select(c => new BookDto
+            var entities = _entities.Where(f => barCode.Contains(f.Barcode)).Select(c => new BookDto
             {
                 Id = c.Id,
-                BarCode = c.BarCode,
+                BarCode = c.Barcode,
                 BookGroupId = c.BookGroupId,
                 IsAvailable = c.IsAvailable,
                 DrawerId = c.DrawerId,
@@ -125,10 +126,10 @@ namespace Capstone.Infrastructure.Repositories
 
         public BookDto GetBookByBookId(int bookId)
         {
-            var entities = _entities.Where(c=>c.Id == bookId).Select(c => new BookDto
+            var entities = _entities.Where(c => c.Id == bookId).Select(c => new BookDto
             {
                 Id = c.Id,
-                BarCode = c.BarCode,
+                BarCode = c.Barcode,
                 BookGroupId = c.BookGroupId,
                 IsAvailable = c.IsAvailable,
                 DrawerId = c.DrawerId,

@@ -6,8 +6,8 @@ namespace Capstone.Core.Entities
     public partial class Feedback : BaseEntity
     {
         public string ReviewContent { get; set; }
-        public int? Rating { get; set; }
-        public int? BookGroupId { get; set; }
+        public int Rate { get; set; }
+        public int BookGroupId { get; set; }
         public int CustomerId { get; set; }
         public DateTime? CreatedDate { get; set; }
 

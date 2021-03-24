@@ -11,6 +11,7 @@ namespace Capstone.Core.DTOs
         public int DetectionId { get; set; }
         public int DrawerId { get; set; }
         public string DrawerBarcode { get; set; }
+        public int Count { get; set; }
         public string BookShelfName { get; set; }      
         public virtual ICollection<DetectionError> DetectionError { get; set; }
         public virtual ICollection<UndefinedError> UndefinedError { get; set; }

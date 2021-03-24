@@ -55,16 +55,15 @@ namespace Capstone.Core.Services
             _unitOfWork.DetectionRepository.Add(detection);
             foreach (var drawerDetection in detection.DrawerDetection)
             {
-                drawerDetection.IsDeleted = false;
                 foreach (var detectionError in drawerDetection.DetectionError)
                 {
-                    detectionError.IsDeleted = false;
+                    detectionError.IsRejected = false;
                     detectionError.IsConfirm = false;
                 }
 
                 foreach (var undefinedError in drawerDetection.UndefinedError)
                 {
-                    undefinedError.IsDeleted = false;
+                    undefinedError.IsRejected = false;
                     undefinedError.IsConfirm = false;
                 }
             }

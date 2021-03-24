@@ -9,6 +9,5 @@ namespace Capstone.Core.DTOs
         public int Id { get; set; }
         public string Name { get; set; }
         public string Color { get; set; }
-        public bool? IsRoom { get; set; }
     }
 }

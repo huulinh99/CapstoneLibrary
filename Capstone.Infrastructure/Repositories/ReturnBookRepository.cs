@@ -33,9 +33,9 @@ namespace Capstone.Infrastructure.Repositories
         public IEnumerable<ReturnBookDto> GetAllReturnGroupByMonth()
         {
             return _entities.Where(x => x.IsDeleted == false)
-                .Where(x => x.ReturnTime > DateTime.Now.AddMonths(-5) && x.ReturnTime<DateTime.Now)
-                .GroupBy(s => new { month = s.ReturnTime.Value.Month, year = s.ReturnTime.Value.Year })                
-                .Select(x => new ReturnBookDto { ReturnTime = DateTime.Parse(string.Format("{0}-{1}", x.Key.year, x.Key.month)), Fee = (float)x.Sum(s => s.Fee) })              
+                .Where(x => x.ReturnTime > DateTime.Now.AddMonths(-5) && x.ReturnTime < DateTime.Now)
+                .GroupBy(s => new { month = s.ReturnTime.Month, year = s.ReturnTime.Year })
+                .Select(x => new ReturnBookDto { ReturnTime = DateTime.Parse(string.Format("{0}-{1}", x.Key.year, x.Key.month)), Fee = (float)x.Sum(s => s.Fee) })
                 .ToList();
         }
     }

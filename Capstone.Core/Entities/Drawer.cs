@@ -10,11 +10,10 @@ namespace Capstone.Core.Entities
             Book = new HashSet<Book>();
             DrawerDetection = new HashSet<DrawerDetection>();
         }
-
-        public int? BookShelfId { get; set; }
-        public int? ShelfRow { get; set; }
-        public int? ShelfColumn { get; set; }
-        public string DrawerBarcode { get; set; }
+        public int BookShelfId { get; set; }
+        public int Row { get; set; }
+        public int Col { get; set; }
+        public string Barcode { get; set; }
 
         public virtual BookShelf BookShelf { get; set; }
         public virtual ICollection<Book> Book { get; set; }

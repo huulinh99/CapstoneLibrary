@@ -47,6 +47,9 @@ namespace Capstone.Infrastructure.Mappings
             CreateMap<DetectionError, DetectionErrorDto>();
             CreateMap<DetectionErrorDto, DetectionError>();
 
+            CreateMap<UndefinedError, UndefinedErrorDto>();
+            CreateMap<UndefinedErrorDto, UndefinedError>();
+
             CreateMap<DrawerDetection, DrawerDetectionDto>();
             CreateMap<DrawerDetectionDto, DrawerDetection>();
 

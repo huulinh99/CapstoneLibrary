@@ -1,4 +1,5 @@
 ﻿using Capstone.Core.CustomEntities;
+using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Core.QueryFilters;
@@ -32,11 +33,11 @@ namespace Capstone.Core.Services
             return _unitOfWork.FeedbackRepository.GetById(id);
         }
 
-        public PagedList<Feedback> GetFeedbacks(FeedbackQueryFilter filters)
+        public PagedList<FeedbackDto> GetFeedbacks(FeedbackQueryFilter filters)
         {
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
-            var feedbacks = _unitOfWork.FeedbackRepository.GetAll();
+            var feedbacks = _unitOfWork.FeedbackRepository.GetAllFeedback();
             if (filters.BookGroupId != null)
             {
                 feedbacks = feedbacks.Where(x => x.BookGroupId == filters.BookGroupId);
@@ -47,13 +48,13 @@ namespace Capstone.Core.Services
             }
             if (filters.Rating != null)
             {
-                feedbacks = feedbacks.Where(x => x.Rating == filters.Rating);
+                feedbacks = feedbacks.Where(x => x.Rate == filters.Rating);
             }
             if (filters.ReviewContent != null)
             {
                 feedbacks = feedbacks.Where(x => x.ReviewContent == filters.ReviewContent);
             }
-            var pagedFeedbacks = PagedList<Feedback>.Create(feedbacks, filters.PageNumber, filters.PageSize);
+            var pagedFeedbacks = PagedList<FeedbackDto>.Create(feedbacks, filters.PageNumber, filters.PageSize);
             return pagedFeedbacks;
         }
 

@@ -25,14 +25,14 @@ namespace Capstone.Infrastructure.Repositories
             {
                 for (int j = colStart; j <= colEnd; j++)
                 {
-                    var entity = _entities.Where(x => x.ShelfRow == i && x.ShelfColumn == j && x.BookShelfId == bookShelfId)
+                    var entity = _entities.Where(x => x.Row == i && x.Col == j && x.BookShelfId == bookShelfId)
                         .Select(x => new DrawerDto
                         {
                             Id = x.Id,
-                            ShelfRow = i,
-                            ShelfColumn = j,
+                            Row = i,
+                            Col = j,
                             BookShelfId = x.BookShelfId,
-                            DrawerBarcode = x.DrawerBarcode
+                            Barcode = x.Barcode
                         })
                         .FirstOrDefault();
                     list.Add(entity);
@@ -69,13 +69,13 @@ namespace Capstone.Infrastructure.Repositories
                         .Select(x => new DrawerDto
                         {
                             Id = x.Id,
-                            ShelfRow = x.ShelfRow,
-                            ShelfColumn = x.ShelfColumn,
+                            Row = x.Row,
+                            Col = x.Col,
                             BookShelfName = x.BookShelf.Name,
                             BookGroupId = book.BookGroupId,
                             BookId = book.Id,
                             BookShelfId = x.BookShelfId,
-                            DrawerBarcode = x.DrawerBarcode
+                            Barcode = x.Barcode
                         })
                         .FirstOrDefault();
                 list.Add(entity);
@@ -91,9 +91,9 @@ namespace Capstone.Infrastructure.Repositories
                     Id = c.Id,
                     BookShelfId = c.BookShelfId,
                     BookShelfName = c.BookShelf.Name,
-                    ShelfColumn = c.ShelfColumn,
-                    ShelfRow = c.ShelfRow,
-                    DrawerBarcode = c.DrawerBarcode
+                    Col = c.Col,
+                    Row = c.Row,
+                    Barcode = c.Barcode
                 }).ToList();
         }
     }

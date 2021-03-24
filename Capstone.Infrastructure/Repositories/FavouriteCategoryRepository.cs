@@ -27,7 +27,7 @@ namespace Capstone.Infrastructure.Repositories
 
         public void AddFavouriteCategory(FavouriteCategoryDto favouriteCategory)
         {
-            int?[] categoryId = favouriteCategory.CategoryId;
+            int[] categoryId = favouriteCategory.CategoryId;
             for (int i = 0; i < categoryId.Length; i++)
             {
                 var favourite = new FavouriteCategory
@@ -38,7 +38,7 @@ namespace Capstone.Infrastructure.Repositories
                     IsDeleted = false
                 };
                 _entities.Add(favourite);
-            }          
+            }
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Capstone.Infrastructure.Repositories
                 StartTime = c.StartTime,
                 EndTime = c.EndTime,
                 Quantity = c.BorrowDetail.Where(x => x.BorrowId == c.Id).Count(),
-                Total = (float)c.BorrowDetail.Sum(a=>a.Book.BookGroup.Fee) + (float)c.BorrowDetail.Sum(a => a.Book.BookGroup.Fee)
+                Total = (float)c.BorrowDetail.Sum(a => a.Book.BookGroup.Fee) + (float)c.BorrowDetail.Sum(a => a.Book.BookGroup.Fee)
             }).ToList();
         }
     }

@@ -23,7 +23,8 @@ namespace Capstone.Infrastructure.Repositories
                     DrawerDetectionId = c.DrawerDetectionId,
                     ErrorMessage = c.ErrorMessage,
                     BookName = c.Book.BookGroup.Name,
-                    BookBarcode = c.Book.BarCode,
+                    IsConfirm = c.IsConfirm,
+                    BookBarcode = c.Book.Barcode,
                     TypeError = c.TypeError
                 }).ToList();
             return bookGroup;

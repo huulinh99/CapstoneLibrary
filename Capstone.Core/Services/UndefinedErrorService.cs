@@ -2,7 +2,7 @@
 using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
-using Capstone.Core.Interfaces.DetectionErrorInterfaces;
+using Capstone.Core.Interfaces.UndefinedErrorInterfaces;
 using Capstone.Core.QueryFilters;
 using Microsoft.Extensions.Options;
 using System;
@@ -12,53 +12,53 @@ using System.Text;
 
 namespace Capstone.Core.Services
 {
-    public class DetectionErrorService : IDetectionErrorService
+    public class UndefinedErrorService : IUndefinedErrorService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly PaginationOptions _paginationOptions;
-        public DetectionErrorService(IUnitOfWork unitOfWork, IOptions<PaginationOptions> options)
+        public UndefinedErrorService(IUnitOfWork unitOfWork, IOptions<PaginationOptions> options)
         {
             _unitOfWork = unitOfWork;
             _paginationOptions = options.Value;
         }
-        public bool DeleteDetectionError(int?[] id)
+        public bool DeleteUndefinedError(int?[] id)
         {
-            _unitOfWork.DetectionErrorRepository.Delete(id);
+            _unitOfWork.UndefinedErrorRepository.Delete(id);
             _unitOfWork.SaveChanges();
             return true;
         }
 
-        public IEnumerable<DetectionErrorDto> GetDetectionErrors(DetectionErrorQueryFilter filters)
+        public IEnumerable<UndefinedErrorDto> GetUndefinedErrors(UndefinedErrorQueryFilter filters)
         {
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
-            var detectionErrors = _unitOfWork.DetectionErrorRepository.GetAllDetectionError();
+            var undefinedErrors = _unitOfWork.UndefinedErrorRepository.GetAllUndefinedError();
             if (filters.DrawerDetectionId != null)
             {
-                detectionErrors = detectionErrors.Where(x => x.DrawerDetectionId == filters.DrawerDetectionId);
+                undefinedErrors = undefinedErrors.Where(x => x.DrawerDetectionId == filters.DrawerDetectionId);
             }
 
             if (filters.IsConfirm != null)
             {
-                detectionErrors = detectionErrors.Where(x => x.IsConfirm == filters.IsConfirm);
+                undefinedErrors = undefinedErrors.Where(x => x.IsConfirm == filters.IsConfirm);
             }
-            return detectionErrors;
+            return undefinedErrors;
         }
 
-        public DetectionError GetDetectionError(int id)
+        public UndefinedError GetUndefinedError(int id)
         {
-            return _unitOfWork.DetectionErrorRepository.GetById(id);
+            return _unitOfWork.UndefinedErrorRepository.GetById(id);
         }
 
-        public void InsertDetectionError(DetectionError detectionError)
+        public void InsertUndefinedError(UndefinedError undefinedError)
         {
-            _unitOfWork.DetectionErrorRepository.Add(detectionError);
+            _unitOfWork.UndefinedErrorRepository.Add(undefinedError);
             _unitOfWork.SaveChanges();
         }
 
-        public bool UpdateDetectionError(DetectionError detectionError)
+        public bool UpdateUndefinedError(UndefinedError undefinedError)
         {
-            _unitOfWork.DetectionErrorRepository.Update(detectionError);
+            _unitOfWork.UndefinedErrorRepository.Update(undefinedError);
             _unitOfWork.SaveChangesAsync();
             return true;
         }

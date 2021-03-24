@@ -125,7 +125,7 @@ namespace Capstone.Core.Services
                 var bookModel = new Book()
                 {
                     BookGroupId = bookGroup.Id,
-                    BarCode = null,
+                    Barcode = "",
                     IsDeleted = false,
                     IsAvailable = true
                 };
@@ -133,7 +133,7 @@ namespace Capstone.Core.Services
                 listBook.Add(bookModel);
             }
             _unitOfWork.SaveChanges();
-            char[] prefixs = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 
+            char[] prefixs = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
                 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W','X', 'Y', 'Z' };
             foreach (var bookDto in listBook)
             {
@@ -147,7 +147,7 @@ namespace Capstone.Core.Services
                 {
                     sum += int.Parse(barcodeId.ElementAt(i).ToString());
                 }
-                for (int i = 0; i < 4-barcodeId.Length; i++)
+                for (int i = 0; i < 4 - barcodeId.Length; i++)
                 {
                     barcode += "0";
                 }
@@ -158,7 +158,7 @@ namespace Capstone.Core.Services
                 }
                 barcode += sum.ToString();
                 bookDto.BookGroupId = bookGroup.Id;
-                bookDto.BarCode = barcode;
+                bookDto.Barcode = barcode;
                 bookDto.IsDeleted = false;
                 bookDto.IsAvailable = true;
                 var book = _mapper.Map<Book>(bookDto);
@@ -206,15 +206,15 @@ namespace Capstone.Core.Services
             bookGroupDto.PunishFee = bookGroup.PunishFee;
             bookGroupDto.Quantity = bookGroup.Quantity;
             bookGroupDto.Author = bookGroup.Author;
-            bookGroupDto.PublishingPlace = bookGroup.PublishingPlace;
-            bookGroupDto.PublishingCompany = bookGroup.PublishingCompany;
+            bookGroupDto.PublishPlace = bookGroup.PublishPlace;
+            bookGroupDto.PublishCompany = bookGroup.PublishCompany;
             bookGroupDto.PublishDate = bookGroup.PublishDate;
             bookGroupDto.Description = bookGroup.Description;
             bookGroupDto.PageNumber = bookGroup.PageNumber;
             bookGroupDto.Height = bookGroup.Height;
             bookGroupDto.Width = bookGroup.Width;
             bookGroupDto.Thick = bookGroup.Thick;
-            bookGroupDto.PublishNumber = bookGroup.PublishNumber;
+            bookGroupDto.Edition = bookGroup.Edition;
             bookGroupDto.IsDeleted = false;
             _unitOfWork.BookGroupRepository.Update(bookGroupDto);
             _unitOfWork.SaveChanges();

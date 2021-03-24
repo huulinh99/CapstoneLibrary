@@ -1,4 +1,5 @@
 ﻿using Capstone.Core.CustomEntities;
+using Capstone.Core.DTOs;
 using Capstone.Core.Entities;
 using Capstone.Core.QueryFilters;
 using System;
@@ -10,7 +11,7 @@ namespace Capstone.Core.Interfaces
 {
     public interface IFeedbackService
     {
-        PagedList<Feedback> GetFeedbacks(FeedbackQueryFilter filters);
+        PagedList<FeedbackDto> GetFeedbacks(FeedbackQueryFilter filters);
         Feedback GetFeedback(int id);
         void InsertFeedback(Feedback feedback);
         bool UpdateFeedback(Feedback feedback);

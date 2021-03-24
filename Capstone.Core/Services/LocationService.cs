@@ -48,11 +48,6 @@ namespace Capstone.Core.Services
             {
                 locations = locations.Where(x => x.Name.ToLower().Contains(filters.Name.ToLower()));
             }
-
-            if (filters.IsRoom != null)
-            {
-                locations = locations.Where(x => x.IsRoom == filters.IsRoom);
-            }
             var pagedLocations = PagedList<Location>.Create(locations, filters.PageNumber, filters.PageSize);
             return pagedLocations;
         }

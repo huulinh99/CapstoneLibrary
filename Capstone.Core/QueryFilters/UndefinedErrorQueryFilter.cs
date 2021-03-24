@@ -4,11 +4,11 @@ using System.Text;
 
 namespace Capstone.Core.QueryFilters
 {
-    public class DetectionErrorQueryFilter
+    public class UndefinedErrorQueryFilter
     {
         public int? DrawerDetectionId { get; set; }
         public string ErrorMessage { get; set; }
-        public int? BookId { get; set; }
+        public int? TypeError { get; set; }
         public bool? IsConfirm { get; set; }
         public int PageSize { get; set; }
 

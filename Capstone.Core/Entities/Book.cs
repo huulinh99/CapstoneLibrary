@@ -12,9 +12,9 @@ namespace Capstone.Core.Entities
             ReturnDetail = new HashSet<ReturnDetail>();
         }
 
-        public int? BookGroupId { get; set; }
-        public string BarCode { get; set; }
-        public bool? IsAvailable { get; set; }
+        public int BookGroupId { get; set; }
+        public string Barcode { get; set; }
+        public bool IsAvailable { get; set; }
         public int? DrawerId { get; set; }
 
         public virtual BookGroup BookGroup { get; set; }

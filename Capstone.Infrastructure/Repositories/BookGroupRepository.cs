@@ -29,8 +29,8 @@ namespace Capstone.Infrastructure.Repositories
                 PunishFee = c.PunishFee,
                 Quantity = c.Quantity,
                 Author = c.Author,
-                PublishingPlace = c.PublishingPlace,
-                PublishingCompany = c.PublishingCompany,
+                PublishPlace = c.PublishPlace,
+                PublishCompany = c.PublishCompany,
                 PublishDate = c.PublishDate,
                 Description = c.Description,
                 PageNumber = c.PageNumber,
@@ -39,7 +39,7 @@ namespace Capstone.Infrastructure.Repositories
                 Height = c.Height,
                 Width = c.Width,
                 Thick = c.Thick,
-                PublishNumber = c.PublishNumber,
+                Edition = c.Edition,
                 Image = c.Image.Where(x => x.IsDeleted == false).ToList()
             }).ToList();
         }
@@ -58,17 +58,17 @@ namespace Capstone.Infrastructure.Repositories
                         PunishFee = c.PunishFee,
                         Quantity = c.Quantity,
                         Author = c.Author,
-                        PublishingPlace = c.PublishingPlace,
-                        PublishingCompany = c.PublishingCompany,
+                        PublishPlace = c.PublishPlace,
+                        PublishCompany = c.PublishCompany,
                         PublishDate = c.PublishDate,
                         Description = c.Description,
-                        PageNumber = c.PageNumber,
+                        PageNumber = c.Edition,
                         Height = c.Height,
                         Width = c.Width,
                         StaffId = c.StaffId,
                         StaffName = c.Staff.Name,
                         Thick = c.Thick,
-                        PublishNumber = c.PublishNumber,
+                        Edition = c.Edition,
                         Image = c.Image.Where(x => x.IsDeleted == false).ToList()
                     }).FirstOrDefault();
                 bookGroups.Add(bookGroup);
@@ -109,20 +109,20 @@ namespace Capstone.Infrastructure.Repositories
                     PunishFee = c.PunishFee,
                     Quantity = c.Quantity,
                     Author = c.Author,
-                    PublishingPlace = c.PublishingPlace,
-                    PublishingCompany = c.PublishingCompany,
+                    PublishPlace = c.PublishPlace,
+                    PublishCompany = c.PublishCompany,
                     PublishDate = c.PublishDate,
                     Description = c.Description,
                     StaffId = c.StaffId,
                     StaffName = c.Staff.Name,
-                    PageNumber = c.PageNumber,
+                    PageNumber = c.Edition,
                     Height = c.Height,
                     Width = c.Width,
                     Thick = c.Thick,
-                    PublishNumber = c.PublishNumber,
+                    Edition = c.Edition,
                     Image = c.Image.Where(x => x.IsDeleted == false).ToList(),
                     Category = categories,
-                    RatingAverage = Math.Round((double)c.Feedback.Sum(x => x.Rating) / (c.Feedback.Count), 2),
+                    RatingAverage = Math.Round((double)c.Feedback.Sum(x => x.Rate) / (c.Feedback.Count), 2),
                     Rating = ratings
                 }).FirstOrDefault();
             return bookGroup;
@@ -161,19 +161,19 @@ namespace Capstone.Infrastructure.Repositories
                      PunishFee = c.PunishFee,
                      Quantity = c.Quantity,
                      Author = c.Author,
-                     PublishingPlace = c.PublishingPlace,
-                     PublishingCompany = c.PublishingCompany,
+                     PublishPlace = c.PublishPlace,
+                     PublishCompany = c.PublishCompany,
                      PublishDate = c.PublishDate,
                      Description = c.Description,
-                     PageNumber = c.PageNumber,
+                     PageNumber = c.Edition,
                      Height = c.Height,
                      StaffId = c.StaffId,
                      StaffName = c.Staff.Name,
                      Width = c.Width,
                      Thick = c.Thick,
-                     PublishNumber = c.PublishNumber,
+                     Edition = c.Edition,
                      Image = c.Image.Where(x => x.IsDeleted == false).ToList(),
-                     RatingAverage = Math.Round((double)c.Feedback.Sum(x => x.Rating) / (c.Feedback.Count), 2)
+                     RatingAverage = Math.Round((double)c.Feedback.Sum(x => x.Rate) / (c.Feedback.Count), 2)
                  }).FirstOrDefault();
                     tmp.Add(bookGroupDto);
                 }
@@ -188,20 +188,20 @@ namespace Capstone.Infrastructure.Repositories
                         PunishFee = c.PunishFee,
                         Quantity = c.Quantity,
                         Author = c.Author,
-                        PublishingPlace = c.PublishingPlace,
-                        PublishingCompany = c.PublishingCompany,
+                        PublishPlace = c.PublishPlace,
+                        PublishCompany = c.PublishCompany,
                         PublishDate = c.PublishDate,
                         Description = c.Description,
-                        PageNumber = c.PageNumber,
+                        PageNumber = c.Edition,
                         Height = c.Height,
                         Width = c.Width,
                         StaffId = c.StaffId,
                         StaffName = c.Staff.Name,
                         Thick = c.Thick,
-                        PublishNumber = c.PublishNumber,
+                        Edition = c.Edition,
                         Image = c.Image.Where(x => x.IsDeleted == false).ToList(),
                         Category = cateTmp.listRecord,
-                        RatingAverage = Math.Round((double)c.Feedback.Sum(x => x.Rating) / (c.Feedback.Count), 2)
+                        RatingAverage = Math.Round((double)c.Feedback.Sum(x => x.Rate) / (c.Feedback.Count), 2)
                     }).FirstOrDefault();
 
                     tmp.Add(bookGroupDto);
@@ -227,17 +227,17 @@ namespace Capstone.Infrastructure.Repositories
                     PunishFee = c.PunishFee,
                     Quantity = c.Quantity,
                     Author = c.Author,
-                    PublishingPlace = c.PublishingPlace,
-                    PublishingCompany = c.PublishingCompany,
+                    PublishPlace = c.PublishPlace,
+                    PublishCompany = c.PublishCompany,
                     PublishDate = c.PublishDate,
                     Description = c.Description,
-                    PageNumber = c.PageNumber,
+                    PageNumber = c.Edition,
                     Height = c.Height,
                     StaffId = c.StaffId,
                     StaffName = c.Staff.Name,
                     Width = c.Width,
                     Thick = c.Thick,
-                    PublishNumber = c.PublishNumber,
+                    Edition = c.Edition,
                     IsDeleted = c.IsDeleted,
                     Image = c.Image.Where(x => x.IsDeleted == false).ToList()
                 }).ToList();
@@ -258,17 +258,17 @@ namespace Capstone.Infrastructure.Repositories
                     PunishFee = c.PunishFee,
                     Quantity = c.Quantity,
                     Author = c.Author,
-                    PublishingPlace = c.PublishingPlace,
-                    PublishingCompany = c.PublishingCompany,
+                    PublishPlace = c.PublishPlace,
+                    PublishCompany = c.PublishCompany,
                     PublishDate = c.PublishDate,
                     Description = c.Description,
-                    PageNumber = c.PageNumber,
+                    PageNumber = c.Edition,
                     Height = c.Height,
                     Width = c.Width,
                     StaffId = c.StaffId,
                     StaffName = c.Staff.Name,
                     Thick = c.Thick,
-                    PublishNumber = c.PublishNumber,
+                    Edition = c.Edition,
                     Image = c.Image.Where(x => x.IsDeleted == false).ToList()
                 }).ToList();
             return bookGroup;

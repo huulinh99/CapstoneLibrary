@@ -10,11 +10,11 @@ namespace Capstone.Core.Entities
             ReturnDetail = new HashSet<ReturnDetail>();
         }
 
-        public int? CustomerId { get; set; }
-        public DateTime? ReturnTime { get; set; }
-        public int? BorrowId { get; set; }
-        public int? StaffId { get; set; }
-        public double? Fee { get; set; }
+        public int CustomerId { get; set; }
+        public DateTime ReturnTime { get; set; }
+        public int BorrowId { get; set; }
+        public int StaffId { get; set; }
+        public double Fee { get; set; }
 
         public virtual BorrowBook Borrow { get; set; }
         public virtual Customer Customer { get; set; }

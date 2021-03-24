@@ -62,12 +62,12 @@ namespace Capstone.Infrastructure.Repositories
 
         public IEnumerable<BorrowDetailDto> GetBorrowDetailWithCount()
         {
-            return _entities.Include(c => c.Book).Where(x => x.IsDeleted == false).GroupBy(x=>x.Book.BookGroupId).Select(c => new BorrowDetailDto
+            return _entities.Include(c => c.Book).Where(x => x.IsDeleted == false).GroupBy(x => x.Book.BookGroupId).Select(c => new BorrowDetailDto
             {
                 BookId = c.Key,
-                Count = c.Count()              
+                Count = c.Count()
             }).ToList();
-        }   
+        }
 
         public IEnumerable<BorrowDetailDto> GetBorrowDetailWithListBorrow(IEnumerable<BorrowBookDto> borrowBooks)
         {
@@ -90,7 +90,7 @@ namespace Capstone.Infrastructure.Repositories
                 foreach (var borrowBookDto in borrowBookDtos)
                 {
                     borrowDetails.Add(borrowBookDto);
-                }               
+                }
             }
             return borrowDetails;
         }

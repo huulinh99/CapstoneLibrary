@@ -21,9 +21,10 @@ namespace Capstone.Infrastructure.Repositories
                     Id = c.Id,
                     //DetectionError = c.DetectionError,
                     DetectionId = c.DetectionId,
+                    Count = c.UndefinedError.Count + c.DetectionError.Count,
                     BookShelfName = c.Drawer.BookShelf.Name,
                     DrawerId = c.DrawerId,
-                    DrawerBarcode = c.Drawer.DrawerBarcode
+                    DrawerBarcode = c.Drawer.Barcode
                 }).ToList();
             return bookGroup;
         }

@@ -42,7 +42,7 @@ namespace Capstone.Core.Services
                 borrowBooks = borrowBooks.Where(x => x.CustomerId == filters.CustomerId);
             }
 
-            if(filters.IsNewest == true)
+            if (filters.IsNewest == true)
             {
                 borrowBooks = borrowBooks.OrderByDescending(x => x.Id).Take(5);
             }
@@ -86,7 +86,7 @@ namespace Capstone.Core.Services
                 borrowDetail.IsDeleted = false;
                 bookGroups.Add(bg);
             }
-            _unitOfWork.BorrowBookRepository.Add(borrowBook);          
+            _unitOfWork.BorrowBookRepository.Add(borrowBook);
             List<IEnumerable<BookCategory>> bookCategories = new List<IEnumerable<BookCategory>>();
             foreach (var bookGroup in bookGroups)
             {
@@ -114,7 +114,7 @@ namespace Capstone.Core.Services
                             _unitOfWork.FavouriteCategoryRepository.Update(favouriteCategory);
                         }
                     }
-                    
+
                 }
             }
             _unitOfWork.SaveChanges();

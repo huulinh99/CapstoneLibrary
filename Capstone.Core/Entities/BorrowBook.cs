@@ -11,10 +11,10 @@ namespace Capstone.Core.Entities
             ReturnBook = new HashSet<ReturnBook>();
         }
 
-        public int? CustomerId { get; set; }
+        public int CustomerId { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
-        public int? StaffId { get; set; }
+        public int StaffId { get; set; }
 
         public virtual Customer Customer { get; set; }
         public virtual Staff Staff { get; set; }

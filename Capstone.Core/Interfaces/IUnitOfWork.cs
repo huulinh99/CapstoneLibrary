@@ -4,6 +4,7 @@ using Capstone.Core.Interfaces.DetectionInterfaces;
 using Capstone.Core.Interfaces.DrawerDetectionInterfaces;
 using Capstone.Core.Interfaces.FavouriteCategoryInterfaces;
 using Capstone.Core.Interfaces.ImageInterfaces;
+using Capstone.Core.Interfaces.UndefinedErrorInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,6 +23,7 @@ namespace Capstone.Core.Interfaces
         IBorrowBookRepository BorrowBookRepository { get; }
         IDetectionRepository DetectionRepository { get; }
         IDetectionErrorRepository DetectionErrorRepository { get; }
+        IUndefinedErrorRepository UndefinedErrorRepository { get; }
         IDrawerDetectionRepository DrawerDetectionRepository { get; }
         IRoleRepository RoleRepository { get; }
         IBorrowDetailRepository BorrowDetailRepository { get; }

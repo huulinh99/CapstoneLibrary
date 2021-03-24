@@ -8,8 +8,10 @@ namespace Capstone.Core.DTOs
     {
         public int Id { get; set; }
         public string ReviewContent { get; set; }
-        public int? Rating { get; set; }
+        public int? Rate { get; set; }
         public int? BookGroupId { get; set; }
+        public string CustomerName { get; set; }
+        public string Image { get; set; }
         public int CustomerId { get; set; }
     }
 }

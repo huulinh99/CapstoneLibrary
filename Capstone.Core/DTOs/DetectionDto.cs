@@ -10,8 +10,9 @@ namespace Capstone.Core.DTOs
         public int Id { get; set; }
         public int StaffId { get; set; }
         public string BookShelfName { get; set; }
+        public int BookShelfId { get; set; }
         public string Url { get; set; }
-        public string ImageThumbnail { get; set; }
+        public string Thumbnail { get; set; }
         public string DrawerName { get; set; }
         public DateTime? Time { get; set; }
         public string StaffName { get; set; }

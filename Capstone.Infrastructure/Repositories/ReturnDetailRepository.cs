@@ -15,7 +15,7 @@ namespace Capstone.Infrastructure.Repositories
 
         public ReturnDetailDto GetCustomerByBookId(int? bookId)
         {
-            var entities = _entities.Where(c => c.BookId == bookId).OrderBy(c=>c.Id).Select(c => new ReturnDetailDto
+            var entities = _entities.Where(c => c.BookId == bookId).OrderBy(c => c.Id).Select(c => new ReturnDetailDto
             {
                 Id = c.Id,
                 ReturnId = c.ReturnId,
