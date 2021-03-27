@@ -28,7 +28,7 @@ namespace Capstone.Core.Services
             return true;
         }
 
-        public IEnumerable<DetectionDto> GetDetections(DetectionQueryFilter filters)
+        public PagedList<DetectionDto> GetDetections(DetectionQueryFilter filters)
         {
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
@@ -42,7 +42,9 @@ namespace Capstone.Core.Services
             {
                 detections = detections.Where(x => x.Time<filters.EndTime && x.Time > filters.StartTime);
             }
-            return detections;
+
+            var pagedDetections = PagedList<DetectionDto>.Create(detections, filters.PageNumber, filters.PageSize);
+            return pagedDetections;
         }
 
         public Detection GetDetection(int id)

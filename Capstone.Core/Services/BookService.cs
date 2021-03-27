@@ -125,8 +125,12 @@ namespace Capstone.Core.Services
         public bool UpdateBook(Book book)
         {
             //var entity = _unitOfWork.BookRepository.GetById(book.Id);
-            //entity.DrawerId = book.DrawerId;
-            _unitOfWork.BookRepository.Update(book);
+            //entity.DrawerId = book.DrawerId;         
+            var tmp = _unitOfWork.BookRepository.GetById(book.Id);
+            tmp.IsAvailable = book.IsAvailable;
+            tmp.IsDeleted = book.IsDeleted;
+            tmp.DrawerId = book.DrawerId;
+            _unitOfWork.BookRepository.Update(tmp);
             _unitOfWork.SaveChanges();
             return true;
         }

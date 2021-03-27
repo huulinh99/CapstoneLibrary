@@ -9,5 +9,6 @@ namespace Capstone.Core.Hubs.Clients
     {
         Task ReceiveMessage(Message message);
         Task ReceiveMessageToReturn(MessageReturn messageReturn);
+        Task ReceiveMessageToBorrow(MessageBorrow messageBorrow);
     }
 }

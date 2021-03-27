@@ -86,6 +86,8 @@ namespace Capstone.Infrastructure.Data
 
             modelBuilder.Entity<BookGroup>(entity =>
             {
+                entity.Property(e => e.CreatedDate).HasColumnType("date");
+
                 entity.Property(e => e.Name).IsRequired();
 
                 entity.Property(e => e.PublishDate).HasColumnType("date");
@@ -228,6 +230,10 @@ namespace Capstone.Infrastructure.Data
                     .IsRequired()
                     .HasMaxLength(20)
                     .IsFixedLength();
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(20);
 
                 entity.HasOne(d => d.BookShelf)
                     .WithMany(p => p.Drawer)

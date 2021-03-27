@@ -7,6 +7,7 @@ using Capstone.Core.QueryFilters;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -73,6 +74,17 @@ namespace Capstone.Core.Services
             foreach (var returnDetail in returnBook.ReturnDetail)
             {
                 var book = _unitOfWork.BookRepository.GetById(returnDetail.BookId);
+                var bookGroupId = _unitOfWork.BookRepository.GetById(returnDetail.BookId).BookGroupId;
+                var bg = _unitOfWork.BookGroupRepository.GetById(bookGroupId);
+                var startTime = _unitOfWork.BorrowBookRepository.GetById(returnBook.BorrowId).StartTime;
+                returnDetail.Fee = bg.Fee * (returnBook.ReturnTime - startTime).Days;
+                if((returnBook.ReturnTime - startTime).Days > 7)
+                {
+                    returnDetail.PunishFee = bg.PunishFee * ((returnBook.ReturnTime - startTime).Days-7);
+                    returnDetail.IsLate = true; 
+                }
+                returnBook.Fee += (returnDetail.Fee + returnDetail.PunishFee);
+                //Debug.WriteLine((returnBook.ReturnTime - startTime).Days);
                 returnDetail.IsDeleted = false;
                 book.IsAvailable = true;
             }

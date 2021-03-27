@@ -45,6 +45,24 @@ namespace Capstone.Api.Controllers
             //string str = request.QueryString.ToString();
             //string stringBeforeChar = str.Substring(0, str.IndexOf("&"));
             var detections = _detectionService.GetDetections(filters);
+            var detectionsDtos = _mapper.Map<IEnumerable<DetectionDto>>(detections);
+            var metadata = new Metadata
+            {
+                TotalCount = detections.TotalCount,
+                PageSize = detections.PageSize,
+                CurrentPage = detections.CurrentPage,
+                TotalPages = detections.TotalPages,
+                HasNextPage = detections.HasNextPage,
+                HasPreviousPage = detections.HasPreviousPage
+            };
+
+            var response = new ApiResponse<IEnumerable<DetectionDto>>(detectionsDtos)
+            {
+                Meta = metadata
+            };
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+
+            return Ok(response);
             //var detectionsDto = _mapper.Map<IEnumerable<DetectionDto>>(detections);
             //var nextPage = bookGroups.CurrentPage >= 1 && bookGroups.CurrentPage < bookGroups.TotalCount
             //               ? _uriService.GetPageUri(bookGroups.CurrentPage + 1, bookGroups.PageSize, _uriService.GetBookGroupPaginationUri(filters, Url.RouteUrl(nameof(GetBookGroups))).ToString() + stringBeforeChar)

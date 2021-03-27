@@ -66,6 +66,8 @@ namespace Capstone.Core.Services
         {
             _unitOfWork.BookShelfRepository.Add(bookShelf);
             _unitOfWork.SaveChanges();
+            char[] prefixs = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
+                'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W','X', 'Y', 'Z' };
             List<Drawer> listDrawer = new List<Drawer>();
             for (int i = 1; i <= bookShelf.Row; i++)
             {
@@ -75,6 +77,7 @@ namespace Capstone.Core.Services
                     {
                         BookShelfId = bookShelf.Id,
                         Row = i,
+                        Name = prefixs[i-1].ToString() + i.ToString(),
                         Barcode = "",
                         Col = j
                     };

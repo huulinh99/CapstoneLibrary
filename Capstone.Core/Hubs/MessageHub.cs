@@ -19,6 +19,11 @@ namespace Capstone.Core.Hubs
         {
             await Clients.All.ReceiveMessageToReturn(messageReturn);
         }
+
+        public async Task SendMessageToBorrow(MessageBorrow messageBorrow)
+        {
+            await Clients.All.ReceiveMessageToBorrow(messageBorrow);
+        }
         public override Task OnConnectedAsync()
         {
             return base.OnConnectedAsync();

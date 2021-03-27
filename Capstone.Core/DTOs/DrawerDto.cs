@@ -15,5 +15,6 @@ namespace Capstone.Core.DTOs
         public int? BookGroupId { get; set; }
         public int? Col { get; set; }
         public string Barcode { get; set; }
+        public string Name { get; set; }
     }
 }

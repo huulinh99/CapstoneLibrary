@@ -65,10 +65,13 @@ namespace Capstone.Api.Controllers
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Authentication:SecretKey"]));
             var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
             var header = new JwtHeader(signingCredentials);
-
+            if (user.DeviceToken == null)
+            {
+                user.DeviceToken = "";
+            }
             //Claims
             var claims = new[]
-            {
+            {              
                 new Claim("id", user.Id.ToString()),
                 new Claim("name", user.Name),
                 new Claim("image", user.Image),

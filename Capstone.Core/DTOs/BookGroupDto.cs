@@ -25,6 +25,7 @@ namespace Capstone.Core.DTOs
         public string StaffName { get; set; }
         public int StaffId { get; set; }
         public bool IsDeleted { get; set; }
+        public DateTime? CreatedDate { get; set; }
         public string[] cate { get; set; }
         public virtual ICollection<CategoryDto> Category { get; set; }
         public virtual ICollection<BookCategoryDto> BookCategory { get; set; }

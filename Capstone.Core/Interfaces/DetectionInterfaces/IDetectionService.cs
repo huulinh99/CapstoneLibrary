@@ -10,7 +10,7 @@ namespace Capstone.Core.Interfaces.DetectionInterfaces
 {
     public interface IDetectionService
     {
-        IEnumerable<DetectionDto> GetDetections(DetectionQueryFilter filters);
+        PagedList<DetectionDto> GetDetections(DetectionQueryFilter filters);
         Detection GetDetection(int id);
         void InsertDetection(Detection detection);
         bool UpdateDetection(Detection detection);

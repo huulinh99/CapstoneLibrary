@@ -5,6 +5,7 @@ using Capstone.Core.Entities;
 using Capstone.Core.Interfaces;
 using Capstone.Core.QueryFilters;
 using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -108,6 +109,7 @@ namespace Capstone.Core.Services
 
         public void InsertBookGroup(BookGroup bookGroup)
         {
+            bookGroup.CreatedDate = DateTime.UtcNow;
             _unitOfWork.BookGroupRepository.Add(bookGroup);
             _unitOfWork.SaveChanges();
             foreach (var bookCategory in bookGroup.BookCategory)

@@ -32,6 +32,7 @@ namespace Capstone.Infrastructure.Repositories
                             Row = i,
                             Col = j,
                             BookShelfId = x.BookShelfId,
+                            Name = x.Name,
                             Barcode = x.Barcode
                         })
                         .FirstOrDefault();

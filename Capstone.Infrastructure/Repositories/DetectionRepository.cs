@@ -25,7 +25,7 @@ namespace Capstone.Infrastructure.Repositories
                     Time = c.Time,
                     BookShelfName = c.BookShelf.Name,
                     StaffName = c.Staff.Name,
-                }).ToList();
+                }).OrderByDescending(c=>c.Id).ToList();
             return bookGroup;
         }
     }
