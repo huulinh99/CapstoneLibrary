@@ -34,7 +34,7 @@ namespace Capstone.Infrastructure.Repositories
 
         public IEnumerable<T> GetAll()
         {
-            return _entities.Where(x => x.IsDeleted == false).AsEnumerable().ToList();
+            return _entities.Where(x => x.IsDeleted == false).OrderByDescending(x => x.Id).AsEnumerable().ToList();
         }
 
         public T GetById(int? id)

@@ -65,7 +65,7 @@ namespace Capstone.Core.Services
   
             if (filters.IsInDrawer == true)
             {
-                books = _unitOfWork.BookRepository.GetAllBooksInDrawer();
+                books = books.Where(x => x.DrawerId != null);
             }
 
             if (filters.IsAvailable == true)
@@ -95,7 +95,7 @@ namespace Capstone.Core.Services
 
             if (filters.IsInDrawer == false)
             {
-                books = _unitOfWork.BookRepository.GetAllBooksNotInDrawer();
+                books = books.Where(x => x.DrawerId == null);
             }
 
             if (filters.BookGroupId != null)
@@ -110,7 +110,7 @@ namespace Capstone.Core.Services
 
             if (filters.DrawerId != null)
             {
-                books = _unitOfWork.BookRepository.GetBookByDrawer(filters.DrawerId);
+                books = books.Where(x => x.DrawerId == filters.DrawerId);
             }
             var pagedBooks = PagedList<BookDto>.Create(books, filters.PageNumber, filters.PageSize);
             return pagedBooks;

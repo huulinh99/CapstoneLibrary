@@ -43,9 +43,9 @@ namespace Capstone.Core.Services
                 returnDetails = returnDetails.Where(x => x.CustomerId == filters.CustomerId);
             }
 
-            if (filters.ByMonth != null)
+            if (filters.IsLate != null)
             {
-                
+                returnDetails = returnDetails.Where(x => x.IsLate == filters.IsLate);
             }
 
             if (filters.BookId != null)

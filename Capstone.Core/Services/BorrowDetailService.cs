@@ -53,6 +53,12 @@ namespace Capstone.Core.Services
                 borrowDetails = borrowDetails.Where(x => x.BorrowId == filters.BorrowId);
             }
 
+            if (filters.Barcode != null)
+            {
+                var borrowId = borrowDetails.Where(x => x.Barcode == filters.Barcode).Last().BorrowId;
+                borrowDetails = borrowDetails.Where(x => x.BorrowId == borrowId);
+            }
+
             if (filters.BookId != null)
             {
                 borrowDetails = borrowDetails.Where(x => x.BookId == filters.BookId);

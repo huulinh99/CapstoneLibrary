@@ -11,7 +11,6 @@ namespace Capstone.Core.QueryFilters
         public double? PunishFee { get; set; }
         public int? CustomerId { get; set; }
         public double? Fee { get; set; }
-        public bool? ByMonth { get; set; }
         public int? ReturnId { get; set; }
         public int PageSize { get; set; }
 

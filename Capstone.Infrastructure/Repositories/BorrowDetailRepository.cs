@@ -15,34 +15,25 @@ namespace Capstone.Infrastructure.Repositories
         public BorrowDetailRepository(CapstoneContext context) : base(context) { }
         public IEnumerable<BorrowDetailDto> GetAllBorrowDetailAndBookName()
         {
-            return _entities.Include(c => c.Book).Where(x => x.IsDeleted == false).Select(c => new BorrowDetailDto
+            return _entities.Include(x=>x.Book).Where(x => x.IsDeleted == false).Select(c => new BorrowDetailDto
             {
                 Id = c.Id,
                 BookId = c.BookId,
                 BookName = c.Book.BookGroup.Name,
                 BorrowId = c.BorrowId,
                 Author = c.Book.BookGroup.Author,
+                Barcode = c.Book.Barcode,
                 Fee = c.Book.BookGroup.Fee,
                 Image = c.Book.BookGroup.Image.Where(x => x.IsDeleted == false).FirstOrDefault().Url,
                 StartTime = c.Borrow.StartTime,
+                IsReturn = c.IsReturn,
                 ReturnTime = c.Borrow.EndTime,
                 PunishFee = c.Book.BookGroup.PunishFee
-            }).ToList();
+            }).OrderBy(c=>c.BorrowId).ToList();
         }
-        public IEnumerable<BorrowDetailDto> GetAllBorrowDetail(int? borrowId)
+        public IEnumerable<BorrowDetail> GetAllBorrowDetail(int? borrowId)
         {
-            return _entities.Include(c => c.Book).Where(x => x.IsDeleted == false).Select(c => new BorrowDetailDto
-            {
-                Id = c.Id,
-                BookId = c.BookId,
-                BookName = c.Book.BookGroup.Name,
-                BorrowId = c.BorrowId,
-                Author = c.Book.BookGroup.Author,
-                Fee = c.Book.BookGroup.Fee,
-                Image = c.Book.BookGroup.Image.Where(x => x.IsDeleted == false).FirstOrDefault().Url,
-                StartTime = c.Borrow.StartTime,
-                PunishFee = c.Book.BookGroup.PunishFee
-            }).ToList();
+            return _entities.Where(x => x.IsDeleted == false && x.BorrowId == borrowId).ToList();
         }
         public IEnumerable<BorrowDetailDto> GetBorrowDetailWithFee(int? borrowId)
         {
@@ -51,6 +42,7 @@ namespace Capstone.Infrastructure.Repositories
                 Id = c.Id,
                 BookId = c.BookId,
                 BookName = c.Book.BookGroup.Name,
+                IsReturn = c.IsReturn,
                 BorrowId = c.BorrowId,
                 Author = c.Book.BookGroup.Author,
                 Fee = c.Book.BookGroup.Fee,
@@ -81,6 +73,7 @@ namespace Capstone.Infrastructure.Repositories
                     BookName = c.Book.BookGroup.Name,
                     BorrowId = c.BorrowId,
                     Author = c.Book.BookGroup.Author,
+                    IsReturn = c.IsReturn,
                     Fee = c.Book.BookGroup.Fee,
                     Image = c.Book.BookGroup.Image.Where(x => x.IsDeleted == false).FirstOrDefault().Url,
                     StartTime = c.Borrow.StartTime,
@@ -102,6 +95,7 @@ namespace Capstone.Infrastructure.Repositories
                 Id = c.Id,
                 BorrowId = c.BorrowId,
                 BookId = c.BookId,
+                IsReturn = c.IsReturn,
                 CustomerId = c.Borrow.CustomerId
             }).LastOrDefault();
             return entities;

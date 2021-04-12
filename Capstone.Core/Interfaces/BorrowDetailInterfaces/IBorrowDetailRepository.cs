@@ -9,6 +9,7 @@ namespace Capstone.Core.Interfaces
     public interface IBorrowDetailRepository : IRepository<BorrowDetail>
     {
         IEnumerable<BorrowDetailDto> GetBorrowDetailWithFee(int? borrowId);
+        IEnumerable<BorrowDetail> GetAllBorrowDetail(int? borrowId);
         IEnumerable<BorrowDetailDto> GetAllBorrowDetailAndBookName();
         IEnumerable<BorrowDetailDto> GetBorrowDetailWithListBorrow(IEnumerable<BorrowBookDto> borrowBooks);
         BorrowDetailDto GetCustomerByBookId(int? bookId);

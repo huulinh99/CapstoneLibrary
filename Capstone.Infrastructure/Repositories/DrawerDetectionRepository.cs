@@ -21,6 +21,8 @@ namespace Capstone.Infrastructure.Repositories
                     Id = c.Id,
                     //DetectionError = c.DetectionError,
                     DetectionId = c.DetectionId,
+                    DrawerName = c.Drawer.Name,
+                    BookCount = c.Drawer.Book.Count,
                     Count = c.UndefinedError.Count + c.DetectionError.Count,
                     BookShelfName = c.Drawer.BookShelf.Name,
                     DrawerId = c.DrawerId,

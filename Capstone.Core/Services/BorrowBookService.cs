@@ -46,12 +46,14 @@ namespace Capstone.Core.Services
             {
                 borrowBooks = borrowBooks.OrderByDescending(x => x.Id).Take(5);
             }
-
             if (filters.CustomerName != null)
             {
                 borrowBooks = borrowBooks.Where(x => x.CustomerName.ToLower().Contains(filters.CustomerName.ToLower()));
             }
-
+            if (filters.ReturnToday != null)
+            {
+                borrowBooks = borrowBooks.Where(x => x.EndTime == filters.ReturnToday);
+            }
             if (filters.StaffId != null)
             {
                 borrowBooks = borrowBooks.Where(x => x.StaffId == filters.StaffId);
@@ -83,13 +85,15 @@ namespace Capstone.Core.Services
                 var book = _unitOfWork.BookRepository.GetById(borrowDetail.BookId);
                 book.IsAvailable = false;
                 borrowDetail.IsDeleted = false;
+                borrowDetail.IsReturn = false;
                 bookGroups.Add(bg);
-            }
+            }        
             _unitOfWork.BorrowBookRepository.Add(borrowBook);
             List<IEnumerable<BookCategory>> bookCategories = new List<IEnumerable<BookCategory>>();
             foreach (var bookGroup in bookGroups)
             {
                 var bookCategory = _unitOfWork.BookCategoryRepository.GetBookCategoriesByBookGroup(bookGroup.Id);
+                //tim dc book category cua tung book group
                 bookCategories.Add(bookCategory);
             }
 
@@ -97,23 +101,35 @@ namespace Capstone.Core.Services
             foreach (var bookCategory in bookCategories)
             {
                 var category = _unitOfWork.CategoryRepository.GetCategoryNameByBookCategory(bookCategory);
+                //tim duoc category cu the 
                 listCategories.Add(category);
             }
-
+            //tim duoc favourite category cua tung customer
             var favouriteCategories = _unitOfWork.FavouriteCategoryRepository.GetFavouriteCategoryByUser(borrowBook.CustomerId);
             foreach (var listCategory in listCategories)
             {
                 foreach (var category in listCategory)
                 {
-                    foreach (var favouriteCategory in favouriteCategories)
+                    if (favouriteCategories.Any(x => x.CategoryId == category.Id))
                     {
-                        if (category.Id == favouriteCategory.Id)
-                        {
-                            favouriteCategory.Rating += 1;
-                            _unitOfWork.FavouriteCategoryRepository.Update(favouriteCategory);
-                        }
+                        var tmp = favouriteCategories.Where(x => x.CategoryId == category.Id).FirstOrDefault();
+                        tmp.Rating += 1;
+                        _unitOfWork.FavouriteCategoryRepository.Update(tmp);
+                        _unitOfWork.SaveChanges();
                     }
-
+                    else
+                    {
+                        var entity = new FavouriteCategory
+                        {
+                            CustomerId = borrowBook.CustomerId,
+                            CategoryId = category.Id,
+                            IsDeleted = false,
+                            Rating = 1
+                        };
+                        _unitOfWork.FavouriteCategoryRepository.Add(entity);
+                        _unitOfWork.SaveChanges();
+                        favouriteCategories = _unitOfWork.FavouriteCategoryRepository.GetFavouriteCategoryByUser(borrowBook.CustomerId);
+                    }
                 }
             }
             _unitOfWork.SaveChanges();

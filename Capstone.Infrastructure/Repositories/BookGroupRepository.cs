@@ -168,7 +168,7 @@ namespace Capstone.Infrastructure.Repositories
                      PublishCompany = c.PublishCompany,
                      PublishDate = c.PublishDate,
                      Description = c.Description,
-                     PageNumber = c.Edition,
+                     PageNumber = c.PageNumber,
                      Height = c.Height,
                      StaffId = c.StaffId,
                      StaffName = c.Staff.Name,
@@ -177,8 +177,8 @@ namespace Capstone.Infrastructure.Repositories
                      Thick = c.Thick,
                      Edition = c.Edition,
                      Image = c.Image.Where(x => x.IsDeleted == false).ToList(),
-                     RatingAverage = Math.Round((double)c.Feedback.Sum(x => x.Rate) / (c.Feedback.Count), 2)
-                 }).FirstOrDefault();
+                     RatingAverage = Math.Round((double)c.Feedback.Where(x=>x.IsDeleted==false).Sum(x => x.Rate) / (c.Feedback.Count), 2)
+                 }).OrderByDescending(x=>x.Id).FirstOrDefault();
                     tmp.Add(bookGroupDto);
                 }
                 else
@@ -196,7 +196,7 @@ namespace Capstone.Infrastructure.Repositories
                         PublishCompany = c.PublishCompany,
                         PublishDate = c.PublishDate,
                         Description = c.Description,
-                        PageNumber = c.Edition,
+                        PageNumber = c.PageNumber,
                         Height = c.Height,
                         Width = c.Width,
                         StaffId = c.StaffId,
@@ -206,8 +206,8 @@ namespace Capstone.Infrastructure.Repositories
                         Edition = c.Edition,
                         Image = c.Image.Where(x => x.IsDeleted == false).ToList(),
                         Category = cateTmp.listRecord,
-                        RatingAverage = Math.Round((double)c.Feedback.Sum(x => x.Rate) / (c.Feedback.Count), 2)
-                    }).FirstOrDefault();
+                        RatingAverage = Math.Round((double)c.Feedback.Where(x => x.IsDeleted == false).Sum(x => x.Rate) / (c.Feedback.Count), 2)
+                    }).OrderByDescending(x => x.Id).FirstOrDefault();
 
                     tmp.Add(bookGroupDto);
                 }
@@ -236,7 +236,7 @@ namespace Capstone.Infrastructure.Repositories
                     PublishCompany = c.PublishCompany,
                     PublishDate = c.PublishDate,
                     Description = c.Description,
-                    PageNumber = c.Edition,
+                    PageNumber = c.PageNumber,
                     Height = c.Height,
                     StaffId = c.StaffId,
                     StaffName = c.Staff.Name,
@@ -268,7 +268,7 @@ namespace Capstone.Infrastructure.Repositories
                     PublishCompany = c.PublishCompany,
                     PublishDate = c.PublishDate,
                     Description = c.Description,
-                    PageNumber = c.Edition,
+                    PageNumber = c.PageNumber,
                     Height = c.Height,
                     Width = c.Width,
                     CreatedDate = c.CreatedDate,

@@ -34,7 +34,7 @@ namespace Capstone.Infrastructure.Repositories
 
         public IEnumerable<FeedbackDto> GetAllFeedback()
         {
-            var bookGroup = _entities
+            var bookGroup = _entities.Where(x=>x.IsDeleted==false)
                 .Select(c => new FeedbackDto
                 {
                     Id = c.Id,
@@ -42,9 +42,10 @@ namespace Capstone.Infrastructure.Repositories
                     CustomerId = c.CustomerId,
                     CustomerName = c.Customer.Name,
                     Image = c.Customer.Image,
+                    CreatedDate = c.CreatedDate,
                     Rate = c.Rate,
                     ReviewContent = c.ReviewContent
-                }).ToList();
+                }).OrderByDescending(x => x.Id).ToList();
             return bookGroup;
         }
 

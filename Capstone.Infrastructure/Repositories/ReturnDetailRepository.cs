@@ -41,7 +41,7 @@ namespace Capstone.Infrastructure.Repositories
                 IsLate = c.IsLate,
                 ReturnId = c.ReturnId,
                 ReturnTime = c.Return.ReturnTime
-            }).ToList();
+            }).OrderByDescending(x => x.Id).ToList();
         }
     }
 }

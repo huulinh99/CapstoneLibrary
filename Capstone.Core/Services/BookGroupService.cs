@@ -27,16 +27,24 @@ namespace Capstone.Core.Services
         {
             _unitOfWork.BookGroupRepository.Delete(id);
             List<int?> termsList = new List<int?>();
+            List<int?> termsListBook = new List<int?>();
             for (int i = 0; i < id.Length; i++)
             {
                 var bookCategories = _unitOfWork.BookCategoryRepository.GetBookCategoriesByBookGroup(id[i]);
+                var books = _unitOfWork.BookRepository.GetBookByBookGroup(id[i]);
+                foreach (var book in books)
+                {
+                    termsListBook.Add(book.Id);
+                }
                 foreach (var bookCategory in bookCategories)
                 {
                     termsList.Add(bookCategory.Id);
                 }
             }
             int?[] bookCateId = termsList.ToArray();
+            int?[] bookId = termsListBook.ToArray();
             _unitOfWork.BookCategoryRepository.Delete(bookCateId);
+            _unitOfWork.BookRepository.Delete(bookId);
             _unitOfWork.SaveChanges();
             return true;
         }
@@ -93,8 +101,8 @@ namespace Capstone.Core.Services
 
             if (filters.CategoryId != null)
             {
-                var categoryByCategory = _unitOfWork.BookCategoryRepository.GetBookCategoriesByCategory(filters.CategoryId);
-                bookGroups = _unitOfWork.BookGroupRepository.GetBookGroupsByBookCategory(categoryByCategory);
+                bookGroups = bookGroups.Where(x => x.Category != null);
+                bookGroups = bookGroups.Where(x => x.Category.Any(c=>c.Id == filters.CategoryId));
             }
 
             if (filters.PunishFee != null)

@@ -53,6 +53,14 @@ namespace Capstone.Core.Services
             {
                 staffs = staffs.Where(x => x.Name.ToLower().Contains(filters.Name.ToLower()));
             }
+            if(filters.Username != null)
+            {
+                staffs = staffs.Where(x => x.Username.ToLower()==filters.Username.ToLower());
+            }
+            if (filters.Email != null)
+            {
+                staffs = staffs.Where(x => x.Email.ToLower()==filters.Email.ToLower());
+            }
             var pagedStaffs = PagedList<Staff>.Create(staffs, filters.PageNumber, filters.PageSize);
             return pagedStaffs;
         }
@@ -68,6 +76,7 @@ namespace Capstone.Core.Services
         {
             staff.IsDeleted = false;
             staff.RoleId = 1;
+            staff.CreatedTime = DateTime.Now;
             _unitOfWork.StaffRepository.Update(staff);
             _unitOfWork.SaveChanges();
             return true;

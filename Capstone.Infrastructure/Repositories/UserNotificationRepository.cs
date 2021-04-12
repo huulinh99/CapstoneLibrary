@@ -24,7 +24,7 @@ namespace Capstone.Infrastructure.Repositories
                     Message = c.Message,
                     Time = c.Time,
                     UserId = c.UserId
-                }).ToList();
+                }).OrderByDescending(x => x.Id).ToList();
             return notification;
         }
     }

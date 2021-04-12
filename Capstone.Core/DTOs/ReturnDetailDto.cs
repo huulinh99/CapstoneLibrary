@@ -18,6 +18,7 @@ namespace Capstone.Core.DTOs
         public int? BookGroupId { get; set; }
         public int? CustomerId { get; set; }
         public double? Fee { get; set; }
+        public int Count { get; set; }
         public int ReturnId { get; set; }     
     }
 }

@@ -24,6 +24,9 @@ namespace Capstone.Infrastructure.Repositories
                     ErrorMessage = c.ErrorMessage,
                     BookName = c.Book.BookGroup.Name,
                     IsConfirm = c.IsConfirm,
+                    BookGroupId = c.Book.BookGroupId,
+                    Image = c.Book.BookGroup.Image,
+                    IsRejected = c.IsRejected,      
                     BookBarcode = c.Book.Barcode,
                     TypeError = c.TypeError
                 }).ToList();

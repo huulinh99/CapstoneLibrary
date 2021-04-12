@@ -20,6 +20,11 @@ namespace Capstone.Core.Hubs
             await Clients.All.ReceiveMessageToReturn(messageReturn);
         }
 
+        public async Task SendMessageToReturnBook(MessageReturnBook messageReturnBook)
+        {
+            await Clients.All.ReceiveMessageToReturnBook(messageReturnBook);
+        }
+
         public async Task SendMessageToBorrow(MessageBorrow messageBorrow)
         {
             await Clients.All.ReceiveMessageToBorrow(messageBorrow);

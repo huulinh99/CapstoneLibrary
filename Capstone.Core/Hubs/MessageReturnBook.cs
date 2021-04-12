@@ -4,10 +4,10 @@ using System.Text;
 
 namespace Capstone.Core.Hubs
 {
-    public class MessageBorrow
+    public class MessageReturnBook
     {
         public int StaffId { get; set; }
-        public string CustomerId { get; set; }
+        public int CustomerId { get; set; }
         public string Barcode { get; set; }
     }
 }

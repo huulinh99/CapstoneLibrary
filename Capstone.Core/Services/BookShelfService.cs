@@ -46,13 +46,6 @@ namespace Capstone.Core.Services
                 bookShelves = bookShelves.Where(x => x.LocationId == filters.LocationId);
             }
 
-            if (filters.BookGroupId != null)
-            {
-                var books = _unitOfWork.BookRepository.GetBookByBookGroup(filters.BookGroupId);
-                //var bookDrawers = _unitOfWork.BookDrawerRepository.GetBookDrawerByListBook(books);
-                //var drawers = _unitOfWork.DrawerRepository.GetAllDrawers(bookDrawers);
-                //bookShelves = _unitOfWork.BookShelfRepository.GetBookShelvesByDrawer(drawers);
-            }
 
             if (filters.Name != null)
             {

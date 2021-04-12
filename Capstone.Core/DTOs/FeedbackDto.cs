@@ -11,6 +11,7 @@ namespace Capstone.Core.DTOs
         public int? Rate { get; set; }
         public int? BookGroupId { get; set; }
         public string CustomerName { get; set; }
+        public DateTime? CreatedDate { get; set; }
         public string Image { get; set; }
         public int CustomerId { get; set; }
     }

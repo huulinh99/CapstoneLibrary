@@ -27,7 +27,7 @@ namespace Capstone.Infrastructure.Repositories
                 Fee = (float)c.ReturnDetail.Sum(a => a.Fee),
                 StaffName = c.Staff.Name
                 //PunishFee = (float)c.ReturnDetail.Sum(a => a.PunishFee)
-            }).ToList();
+            }).OrderByDescending(x => x.Id).ToList();
         }
 
         public IEnumerable<ReturnBookDto> GetAllReturnGroupByMonth()

@@ -85,7 +85,7 @@ namespace Capstone.Infrastructure.Repositories
                 Col = x.Col,
                 Row = x.Row,
                 LocationId = x.Location.Id
-            }).ToList();
+            }).OrderByDescending(x => x.Id).ToList();
         }
     }
 }

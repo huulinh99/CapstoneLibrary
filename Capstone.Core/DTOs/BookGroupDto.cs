@@ -11,6 +11,7 @@ namespace Capstone.Core.DTOs
         public string Name { get; set; }
         public double Fee { get; set; }
         public double PunishFee { get; set; }
+        public int CategoryId { get; set; }
         public int Quantity { get; set; }
         public string Author { get; set; }
         public string PublishPlace { get; set; }

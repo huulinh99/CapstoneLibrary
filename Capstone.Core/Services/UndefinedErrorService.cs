@@ -38,6 +38,11 @@ namespace Capstone.Core.Services
                 undefinedErrors = undefinedErrors.Where(x => x.DrawerDetectionId == filters.DrawerDetectionId);
             }
 
+            if (filters.IsRejected != null)
+            {
+                undefinedErrors = undefinedErrors.Where(x => x.IsRejected == filters.IsRejected);
+            }
+
             if (filters.IsConfirm != null)
             {
                 undefinedErrors = undefinedErrors.Where(x => x.IsConfirm == filters.IsConfirm);

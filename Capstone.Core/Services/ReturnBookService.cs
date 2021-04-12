@@ -77,6 +77,15 @@ namespace Capstone.Core.Services
                 var bookGroupId = _unitOfWork.BookRepository.GetById(returnDetail.BookId).BookGroupId;
                 var bg = _unitOfWork.BookGroupRepository.GetById(bookGroupId);
                 var startTime = _unitOfWork.BorrowBookRepository.GetById(returnBook.BorrowId).StartTime;
+                var borrow = _unitOfWork.BorrowBookRepository.GetById(returnBook.BorrowId);
+                var borrowDetails = _unitOfWork.BorrowDetailRepository.GetAllBorrowDetail(borrow.Id);
+                foreach (var borrowDetail in borrowDetails)
+                {
+                    if(borrowDetail.BookId == returnDetail.BookId)
+                    {
+                        borrowDetail.IsReturn = true;
+                    }
+                }
                 returnDetail.Fee = bg.Fee * (returnBook.ReturnTime - startTime).Days;
                 if((returnBook.ReturnTime - startTime).Days > 7)
                 {

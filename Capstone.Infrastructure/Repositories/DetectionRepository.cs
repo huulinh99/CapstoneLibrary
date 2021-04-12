@@ -24,6 +24,7 @@ namespace Capstone.Infrastructure.Repositories
                     StaffId = c.StaffId,
                     Time = c.Time,
                     BookShelfName = c.BookShelf.Name,
+                    Image = c.Staff.Image,
                     StaffName = c.Staff.Name,
                 }).OrderByDescending(c=>c.Id).ToList();
             return bookGroup;

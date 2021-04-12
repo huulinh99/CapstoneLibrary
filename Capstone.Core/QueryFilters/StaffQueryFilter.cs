@@ -9,6 +9,8 @@ namespace Capstone.Core.QueryFilters
         public string Name { get; set; }
 
         public int PageSize { get; set; }
+        public string Username { get; set; }
+        public string Email { get; set; }
 
         public int PageNumber { get; set; }
     }

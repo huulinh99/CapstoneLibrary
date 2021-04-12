@@ -25,9 +25,12 @@ namespace Capstone.Infrastructure.Repositories
                 Id = c.Id,
                 BarCode = c.Barcode,
                 BookGroupId = c.BookGroupId,
+                DrawerName = c.Drawer.Name,
+                BookShelfName = c.Drawer.BookShelf.Name,
+                DrawerId = c.DrawerId,
                 IsAvailable = c.IsAvailable,
                 BookName = (c.BookGroup.Name)
-            }).ToList();
+            }).OrderByDescending(x => x.Id).ToList();
         }
 
         public IEnumerable<BookDto> GetAllBooksInDrawer()
@@ -68,7 +71,7 @@ namespace Capstone.Infrastructure.Repositories
 
         public IEnumerable<BookDto> GetBookByBookGroup(int? bookGroupId)
         {
-            return _entities.Where(x => x.BookGroupId == bookGroupId && x.IsDeleted == false && x.DrawerId != null)
+            return _entities.Where(x => x.BookGroupId == bookGroupId)
                 .Select(c => new BookDto
                 {
                     Id = c.Id,

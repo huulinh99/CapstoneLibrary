@@ -22,6 +22,7 @@ namespace Capstone.Infrastructure.Repositories
                     DrawerDetectionId = c.DrawerDetectionId,
                     ErrorMessage = c.ErrorMessage,
                     IsConfirm = c.IsConfirm,
+                    IsRejected = c.IsRejected,
                     TypeError = c.TypeError
                 }).ToList();
             return undefinedError;

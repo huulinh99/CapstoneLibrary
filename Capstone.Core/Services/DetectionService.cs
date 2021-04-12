@@ -43,6 +43,11 @@ namespace Capstone.Core.Services
                 detections = detections.Where(x => x.Time<filters.EndTime && x.Time > filters.StartTime);
             }
 
+            if (filters.Time!=null)
+            {
+                detections = detections.Where(x => x.Time == filters.Time);
+            }
+
             var pagedDetections = PagedList<DetectionDto>.Create(detections, filters.PageNumber, filters.PageSize);
             return pagedDetections;
         }

@@ -95,7 +95,7 @@ namespace Capstone.Infrastructure.Repositories
                     Col = c.Col,
                     Row = c.Row,
                     Barcode = c.Barcode
-                }).ToList();
+                }).OrderByDescending(x => x.Id).ToList();
         }
     }
 }

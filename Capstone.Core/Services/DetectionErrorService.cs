@@ -38,6 +38,11 @@ namespace Capstone.Core.Services
                 detectionErrors = detectionErrors.Where(x => x.DrawerDetectionId == filters.DrawerDetectionId);
             }
 
+            if (filters.IsRejected != null)
+            {
+                detectionErrors = detectionErrors.Where(x => x.IsRejected == filters.IsRejected);
+            }
+
             if (filters.IsConfirm != null)
             {
                 detectionErrors = detectionErrors.Where(x => x.IsConfirm == filters.IsConfirm);

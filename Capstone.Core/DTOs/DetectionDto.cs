@@ -15,6 +15,7 @@ namespace Capstone.Core.DTOs
         public string Thumbnail { get; set; }
         public string DrawerName { get; set; }
         public DateTime? Time { get; set; }
+        public string Image { get; set; }
         public string StaffName { get; set; }
         public virtual ICollection<DrawerDetection> DrawerDetection { get; set; }
     }

@@ -13,6 +13,7 @@ namespace Capstone.Core.QueryFilters
         public int PageSize { get; set; }
         public DateTime? StartTime { get; set; }
         public DateTime? EndTime { get; set; }
+        public DateTime? Time { get; set; }
 
         public int PageNumber { get; set; }
     }

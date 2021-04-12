@@ -10,6 +10,7 @@ namespace Capstone.Core.DTOs
         public int BookGroupId { get; set; }
         public int? CustomerId { get; set; }
         public string CustomerName { get; set; }
+        public string DrawerName { get; set; }
         public string CustomerImage { get; set; }
         public string BarCode { get; set; }
         public string DrawerBarCode { get; set; }
