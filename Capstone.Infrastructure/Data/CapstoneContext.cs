@@ -23,7 +23,6 @@ namespace Capstone.Infrastructure.Data
         public virtual DbSet<BorrowBook> BorrowBook { get; set; }
         public virtual DbSet<BorrowDetail> BorrowDetail { get; set; }
         public virtual DbSet<Category> Category { get; set; }
-        public virtual DbSet<Customer> Customer { get; set; }
         public virtual DbSet<Detection> Detection { get; set; }
         public virtual DbSet<DetectionError> DetectionError { get; set; }
         public virtual DbSet<Drawer> Drawer { get; set; }
@@ -32,6 +31,7 @@ namespace Capstone.Infrastructure.Data
         public virtual DbSet<Feedback> Feedback { get; set; }
         public virtual DbSet<Image> Image { get; set; }
         public virtual DbSet<Location> Location { get; set; }
+        public virtual DbSet<Patron> Patron { get; set; }
         public virtual DbSet<ReturnBook> ReturnBook { get; set; }
         public virtual DbSet<ReturnDetail> ReturnDetail { get; set; }
         public virtual DbSet<Role> Role { get; set; }
@@ -116,11 +116,11 @@ namespace Capstone.Infrastructure.Data
 
                 entity.Property(e => e.StartTime).HasColumnType("date");
 
-                entity.HasOne(d => d.Customer)
+                entity.HasOne(d => d.Patron)
                     .WithMany(p => p.BorrowBook)
-                    .HasForeignKey(d => d.CustomerId)
+                    .HasForeignKey(d => d.PatronId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_BorrowBook_Customer");
+                    .HasConstraintName("FK_BorrowBook_patron");
 
                 entity.HasOne(d => d.Staff)
                     .WithMany(p => p.BorrowBook)
@@ -149,43 +149,6 @@ namespace Capstone.Infrastructure.Data
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(50);
-            });
-
-            modelBuilder.Entity<Customer>(entity =>
-            {
-                entity.Property(e => e.Address)
-                    .IsRequired()
-                    .HasMaxLength(250);
-
-                entity.Property(e => e.CreatedTime).HasColumnType("date");
-
-                entity.Property(e => e.DoB).HasColumnType("date");
-
-                entity.Property(e => e.Email)
-                    .IsRequired()
-                    .HasMaxLength(250);
-
-                entity.Property(e => e.Gender).HasMaxLength(50);
-
-                entity.Property(e => e.Image).IsRequired();
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(250);
-
-                entity.Property(e => e.Password).IsRequired();
-
-                entity.Property(e => e.Phone)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.Username).IsRequired();
-
-                entity.HasOne(d => d.Role)
-                    .WithMany(p => p.Customer)
-                    .HasForeignKey(d => d.RoleId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Customer_Role");
             });
 
             modelBuilder.Entity<Detection>(entity =>
@@ -265,11 +228,11 @@ namespace Capstone.Infrastructure.Data
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_FavouriteCategory_Category");
 
-                entity.HasOne(d => d.Customer)
+                entity.HasOne(d => d.Patron)
                     .WithMany(p => p.FavouriteCategory)
-                    .HasForeignKey(d => d.CustomerId)
+                    .HasForeignKey(d => d.PatronId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_FavouriteCategory_Customer");
+                    .HasConstraintName("FK_FavouriteCategory_patron");
             });
 
             modelBuilder.Entity<Feedback>(entity =>
@@ -284,11 +247,11 @@ namespace Capstone.Infrastructure.Data
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Feedback_BookGroup");
 
-                entity.HasOne(d => d.Customer)
+                entity.HasOne(d => d.Patron)
                     .WithMany(p => p.Feedback)
-                    .HasForeignKey(d => d.CustomerId)
+                    .HasForeignKey(d => d.PatronId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Feedback_Customer");
+                    .HasConstraintName("FK_Feedback_patron");
             });
 
             modelBuilder.Entity<Image>(entity =>
@@ -311,6 +274,43 @@ namespace Capstone.Infrastructure.Data
                     .HasMaxLength(100);
             });
 
+            modelBuilder.Entity<Patron>(entity =>
+            {
+                entity.Property(e => e.Address)
+                    .IsRequired()
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.CreatedTime).HasColumnType("date");
+
+                entity.Property(e => e.DoB).HasColumnType("date");
+
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.Gender).HasMaxLength(50);
+
+                entity.Property(e => e.Image).IsRequired();
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.Password).IsRequired();
+
+                entity.Property(e => e.Phone)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Username).IsRequired();
+
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.Patron)
+                    .HasForeignKey(d => d.RoleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_patron_Role");
+            });
+
             modelBuilder.Entity<ReturnBook>(entity =>
             {
                 entity.Property(e => e.ReturnTime).HasColumnType("datetime");
@@ -321,11 +321,11 @@ namespace Capstone.Infrastructure.Data
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ReturnBook_BorrowBook");
 
-                entity.HasOne(d => d.Customer)
+                entity.HasOne(d => d.Patron)
                     .WithMany(p => p.ReturnBook)
-                    .HasForeignKey(d => d.CustomerId)
+                    .HasForeignKey(d => d.PatronId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ReturnBook_Customer");
+                    .HasConstraintName("FK_ReturnBook_patron");
 
                 entity.HasOne(d => d.Staff)
                     .WithMany(p => p.ReturnBook)
@@ -408,15 +408,15 @@ namespace Capstone.Infrastructure.Data
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_UserNotification_BookGroup");
 
-                entity.HasOne(d => d.User)
+                entity.HasOne(d => d.Patron)
                     .WithMany(p => p.UserNotification)
-                    .HasForeignKey(d => d.UserId)
+                    .HasForeignKey(d => d.PatronId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Notification_Customer");
+                    .HasConstraintName("FK_Notification_patron");
 
-                entity.HasOne(d => d.UserNavigation)
+                entity.HasOne(d => d.PatronNavigation)
                     .WithMany(p => p.UserNotification)
-                    .HasForeignKey(d => d.UserId)
+                    .HasForeignKey(d => d.PatronId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Notification_Staff");
             });

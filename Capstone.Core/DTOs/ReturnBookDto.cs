@@ -8,9 +8,10 @@ namespace Capstone.Core.DTOs
     public class ReturnBookDto : IEquatable<ReturnBookDto>
     {
         public int Id { get; set; }
-        public int? CustomerId { get; set; }
-        public string CustomerName { get; set; }
+        public int? PatronId { get; set; }
+        public string PatronName { get; set; }
         public string StaffName { get; set; }
+        public string Username { get; set; }
         public string Image { get; set; }
         public float Fee { get; set; }
         public DateTime? ReturnTime { get; set; }

@@ -7,13 +7,13 @@ namespace Capstone.Core.Entities
     {
         public Role()
         {
-            Customer = new HashSet<Customer>();
+            Patron = new HashSet<Patron>();
             Staff = new HashSet<Staff>();
         }
 
         public string Name { get; set; }
 
-        public virtual ICollection<Customer> Customer { get; set; }
+        public virtual ICollection<Patron> Patron { get; set; }
         public virtual ICollection<Staff> Staff { get; set; }
     }
 }

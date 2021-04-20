@@ -39,9 +39,9 @@ namespace Capstone.Infrastructure.Repositories
                 {
                     Id = c.Id,
                     BookGroupId = c.BookGroupId,
-                    CustomerId = c.CustomerId,
-                    CustomerName = c.Customer.Name,
-                    Image = c.Customer.Image,
+                    PatronId = c.PatronId,
+                    PatronName = c.Patron.Name,
+                    Image = c.Patron.Image,
                     CreatedDate = c.CreatedDate,
                     Rate = c.Rate,
                     ReviewContent = c.ReviewContent

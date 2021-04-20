@@ -6,10 +6,11 @@ namespace Capstone.Core.QueryFilters
 {
     public class ReturnBookQueryFilter
     {
-        public int? CustomerId { get; set; }
+        public int? PatronId { get; set; }
         public DateTime? ReturnTime { get; set; }
         public bool? ByMonth { get; set; }
         public int? BorrowId { get; set; }
+        public string PatronName { get; set; }
         public int? StaffId { get; set; }
         public int PageSize { get; set; }
 

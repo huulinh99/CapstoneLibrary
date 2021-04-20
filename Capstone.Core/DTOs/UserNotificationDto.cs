@@ -9,6 +9,7 @@ namespace Capstone.Core.DTOs
         public int Id { get; set; }
         public string Message { get; set; }
         public string Image { get; set; }
+        public string ReturnDate { get; set; }
         public int? UserId { get; set; }
         public DateTime? Time { get; set; }
         public DateTime? CreatedDate { get; set; }

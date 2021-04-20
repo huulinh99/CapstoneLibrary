@@ -14,17 +14,18 @@ namespace Capstone.Infrastructure.Repositories
     {
         public ReturnBookRepository(CapstoneContext context) : base(context) { }
 
-        public IEnumerable<ReturnBookDto> GetAllReturnBookWithCustomerName()
+        public IEnumerable<ReturnBookDto> GetAllReturnBookWithPatronName()
         {
-            return _entities.Include(c => c.Customer).Where(x => x.IsDeleted == false).Select(c => new ReturnBookDto
+            return _entities.Include(c => c.Patron).Where(x => x.IsDeleted == false).Select(c => new ReturnBookDto
             {
                 Id = c.Id,
                 StaffId = c.StaffId,
-                CustomerId = c.CustomerId,
-                CustomerName = c.Customer.Name,
-                Image = c.Customer.Image,
+                PatronId = c.PatronId,
+                PatronName = c.Patron.Name,
+                Image = c.Patron.Image,
                 ReturnTime = c.ReturnTime,
-                Fee = (float)c.ReturnDetail.Sum(a => a.Fee),
+                Username = c.Patron.Username,
+                Fee = (float)c.Fee,
                 StaffName = c.Staff.Name
                 //PunishFee = (float)c.ReturnDetail.Sum(a => a.PunishFee)
             }).OrderByDescending(x => x.Id).ToList();

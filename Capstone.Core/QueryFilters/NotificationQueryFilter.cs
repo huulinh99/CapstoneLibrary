@@ -7,7 +7,7 @@ namespace Capstone.Core.QueryFilters
     public class NotificationQueryFilter
     {
         public int? Message { get; set; }
-        public int? UserId { get; set; }
+        public int? PatronId { get; set; }
         public DateTime? Time { get; set; }
         public int PageSize { get; set; }
 

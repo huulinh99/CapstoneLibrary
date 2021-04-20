@@ -8,6 +8,7 @@ namespace Capstone.Core.Interfaces
 {
     public interface IBorrowBookRepository : IRepository<BorrowBook>
     {
-        IEnumerable<BorrowBookDto> GetAllBorrowBookWithCustomerName();
+        IEnumerable<BorrowBookDto> GetAllBorrowBookWithPatronName();
+        IEnumerable<BorrowBookDto> GetBorrowBookReturnToday();
     }
 }

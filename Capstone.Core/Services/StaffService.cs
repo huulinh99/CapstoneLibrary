@@ -48,7 +48,7 @@ namespace Capstone.Core.Services
         {
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
-            var staffs = _unitOfWork.StaffRepository.GetAll();
+            var staffs = _unitOfWork.StaffRepository.GetAll().Where(x => x.RoleId == 3);
             if (filters.Name != null)
             {
                 staffs = staffs.Where(x => x.Name.ToLower().Contains(filters.Name.ToLower()));
@@ -67,7 +67,7 @@ namespace Capstone.Core.Services
 
         public void InsertStaff(Staff staff)
         {
-            staff.RoleId = 1;
+            staff.RoleId = 3;
             _unitOfWork.StaffRepository.Add(staff);
             _unitOfWork.SaveChanges();
         }
@@ -75,7 +75,7 @@ namespace Capstone.Core.Services
         public bool UpdateStaff(Staff staff)
         {
             staff.IsDeleted = false;
-            staff.RoleId = 1;
+            staff.RoleId = 3;
             staff.CreatedTime = DateTime.Now;
             _unitOfWork.StaffRepository.Update(staff);
             _unitOfWork.SaveChanges();

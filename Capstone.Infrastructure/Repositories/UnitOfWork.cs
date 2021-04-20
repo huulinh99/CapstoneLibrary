@@ -31,7 +31,7 @@ namespace Capstone.Infrastructure.Repositories
         private readonly IUndefinedErrorRepository _undefinedErrorRepository;
         private readonly IDrawerDetectionRepository _drawerDetectionRepository;
         private readonly ICategoryRepository _categoryRepository;
-        private readonly ICustomerRepository _customerRepository;
+        private readonly IPatronRepository _patronRepository;
         private readonly IReturnBookRepository _returnBookRepository;
         private readonly IReturnDetailRepository _returnDetailRepository;
         private readonly IBookCategoryRepository _bookCategoryRepository;
@@ -60,7 +60,7 @@ namespace Capstone.Infrastructure.Repositories
 
         public ICategoryRepository CategoryRepository => _categoryRepository ?? new CategoryRepository(_context);
 
-        public ICustomerRepository CustomerRepository => _customerRepository ?? new CustomerRepository(_context);
+        public IPatronRepository PatronRepository => _patronRepository ?? new PatronRepository(_context);
         public IReturnBookRepository ReturnBookRepository => _returnBookRepository ?? new ReturnBookRepository(_context);
         public IReturnDetailRepository ReturnDetailRepository => _returnDetailRepository ?? new ReturnDetailRepository(_context);
         public IBookCategoryRepository BookCategoryRepository => _bookCategoryRepository ?? new BookCategoryRepository(_context);

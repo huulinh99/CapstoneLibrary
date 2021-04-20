@@ -40,9 +40,9 @@ namespace Capstone.Core.Services
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
             var notifications = _unitOfWork.NotificationRepository.GetAllNotification();
-            if (filters.UserId != null)
+            if (filters.PatronId != null)
             {
-                notifications = notifications.Where(x => x.UserId == filters.UserId);
+                notifications = notifications.Where(x => x.UserId == filters.PatronId);
             }
             if (filters.Time != null)
             {
@@ -54,24 +54,28 @@ namespace Capstone.Core.Services
 
         public async Task InsertNotification(UserNotification notification)
         {
+            var patron = _unitOfWork.PatronRepository.GetById(notification.PatronId);
+            var bookGroup = _unitOfWork.BookGroupRepository.GetById(notification.BookGroupId);
+            notification.Message = "The book " + bookGroup.Name + " need to return tomorrow";
             var message = new Message()
             {
                 Data = new Dictionary<string, string>()
                 {
-                    ["UserId"] = notification.Id.ToString(),
+                    ["PatronId"] = notification.PatronId.ToString(),
                     ["CreatedDate"] = notification.CreatedDate.ToString()
                 },
                 Notification = new Notification
                 {
-                    Title = notification.Message,
+                    Title = "Notify about book return",
+                    //ImageUrl = "Notify about book return",
                     Body = notification.Message               
                 },
-                Topic = "news",
-                Token = "cniYIC5OST25Ey81Fya92M:APA91bEdkCqYyNoAn3pZTeWNn1ytyDlcBxFosIw1Iy6Jk7r0YOeO8ahj05jQ_CSeB75J1pcKSzTwOG7FSEHiuPiaBU1XNdJkf2_8v1rW1owVnI3EXGsd8abPMVaJvDG5vT1QREZeGY_T"
+                Token = patron.DeviceToken
             };
+            _unitOfWork.NotificationRepository.Add(notification);
+            _unitOfWork.SaveChanges();
             var messaging = FirebaseMessaging.DefaultInstance;
-            var result = await messaging.SendAsync(message);
-            Debug.WriteLine(result);
+            var result = await messaging.SendAsync(message);           
         }
 
         public bool UpdateNotification(UserNotification notification)

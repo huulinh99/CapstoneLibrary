@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Capstone.Core.QueryFilters
 {
-    public class CustomerQueryFilter
+    public class PatronQueryFilter
     {
         public string Name { get; set; }
         public string Email { get; set; }

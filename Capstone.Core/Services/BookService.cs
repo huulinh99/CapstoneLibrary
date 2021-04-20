@@ -31,24 +31,24 @@ namespace Capstone.Core.Services
         public BookDto GetBook(int id)
         {
             var book = _unitOfWork.BookRepository.GetBookByBookId(id);
-            var returnDetail = _unitOfWork.ReturnDetailRepository.GetCustomerByBookId(book.Id);
-            var borrowDetail = _unitOfWork.BorrowDetailRepository.GetCustomerByBookId(book.Id);
+            var returnDetail = _unitOfWork.ReturnDetailRepository.GetPatronByBookId(book.Id);
+            var borrowDetail = _unitOfWork.BorrowDetailRepository.GetPatronByBookId(book.Id);
             if (borrowDetail != null && returnDetail == null)
             {
                 book.IsAvailable = false;
-                var customer = _unitOfWork.CustomerRepository.GetById(borrowDetail.CustomerId);
-                book.CustomerId = customer.Id;
-                book.CustomerName = customer.Name;
-                book.CustomerImage = customer.Image;
+                var patron = _unitOfWork.PatronRepository.GetById(borrowDetail.PatronId);
+                book.PatronId = patron.Id;
+                book.PatronName = patron.Name;
+                book.PatronImage = patron.Image;
 
             }
             else if(borrowDetail != null && returnDetail != null)
             {
                 book.IsAvailable = true;
-                var customer = _unitOfWork.CustomerRepository.GetById(returnDetail.CustomerId);
-                book.CustomerId = customer.Id;
-                book.CustomerName = customer.Name;
-                book.CustomerImage = customer.Image;
+                var patron = _unitOfWork.PatronRepository.GetById(returnDetail.PatronId);
+                book.PatronId = patron.Id;
+                book.PatronName = patron.Name;
+                book.PatronImage = patron.Image;
             }
             else
             {
@@ -78,17 +78,17 @@ namespace Capstone.Core.Services
                 books = _unitOfWork.BookRepository.GetBookByBarcode(filters.Barcode);
                 foreach (var book in books)
                 {
-                    var returnDetail = _unitOfWork.ReturnDetailRepository.GetCustomerByBookId(book.Id);
+                    var returnDetail = _unitOfWork.ReturnDetailRepository.GetPatronByBookId(book.Id);
                     if (returnDetail == null)
                     {
                         book.IsAvailable = true;
                     }
                     else
                     {
-                        var customer = _unitOfWork.CustomerRepository.GetById(returnDetail.CustomerId);
-                        book.CustomerId = customer.Id;
-                        book.CustomerName = customer.Name;
-                        book.CustomerImage = customer.Image;
+                        var patron = _unitOfWork.PatronRepository.GetById(returnDetail.PatronId);
+                        book.PatronId = patron.Id;
+                        book.PatronName = patron.Name;
+                        book.PatronImage = patron.Image;
                     }                   
                 }
             }
@@ -117,8 +117,33 @@ namespace Capstone.Core.Services
         }
 
         public void InsertBook(Book book)
-        {     
+        {
             _unitOfWork.BookRepository.Add(book);
+            _unitOfWork.SaveChanges();
+            char[] prefixs = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
+                'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W','X', 'Y', 'Z' };
+            int div = book.Id / 9999;
+            char prefix = prefixs.ElementAt(div);
+            string barcodeId = book.Id.ToString();
+            string barcode = "";
+            barcode += prefix;
+            int sum = 0;
+            for (int i = 0; i < barcodeId.Length; i++)
+            {
+                sum += int.Parse(barcodeId.ElementAt(i).ToString());
+            }
+            for (int i = 0; i < 4 - barcodeId.Length; i++)
+            {
+                barcode += "0";
+            }
+            barcode += barcodeId.ToString();
+            if (sum < 10)
+            {
+                barcode += "0";
+            }
+            barcode += sum.ToString();
+            book.Barcode = barcode;
+            _unitOfWork.BookRepository.Update(book);     
             _unitOfWork.SaveChanges();
         }
 

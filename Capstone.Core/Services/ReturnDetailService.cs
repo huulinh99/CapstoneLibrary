@@ -38,9 +38,9 @@ namespace Capstone.Core.Services
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
             var returnDetails = _unitOfWork.ReturnDetailRepository.GetAllReturnDetailWithBookName();
-            if(filters.CustomerId != null)
+            if(filters.PatronId != null)
             {
-                returnDetails = returnDetails.Where(x => x.CustomerId == filters.CustomerId);
+                returnDetails = returnDetails.Where(x => x.PatronId == filters.PatronId);
             }
 
             if (filters.IsLate != null)

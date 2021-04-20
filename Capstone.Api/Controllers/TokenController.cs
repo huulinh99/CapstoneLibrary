@@ -19,13 +19,13 @@ namespace Capstone.Api.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly IStaffService _staffService;
-        private readonly ICustomerService _customerService;
+        private readonly IPatronService _patronService;
         private readonly IMapper _mapper;
-        public TokenController(IConfiguration configuration, IStaffService staffService, ICustomerService customerService, IMapper mapper)
+        public TokenController(IConfiguration configuration, IStaffService staffService, IPatronService patronService, IMapper mapper)
         {
             _configuration = configuration;
             _staffService = staffService;
-            _customerService = customerService;
+            _patronService = patronService;
             _mapper = mapper;
         }
 
@@ -47,14 +47,14 @@ namespace Capstone.Api.Controllers
         {
             var staff = _staffService.GetLoginByCredenticalsStaff(login);
             var userStaff = _mapper.Map<User>(staff);
-            var customer = _customerService.GetLoginByCredenticalsCustomer(login);
-            var userCustomer = _mapper.Map<User>(customer);
+            var patron = _patronService.GetLoginByCredenticalsPatron(login);
+            var userPatron = _mapper.Map<User>(patron);
             if (userStaff != null )
             {
                 return (userStaff != null, userStaff);
-            }else if(userCustomer != null)
+            }else if(userPatron != null)
             {
-                return (userCustomer != null, userCustomer);
+                return (userPatron != null, userPatron);
             }
             return (userStaff != null, userStaff);
         }

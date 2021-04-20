@@ -8,7 +8,7 @@ namespace Capstone.Core.QueryFilters
     {
         public int? BorrowId { get; set; }
         public int? BookId { get; set; }
-        public int? CustomerId { get; set; }
+        public int? PatronId { get; set; }
         public string Barcode { get; set; }
         public int PageSize { get; set; }
 

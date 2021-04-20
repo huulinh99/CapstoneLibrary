@@ -8,10 +8,10 @@ namespace Capstone.Core.Entities
         public string ReviewContent { get; set; }
         public int Rate { get; set; }
         public int BookGroupId { get; set; }
-        public int CustomerId { get; set; }
+        public int PatronId { get; set; }
         public DateTime? CreatedDate { get; set; }
 
         public virtual BookGroup BookGroup { get; set; }
-        public virtual Customer Customer { get; set; }
+        public virtual Patron Patron { get; set; }
     }
 }

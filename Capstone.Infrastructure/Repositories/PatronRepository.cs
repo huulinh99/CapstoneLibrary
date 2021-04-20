@@ -11,13 +11,13 @@ using System.Threading.Tasks;
 
 namespace Capstone.Infrastructure.Repositories
 {
-    public class CustomerRepository : BaseRepository<Customer>, ICustomerRepository
+    public class PatronRepository : BaseRepository<Patron>, IPatronRepository
     {
-        public CustomerRepository(CapstoneContext context) : base(context) { }
+        public PatronRepository(CapstoneContext context) : base(context) { }
 
-        //public IEnumerable<CustomerDto> GetAllCustomer()
+        //public IEnumerable<patronDto> GetAllpatron()
         //{
-        //    return _entities.Include(c => c.ReturnBook).Where(x => x.IsDeleted == false).Select(c => new CustomerDto
+        //    return _entities.Include(c => c.ReturnBook).Where(x => x.IsDeleted == false).Select(c => new patronDto
         //    {
         //        Id = c.Id,
         //        Name = c.Name,
@@ -31,18 +31,18 @@ namespace Capstone.Infrastructure.Repositories
         //        BorrowBook = c.ReturnBook.ToList().Count()
         //    }).ToList();
         //}
-        public Customer GetCustomerByEmail(string email)
+        public Patron GetPatronByEmail(string email)
         {
             return _entities.Where(x => x.Email == email && x.IsDeleted == false).FirstOrDefault();
         }
 
-        public CustomerDto GetLoginByCredentials(UserLogin login)
+        public PatronDto GetLoginByCredentials(UserLogin login)
         {
             return _entities.Where(x => x.Username == login.Username
             && x.Password == login.Password
             && x.IsDeleted == false)
                 .Include(c => c.Role)
-                .Select(c => new CustomerDto
+                .Select(c => new PatronDto
                 {
                     Id = c.Id,
                     Name = c.Name,

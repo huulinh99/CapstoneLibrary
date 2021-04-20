@@ -29,6 +29,7 @@ namespace Capstone.Infrastructure.Repositories
                 BookShelfName = c.Drawer.BookShelf.Name,
                 DrawerId = c.DrawerId,
                 IsAvailable = c.IsAvailable,
+                LocationName = c.Drawer.BookShelf.Location.Name,
                 BookName = (c.BookGroup.Name)
             }).OrderByDescending(x => x.Id).ToList();
         }

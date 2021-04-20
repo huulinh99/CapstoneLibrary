@@ -42,9 +42,9 @@ namespace Capstone.Core.Services
             {
                 feedbacks = feedbacks.Where(x => x.BookGroupId == filters.BookGroupId);
             }
-            if (filters.CustomerId != null)
+            if (filters.PatronId != null)
             {
-                feedbacks = feedbacks.Where(x => x.CustomerId == filters.CustomerId);
+                feedbacks = feedbacks.Where(x => x.PatronId == filters.PatronId);
             }
             if (filters.Rating != null)
             {

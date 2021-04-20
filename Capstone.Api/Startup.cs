@@ -56,12 +56,14 @@ namespace Capstone.Api
             .ConfigureApiBehaviorOptions(options =>
             {
                 // options.SuppressModelStateInvalidFilter = true;
-            });          
+            });
+            
             services.Configure<PaginationOptions>(Configuration.GetSection("Pagination"));
             services.AddDbContext<CapstoneContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Capstone"))
             );
-            services.AddTransient<IBookService, BookService>();
+            
+            services.AddTransient<IBookService, BookService>();            
             services.AddTransient<ILocationService, LocationService>();
             services.AddTransient<IBookGroupService, BookGroupService>();
             services.AddTransient<IBookShelfService, BookShelfService>();
@@ -71,7 +73,7 @@ namespace Capstone.Api
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<IBorrowDetailService, BorrowDetailService>();
             services.AddTransient<ICategoryService, CategoryService>();
-            services.AddTransient<ICustomerService, CustomerService>();
+            services.AddTransient<IPatronService, PatronService>();
             services.AddTransient<IReturnBookService, ReturnBookService>();
             services.AddTransient<IReturnDetailService, ReturnDetailService>();
             services.AddTransient<IBookCategoryService, BookCategoryService>();
@@ -81,6 +83,7 @@ namespace Capstone.Api
             services.AddTransient<IDetectionService, DetectionService>();
             services.AddTransient<IDetectionErrorService, DetectionErrorService>();
             services.AddTransient<IUndefinedErrorService, UndefinedErrorService>();
+            //services.AddScoped<IUserNotificationRepository, MyCronJob1>();
             services.AddTransient<IDrawerDetectionService, DrawerDetectionService>();
             services.AddTransient<IFavouriteCategoryService, FavouriteCategoryService>();
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
@@ -94,6 +97,13 @@ namespace Capstone.Api
                 return new UriService(uri);
             });
             services.AddScoped<MessageHub>();
+            //services.AddTransient<UserNotificationService>();
+            //services.AddHostedService<MyTestHostedService>();
+            //services.AddCronJob<MyCronJob1>(c =>
+            //{
+            //    c.TimeZoneInfo = TimeZoneInfo.Local;
+            //    c.CronExpression = @"*/1 * * * *";
+            //});
             services.AddCors();
 
             services.AddSwaggerGen(doc =>

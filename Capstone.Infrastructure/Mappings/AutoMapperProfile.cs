@@ -56,8 +56,8 @@ namespace Capstone.Infrastructure.Mappings
             CreateMap<Staff, StaffDto>();
             CreateMap<StaffDto, Staff>();
 
-            CreateMap<Customer, CustomerDto>();
-            CreateMap<CustomerDto, Customer>();
+            CreateMap<Patron, PatronDto>();
+            CreateMap<PatronDto, Patron>();
 
             CreateMap<BookGroup, BookGroupDto>();
             CreateMap<BookGroupDto, BookGroup>();
@@ -84,8 +84,8 @@ namespace Capstone.Infrastructure.Mappings
             CreateMap<StaffDto, User>();
             CreateMap<User, StaffDto>();
 
-            CreateMap<CustomerDto, User>();
-            CreateMap<User, CustomerDto>();
+            CreateMap<PatronDto, User>();
+            CreateMap<User, PatronDto>();
         }
     }
 }

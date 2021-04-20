@@ -12,6 +12,6 @@ namespace Capstone.Core.Interfaces
         IEnumerable<BorrowDetail> GetAllBorrowDetail(int? borrowId);
         IEnumerable<BorrowDetailDto> GetAllBorrowDetailAndBookName();
         IEnumerable<BorrowDetailDto> GetBorrowDetailWithListBorrow(IEnumerable<BorrowBookDto> borrowBooks);
-        BorrowDetailDto GetCustomerByBookId(int? bookId);
+        BorrowDetailDto GetPatronByBookId(int? bookId);
     }
 }

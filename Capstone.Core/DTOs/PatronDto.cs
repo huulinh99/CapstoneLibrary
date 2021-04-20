@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Capstone.Core.DTOs
 {
-    public class CustomerDto
+    public class PatronDto
     {
         public int Id { get; set; }
         public string Name { get; set; }

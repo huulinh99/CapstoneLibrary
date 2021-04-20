@@ -13,14 +13,14 @@ namespace Capstone.Infrastructure.Repositories
     {
         public ReturnDetailRepository(CapstoneContext context) : base(context) { }
 
-        public ReturnDetailDto GetCustomerByBookId(int? bookId)
+        public ReturnDetailDto GetPatronByBookId(int? bookId)
         {
             var entities = _entities.Where(c => c.BookId == bookId).OrderBy(c => c.Id).Select(c => new ReturnDetailDto
             {
                 Id = c.Id,
                 ReturnId = c.ReturnId,
                 BookId = c.BookId,
-                CustomerId = c.Return.CustomerId
+                PatronId = c.Return.PatronId
             }).LastOrDefault();
             return entities;
         }
@@ -34,7 +34,7 @@ namespace Capstone.Infrastructure.Repositories
                 BookName = c.Book.BookGroup.Name,
                 Author = c.Book.BookGroup.Author,
                 BookGroupId = c.Book.BookGroupId,
-                CustomerId = c.Return.CustomerId,
+                PatronId = c.Return.PatronId,
                 Fee = c.Fee,
                 PunishFee = c.PunishFee,
                 Image = c.Book.BookGroup.Image.Where(x => x.IsDeleted == false).FirstOrDefault().Url,

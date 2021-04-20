@@ -41,11 +41,11 @@ namespace Capstone.Core.Services
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
             var borrowDetails = _unitOfWork.BorrowDetailRepository.GetAllBorrowDetailAndBookName();
-            var borrowBooks = _unitOfWork.BorrowBookRepository.GetAllBorrowBookWithCustomerName();
+            var borrowBooks = _unitOfWork.BorrowBookRepository.GetAllBorrowBookWithPatronName();
 
-            if(filters.CustomerId != null)
+            if(filters.PatronId != null)
             {
-                borrowBooks = borrowBooks.Where(x => x.CustomerId == filters.CustomerId);
+                borrowBooks = borrowBooks.Where(x => x.PatronId == filters.PatronId);
                 borrowDetails = _unitOfWork.BorrowDetailRepository.GetBorrowDetailWithListBorrow(borrowBooks);
             }
             if (filters.BorrowId != null)
@@ -55,8 +55,16 @@ namespace Capstone.Core.Services
 
             if (filters.Barcode != null)
             {
-                var borrowId = borrowDetails.Where(x => x.Barcode == filters.Barcode).Last().BorrowId;
-                borrowDetails = borrowDetails.Where(x => x.BorrowId == borrowId);
+               
+               var borrowId = borrowDetails.Where(x => x.Barcode == filters.Barcode).LastOrDefault();
+                if (borrowId == null)
+                {
+                    borrowDetails = Enumerable.Empty<BorrowDetailDto>();
+                }
+                else
+                {
+                    borrowDetails = borrowDetails.Where(x => x.BorrowId == borrowId.BorrowId);
+                }            
             }
 
             if (filters.BookId != null)

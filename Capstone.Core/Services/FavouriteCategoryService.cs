@@ -36,9 +36,9 @@ namespace Capstone.Core.Services
             var favouriteCategories = _unitOfWork.FavouriteCategoryRepository.GetAll();
 
 
-            if (filters.CustomerId != null)
+            if (filters.PatronId != null)
             {
-                favouriteCategories = favouriteCategories.Where(x => x.CustomerId == filters.CustomerId);
+                favouriteCategories = favouriteCategories.Where(x => x.PatronId == filters.PatronId);
             }
             var pagedFavouriteCategories = PagedList<FavouriteCategory>.Create(favouriteCategories, filters.PageNumber, filters.PageSize);
             return pagedFavouriteCategories;

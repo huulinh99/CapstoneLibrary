@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Capstone.Core.Entities
 {
-    public partial class Customer : BaseEntity
+    public partial class Patron : BaseEntity
     {
-        public Customer()
+        public Patron()
         {
             BorrowBook = new HashSet<BorrowBook>();
             FavouriteCategory = new HashSet<FavouriteCategory>();

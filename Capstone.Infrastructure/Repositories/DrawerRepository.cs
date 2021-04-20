@@ -74,6 +74,8 @@ namespace Capstone.Infrastructure.Repositories
                             Col = x.Col,
                             BookShelfName = x.BookShelf.Name,
                             BookGroupId = book.BookGroupId,
+                            LocationName = x.BookShelf.Location.Name,
+                            DrawerName = x.Name,
                             BookId = book.Id,
                             BookShelfId = x.BookShelfId,
                             Barcode = x.Barcode

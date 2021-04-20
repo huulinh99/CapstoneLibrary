@@ -17,12 +17,12 @@ namespace Capstone.Infrastructure.Repositories
 
         public IEnumerable<FavouriteCategory> GetFavouriteCategoryByUser(int? userId)
         {
-            return _entities.Where(x => x.CustomerId == userId && x.IsDeleted == false).ToList();
+            return _entities.Where(x => x.PatronId == userId && x.IsDeleted == false).ToList();
         }
 
         public FavouriteCategory GetFavouriteCategoryForSuggest(int? userId)
         {
-            return _entities.Where(x => x.CustomerId == userId && x.IsDeleted == false).OrderByDescending(x => x.Rating).FirstOrDefault();
+            return _entities.Where(x => x.PatronId == userId && x.IsDeleted == false).OrderByDescending(x => x.Rating).FirstOrDefault();
         }
 
         public void AddFavouriteCategory(FavouriteCategoryDto favouriteCategory)
@@ -32,7 +32,7 @@ namespace Capstone.Infrastructure.Repositories
             {
                 var favourite = new FavouriteCategory
                 {
-                    CustomerId = favouriteCategory.CustomerId,
+                    PatronId = favouriteCategory.PatronId,
                     CategoryId = categoryId[i],
                     Rating = 1,
                     IsDeleted = false

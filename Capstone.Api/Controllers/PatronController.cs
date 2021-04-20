@@ -21,26 +21,26 @@ namespace Capstone.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CustomerController : Controller
+    public class PatronController : Controller
     {
-        private readonly ICustomerService _customerService;
+        private readonly IPatronService _patronService;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
         private readonly IUriService _uriService;
-        public CustomerController(ICustomerService customerService, IConfiguration configuration, IMapper mapper, IUriService uriService)
+        public PatronController(IPatronService patronService, IConfiguration configuration, IMapper mapper, IUriService uriService)
         {
-            _customerService = customerService;
+            _patronService = patronService;
             _mapper = mapper;
             _uriService = uriService;
             _configuration = configuration;
         }
-        [HttpGet(Name = nameof(GetCustomers))]
-        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<CustomerDto>>))]
+        [HttpGet(Name = nameof(GetPatrons))]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<PatronDto>>))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public IActionResult GetCustomers([FromQuery] CustomerQueryFilter filters)
+        public IActionResult GetPatrons([FromQuery] PatronQueryFilter filters)
         {
-            var books = _customerService.GetCustomers(filters);
-            var booksDtos = _mapper.Map<IEnumerable<CustomerDto>>(books);
+            var books = _patronService.GetPatrons(filters);
+            var booksDtos = _mapper.Map<IEnumerable<PatronDto>>(books);
             var metadata = new Metadata
             {
                 TotalCount = books.TotalCount,
@@ -51,7 +51,7 @@ namespace Capstone.Api.Controllers
                 HasPreviousPage = books.HasPreviousPage
             };
 
-            var response = new ApiResponse<IEnumerable<CustomerDto>>(booksDtos)
+            var response = new ApiResponse<IEnumerable<PatronDto>>(booksDtos)
             {
                 Meta = metadata
             };
@@ -61,45 +61,45 @@ namespace Capstone.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetCustomer(int id)
+        public IActionResult GetPatron(int id)
         {
-            var customer = _customerService.GetCustomer(id);
-            var customerDto = _mapper.Map<CustomerDto>(customer);
-            var response = new ApiResponse<CustomerDto>(customerDto);
+            var patron = _patronService.GetPatron(id);
+            var patronDto = _mapper.Map<PatronDto>(patron);
+            var response = new ApiResponse<PatronDto>(patronDto);
             return Ok(response);
         }
 
         [HttpPost]
-        public IActionResult Customer(CustomerDto customerDto)
+        public IActionResult Patron(PatronDto patronDto)
         {
 
-            var tmp = _customerService.GetCustomer(customerDto.Email);
+            var tmp = _patronService.GetPatron(patronDto.Email);
             if (tmp == null)
             {
-                var customer = _mapper.Map<Customer>(customerDto);
-                _customerService.InsertCustomer(customer);
-                customerDto = _mapper.Map<CustomerDto>(customer);
-                var response = new ApiResponse<CustomerDto>(customerDto);
+                var patron = _mapper.Map<Patron>(patronDto);
+                _patronService.InsertPatron(patron);
+                patronDto = _mapper.Map<PatronDto>(patron);
+                var response = new ApiResponse<PatronDto>(patronDto);
                 return Ok(response);
             }
             else
             {
-                var token = GenerateToken(customerDto);
+                var token = GenerateToken(patronDto);
                 return Ok(new { token });
             }
         }
 
         [HttpPut]
-        public IActionResult Put(int id, CustomerDto customerDto)
+        public IActionResult Put(int id, PatronDto patronDto)
         {
-            var customer = _mapper.Map<Customer>(customerDto);
-            customer.Id = id;
-            var result = _customerService.UpdateCustomer(customer);
+            var patron = _mapper.Map<Patron>(patronDto);
+            patron.Id = id;
+            var result = _patronService.UpdatePatron(patron);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }
 
-        private string GenerateToken(CustomerDto customerDto)
+        private string GenerateToken(PatronDto patronDto)
         {
             //Headers
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Authentication:SecretKey"]));
@@ -109,13 +109,13 @@ namespace Capstone.Api.Controllers
             //Claims
             var claims = new[]
             {
-                new Claim("id", customerDto.Id.ToString()),
-                new Claim("name", customerDto.Name),
-                new Claim("address", customerDto.Address),
-                new Claim("DoB", customerDto.DoB.ToString()),
-                new Claim("email", customerDto.Email),
-                new Claim("gender", customerDto.Gender),
-                new Claim("phone", customerDto.Phone)
+                new Claim("id", patronDto.Id.ToString()),
+                new Claim("name", patronDto.Name),
+                new Claim("address", patronDto.Address),
+                new Claim("DoB", patronDto.DoB.ToString()),
+                new Claim("email", patronDto.Email),
+                new Claim("gender", patronDto.Gender),
+                new Claim("phone", patronDto.Phone)
             };
 
             //Payloads
@@ -136,7 +136,7 @@ namespace Capstone.Api.Controllers
         [HttpDelete]
         public IActionResult Delete([FromQuery] int?[] id = null)
         {
-            var result =  _customerService.DeleteCustomer(id);
+            var result =  _patronService.DeletePatron(id);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }

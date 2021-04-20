@@ -36,23 +36,25 @@ namespace Capstone.Core.Services
         {
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
-            var borrowBooks = _unitOfWork.BorrowBookRepository.GetAllBorrowBookWithCustomerName();
-            if (filters.CustomerId != null)
+            var borrowBooks = _unitOfWork.BorrowBookRepository.GetAllBorrowBookWithPatronName();
+            if (filters.PatronId != null)
             {
-                borrowBooks = borrowBooks.Where(x => x.CustomerId == filters.CustomerId);
+                borrowBooks = borrowBooks.Where(x => x.PatronId == filters.PatronId);
             }
 
             if (filters.IsNewest == true)
             {
                 borrowBooks = borrowBooks.OrderByDescending(x => x.Id).Take(5);
             }
-            if (filters.CustomerName != null)
+            if (filters.PatronName != null)
             {
-                borrowBooks = borrowBooks.Where(x => x.CustomerName.ToLower().Contains(filters.CustomerName.ToLower()));
+                borrowBooks = borrowBooks.Where(x => x.PatronName.ToLower().Contains(filters.PatronName.ToLower()));
             }
             if (filters.ReturnToday != null)
             {
-                borrowBooks = borrowBooks.Where(x => x.EndTime == filters.ReturnToday);
+                borrowBooks = _unitOfWork.BorrowBookRepository.GetBorrowBookReturnToday();
+                //Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd"));
+                //borrowBooks = borrowBooks.Where(x => x.EndTime == filters.ReturnToday);
             }
             if (filters.StaffId != null)
             {
@@ -69,8 +71,8 @@ namespace Capstone.Core.Services
 
         public void InsertBorrowBook(BorrowBook borrowBook)
         {
-            var customer = _unitOfWork.CustomerRepository.GetById(borrowBook.CustomerId);
-            if (customer == null)
+            var patron = _unitOfWork.PatronRepository.GetById(borrowBook.PatronId);
+            if (patron == null)
             {
                 throw new BusinessException("User doesn't exist");
             }
@@ -86,6 +88,8 @@ namespace Capstone.Core.Services
                 book.IsAvailable = false;
                 borrowDetail.IsDeleted = false;
                 borrowDetail.IsReturn = false;
+                _unitOfWork.BookRepository.Update(book);
+                _unitOfWork.SaveChanges();
                 bookGroups.Add(bg);
             }        
             _unitOfWork.BorrowBookRepository.Add(borrowBook);
@@ -104,8 +108,8 @@ namespace Capstone.Core.Services
                 //tim duoc category cu the 
                 listCategories.Add(category);
             }
-            //tim duoc favourite category cua tung customer
-            var favouriteCategories = _unitOfWork.FavouriteCategoryRepository.GetFavouriteCategoryByUser(borrowBook.CustomerId);
+            //tim duoc favourite category cua tung patron
+            var favouriteCategories = _unitOfWork.FavouriteCategoryRepository.GetFavouriteCategoryByUser(borrowBook.PatronId);
             foreach (var listCategory in listCategories)
             {
                 foreach (var category in listCategory)
@@ -121,14 +125,14 @@ namespace Capstone.Core.Services
                     {
                         var entity = new FavouriteCategory
                         {
-                            CustomerId = borrowBook.CustomerId,
+                            PatronId = borrowBook.PatronId,
                             CategoryId = category.Id,
                             IsDeleted = false,
                             Rating = 1
                         };
                         _unitOfWork.FavouriteCategoryRepository.Add(entity);
                         _unitOfWork.SaveChanges();
-                        favouriteCategories = _unitOfWork.FavouriteCategoryRepository.GetFavouriteCategoryByUser(borrowBook.CustomerId);
+                        favouriteCategories = _unitOfWork.FavouriteCategoryRepository.GetFavouriteCategoryByUser(borrowBook.PatronId);
                     }
                 }
             }
@@ -140,6 +144,11 @@ namespace Capstone.Core.Services
             _unitOfWork.BorrowBookRepository.Update(borrowBook);
             _unitOfWork.SaveChanges();
             return true;
+        }
+
+        public IEnumerable<BorrowBookDto> GetReturnToday()
+        {
+            return _unitOfWork.BorrowBookRepository.GetBorrowBookReturnToday();
         }
     }
 }

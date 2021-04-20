@@ -77,22 +77,7 @@ namespace Capstone.Infrastructure.Repositories
             }
             return bookGroups;
         }
-
-        public BookGroupDto GetBookGroupsByBookId(int? bookGroupId)
-        {
-            var bookGroup = _entities.Where(x => x.Id == bookGroupId)
-                .Include(c => c.Image)
-                .Include(s => s.BookCategory)
-                .ThenInclude(a => a.Category)
-                .Where(c => c.IsDeleted == false)
-                .Select(c => new BookGroupDto
-                {
-                    Id = c.Id,
-                    Name = c.Name,
-                    Fee = c.Fee
-                }).FirstOrDefault();
-            return bookGroup;
-        }
+       
 
 
         public BookGroupDto GetBookGroupsWithImageById(int? bookGroupId, ICollection<CategoryDto> categories, ICollection<RatingDto> ratings)

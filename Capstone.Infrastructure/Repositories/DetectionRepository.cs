@@ -23,6 +23,7 @@ namespace Capstone.Infrastructure.Repositories
                     Url = c.Url,
                     StaffId = c.StaffId,
                     Time = c.Time,
+                    BookShelfId = c.BookShelf.Id,
                     BookShelfName = c.BookShelf.Name,
                     Image = c.Staff.Image,
                     StaffName = c.Staff.Name,

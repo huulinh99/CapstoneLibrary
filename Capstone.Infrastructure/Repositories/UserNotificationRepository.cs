@@ -22,8 +22,9 @@ namespace Capstone.Infrastructure.Repositories
                     CreatedDate = c.CreatedDate,
                     Image = c.BookGroup.Image.FirstOrDefault().Url,
                     Message = c.Message,
+                    ReturnDate = c.CreatedDate.Value.AddDays(1).ToString(),
                     Time = c.Time,
-                    UserId = c.UserId
+                    UserId = c.PatronId
                 }).OrderByDescending(x => x.Id).ToList();
             return notification;
         }

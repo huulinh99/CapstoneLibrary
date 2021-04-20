@@ -104,12 +104,13 @@ namespace Capstone.Api.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put(int id, BookDto bookDto)
+        public IActionResult Put(BookDto bookDto)
         {
+
             var book = _mapper.Map<Book>(bookDto);
-            book.Id = id;
-            var result = _bookService.UpdateBook(book);
-            var response = new ApiResponse<bool>(result);
+            _bookService.InsertBook(book);
+            bookDto = _mapper.Map<BookDto>(book);
+            var response = new ApiResponse<BookDto>(bookDto);
             return Ok(response);
         }
 

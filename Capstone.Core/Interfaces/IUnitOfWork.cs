@@ -28,7 +28,7 @@ namespace Capstone.Core.Interfaces
         IRoleRepository RoleRepository { get; }
         IBorrowDetailRepository BorrowDetailRepository { get; }
         ICategoryRepository CategoryRepository { get; }
-        ICustomerRepository CustomerRepository { get; }
+        IPatronRepository PatronRepository { get; }
         IReturnBookRepository ReturnBookRepository { get; }
         IReturnDetailRepository ReturnDetailRepository { get; }
         IBookCategoryRepository BookCategoryRepository { get; }

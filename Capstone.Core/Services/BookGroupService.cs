@@ -73,11 +73,11 @@ namespace Capstone.Core.Services
             {
                 bookGroups = bookGroups.Where(x => x.Name.ToLower().Contains(filters.Name.ToLower()));
             }
-            if (filters.CustomerId != null)
+            if (filters.PatronId != null)
             {
-                var favourite = _unitOfWork.FavouriteCategoryRepository.GetFavouriteCategoryForSuggest(filters.CustomerId);
+                var favourite = _unitOfWork.FavouriteCategoryRepository.GetFavouriteCategoryForSuggest(filters.PatronId);
                 var categoryByCategory = _unitOfWork.BookCategoryRepository.GetBookCategoriesByCategory(favourite.CategoryId);
-                bookGroups = _unitOfWork.BookGroupRepository.GetBookGroupsByBookCategory(categoryByCategory);
+                bookGroups = _unitOfWork.BookGroupRepository.GetBookGroupsByBookCategory(categoryByCategory);                
             }
             if (filters.Author != null)
             {

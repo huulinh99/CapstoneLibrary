@@ -24,6 +24,18 @@ namespace Capstone.Core.Services
         {
             _unitOfWork.CategoryRepository.Delete(id);
             _unitOfWork.SaveChangesAsync();
+            List<int?> bookCategoryId = new List<int?>();
+            foreach (var i in id)
+            {
+                var bookCategory = _unitOfWork.BookCategoryRepository.GetBookCategoriesByCategory(i);
+                foreach (var cate in bookCategory)
+                {
+                    bookCategoryId.Add(cate.Id);
+                }              
+            }
+            int?[] listBookCate = bookCategoryId.ToArray();
+            _unitOfWork.BookCategoryRepository.Delete(listBookCate);
+            _unitOfWork.SaveChangesAsync();
             return true;
         }
 

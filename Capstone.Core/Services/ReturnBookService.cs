@@ -39,14 +39,18 @@ namespace Capstone.Core.Services
         {
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
-            var returnBooks = _unitOfWork.ReturnBookRepository.GetAllReturnBookWithCustomerName();
+            var returnBooks = _unitOfWork.ReturnBookRepository.GetAllReturnBookWithPatronName();
             if (filters.BorrowId != null)
             {
                 returnBooks = returnBooks.Where(x => x.BorrowId == filters.BorrowId);
             }
-            if (filters.CustomerId != null)
+            if (filters.PatronId != null)
             {
-                returnBooks = returnBooks.Where(x => x.CustomerId == filters.CustomerId);
+                returnBooks = returnBooks.Where(x => x.PatronId == filters.PatronId);
+            }
+            if (filters.PatronName != null)
+            {
+                returnBooks = returnBooks.Where(x => x.PatronName.ToLower().Contains(filters.PatronName.ToLower()));
             }
             if (filters.ByMonth != null)
             {
@@ -66,8 +70,8 @@ namespace Capstone.Core.Services
 
         public void InsertReturnBook(ReturnBook returnBook)
         {
-            var customer = _unitOfWork.CustomerRepository.GetById(returnBook.CustomerId);
-            if (customer == null)
+            var patron = _unitOfWork.PatronRepository.GetById(returnBook.PatronId);
+            if (patron == null)
             {
                 throw new BusinessException("User doesn't exist");
             }
@@ -84,18 +88,23 @@ namespace Capstone.Core.Services
                     if(borrowDetail.BookId == returnDetail.BookId)
                     {
                         borrowDetail.IsReturn = true;
+                        _unitOfWork.BorrowDetailRepository.Update(borrowDetail);
+                        _unitOfWork.SaveChanges();
                     }
                 }
-                returnDetail.Fee = bg.Fee * (returnBook.ReturnTime - startTime).Days;
+                var timeReturn = (returnBook.ReturnTime - startTime).Days;
+                returnDetail.Fee = bg.Fee * (timeReturn+1);
                 if((returnBook.ReturnTime - startTime).Days > 7)
                 {
-                    returnDetail.PunishFee = bg.PunishFee * ((returnBook.ReturnTime - startTime).Days-7);
+                    returnDetail.PunishFee = bg.PunishFee * ((returnBook.ReturnTime - startTime).Days-6);
                     returnDetail.IsLate = true; 
                 }
                 returnBook.Fee += (returnDetail.Fee + returnDetail.PunishFee);
                 //Debug.WriteLine((returnBook.ReturnTime - startTime).Days);
                 returnDetail.IsDeleted = false;
                 book.IsAvailable = true;
+                _unitOfWork.BookRepository.Update(book);
+                _unitOfWork.SaveChanges();
             }
             _unitOfWork.ReturnBookRepository.Add(returnBook);
             _unitOfWork.SaveChanges();

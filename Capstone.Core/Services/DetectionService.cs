@@ -35,7 +35,7 @@ namespace Capstone.Core.Services
             var detections = _unitOfWork.DetectionRepository.GetAllDetection();
             if (filters.BookShelfName != null)
             {
-                detections = detections.Where(x => x.BookShelfName.ToLower().Contains(filters.BookShelfName));
+                detections = detections.Where(x => x.BookShelfName.ToLower().Contains(filters.BookShelfName.ToLower()));
             }
 
             if(filters.StartTime!=null && filters.EndTime != null)

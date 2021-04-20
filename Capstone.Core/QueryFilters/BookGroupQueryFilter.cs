@@ -7,7 +7,7 @@ namespace Capstone.Core.QueryFilters
     public class BookGroupQueryFilter
     {
         public string Name { get; set; }
-        public int? CustomerId { get; set; }
+        public int? PatronId { get; set; }
         public float? Fee { get; set; }
         public float? PunishFee { get; set; }
         public int? CategoryId { get; set; }

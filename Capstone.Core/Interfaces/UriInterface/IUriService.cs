@@ -20,7 +20,7 @@ namespace Capstone.Core.Interfaces
         Uri GetBorrowDetailPaginationUri(BorrowDetailQueryFilter filter, string actionUrl);
         Uri GetCategoryPaginationUri(CategoryQueryFilter filter, string actionUrl);
         Uri GetCampaignPaginationUri(CampaignQueryFilter filter, string actionUrl);
-        Uri GetCustomerPaginationUri(CustomerQueryFilter filter, string actionUrl);
+        Uri GetPatronPaginationUri(PatronQueryFilter filter, string actionUrl);
         Uri GetReturnBookPaginationUri(ReturnBookQueryFilter filter, string actionUrl);
         Uri GetReturnDetailPaginationUri(ReturnDetailQueryFilter filter, string actionUrl);
         Uri GetDetectionPaginationUri(DetectionQueryFilter filter, string actionUrl);

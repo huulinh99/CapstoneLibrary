@@ -88,7 +88,7 @@ namespace Capstone.Infrastructure.Repositories
             return borrowDetails;
         }
 
-        public BorrowDetailDto GetCustomerByBookId(int? bookId)
+        public BorrowDetailDto GetPatronByBookId(int? bookId)
         {
             var entities = _entities.Where(c => c.BookId == bookId).OrderBy(c => c.Id).Select(c => new BorrowDetailDto
             {
@@ -96,7 +96,7 @@ namespace Capstone.Infrastructure.Repositories
                 BorrowId = c.BorrowId,
                 BookId = c.BookId,
                 IsReturn = c.IsReturn,
-                CustomerId = c.Borrow.CustomerId
+                PatronId = c.Borrow.PatronId
             }).LastOrDefault();
             return entities;
         }

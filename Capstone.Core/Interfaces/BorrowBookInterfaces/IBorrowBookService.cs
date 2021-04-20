@@ -12,6 +12,7 @@ namespace Capstone.Core.Interfaces
     public interface IBorrowBookService
     {
         PagedList<BorrowBookDto> GetBorrowBooks(BorrowBookQueryFilter filters);
+        IEnumerable<BorrowBookDto> GetReturnToday();
         BorrowBook GetBorrowBook(int id);
         void InsertBorrowBook(BorrowBook borrowBook);
         bool UpdateBorrowBook(BorrowBook borrowBook);

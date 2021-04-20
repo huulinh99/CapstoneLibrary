@@ -10,9 +10,9 @@ namespace Capstone.Core.DTOs
         public string ReviewContent { get; set; }
         public int? Rate { get; set; }
         public int? BookGroupId { get; set; }
-        public string CustomerName { get; set; }
+        public string PatronName { get; set; }
         public DateTime? CreatedDate { get; set; }
         public string Image { get; set; }
-        public int CustomerId { get; set; }
+        public int PatronId { get; set; }
     }
 }

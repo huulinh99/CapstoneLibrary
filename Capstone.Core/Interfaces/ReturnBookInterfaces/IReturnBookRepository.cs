@@ -8,7 +8,7 @@ namespace Capstone.Core.Interfaces
 {
     public interface IReturnBookRepository : IRepository<ReturnBook>
     {
-        IEnumerable<ReturnBookDto> GetAllReturnBookWithCustomerName();
+        IEnumerable<ReturnBookDto> GetAllReturnBookWithPatronName();
         IEnumerable<ReturnBookDto> GetAllReturnGroupByMonth();
     }
 }
