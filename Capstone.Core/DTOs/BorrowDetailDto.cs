@@ -14,6 +14,9 @@ namespace Capstone.Core.DTOs
         public string Barcode { get; set; }
         public string Author { get; set; }
         public bool IsReturn { get; set; }
+        public bool IsAvailable { get; set; }
+        public string Note { get; set; }
+        public bool IsDeleted { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime ReturnTime { get; set; }
         public int? BorrowId { get; set; }

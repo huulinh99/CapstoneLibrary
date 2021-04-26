@@ -91,7 +91,11 @@ namespace Capstone.Core.Services
                 _unitOfWork.BookRepository.Update(book);
                 _unitOfWork.SaveChanges();
                 bookGroups.Add(bg);
-            }        
+            }
+            if (borrowBook.EndTime == null)
+            {
+                borrowBook.EndTime = borrowBook.StartTime.AddDays(7);
+            }
             _unitOfWork.BorrowBookRepository.Add(borrowBook);
             List<IEnumerable<BookCategory>> bookCategories = new List<IEnumerable<BookCategory>>();
             foreach (var bookGroup in bookGroups)

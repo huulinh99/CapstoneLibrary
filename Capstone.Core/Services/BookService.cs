@@ -35,24 +35,22 @@ namespace Capstone.Core.Services
             var borrowDetail = _unitOfWork.BorrowDetailRepository.GetPatronByBookId(book.Id);
             if (borrowDetail != null && returnDetail == null)
             {
-                book.IsAvailable = false;
+                //book.IsAvailable = false;
                 var patron = _unitOfWork.PatronRepository.GetById(borrowDetail.PatronId);
                 book.PatronId = patron.Id;
                 book.PatronName = patron.Name;
                 book.PatronImage = patron.Image;
+                book.BorrowId = borrowDetail.BorrowId;
 
             }
-            else if(borrowDetail != null && returnDetail != null)
+            else if (borrowDetail != null && returnDetail != null)
             {
-                book.IsAvailable = true;
+                //book.IsAvailable = true;
                 var patron = _unitOfWork.PatronRepository.GetById(returnDetail.PatronId);
                 book.PatronId = patron.Id;
                 book.PatronName = patron.Name;
                 book.PatronImage = patron.Image;
-            }
-            else
-            {
-                book.IsAvailable = true;
+                book.BorrowId = borrowDetail.BorrowId;
             }
             return book;
         }
@@ -62,35 +60,25 @@ namespace Capstone.Core.Services
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
             var books = _unitOfWork.BookRepository.GetAllBooks();
-  
-            if (filters.IsInDrawer == true)
+
+            if (filters.IsInDrawer != null)
             {
-                books = books.Where(x => x.DrawerId != null);
+                books = books.Where(x => x.DrawerId == filters.DrawerId);
             }
 
-            if (filters.IsAvailable == true)
+            if (filters.IsAvailable != null)
             {
-                books = books.Where(x => x.IsAvailable == true);
+                books = books.Where(x => x.IsAvailable == filters.IsAvailable);
+            }
+
+            if (filters.IsDeleted != null)
+            {
+                books = books.Where(x => x.IsDeleted == filters.IsDeleted);
             }
 
             if (filters.Barcode != null)
             {
-                books = _unitOfWork.BookRepository.GetBookByBarcode(filters.Barcode);
-                foreach (var book in books)
-                {
-                    var returnDetail = _unitOfWork.ReturnDetailRepository.GetPatronByBookId(book.Id);
-                    if (returnDetail == null)
-                    {
-                        book.IsAvailable = true;
-                    }
-                    else
-                    {
-                        var patron = _unitOfWork.PatronRepository.GetById(returnDetail.PatronId);
-                        book.PatronId = patron.Id;
-                        book.PatronName = patron.Name;
-                        book.PatronImage = patron.Image;
-                    }                   
-                }
+                books = books.Where(f => filters.Barcode.Contains(f.BarCode));
             }
 
             if (filters.IsInDrawer == false)
@@ -143,7 +131,7 @@ namespace Capstone.Core.Services
             }
             barcode += sum.ToString();
             book.Barcode = barcode;
-            _unitOfWork.BookRepository.Update(book);     
+            _unitOfWork.BookRepository.Update(book);
             _unitOfWork.SaveChanges();
         }
 
@@ -152,9 +140,8 @@ namespace Capstone.Core.Services
             //var entity = _unitOfWork.BookRepository.GetById(book.Id);
             //entity.DrawerId = book.DrawerId;         
             var tmp = _unitOfWork.BookRepository.GetById(book.Id);
-            tmp.IsAvailable = book.IsAvailable;
-            tmp.IsDeleted = book.IsDeleted;
             tmp.DrawerId = book.DrawerId;
+            tmp.Note = book.Note;
             _unitOfWork.BookRepository.Update(tmp);
             _unitOfWork.SaveChanges();
             return true;

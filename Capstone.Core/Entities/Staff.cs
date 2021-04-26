@@ -11,7 +11,6 @@ namespace Capstone.Core.Entities
             BorrowBook = new HashSet<BorrowBook>();
             Detection = new HashSet<Detection>();
             ReturnBook = new HashSet<ReturnBook>();
-            UserNotification = new HashSet<UserNotification>();
         }
 
         public string Name { get; set; }
@@ -32,6 +31,5 @@ namespace Capstone.Core.Entities
         public virtual ICollection<BorrowBook> BorrowBook { get; set; }
         public virtual ICollection<Detection> Detection { get; set; }
         public virtual ICollection<ReturnBook> ReturnBook { get; set; }
-        public virtual ICollection<UserNotification> UserNotification { get; set; }
     }
 }

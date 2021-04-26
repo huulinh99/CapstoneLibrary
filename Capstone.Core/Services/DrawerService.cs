@@ -41,7 +41,6 @@ namespace Capstone.Core.Services
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
             var drawers = _unitOfWork.DrawerRepository.GetAllDrawers(filters.BookSheflId, filters.RowStart, filters.RowEnd, filters.ColStart, filters.ColEnd);
-            Debug.WriteLine(filters.RowStart.ToString() + "sdasdasdasd");
             if (filters.BookGroupId != null)
             {
                 var books = _unitOfWork.BookRepository.GetBookByBookGroup(filters.BookGroupId);

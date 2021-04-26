@@ -30,6 +30,7 @@ namespace Capstone.Core.Entities
         public int? Edition { get; set; }
         public int StaffId { get; set; }
         public DateTime CreatedDate { get; set; }
+        public double? Price { get; set; }
 
         public virtual Staff Staff { get; set; }
         public virtual ICollection<Book> Book { get; set; }

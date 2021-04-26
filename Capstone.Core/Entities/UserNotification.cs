@@ -13,6 +13,5 @@ namespace Capstone.Core.Entities
 
         public virtual BookGroup BookGroup { get; set; }
         public virtual Patron Patron { get; set; }
-        public virtual Staff PatronNavigation { get; set; }
     }
 }

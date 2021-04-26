@@ -22,6 +22,7 @@ namespace Capstone.Core.DTOs
         public double? Height { get; set; }
         public double? Width { get; set; }
         public double? Thick { get; set; }
+        public double? Price { get; set; }
         public int? Edition { get; set; }
         public string StaffName { get; set; }
         public int StaffId { get; set; }

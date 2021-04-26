@@ -57,6 +57,8 @@ namespace Capstone.Infrastructure.Data
                     .HasMaxLength(200)
                     .IsUnicode(false);
 
+                entity.Property(e => e.Note).IsUnicode(false);
+
                 entity.HasOne(d => d.BookGroup)
                     .WithMany(p => p.Book)
                     .HasForeignKey(d => d.BookGroupId)
@@ -120,7 +122,7 @@ namespace Capstone.Infrastructure.Data
                     .WithMany(p => p.BorrowBook)
                     .HasForeignKey(d => d.PatronId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_BorrowBook_patron");
+                    .HasConstraintName("FK_BorrowBook_Customer");
 
                 entity.HasOne(d => d.Staff)
                     .WithMany(p => p.BorrowBook)
@@ -232,7 +234,7 @@ namespace Capstone.Infrastructure.Data
                     .WithMany(p => p.FavouriteCategory)
                     .HasForeignKey(d => d.PatronId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_FavouriteCategory_patron");
+                    .HasConstraintName("FK_FavouriteCategory_Customer");
             });
 
             modelBuilder.Entity<Feedback>(entity =>
@@ -251,7 +253,7 @@ namespace Capstone.Infrastructure.Data
                     .WithMany(p => p.Feedback)
                     .HasForeignKey(d => d.PatronId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Feedback_patron");
+                    .HasConstraintName("FK_Feedback_Customer");
             });
 
             modelBuilder.Entity<Image>(entity =>
@@ -308,7 +310,7 @@ namespace Capstone.Infrastructure.Data
                     .WithMany(p => p.Patron)
                     .HasForeignKey(d => d.RoleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_patron_Role");
+                    .HasConstraintName("FK_Customer_Role");
             });
 
             modelBuilder.Entity<ReturnBook>(entity =>
@@ -325,7 +327,7 @@ namespace Capstone.Infrastructure.Data
                     .WithMany(p => p.ReturnBook)
                     .HasForeignKey(d => d.PatronId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ReturnBook_patron");
+                    .HasConstraintName("FK_ReturnBook_Customer");
 
                 entity.HasOne(d => d.Staff)
                     .WithMany(p => p.ReturnBook)
@@ -412,13 +414,7 @@ namespace Capstone.Infrastructure.Data
                     .WithMany(p => p.UserNotification)
                     .HasForeignKey(d => d.PatronId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Notification_patron");
-
-                entity.HasOne(d => d.PatronNavigation)
-                    .WithMany(p => p.UserNotification)
-                    .HasForeignKey(d => d.PatronId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Notification_Staff");
+                    .HasConstraintName("FK_Notification_Customer");
             });
 
             OnModelCreatingPartial(modelBuilder);

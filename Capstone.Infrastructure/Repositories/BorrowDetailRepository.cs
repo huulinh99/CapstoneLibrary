@@ -15,15 +15,20 @@ namespace Capstone.Infrastructure.Repositories
         public BorrowDetailRepository(CapstoneContext context) : base(context) { }
         public IEnumerable<BorrowDetailDto> GetAllBorrowDetailAndBookName()
         {
-            return _entities.Include(x=>x.Book).Where(x => x.IsDeleted == false).Select(c => new BorrowDetailDto
+            return _entities.Include(x => x.Book).Where(x => x.IsDeleted == false).Select(c => new BorrowDetailDto
             {
                 Id = c.Id,
                 BookId = c.BookId,
                 BookName = c.Book.BookGroup.Name,
                 BorrowId = c.BorrowId,
                 Author = c.Book.BookGroup.Author,
+                IsDeleted = c.Book.IsDeleted,
+                IsAvailable = c.Book.IsAvailable,
+                Note  = c.Book.Note,
                 Barcode = c.Book.Barcode,
                 Fee = c.Book.BookGroup.Fee,
+                BookGroupId = c.Book.BookGroupId,
+                PatronId = c.Borrow.PatronId,
                 Image = c.Book.BookGroup.Image.Where(x => x.IsDeleted == false).FirstOrDefault().Url,
                 StartTime = c.Borrow.StartTime,
                 IsReturn = c.IsReturn,

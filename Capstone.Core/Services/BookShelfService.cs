@@ -70,7 +70,7 @@ namespace Capstone.Core.Services
                     {
                         BookShelfId = bookShelf.Id,
                         Row = i,
-                        Name = prefixs[i-1].ToString() + i.ToString(),
+                        Name = prefixs[i-1].ToString() + j.ToString(),
                         Barcode = "",
                         Col = j
                     };

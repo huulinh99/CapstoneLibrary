@@ -20,14 +20,19 @@ namespace Capstone.Infrastructure.Repositories
         }
         public IEnumerable<BookDto> GetAllBooks()
         {
-            return _entities.Where(x => x.IsDeleted == false).Select(c => new BookDto
+            return _entities.Select(c => new BookDto
             {
                 Id = c.Id,
                 BarCode = c.Barcode,
+                PatronImage = c.BorrowDetail.OrderByDescending(x=>x.Id).Where(x=>x.IsReturn == false).FirstOrDefault().Borrow.Patron.Image,
+                PatronId = c.BorrowDetail.OrderByDescending(x => x.Id).Where(x => x.IsReturn == false).FirstOrDefault().Borrow.Patron.Id,
+                PatronName = c.BorrowDetail.OrderByDescending(x => x.Id).Where(x => x.IsReturn == false).FirstOrDefault().Borrow.Patron.Name,
                 BookGroupId = c.BookGroupId,
                 DrawerName = c.Drawer.Name,
                 BookShelfName = c.Drawer.BookShelf.Name,
-                DrawerId = c.DrawerId,
+                DrawerId = c.DrawerId,             
+                IsDeleted = c.IsDeleted,
+                Note = c.Note,
                 IsAvailable = c.IsAvailable,
                 LocationName = c.Drawer.BookShelf.Location.Name,
                 BookName = (c.BookGroup.Name)
@@ -120,6 +125,7 @@ namespace Capstone.Infrastructure.Repositories
                 Id = c.Id,
                 BarCode = c.Barcode,
                 BookGroupId = c.BookGroupId,
+                IsDeleted  = c.IsDeleted,
                 IsAvailable = c.IsAvailable,
                 DrawerId = c.DrawerId,
                 BookShelfName = c.Drawer.BookShelf.Name,

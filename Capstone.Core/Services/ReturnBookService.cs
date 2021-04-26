@@ -85,19 +85,20 @@ namespace Capstone.Core.Services
                 var borrowDetails = _unitOfWork.BorrowDetailRepository.GetAllBorrowDetail(borrow.Id);
                 foreach (var borrowDetail in borrowDetails)
                 {
-                    if(borrowDetail.BookId == returnDetail.BookId)
+                    if (borrowDetail.BookId == returnDetail.BookId)
                     {
                         borrowDetail.IsReturn = true;
                         _unitOfWork.BorrowDetailRepository.Update(borrowDetail);
                         _unitOfWork.SaveChanges();
                     }
                 }
-                var timeReturn = (returnBook.ReturnTime - startTime).Days;
-                returnDetail.Fee = bg.Fee * (timeReturn+1);
-                if((returnBook.ReturnTime - startTime).Days > 7)
+                var timeReturn = (returnBook.ReturnTime - borrow.StartTime).Days;
+                returnDetail.Fee = bg.Fee * (timeReturn + 1);
+                //(returnBook.ReturnTime.)
+                if (returnBook.ReturnTime > borrow.EndTime)
                 {
-                    returnDetail.PunishFee = bg.PunishFee * ((returnBook.ReturnTime - startTime).Days-6);
-                    returnDetail.IsLate = true; 
+                    returnDetail.PunishFee = bg.PunishFee * ((returnBook.ReturnTime - borrow.EndTime).Days);
+                    returnDetail.IsLate = true;
                 }
                 returnBook.Fee += (returnDetail.Fee + returnDetail.PunishFee);
                 //Debug.WriteLine((returnBook.ReturnTime - startTime).Days);

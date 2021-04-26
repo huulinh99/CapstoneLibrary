@@ -16,6 +16,7 @@ namespace Capstone.Core.Entities
         public string Barcode { get; set; }
         public bool IsAvailable { get; set; }
         public int? DrawerId { get; set; }
+        public string Note { get; set; }
 
         public virtual BookGroup BookGroup { get; set; }
         public virtual Drawer Drawer { get; set; }

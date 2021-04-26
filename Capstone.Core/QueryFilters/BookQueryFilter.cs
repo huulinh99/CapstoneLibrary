@@ -15,7 +15,7 @@ namespace Capstone.Core.QueryFilters
         public int PageSize { get; set; }
         public bool? IsInDrawer { get; set; }
         public bool? IsAvailable { get; set; }
-
+        public bool? IsDeleted { get; set; }
         public int PageNumber { get; set; }
     }
 }
