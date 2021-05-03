@@ -8,6 +8,7 @@ namespace Capstone.Core.QueryFilters
     {
         public string Name { get; set; }
         public string Email { get; set; }
+        public string Username { get; set; }
         public bool? IsNewest { get; set; }
 
         public int PageSize { get; set; }

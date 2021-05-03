@@ -12,7 +12,7 @@ namespace Capstone.Core.Interfaces
     public interface IReturnBookService
     {
         PagedList<ReturnBookDto> GetReturnBooks(ReturnBookQueryFilter filters);
-        ReturnBook GetReturnBook(int id);
+        ReturnBookDto GetReturnBook(int id);
         void InsertReturnBook(ReturnBook returnBook);
         bool UpdateReturnBook(ReturnBook returnBook);
 

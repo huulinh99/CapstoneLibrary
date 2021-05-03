@@ -75,7 +75,7 @@ namespace Capstone.Api.Controllers
                 new Claim("id", user.Id.ToString()),
                 new Claim("name", user.Name),
                 new Claim("image", user.Image),
-                new Claim("userName", user.Username),
+                new Claim("username", user.Username),
                 new Claim("address", user.Address),
                 new Claim("doB", user.DoB.ToString()),
                 new Claim("createdTime", user.CreatedTime.ToString()),

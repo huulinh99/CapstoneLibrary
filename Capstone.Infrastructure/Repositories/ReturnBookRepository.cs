@@ -22,6 +22,7 @@ namespace Capstone.Infrastructure.Repositories
                 StaffId = c.StaffId,
                 PatronId = c.PatronId,
                 PatronName = c.Patron.Name,
+                BorrowId = c.BorrowId,
                 Image = c.Patron.Image,
                 ReturnTime = c.ReturnTime,
                 Username = c.Patron.Username,
@@ -29,6 +30,24 @@ namespace Capstone.Infrastructure.Repositories
                 StaffName = c.Staff.Name
                 //PunishFee = (float)c.ReturnDetail.Sum(a => a.PunishFee)
             }).OrderByDescending(x => x.Id).ToList();
+        }
+
+        public ReturnBookDto GetReturnById(int id)
+        {
+            return _entities.Include(c => c.Patron).Where(x => x.IsDeleted == false && x.Id == id).Select(c => new ReturnBookDto
+            {
+                Id = c.Id,
+                StaffId = c.StaffId,
+                PatronId = c.PatronId,
+                PatronName = c.Patron.Name,
+                BorrowId = c.BorrowId,
+                Image = c.Patron.Image,
+                ReturnTime = c.ReturnTime,
+                Username = c.Patron.Username,
+                Fee = (float)c.Fee,
+                StaffName = c.Staff.Name
+                //PunishFee = (float)c.ReturnDetail.Sum(a => a.PunishFee)
+            }).FirstOrDefault();
         }
 
         public IEnumerable<ReturnBookDto> GetAllReturnGroupByMonth()

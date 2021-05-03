@@ -83,7 +83,7 @@ namespace Capstone.Core.Services
 
             if (filters.IsInDrawer == false)
             {
-                books = books.Where(x => x.DrawerId == null);
+                books = books.Where(x => x.DrawerId == null && x.IsDeleted == false);
             }
 
             if (filters.BookGroupId != null)
@@ -98,7 +98,7 @@ namespace Capstone.Core.Services
 
             if (filters.DrawerId != null)
             {
-                books = books.Where(x => x.DrawerId == filters.DrawerId);
+                books = books.Where(x => x.DrawerId == filters.DrawerId && x.IsDeleted == false);
             }
             var pagedBooks = PagedList<BookDto>.Create(books, filters.PageNumber, filters.PageSize);
             return pagedBooks;
@@ -107,6 +107,9 @@ namespace Capstone.Core.Services
         public void InsertBook(Book book)
         {
             _unitOfWork.BookRepository.Add(book);
+            var bookGroup = _unitOfWork.BookGroupRepository.GetById(book.BookGroupId);
+            bookGroup.Quantity += 1;                     
+            _unitOfWork.BookGroupRepository.Update(bookGroup);
             _unitOfWork.SaveChanges();
             char[] prefixs = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
                 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W','X', 'Y', 'Z' };
@@ -140,6 +143,7 @@ namespace Capstone.Core.Services
             //var entity = _unitOfWork.BookRepository.GetById(book.Id);
             //entity.DrawerId = book.DrawerId;         
             var tmp = _unitOfWork.BookRepository.GetById(book.Id);
+            tmp.IsDeleted = book.IsDeleted;
             tmp.DrawerId = book.DrawerId;
             tmp.Note = book.Note;
             _unitOfWork.BookRepository.Update(tmp);

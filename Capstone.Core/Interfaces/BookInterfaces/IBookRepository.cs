@@ -11,6 +11,7 @@ namespace Capstone.Core.Interfaces
     {
         // Task<IEnumerable<Book>> GetBooksByBookGroup(int bookGroupId);
         IEnumerable<BookDto> GetAllBooks();
+        int?[] GetBookIdInDrawer(int?[] drawerId);
         IEnumerable<BookDto> GetAllBooksInDrawer();
         //void DeleteBookByBookDrawerId(int?[] bookDrawerId);
         IEnumerable<BookDto> GetAllBooksNotInDrawer();

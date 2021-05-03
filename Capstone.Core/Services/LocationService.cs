@@ -22,15 +22,26 @@ namespace Capstone.Core.Services
         }
         public async Task<bool> DeleteLocation(int?[] id)
         {
-            _unitOfWork.LocationRepository.Delete(id);         
+            _unitOfWork.LocationRepository.Delete(id);
+            _unitOfWork.SaveChanges();
             await _unitOfWork.BookShelfRepository.DeleteBookShelfInLocation(id);
+            _unitOfWork.SaveChanges();
             var bookShelfId = _unitOfWork.BookShelfRepository.GetBookShelfIdInLocation(id);
+            var drawerId = _unitOfWork.DrawerRepository.GetDrawerIdInBookShelf(bookShelfId);
+            var bookId = _unitOfWork.BookRepository.GetBookIdInDrawer(drawerId);       
             await _unitOfWork.DrawerRepository.DeleteDrawerInBookShelf(bookShelfId.ToArray());
+            _unitOfWork.SaveChanges();
+            for (int i = 0; i < bookId.Length; i++)
+            {
+                var book = _unitOfWork.BookRepository.GetById(bookId[i]);
+                book.DrawerId = null;
+                _unitOfWork.BookRepository.Update(book);
+                _unitOfWork.SaveChanges();
+            }
             //var drawerId = _unitOfWork.DrawerRepository.GetDrawerIdInBookShelf(bookShelfId.ToArray());
             //_unitOfWork.BookDrawerRepository.DeleteBookDrawerByDrawerId(drawerId.ToArray());
             //var bookDrawerId = _unitOfWork.BookDrawerRepository.GetBookDrawerIdInDrawer(drawerId.ToArray());
             //_unitOfWork.BookRepository.DeleteBookByBookDrawerId(bookDrawerId.ToArray());
-            await _unitOfWork.SaveChangesAsync();
             return true;
         }
 

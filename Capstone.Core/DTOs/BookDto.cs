@@ -13,8 +13,10 @@ namespace Capstone.Core.DTOs
         public string DrawerName { get; set; }
         public string PatronImage { get; set; }
         public string BarCode { get; set; }
+        public string Username { get; set; }
         public string DrawerBarCode { get; set; }
         public string BookShelfName { get; set; }
+        public int Quantity { get; set; }
         public string LocationName { get; set; }
         public int? BorrowId { get; set; }
         public string BookName { get; set; }

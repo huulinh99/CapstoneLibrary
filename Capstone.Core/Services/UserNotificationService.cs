@@ -55,14 +55,18 @@ namespace Capstone.Core.Services
         public async Task InsertNotification(UserNotification notification)
         {
             var patron = _unitOfWork.PatronRepository.GetById(notification.PatronId);
-            var bookGroup = _unitOfWork.BookGroupRepository.GetById(notification.BookGroupId);
-            notification.Message = "The book " + bookGroup.Name + " need to return tomorrow";
+            var bookGroup = _unitOfWork.BookGroupRepository.GetAllBookGroups().Where(x => x.Id == notification.BookGroupId).FirstOrDefault();
+            var image = bookGroup.Image.FirstOrDefault().Url;
+            notification.Message =  bookGroup.Name;
             var message = new Message()
             {
                 Data = new Dictionary<string, string>()
                 {
                     ["PatronId"] = notification.PatronId.ToString(),
-                    ["CreatedDate"] = notification.CreatedDate.ToString()
+                    ["CreatedDate"] = notification.CreatedDate.ToString(),
+                    ["returnDate"] = notification.Time.ToString(),
+                    ["link"] = image,
+                    ["click_action"] = "FLUTTER_NOTIFICATION_CLICK"
                 },
                 Notification = new Notification
                 {

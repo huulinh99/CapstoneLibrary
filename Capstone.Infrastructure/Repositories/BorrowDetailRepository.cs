@@ -26,14 +26,14 @@ namespace Capstone.Infrastructure.Repositories
                 IsAvailable = c.Book.IsAvailable,
                 Note  = c.Book.Note,
                 Barcode = c.Book.Barcode,
-                Fee = c.Book.BookGroup.Fee,
+                Fee = c.Fee,
                 BookGroupId = c.Book.BookGroupId,
                 PatronId = c.Borrow.PatronId,
                 Image = c.Book.BookGroup.Image.Where(x => x.IsDeleted == false).FirstOrDefault().Url,
                 StartTime = c.Borrow.StartTime,
                 IsReturn = c.IsReturn,
                 ReturnTime = c.Borrow.EndTime,
-                PunishFee = c.Book.BookGroup.PunishFee
+                PunishFee = c.PunishFee
             }).OrderBy(c=>c.BorrowId).ToList();
         }
         public IEnumerable<BorrowDetail> GetAllBorrowDetail(int? borrowId)
@@ -53,7 +53,7 @@ namespace Capstone.Infrastructure.Repositories
                 Fee = c.Book.BookGroup.Fee,
                 Image = c.Book.BookGroup.Image.Where(x => x.IsDeleted == false).FirstOrDefault().Url,
                 StartTime = c.Borrow.StartTime,
-                PunishFee = c.Book.BookGroup.PunishFee
+                PunishFee = c.PunishFee
             }).ToList();
         }
 
@@ -79,11 +79,11 @@ namespace Capstone.Infrastructure.Repositories
                     BorrowId = c.BorrowId,
                     Author = c.Book.BookGroup.Author,
                     IsReturn = c.IsReturn,
-                    Fee = c.Book.BookGroup.Fee,
+                    Fee = c.Fee,
                     Image = c.Book.BookGroup.Image.Where(x => x.IsDeleted == false).FirstOrDefault().Url,
                     StartTime = c.Borrow.StartTime,
                     ReturnTime = c.Borrow.EndTime,
-                    PunishFee = c.Book.BookGroup.PunishFee
+                    PunishFee = c.PunishFee
                 }).ToList();
                 foreach (var borrowBookDto in borrowBookDtos)
                 {

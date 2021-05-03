@@ -18,7 +18,7 @@ namespace Capstone.Core.Services
         private DateTime _nextRun;
         private readonly IServiceProvider _services;
 
-        private string Schedule => "0 15 15 * * *"; //Runs every 10 seconds
+        private string Schedule => "0 15 9 * * *"; //Runs every 10 seconds
 
         public MyTestHostedService(IServiceProvider services)
         {
@@ -69,7 +69,7 @@ namespace Capstone.Core.Services
                             BookGroupId = book.BookGroupId,
                             CreatedDate = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd")),
                             PatronId = today.PatronId,
-                            Time = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd")),
+                            Time = DateTime.Parse(today.EndTime.ToString()),
                             Message = ""
                         };
                         await botService.InsertNotification(notification);

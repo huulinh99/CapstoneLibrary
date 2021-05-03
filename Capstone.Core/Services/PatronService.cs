@@ -56,10 +56,17 @@ namespace Capstone.Core.Services
                 patrons = patrons.OrderByDescending(x => x.Id).Take(5);
             }
 
+            if (filters.Username != null)
+            {
+                patrons = patrons.Where(x => x.Username.ToLower().Contains(filters.Username.ToLower()));
+            }
+
             if (filters.Email != null)
             {
-                patrons = patrons.Where(x => x.Email == filters.Email);
+                patrons = patrons.Where(x => x.Email.ToLower().Contains(filters.Email.ToLower()));
             }
+
+            
             var pagedpatrons = PagedList<Patron>.Create(patrons, filters.PageNumber, filters.PageSize);
             return pagedpatrons;
         }
@@ -68,6 +75,7 @@ namespace Capstone.Core.Services
         {
             patron.IsDeleted = false;
             patron.RoleId = 2;
+            patron.CreatedTime = DateTime.UtcNow;
             _unitOfWork.PatronRepository.Add(patron);
             _unitOfWork.SaveChanges();
         }

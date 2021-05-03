@@ -29,9 +29,11 @@ namespace Capstone.Infrastructure.Repositories
                 PatronName = c.BorrowDetail.OrderByDescending(x => x.Id).Where(x => x.IsReturn == false).FirstOrDefault().Borrow.Patron.Name,
                 BookGroupId = c.BookGroupId,
                 DrawerName = c.Drawer.Name,
+                Username = c.BorrowDetail.OrderByDescending(x => x.Id).Where(x => x.IsReturn == false).FirstOrDefault().Borrow.Patron.Username,
                 BookShelfName = c.Drawer.BookShelf.Name,
                 DrawerId = c.DrawerId,             
                 IsDeleted = c.IsDeleted,
+                BorrowId = c.BorrowDetail.OrderByDescending(x => x.Id).Where(x => x.IsReturn == false).FirstOrDefault().Borrow.Id,
                 Note = c.Note,
                 IsAvailable = c.IsAvailable,
                 LocationName = c.Drawer.BookShelf.Location.Name,
@@ -74,6 +76,24 @@ namespace Capstone.Infrastructure.Repositories
                 BookName = (c.BookGroup.Name)
             }).ToList();
         }
+
+        public int?[] GetBookIdInDrawer(int?[] drawerId)
+        {
+            List<int?> termsList = new List<int?>();
+            var entites = _entities.Where(f => drawerId.Contains(f.DrawerId)).ToList();
+            foreach (var entity in entites)
+            {
+                termsList.Add(entity.Id);
+            }
+            int?[] terms = termsList.ToArray();
+            //for (int i = 0; i < terms.Length; i++)
+            //{
+            //    var book = _entities.Where(x => x.Id == terms[i]).FirstOrDefault();
+            //    book.DrawerId = null;
+            //}
+            return terms;
+        }
+
 
         public IEnumerable<BookDto> GetBookByBookGroup(int? bookGroupId)
         {

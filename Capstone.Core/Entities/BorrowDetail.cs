@@ -9,6 +9,7 @@ namespace Capstone.Core.Entities
         public int BorrowId { get; set; }
         public double Fee { get; set; }
         public bool IsReturn { get; set; }
+        public double? PunishFee { get; set; }
 
         public virtual Book Book { get; set; }
         public virtual BorrowBook Borrow { get; set; }

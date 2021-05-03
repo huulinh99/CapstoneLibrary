@@ -59,8 +59,7 @@ namespace Capstone.Api.Controllers
         public IActionResult GetReturnBook(int id)
         {
             var returnBook = _returnBookService.GetReturnBook(id);
-            var returnBookDto = _mapper.Map<ReturnBookDto>(returnBook);
-            var response = new ApiResponse<ReturnBookDto>(returnBookDto);
+            var response = new ApiResponse<ReturnBookDto>(returnBook);
             return Ok(response);
         }
 

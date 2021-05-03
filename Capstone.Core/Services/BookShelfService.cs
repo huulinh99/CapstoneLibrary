@@ -25,9 +25,20 @@ namespace Capstone.Core.Services
         public bool DeleteBookShelf(int?[] id)
         {
             _unitOfWork.BookShelfRepository.Delete(id);
-            var bookShelfId = _unitOfWork.BookShelfRepository.GetBookShelfIdInLocation(id);
-            _unitOfWork.DrawerRepository.DeleteDrawerInBookShelf(bookShelfId.ToArray());
-            _unitOfWork.SaveChangesAsync();
+            _unitOfWork.SaveChanges();
+            //var bookShelfId = _unitOfWork.BookShelfRepository.GetBookShelfIdInLocation(id);
+            var drawerId = _unitOfWork.DrawerRepository.GetDrawerIdInBookShelf(id);
+            var bookId = _unitOfWork.BookRepository.GetBookIdInDrawer(drawerId);
+            _unitOfWork.DrawerRepository.DeleteDrawerInBookShelf(id);
+            _unitOfWork.SaveChangesAsync();                   
+            for (int i = 0; i < bookId.Length; i++)
+            {
+                var book = _unitOfWork.BookRepository.GetById(bookId[i]);
+                book.DrawerId = null;
+                _unitOfWork.BookRepository.Update(book);
+                _unitOfWork.SaveChanges();
+            }
+            //_unitOfWork.BookRepository.Delete(bookId);
             return true;
         }
 
@@ -87,7 +98,7 @@ namespace Capstone.Core.Services
                 {
                     barcode += "0";
                 }
-                barcode += barcodeId.ToString();
+                barcode += barcodeId.ToString()+"00";
                 drawer.Barcode = barcode;
                 _unitOfWork.DrawerRepository.Update(drawer);
                 //_unitOfWork.SaveChanges();

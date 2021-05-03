@@ -30,9 +30,9 @@ namespace Capstone.Core.Services
             return true;
         }
 
-        public ReturnBook GetReturnBook(int id)
+        public ReturnBookDto GetReturnBook(int id)
         {
-            return _unitOfWork.ReturnBookRepository.GetById(id);
+            return _unitOfWork.ReturnBookRepository.GetReturnById(id);
         }
 
         public PagedList<ReturnBookDto> GetReturnBooks(ReturnBookQueryFilter filters)
@@ -88,21 +88,30 @@ namespace Capstone.Core.Services
                     if (borrowDetail.BookId == returnDetail.BookId)
                     {
                         borrowDetail.IsReturn = true;
+                        //var timeReturn = (borrow.EndTime - borrow.StartTime).Days;
+                        //returnDetail.Fee = borrowDetail.Fee * (timeReturn + 1);
+                        //(returnBook.ReturnTime.)
+                        if(returnBook.ReturnTime < borrow.EndTime)
+                        {
+                            var timeReturn = (returnBook.ReturnTime - borrow.StartTime).Days;
+                            returnDetail.Fee = borrowDetail.Fee * (timeReturn + 1);
+                        }
+
+                        if (returnBook.ReturnTime >= borrow.EndTime)
+                        {
+                            var timeReturn = (borrow.EndTime - borrow.StartTime).Days;
+                            returnDetail.Fee = borrowDetail.Fee * (timeReturn + 1);
+                            returnDetail.PunishFee = (double)borrowDetail.PunishFee * ((returnBook.ReturnTime - borrow.EndTime).Days);
+                            returnDetail.IsLate = true;
+                        }
+                        returnBook.Fee += (returnDetail.Fee + returnDetail.PunishFee);
+                        //Debug.WriteLine((returnBook.ReturnTime - startTime).Days);
+                        returnDetail.IsDeleted = false;
                         _unitOfWork.BorrowDetailRepository.Update(borrowDetail);
                         _unitOfWork.SaveChanges();
                     }
                 }
-                var timeReturn = (returnBook.ReturnTime - borrow.StartTime).Days;
-                returnDetail.Fee = bg.Fee * (timeReturn + 1);
-                //(returnBook.ReturnTime.)
-                if (returnBook.ReturnTime > borrow.EndTime)
-                {
-                    returnDetail.PunishFee = bg.PunishFee * ((returnBook.ReturnTime - borrow.EndTime).Days);
-                    returnDetail.IsLate = true;
-                }
-                returnBook.Fee += (returnDetail.Fee + returnDetail.PunishFee);
-                //Debug.WriteLine((returnBook.ReturnTime - startTime).Days);
-                returnDetail.IsDeleted = false;
+                
                 book.IsAvailable = true;
                 _unitOfWork.BookRepository.Update(book);
                 _unitOfWork.SaveChanges();

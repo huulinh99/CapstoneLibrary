@@ -82,11 +82,7 @@ namespace Capstone.Infrastructure.Repositories
 
         public BookGroupDto GetBookGroupsWithImageById(int? bookGroupId, ICollection<CategoryDto> categories, ICollection<RatingDto> ratings)
         {
-
             var bookGroup = _entities.Where(x => x.Id == bookGroupId)
-                .Include(c => c.Image)
-                .Include(s => s.BookCategory)
-                .ThenInclude(a => a.Category)
                 .Where(c => c.IsDeleted == false)
                 .Select(c => new BookGroupDto
                 {
@@ -102,7 +98,8 @@ namespace Capstone.Infrastructure.Repositories
                     Description = c.Description,
                     StaffId = c.StaffId,
                     StaffName = c.Staff.Name,
-                    PageNumber = c.Edition,
+                    PageNumber = c.PageNumber,
+                    Price = c.Price,
                     Height = c.Height,
                     Width = c.Width,
                     CreatedDate = c.CreatedDate,
@@ -110,7 +107,7 @@ namespace Capstone.Infrastructure.Repositories
                     Edition = c.Edition,
                     Image = c.Image.Where(x => x.IsDeleted == false).ToList(),
                     Category = categories,
-                    RatingAverage = Math.Round((double)c.Feedback.Sum(x => x.Rate) / (c.Feedback.Count), 2),
+                    RatingAverage = Math.Round((double)c.Feedback.Where(x => x.IsDeleted == false).Sum(x => x.Rate) / (c.Feedback.Where(x=>x.IsDeleted == false).ToList().Count), 2),
                     Rating = ratings
                 }).FirstOrDefault();
             return bookGroup;
@@ -162,7 +159,7 @@ namespace Capstone.Infrastructure.Repositories
                      Thick = c.Thick,
                      Edition = c.Edition,
                      Image = c.Image.Where(x => x.IsDeleted == false).ToList(),
-                     RatingAverage = Math.Round((double)c.Feedback.Where(x=>x.IsDeleted==false).Sum(x => x.Rate) / (c.Feedback.Count), 2)
+                     RatingAverage = Math.Round((double)c.Feedback.Where(x=>x.IsDeleted==false).Sum(x => x.Rate) / (c.Feedback.Where(x => x.IsDeleted == false).ToList().Count), 2)
                  }).OrderByDescending(x=>x.Id).FirstOrDefault();
                     tmp.Add(bookGroupDto);
                 }
@@ -191,7 +188,7 @@ namespace Capstone.Infrastructure.Repositories
                         Edition = c.Edition,
                         Image = c.Image.Where(x => x.IsDeleted == false).ToList(),
                         Category = cateTmp.listRecord,
-                        RatingAverage = Math.Round((double)c.Feedback.Where(x => x.IsDeleted == false).Sum(x => x.Rate) / (c.Feedback.Count), 2)
+                        RatingAverage = Math.Round((double)c.Feedback.Where(x => x.IsDeleted == false).Sum(x => x.Rate) / (c.Feedback.Where(x => x.IsDeleted == false).ToList().Count), 2)
                     }).OrderByDescending(x => x.Id).FirstOrDefault();
 
                     tmp.Add(bookGroupDto);

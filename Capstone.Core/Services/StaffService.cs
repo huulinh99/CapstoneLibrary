@@ -68,6 +68,7 @@ namespace Capstone.Core.Services
         public void InsertStaff(Staff staff)
         {
             staff.RoleId = 3;
+            staff.CreatedTime = DateTime.UtcNow;
             _unitOfWork.StaffRepository.Add(staff);
             _unitOfWork.SaveChanges();
         }

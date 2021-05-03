@@ -84,6 +84,7 @@ namespace Capstone.Core.Services
                 var bookGroupId = _unitOfWork.BookRepository.GetById(borrowDetail.BookId).BookGroupId;
                 var bg = _unitOfWork.BookGroupRepository.GetById(bookGroupId);
                 borrowDetail.Fee = bg.Fee;
+                borrowDetail.PunishFee = bg.PunishFee;
                 var book = _unitOfWork.BookRepository.GetById(borrowDetail.BookId);
                 book.IsAvailable = false;
                 borrowDetail.IsDeleted = false;

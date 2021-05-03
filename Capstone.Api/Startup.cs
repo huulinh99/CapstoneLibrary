@@ -98,7 +98,7 @@ namespace Capstone.Api
             });
             services.AddScoped<MessageHub>();
             //services.AddTransient<UserNotificationService>();
-            //services.AddHostedService<MyTestHostedService>();
+            services.AddHostedService<MyTestHostedService>();
             //services.AddCronJob<MyCronJob1>(c =>
             //{
             //    c.TimeZoneInfo = TimeZoneInfo.Local;

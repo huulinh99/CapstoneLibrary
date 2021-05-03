@@ -23,7 +23,7 @@ namespace Capstone.Infrastructure.Repositories
                     DetectionId = c.DetectionId,
                     DrawerName = c.Drawer.Name,
                     BookCount = c.Drawer.Book.Count,
-                    Count = c.UndefinedError.Count + c.DetectionError.Count,
+                    Count = c.UndefinedError.Where(x=>x.TypeError != 6).ToList().Count + c.DetectionError.Where(x => x.TypeError != 6).ToList().Count,
                     BookShelfName = c.Drawer.BookShelf.Name,
                     DrawerId = c.DrawerId,
                     DrawerBarcode = c.Drawer.Barcode
